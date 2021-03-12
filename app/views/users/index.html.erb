@@ -2,5 +2,6 @@
 <p>Find me in app/views/users/index.html.erb</p>
 
 <% @users.each do |user| %>
+  <%= attachment_image_tag user, :profile_image, fallback: "no-image.png" %>
   <%= user.username %>
 <% end %>
