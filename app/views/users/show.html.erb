@@ -1,2 +1,10 @@
 <h1>Users#show</h1>
 <p>Find me in app/views/users/show.html.erb</p>
+
+<%= attachment_image_tag @user, :profile_image, fallback: "no-image.png", class: "profile_image is-rounded" %>
+
+<%= @user.username %>
+
+<%= @user.email %>
+
+<%= @user.profile %>
