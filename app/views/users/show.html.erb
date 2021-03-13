@@ -22,14 +22,19 @@
                 <td class="is-size-4">
                   <strong><%= @user.username %></strong>
                 </td>
-                <td class="is-size-4">
-                  <%= @user.email %>
-                </td>
+                <% if @user.id == current_user.id %>
+                  <td class="is-size-4">
+                    <%= @user.email %>
+                  </td>
+                  <td>
+                    <%= link_to "編集", edit_user_path(@user), class: "button is-primary" %>
+                  </td>
+                <% end %>
               </tr>
             </table>
             <table class="table is-fullwidth">
               <tr>
-                <td class="is-size-4">
+                <td>
                   <%= @user.profile %>
                 </td>
               </tr>
