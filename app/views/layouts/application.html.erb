@@ -32,34 +32,29 @@
         <% end %>
       </div>
 
-      <% if user_signed_in? %>
-        <div id="navbarExampleTransparentExample" class="navbar-menu">
-          <div class="navbar-end">
-            <div class="navbar-item">
-              <div class="field is-grouped">
+      <div id="navbarExampleTransparentExample" class="navbar-menu">
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="field is-grouped">
+              <p class="control">
+                <%= link_to "レシピグラマー一覧", users_path, class: "button is-warning is-light" %>
+              </p>
+              <% if user_signed_in? %>
                 <p class="control">
                   <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "button is-warning is-light" %>
                 </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      <% else %>
-        <div id="navbarExampleTransparentExample" class="navbar-menu">
-          <div class="navbar-end">
-            <div class="navbar-item">
-              <div class="field is-grouped">
+              <% else %>
                 <p class="control">
                   <%= link_to "ログイン", new_user_session_path, class: "button is-warning is-light" %>
                 </p>
                 <p class="control">
                   <%= link_to "新規登録", new_user_registration_path, class: "button is-warning is-light" %>
                 </p>
-              </div>
+              <% end %>
             </div>
           </div>
         </div>
-      <% end %>
+      </div>
     </nav>
 
     <%= yield %>
