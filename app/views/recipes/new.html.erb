@@ -1,2 +1,13 @@
 <h1>Recipes#new</h1>
 <p>Find me in app/views/recipes/new.html.erb</p>
+
+<%= form_for @recipe do |f| %>
+  <%= f.label :title, "レシピ名" %>
+  <%= f.text_field :title %>
+  <%= f.label :body, "レシピ内容" %>
+  <%= f.text_area :body %>
+  <%= f.label :image, "レシピ画像" %>
+  <%= f.attachment_field :image %>
+  <%= f.submit "更新" %>
+<% end %>
+
