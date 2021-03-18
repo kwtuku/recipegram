@@ -1,2 +1,6 @@
 <h1>Recipes#show</h1>
 <p>Find me in app/views/recipes/show.html.erb</p>
+
+<%= attachment_image_tag @recipe, :image %>
+<%= @recipe.title %>
+<%= simple_format @recipe.body %>
