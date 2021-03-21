@@ -21,11 +21,11 @@
           </div>
           <div class="field">
             <%= f.label :profile, "プロフィール", class: "label" %>
-            <%= f.text_area :profile, class: "input" %>
+            <%= f.text_area :profile, class: "textarea" %>
           </div>
           <div class="field">
             <%= f.label :profile_image, "プロフィール画像", class: "label" %>
-            <%= f.attachment_field :profile_image, class: "input" %>
+            <%= f.attachment_field :profile_image, class: "file" %>
           </div>
           <%= f.submit "更新", class: "button is-success" %>
         <% end %>

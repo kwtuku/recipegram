@@ -17,11 +17,11 @@
           </div>
           <div class="field">
             <%= f.label :body, "作り方", class: "label" %>
-            <%= f.text_area :body, class: "input" %>
+            <%= f.text_area :body, class: "textarea" %>
           </div>
           <div class="field">
             <%= f.label :image, "写真", class: "label" %>
-            <%= f.attachment_field :image, class: "input" %>
+            <%= f.attachment_field :image, class: "file" %>
           </div>
           <%= f.submit "更新", class: "button is-success" %>
         <% end %>
