@@ -52,12 +52,10 @@
       <% @user.recipes.each do |recipe| %>
         <div class="column is-4">
           <div class="card">
-            <div class="card-content">
-              <div class="card-image">
-                <figure class="image is-4by3">
-                  <%= attachment_image_tag recipe, :image, fallback: "no-image.png" %>
-                </figure>
-              </div>
+            <div class="card-image">
+              <figure class="image is-4by3">
+                <%= attachment_image_tag recipe, :image, fallback: "no-image.png" %>
+              </figure>
             </div>
             <div class="card-content">
               <div class="media">
