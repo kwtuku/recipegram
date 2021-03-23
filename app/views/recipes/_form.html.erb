@@ -1,0 +1,23 @@
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-6">
+        <%= form_for recipe do |f| %>
+          <div class="field">
+            <%= f.label :title, "レシピ名", class: "label" %>
+            <%= f.text_field :title, class: "input" %>
+          </div>
+          <div class="field">
+            <%= f.label :body, "作り方", class: "label" %>
+            <%= f.text_area :body, class: "textarea" %>
+          </div>
+          <div class="field">
+            <%= f.label :image, "写真", class: "label" %>
+            <%= f.attachment_field :image, class: "file" %>
+          </div>
+          <%= f.submit value, class: "button is-success" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>
