@@ -39,6 +39,15 @@
                   <%= recipe.updated_at.strftime("%Y-%m-%d %H:%M") %> 更新
                 </time>
               </div>
+              <div class="content">
+                <% if current_user.already_favored?(recipe) %>
+                  <%= link_to "いいねをはずす", recipe_favorites_path(recipe), method: :delete %>
+                  <%= recipe.favorites.count %>
+                <% else %>
+                  <%= link_to "いいねをする", recipe_favorites_path(recipe), method: :post %>
+                  <%= recipe.favorites.count %>
+                <% end %>
+              </div>
             </div>
           </div>
         </div>

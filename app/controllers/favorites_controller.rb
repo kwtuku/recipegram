@@ -5,7 +5,7 @@ class FavoritesController < ApplicationController
   end
 
   def destroy
-    @recipe = Recipe.find(params[:id])
+    @recipe = Recipe.find(params[:recipe_id])
     @favorite = current_user.favorites.find_by(recipe_id: @recipe.id)
     @favorite.destroy
     redirect_back(fallback_location: root_path)

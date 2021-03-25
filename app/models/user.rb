@@ -8,4 +8,8 @@ class User < ApplicationRecord
   has_many :favorites, dependent: :destroy
 
   validates :username, presence: true
+
+  def already_favored?(recipe)
+    self.favorites.exists?(recipe_id: recipe.id)
+  end
 end
