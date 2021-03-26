@@ -41,10 +41,14 @@
               </div>
               <div class="content">
                 <% if current_user.already_favored?(recipe) %>
-                  <%= link_to "いいねをはずす", recipe_favorites_path(recipe), method: :delete %>
+                  <%= link_to recipe_favorites_path(recipe), method: :delete do %>
+                    <i class="fas fa-heart"></i>
+                  <% end %>
                   <%= recipe.favorites.count %>
                 <% else %>
-                  <%= link_to "いいねをする", recipe_favorites_path(recipe), method: :post %>
+                  <%= link_to recipe_favorites_path(recipe), method: :post do %>
+                    <i class="far fa-heart"></i>
+                  <% end %>
                   <%= recipe.favorites.count %>
                 <% end %>
               </div>
