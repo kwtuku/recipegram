@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   resources :recipes do
     resource :favorites, only: [:create, :destroy]
   end
+  post '/home/guest_sign_in', to: 'home#guest_sign_in'
 end
