@@ -4,13 +4,18 @@ class CommentsController < ApplicationController
     @comment.user_id = current_user.id
     @comment.recipe_id = params[:recipe_id]
     if @comment.save
-      flash[:notice] = "成功！"
-      redirect_to("/recipes/#{params[:recipe_id]}")
+      redirect_to "/recipes/#{params[:recipe_id]}", notice: 'コメントの投稿に成功しました。'
     else
       @recipe = Recipe.find(params[:recipe_id])
-      flash.now[:alert] = "失敗！"
       render "recipes/show"
     end
+  end
+
+  def destroy
+    @comment = Comment.find(params[:recipe_id])
+    @recipe = Recipe.find(params[:id])
+    @comment.destroy
+    redirect_to recipe_path(@recipe)
   end
 
   private

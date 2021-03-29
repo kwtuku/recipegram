@@ -6,6 +6,8 @@
   </div>
 </section>
 
+<%= render 'shared/error_messages', model: @comment %>
+
 <section class="section">
   <div class="container">
     <div class="columns is-centered ">
@@ -35,25 +37,45 @@
                     </time>
                   </td>
                 </tr>
-                <tr>
-                  <td>
-                    <% @recipe.comments.each do |comment| %>
-                      <p><%= comment.body %></p>
-                    <% end %>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <%= form_with model: [@recipe, @comment] do |f| %>
-                      <div class="field">
-                        <%= f.label :body, "コメント", class: "label" %>
-                        <%= f.text_area :body, class: "textarea" %>
-                      </div>
-                      <%= f.submit "コメントを投稿", class: "button is-success" %>
-                    <% end %>
-                  </td>
-                </tr>
               </table>
+            </div>
+            <% @recipe.comments.each do |comment| %>
+            <div class="media">
+                <figure class="media-left">
+                  <p class="image is-64x64">
+                    <%= link_to user_path(comment.user) do %>
+                      <%= attachment_image_tag comment.user, :profile_image, fallback: "no-image.png" %>
+                    <% end %>
+                  </p>
+                </figure>
+                <div class="media-content">
+                  <div class="content">
+                      <div class="columns">
+                        <div class="column is-10">
+                          <strong><%= comment.user.username %></strong>
+                          <br>
+                          <%= comment.body %>
+                          <br>
+                          <%= comment.created_at.strftime("%Y-%m-%d %H:%M") %>
+                        </div>
+                        <div class="column is-1">
+                          <% if comment.user_id == current_user.id %>
+                            <%= link_to "削除", recipe_comment_path(comment), method: :delete, data: {confirm: "削除しますか？"}, class: "button is-danger" %>
+                          <% end %>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+            </div>
+            <% end %>
+            <div class="content">
+              <%= form_with model: [@recipe, @comment] do |f| %>
+                <div class="field">
+                  <%= f.label :body, "コメント", class: "label" %>
+                  <%= f.text_area :body, class: "input" %>
+                </div>
+                <%= f.submit "コメントを投稿", class: "button is-success" %>
+              <% end %>
             </div>
             <div class="content">
               <% if current_user.already_favored?(@recipe) %>
