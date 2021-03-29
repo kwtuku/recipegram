@@ -35,6 +35,24 @@
                     </time>
                   </td>
                 </tr>
+                <tr>
+                  <td>
+                    <% @recipe.comments.each do |comment| %>
+                      <p><%= comment.body %></p>
+                    <% end %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <%= form_with model: [@recipe, @comment] do |f| %>
+                      <div class="field">
+                        <%= f.label :body, "コメント", class: "label" %>
+                        <%= f.text_area :body, class: "textarea" %>
+                      </div>
+                      <%= f.submit "コメントを投稿", class: "button is-success" %>
+                    <% end %>
+                  </td>
+                </tr>
               </table>
             </div>
             <div class="content">
