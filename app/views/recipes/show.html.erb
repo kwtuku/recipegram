@@ -50,12 +50,10 @@
                 </figure>
                 <div class="media-content">
                   <div class="content">
-                      <div class="columns">
+                      <div class="columns is-vcentered">
                         <div class="column is-10">
                           <strong><%= comment.user.username %></strong>
-                          <br>
-                          <%= comment.body %>
-                          <br>
+                          <%= simple_format comment.body %>
                           <%= comment.created_at.strftime("%Y-%m-%d %H:%M") %>
                         </div>
                         <div class="column is-1">
