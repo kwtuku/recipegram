@@ -39,14 +39,16 @@
       </div>
 
       <div id="navbarExampleTransparentExample" class="navbar-menu">
-        <div class="navbar-item">
-          <div class="field is-grouped">
-            <p class="control">
-              <%= link_to "レシピ一覧", recipes_path, class: " button is-warning is-light" %>
-            </p>
-            <p class="control">
-              <%= link_to "レシピグラマー一覧", users_path, class: "button is-warning is-light" %>
-            </p>
+        <div class="navbar-start">
+          <div class="navbar-item">
+            <div class="field is-grouped">
+              <p class="control">
+                <%= link_to "レシピ一覧", recipes_path, class: " button is-warning is-light" %>
+              </p>
+              <p class="control">
+                <%= link_to "レシピグラマー一覧", users_path, class: "button is-warning is-light" %>
+              </p>
+            </div>
           </div>
         </div>
 
@@ -54,6 +56,13 @@
           <div class="navbar-item">
             <div class="field is-grouped">
               <% if user_signed_in? %>
+                <p class="control">
+                  <figure class="image is-32x32" style="margin-top: auto; margin-right: auto;">
+                    <%= link_to user_path(current_user) do %>
+                      <%= attachment_image_tag current_user, :profile_image, fallback: "no-image.png" %>
+                    <% end %>
+                  </figure>
+                </p>
                 <p class="control">
                   <%= link_to "レシピ投稿", new_recipe_path, class: "button is-warning is-light" %>
                 </p>
