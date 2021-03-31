@@ -6,5 +6,6 @@ Rails.application.routes.draw do
     resource :favorites, only: [:create, :destroy]
     resources :comments, only: [:create, :destroy]
   end
+  resources :relationships, only: [:create, :destroy]
   post '/home/guest_sign_in', to: 'home#guest_sign_in'
 end
