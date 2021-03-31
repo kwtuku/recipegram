@@ -15,7 +15,7 @@
 <section class="section">
   <div class="container">
     <div class="columns is-centered ">
-      <div class="column is-8">
+      <div class="column is-10">
         <div class="columns is-centered ">
           <div class="column is-4">
             <figure class="image is-128x128" style="margin-left: auto; margin-right: auto;">
@@ -38,6 +38,12 @@
                 <% end %>
                 <td>
                   <%= render 'shared/follow_button', user: @user %>
+                </td>
+                <td>
+                  <strong><%= @user.followings.count %></strong> フォロー中
+                </td>
+                <td>
+                  <strong><%= @user.followers.count %></strong> フォロワー
                 </td>
               </tr>
             </table>
