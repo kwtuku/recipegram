@@ -1,13 +1,13 @@
 <% unless current_user == user %>
   <% if current_user.following?(user) %>
-    <%= form_for(current_user.relationships.find_by(follow_id: user.id), html: { method: :delete }) do |f| %>
+    <%= form_with model: current_user.relationships.find_by(follow_id: user.id),  method: :delete do |f| %>
       <%= hidden_field_tag :follow_id, user.id %>
-      <%= f.submit 'Unfollow', class: 'btn btn-danger btn-block' %>
+      <%= f.submit 'フォロー解除', class: 'button is-primary' %>
     <% end %>
   <% else %>
-    <%= form_for(current_user.relationships.build) do |f| %>
+    <%= form_with model: current_user.relationships.build do |f| %>
       <%= hidden_field_tag :follow_id, user.id %>
-      <%= f.submit 'Follow', class: 'btn btn-primary btn-block' %>
+      <%= f.submit 'フォロー', class: 'button is-primary' %>
     <% end %>
   <% end %>
 <% end %>
