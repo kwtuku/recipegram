@@ -40,10 +40,14 @@
                   <%= render 'shared/follow_button', user: @user %>
                 </td>
                 <td>
-                  <strong><%= @user.followings.count %></strong> フォロー中
+                  <%= link_to user_followings_path(@user), class: "button has-text-black-bis" do %>
+                    <strong><%= @user.followings.count %></strong> フォロー中
+                  <% end %>
                 </td>
                 <td>
-                  <strong><%= @user.followers.count %></strong> フォロワー
+                  <%= link_to user_followers_path(@user), class: "button has-text-black-bis" do %>
+                    <strong><%= @user.followers.count %></strong> フォロワー
+                  <% end %>
                 </td>
               </tr>
             </table>
