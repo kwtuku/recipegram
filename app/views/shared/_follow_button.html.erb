@@ -1,6 +1,6 @@
 <% unless current_user == user %>
   <% if current_user.following?(user) %>
-    <%= form_with model: current_user.relationships.find_by(follow_id: user.id),  method: :delete do |f| %>
+    <%= form_with model: current_user.relationships.find_by(follow_id: user.id),  method: :delete, data: {confirm: "フォロー解除しますか？"} do |f| %>
       <%= hidden_field_tag :follow_id, user.id %>
       <%= f.submit 'フォロー解除', class: 'button is-light' %>
     <% end %>

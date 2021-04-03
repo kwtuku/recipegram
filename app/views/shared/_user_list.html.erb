@@ -1,0 +1,22 @@
+<% model.each do |user| %>
+  <div class="media">
+    <figure class="media-left">
+      <p class="image is-64x64">
+        <%= attachment_image_tag user, :profile_image, fallback: "no-image.png", class: "profile_image is-rounded" %>
+      </p>
+    </figure>
+    <div class="media-content">
+      <div class="content">
+        <div class="columns">
+          <div class="column is-10">
+            <strong><%= link_to user.username, user_path(user) %></strong>
+            <%= simple_format user.profile %>
+          </div>
+          <div class="column is-1">
+            <%= render 'shared/follow_button', user: user %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
