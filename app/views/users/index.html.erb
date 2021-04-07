@@ -21,7 +21,6 @@
                 </figure>
               </div>
             </div>
-
             <div class="card-content">
               <div class="media">
                 <div class="media-content">
@@ -31,9 +30,11 @@
               <div class="content">
                 投稿数：<%= user.recipes.count %>
               </div>
-              <div class="content">
-                <%= render 'shared/follow_button', user: user %>
-              </div>
+              <% if user_signed_in? %>
+                <div class="content">
+                  <%= render 'shared/follow_button', user: user %>
+                </div>
+              <% end %>
             </div>
           </div>
         </div>
