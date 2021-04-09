@@ -75,7 +75,7 @@
                 <%= f.submit "コメントを投稿", class: "button is-success" %>
               <% end %>
             </div>
-            <div class="content">
+            <div class="content" id="favorite_button-<%= @recipe.id %>">
               <%= render 'shared/favorite_button', model: @recipe %>
             </div>
             <div class="content">

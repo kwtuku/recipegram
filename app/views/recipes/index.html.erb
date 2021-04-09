@@ -39,8 +39,13 @@
                   <%= recipe.updated_at.strftime("%Y-%m-%d %H:%M") %> 更新
                 </time>
               </div>
-              <div class="content">
-                <%= render 'shared/favorite_button', model: recipe %>
+              <div class="content" id="favorite_button-<%= recipe.id %>">
+                <% if user_signed_in? %>
+                  <%= render 'shared/favorite_button', model: recipe %>
+                <% else %>
+                  <i class="far fa-heart"></i>
+                  <%= recipe.favorites.count %>
+                <% end %>
               </div>
             </div>
           </div>

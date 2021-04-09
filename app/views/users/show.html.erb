@@ -106,7 +106,7 @@
                   <%= recipe.updated_at.strftime("%Y-%m-%d %H:%M") %> 更新
                 </time>
               </div>
-              <div class="content">
+              <div class="content" id="favorite_button-<%= recipe.id %>">
                 <%= render 'shared/favorite_button', model: recipe %>
               </div>
             </div>
