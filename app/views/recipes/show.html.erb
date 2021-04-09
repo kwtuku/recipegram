@@ -76,16 +76,7 @@
               <% end %>
             </div>
             <div class="content">
-              <% if current_user.already_favored?(@recipe) %>
-                <%= link_to recipe_favorites_path(@recipe), method: :delete do %>
-                  <i class="fas fa-heart"></i>
-                <% end %>
-              <% else %>
-                <%= link_to recipe_favorites_path(@recipe), method: :post do %>
-                  <i class="far fa-heart"></i>
-                <% end %>
-              <% end %>
-              <%= @recipe.favorites.count %>
+              <%= render 'shared/favorite_button', model: @recipe %>
             </div>
             <div class="content">
               <% if @recipe.user.id == current_user.id %>

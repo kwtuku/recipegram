@@ -1,0 +1,10 @@
+<% if current_user.already_favored?(model) %>
+  <%= link_to recipe_favorites_path(model), method: :delete do %>
+    <i class="fas fa-heart"></i>
+  <% end %>
+<% else %>
+  <%= link_to recipe_favorites_path(model), method: :post do %>
+    <i class="far fa-heart"></i>
+  <% end %>
+<% end %>
+<%= model.favorites.count %>
