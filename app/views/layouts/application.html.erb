@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="has-navbar-fixed-top">
   <head>
     <title>recipegram</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -25,7 +25,7 @@
       </div>
     <% end %>
 
-    <nav class="navbar is-warning">
+    <nav class="navbar is-fixed-top is-warning">
       <div class="navbar-brand">
         <% if user_signed_in? %>
           <%= link_to recipes_path, class: "navbar-item" do %>
@@ -38,7 +38,7 @@
         <% end %>
       </div>
 
-      <div id="navbarExampleTransparentExample" class="navbar-menu">
+      <div class="navbar-menu">
         <div class="navbar-start">
           <div class="navbar-item">
             <div class="field is-grouped">
