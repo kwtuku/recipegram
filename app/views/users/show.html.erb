@@ -70,47 +70,7 @@
     <div class="columns is-multiline">
       <% @user.recipes.each do |recipe| %>
         <div class="column is-4">
-          <div class="card">
-            <div class="card-image">
-              <figure class="image is-4by3">
-                <%= attachment_image_tag recipe, :image, fallback: "no-image.png" %>
-              </figure>
-            </div>
-            <div class="card-content">
-              <div class="media">
-                <div class="media-content">
-                  <%= link_to recipe_path(recipe), class: "panel-block" do %>
-                    <span class="panel-icon">
-                      <i class="fas fa-book" aria-hidden="true"></i>
-                    </span>
-                    このレシピを見る
-                  <% end %>
-                  <% if @user.id == current_user.id %>
-                    <%= link_to edit_recipe_path(recipe), class: "panel-block" do %>
-                      <span class="panel-icon">
-                        <i class="fas fa-edit"></i>
-                      </span>
-                      このレシピを編集する
-                    <% end %>
-                    <%= link_to recipe_path(recipe), method: :delete, data: {confirm: "削除しますか？"}, class: "panel-block" do %>
-                      <span class="panel-icon">
-                        <i class="fas fa-trash"></i>
-                      </span>
-                      このレシピを削除する
-                    <% end %>
-                  <% end %>
-                </div>
-              </div>
-              <div class="content">
-                <time>
-                  <%= recipe.updated_at.strftime("%Y-%m-%d %H:%M") %> 更新
-                </time>
-              </div>
-              <div class="content" id="favorite_button-<%= recipe.id %>">
-                <%= render 'shared/favorite_button', model: recipe %>
-              </div>
-            </div>
-          </div>
+          <%= render 'shared/recipe_card', recipe: recipe %>
         </div>
       <% end %>
     </div>

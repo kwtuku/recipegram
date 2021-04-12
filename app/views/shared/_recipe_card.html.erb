@@ -1,0 +1,97 @@
+<div class="card">
+  <% if controller.controller_name == "recipes" && controller.action_name == "index" %>
+    <div class="card-content">
+      <div class="columns is-vcentered">
+        <div class="column is-2">
+          <figure class="image is-32x32">
+            <%= link_to user_path(recipe.user) do %>
+              <%= attachment_image_tag recipe.user, :profile_image, fallback: "no-image.png" %>
+            <% end %>
+          </figure>
+        </div>
+        <div class="column is-2">
+          <%= link_to recipe.user.username, user_path(recipe.user) %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <div class="card-image">
+    <figure class="image is-4by3">
+      <% if controller.controller_name == "recipes" && controller.action_name == "show" %>
+          <%= attachment_image_tag recipe, :image, fallback: "no-image.png" %>
+        <% else %>
+        <%= link_to recipe_path(recipe) do %>
+          <%= attachment_image_tag recipe, :image, fallback: "no-image.png" %>
+        <% end %>
+      <% end %>
+    </figure>
+  </div>
+  <div class="card-content">
+    <div class="columns is-vcentered">
+      <div class="column is-6">
+        <p class="title"><%= link_to_unless_current recipe.title, recipe_path(recipe) %></p>
+      </div>
+      <div class="column is-2">
+        <div class="content" id="favorite_button-<%= recipe.id %>">
+          <% if user_signed_in? %>
+            <%= render 'shared/favorite_button', model: recipe %>
+          <% else %>
+            <i class="far fa-heart"></i>
+            <%= recipe.favorites.count %>
+          <% end %>
+        </div>
+      </div>
+      <div class="column is-4">
+        <% if user_signed_in? && recipe.user.id == current_user.id %>
+          <%= link_to "編集", edit_recipe_path(recipe), class: "button is-primary" %>
+          <%= link_to "削除", recipe_path(recipe), method: :delete, data: {confirm: "削除しますか？"}, class: "button is-danger" %>
+        <% end %>
+      </div>
+    </div>
+    <% if controller.controller_name == "recipes" && controller.action_name == "show" %>
+      <p class="subtitle">レシピ</p>
+      <p><%= simple_format recipe.body %></p>
+      <p><time><%= recipe.updated_at.strftime("%Y-%m-%d %H:%M") %> 更新</time></p>
+    <% end %>
+  </div>
+  <% if controller.controller_name == "recipes" && controller.action_name == "show" %>
+    <div class="card-content">
+      <% recipe.comments.each do |comment| %>
+        <div class="media">
+          <figure class="media-left">
+            <p class="image is-64x64">
+              <%= link_to user_path(comment.user) do %>
+                <%= attachment_image_tag comment.user, :profile_image, fallback: "no-image.png" %>
+              <% end %>
+            </p>
+          </figure>
+          <div class="media-content">
+            <div class="content">
+              <div class="columns is-vcentered">
+                <div class="column is-10">
+                  <strong><%= comment.user.username %></strong>
+                  <%= simple_format comment.body %>
+                  <%= comment.created_at.strftime("%Y-%m-%d %H:%M") %>
+                </div>
+                <div class="column is-1">
+                  <% if comment.user_id == current_user.id %>
+                    <%= link_to "削除", recipe_comment_path(comment), method: :delete, data: {confirm: "削除しますか？"}, class: "button is-danger" %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <div class="content">
+        <%= form_with model: [recipe, @comment] do |f| %>
+          <div class="field">
+            <%= f.label :body, "コメント", class: "label" %>
+            <%= f.text_area :body, class: "input" %>
+          </div>
+          <%= f.submit "コメントを投稿", class: "button is-success" %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
