@@ -1,0 +1,2 @@
+document.getElementById('follow_button-<%= @user.id %>').innerHTML = "<%= j(render 'shared/follow_button', user: @user) %>"
+document.getElementById('count_followers-<%= @user.id %>').innerHTML = "<%= j(render 'shared/count_followers', user: @user) %>"
