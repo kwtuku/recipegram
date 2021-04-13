@@ -12,10 +12,10 @@
         <div class="column is-8">
           <%= link_to recipe.user.username, user_path(recipe.user) %>
         </div>
-        <div class="column is-1">
+        <div class="column is-2">
           <div class="dropdown is-right">
             <div class="dropdown-trigger">
-              <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+              <button class="button is-white is-small" aria-haspopup="true" aria-controls="dropdown-menu">
                 <span class="icon is-small">
                   <i class="fa fa-ellipsis-h "></i> 
                 </span>
@@ -52,9 +52,9 @@
         <p class="title"><%= link_to_unless_current recipe.title, recipe_path(recipe) %></p>
       </div>
       <div class="column is-2">
-        <div class="content" id="favorite_button-<%= recipe.id %>">
+        <div class="content">
           <% if user_signed_in? %>
-            <%= render 'shared/favorite_button', model: recipe %>
+            <%= render 'shared/favorite_button', recipe: recipe %>
           <% else %>
             <i class="far fa-heart"></i>
             <%= recipe.favorites.count %>
