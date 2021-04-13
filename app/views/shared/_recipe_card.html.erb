@@ -80,16 +80,23 @@
             </p>
           </figure>
           <div class="media-content">
-            <div class="content">
-              <div class="columns is-vcentered">
-                <div class="column is-10">
-                  <strong><%= comment.user.username %></strong>
-                  <%= simple_format comment.body %>
-                  <%= comment.created_at.strftime("%Y-%m-%d %H:%M") %>
-                </div>
-                <div class="column is-1">
-                  <% if comment.user_id == current_user.id %>
-                    <%= link_to "削除", recipe_comment_path(comment), method: :delete, data: {confirm: "削除しますか？"}, class: "button is-danger" %>
+            <strong><%= link_to comment.user.username, user_path(comment.user) %></strong>
+            <%= simple_format comment.body %>
+            <%= comment.created_at.strftime("%Y-%m-%d %H:%M") %>
+          </div>
+          <div class="media-right">
+            <div class="dropdown is-right">
+              <div class="dropdown-trigger">
+                <button class="button is-white is-small" aria-haspopup="true" aria-controls="dropdown-menu">
+                  <span class="icon is-small">
+                    <i class="fa fa-ellipsis-h "></i> 
+                  </span>
+                </button>
+              </div>
+              <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                <div class="dropdown-content">
+                  <% if current_user.id == comment.user_id %>
+                    <%= link_to "削除する", recipe_comment_path(comment), method: :delete, data: {confirm: "削除しますか？"}, class: "dropdown-item" %>
                   <% end %>
                 </div>
               </div>
