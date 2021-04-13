@@ -9,8 +9,28 @@
             <% end %>
           </figure>
         </div>
-        <div class="column is-2">
+        <div class="column is-8">
           <%= link_to recipe.user.username, user_path(recipe.user) %>
+        </div>
+        <div class="column is-1">
+          <div class="dropdown is-right">
+            <div class="dropdown-trigger">
+              <button class="button">
+                <span class="icon is-small">
+                  <i class="fa fa-ellipsis-h "></i> 
+                </span>
+              </button>
+            </div>
+            <div class="dropdown-menu">
+              <div class="dropdown-content">
+                <%= link_to "詳細を見る", recipe_path(recipe), class: "dropdown-item" %>
+                <% if user_signed_in? && recipe.user.id == current_user.id %>
+                  <%= link_to "編集する", edit_recipe_path(recipe), class: "dropdown-item" %>
+                  <%= link_to "削除する", recipe_path(recipe), method: :delete, data: {confirm: "削除しますか？"}, class: "dropdown-item" %>
+                <% end %>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -28,7 +48,7 @@
   </div>
   <div class="card-content">
     <div class="columns is-vcentered">
-      <div class="column is-6">
+      <div class="column is-10">
         <p class="title"><%= link_to_unless_current recipe.title, recipe_path(recipe) %></p>
       </div>
       <div class="column is-2">
@@ -40,12 +60,6 @@
             <%= recipe.favorites.count %>
           <% end %>
         </div>
-      </div>
-      <div class="column is-4">
-        <% if user_signed_in? && recipe.user.id == current_user.id %>
-          <%= link_to "編集", edit_recipe_path(recipe), class: "button is-primary" %>
-          <%= link_to "削除", recipe_path(recipe), method: :delete, data: {confirm: "削除しますか？"}, class: "button is-danger" %>
-        <% end %>
       </div>
     </div>
     <% if controller.controller_name == "recipes" && controller.action_name == "show" %>
@@ -95,3 +109,5 @@
     </div>
   <% end %>
 </div>
+
+<%= javascript_pack_tag 'shared/_recipe_card' %>
