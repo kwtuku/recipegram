@@ -12,7 +12,7 @@
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-9">
-        <% if @followers.exists? %>
+        <% if @followers.present? %>
           <%= render 'shared/user_list', model: @followers %>
         <% else %>
           <% if @user.id == current_user.id %>

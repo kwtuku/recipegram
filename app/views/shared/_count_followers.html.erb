@@ -1,5 +1,5 @@
 <div id="count_followers-<%= user.id %>">
   <%= link_to user_followers_path(user), class: "button has-text-black-bis" do %>
-    <strong><%= user.followers.count %></strong> フォロワー
+    <strong><%= user.followers.size %></strong> フォロワー
   <% end %>
 </div>

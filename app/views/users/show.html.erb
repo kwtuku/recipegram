@@ -41,7 +41,7 @@
                 </td>
                 <td>
                   <%= link_to user_followings_path(@user), class: "button has-text-black-bis" do %>
-                    <strong><%= @user.followings.count %></strong> フォロー中
+                    <strong><%= @user.followings.size %></strong> フォロー中
                   <% end %>
                 </td>
                 <td>
@@ -66,7 +66,7 @@
 <section class="section">
   <div class="container">
     <div class="columns is-multiline">
-      <% @user.recipes.each do |recipe| %>
+      <% @user.recipes.find_each do |recipe| %>
         <div class="column is-4">
           <%= render 'shared/recipe_card', recipe: recipe %>
         </div>

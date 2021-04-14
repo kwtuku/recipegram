@@ -57,7 +57,7 @@
             <%= render 'shared/favorite_button', recipe: recipe %>
           <% else %>
             <i class="far fa-heart"></i>
-            <%= recipe.favorites.count %>
+            <%= recipe.favorites.size %>
           <% end %>
         </div>
       </div>
@@ -70,7 +70,7 @@
   </div>
   <% if controller.controller_name == "recipes" && controller.action_name == "show" %>
     <div class="card-content">
-      <% recipe.comments.each do |comment| %>
+      <% recipe.comments.find_each do |comment| %>
         <div class="media">
           <figure class="media-left">
             <p class="image is-64x64">
