@@ -1,4 +1,5 @@
-version: '3.3'
+version: '3.9'
+
 services:
   web: &app_base
     build: .
@@ -7,25 +8,28 @@ services:
       - .:/app
       - bundle-data:/usr/local/bundle
     ports:
-      - 4000:3000
+      - 3000:3000
     environment:
       WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
+
   webpacker:
     <<: *app_base
     command: bash -c "rm -rf public/packs && bin/webpack-dev-server"
     ports:
-      - 4035:3035
+      - 3035:3035
+
   db:
     image: mysql:8.0
     command: --default-authentication-plugin=mysql_native_password
     ports:
-      - 4306:3306
+      - 3306:3306
     volumes:
       - db-data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: password
     security_opt:
       - seccomp:unconfined
+
 volumes:
   bundle-data:
   db-data:
