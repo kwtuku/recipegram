@@ -12,4 +12,4 @@ Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
 
-import './shared/_recipe_card'
+import "../src/application"
