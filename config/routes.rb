@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
+  post '/home/guest_sign_in', to: 'home#guest_sign_in'
   root to: "home#index"
   resources :users do
     get :followings, :followers
@@ -9,5 +10,4 @@ Rails.application.routes.draw do
     resources :comments, only: [:create, :destroy]
   end
   resources :relationships, only: [:create, :destroy]
-  post '/home/guest_sign_in', to: 'home#guest_sign_in'
 end
