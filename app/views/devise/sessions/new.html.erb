@@ -31,13 +31,15 @@
 
           <% if devise_mapping.rememberable? %>
             <div class="field">
-              <%= f.check_box :remember_me %>
-              <%= f.label :remember_me %>
+              <%= f.label :remember_me, class: 'checkbox' do %>
+                <%= f.check_box :remember_me %>
+                <%= resource.class.human_attribute_name('remember_me') %>
+              <% end %>
             </div>
           <% end %>
 
           <div class="field">
-            <%= f.submit "Log in", class: "button is-fullwidth is-success" %>
+            <%= f.submit t('.sign_in'), class: "button is-fullwidth is-success" %>
           </div>
         <% end %>
 

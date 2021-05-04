@@ -30,15 +30,15 @@
 
           <div class="field">
             <%= f.label :password, class: "label" %>
-            <% if @minimum_password_length %>
-            <em>(<%= @minimum_password_length %> characters minimum)</em>
-            <% end %>
             <p class="control has-icons-left">
             <%= f.password_field :password, autocomplete: "new-password", :placeholder => "password", class: "input" %>
               <span class="icon is-small is-left">
                 <i class="fas fa-lock"></i>
               </span>
             </p>
+            <% if @minimum_password_length %>
+              <p class='help has-text-dark'><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></p>
+            <% end %>
           </div>
 
           <div class="field">
@@ -51,8 +51,8 @@
             </p>
           </div>
 
-          <div class="actions">
-            <%= f.submit "Sign up", class: "button is-fullwidth is-success" %>
+          <div class="field">
+            <%= f.submit t('.sign_up'), class: "button is-fullwidth is-success" %>
           </div>
         <% end %>
 
