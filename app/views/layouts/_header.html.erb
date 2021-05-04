@@ -18,46 +18,38 @@
   <div class="navbar-menu" id="navbar">
     <div class="navbar-start">
       <div class="navbar-item">
-        <div class="field is-grouped">
-          <p class="control">
-            <%= link_to "レシピ一覧", recipes_path, class: " button is-warning is-light" %>
-          </p>
-          <p class="control">
-            <%= link_to "レシピグラマー一覧", users_path, class: "button is-warning is-light" %>
-          </p>
-        </div>
+        <%= link_to "レシピ一覧", recipes_path, class: " button is-warning is-light" %>
+      </div>
+      <div class="navbar-item">
+        <%= link_to "レシピグラマー一覧", users_path, class: "button is-warning is-light" %>
       </div>
     </div>
     <div class="navbar-end">
-      <div class="navbar-item">
-        <div class="field is-grouped">
-          <% if user_signed_in? %>
-            <p class="control">
-              <figure class="image is-32x32" style="margin-top: auto; margin-right: auto;">
-                <%= link_to user_path(current_user) do %>
-                  <%= attachment_image_tag current_user, :profile_image, fallback: "no-image.png" %>
-                <% end %>
-              </figure>
-            </p>
-            <p class="control">
-              <%= link_to "レシピ投稿", new_recipe_path, class: "button is-warning is-light" %>
-            </p>
-            <p class="control">
-              <%= link_to "マイページ", user_path(current_user), class: "button is-warning is-light" %>
-            </p>
-            <p class="control">
-              <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "button is-warning is-light" %>
-            </p>
-          <% else %>
-            <p class="control">
-              <%= link_to "ログイン", new_user_session_path, class: "button is-warning is-light" %>
-            </p>
-            <p class="control">
-              <%= link_to "新規登録", new_user_registration_path, class: "button is-warning is-light" %>
-            </p>
-          <% end %>
+      <% if user_signed_in? %>
+        <div class="navbar-item">
+          <figure class="image is-32x32" style="margin-top: auto; margin-right: auto;">
+            <%= link_to user_path(current_user) do %>
+              <%= attachment_image_tag current_user, :profile_image, fallback: "no-image.png" %>
+            <% end %>
+          </figure>
         </div>
-      </div>
+        <div class="navbar-item">
+          <%= link_to "レシピ投稿", new_recipe_path, class: "button is-warning is-light" %>
+        </div>
+        <div class="navbar-item">
+          <%= link_to "マイページ", user_path(current_user), class: "button is-warning is-light" %>
+        </div>
+        <div class="navbar-item">
+          <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "button is-warning is-light" %>
+        </div>
+      <% else %>
+        <div class="navbar-item">
+          <%= link_to "ログイン", new_user_session_path, class: "button is-warning is-light" %>
+        </div>
+        <div class="navbar-item">
+          <%= link_to "新規登録", new_user_registration_path, class: "button is-warning is-light" %>
+        </div>
+      <% end %>
     </div>
   </div>
 </nav>
