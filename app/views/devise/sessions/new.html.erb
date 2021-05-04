@@ -1,19 +1,11 @@
-<section class="hero is-info">
-  <div class="hero-body">
-    <div class="container">
-      <h1 class="title">
-        ログイン画面
-      </h1>
-    </div>
-  </div>
-</section>
-
 <section class="section">
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-5">
+        <%= link_to root_path do %>
+          <p class="title is-1 has-text-centered" style="font-family: cursive;">Recipegram</p>
+        <% end %>
         <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-
           <div class="field">
             <%= f.label :email, class: "label" %>
             <p class="control has-icons-left">
@@ -44,8 +36,8 @@
             </div>
           <% end %>
 
-          <div class="actions">
-            <%= f.submit "Log in", class: "button is-success" %>
+          <div class="field">
+            <%= f.submit "Log in", class: "button is-fullwidth is-success" %>
           </div>
         <% end %>
 
