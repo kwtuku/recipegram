@@ -1,13 +1,7 @@
 <nav class="navbar is-fixed-top is-warning">
   <div class="navbar-brand">
-    <% if user_signed_in? %>
-      <%= link_to recipes_path, class: "navbar-item" do %>
-        <h1 class="title is-4" style="font-family: cursive;">recipegram</h1>
-      <% end %>
-    <% else %>
-      <%= link_to root_path, class: "navbar-item" do %>
-        <h1 class="title is-4" style="font-family: cursive;">recipegram</h1>
-      <% end %>
+    <%= link_to recipes_path, class: "navbar-item" do %>
+      <h1 class="title is-4" style="font-family: cursive;">recipegram</h1>
     <% end %>
     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar">
       <span aria-hidden="true"></span>
@@ -25,31 +19,22 @@
       </div>
     </div>
     <div class="navbar-end">
-      <% if user_signed_in? %>
-        <div class="navbar-item">
-          <figure class="image is-32x32" style="margin-top: auto; margin-right: auto;">
-            <%= link_to user_path(current_user) do %>
-              <%= attachment_image_tag current_user, :profile_image, fallback: "no-image.png" %>
-            <% end %>
-          </figure>
-        </div>
-        <div class="navbar-item">
-          <%= link_to "レシピ投稿", new_recipe_path, class: "button is-warning is-light" %>
-        </div>
-        <div class="navbar-item">
-          <%= link_to "マイページ", user_path(current_user), class: "button is-warning is-light" %>
-        </div>
-        <div class="navbar-item">
-          <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "button is-warning is-light" %>
-        </div>
-      <% else %>
-        <div class="navbar-item">
-          <%= link_to "ログイン", new_user_session_path, class: "button is-warning is-light" %>
-        </div>
-        <div class="navbar-item">
-          <%= link_to "新規登録", new_user_registration_path, class: "button is-warning is-light" %>
-        </div>
-      <% end %>
+      <div class="navbar-item">
+        <figure class="image is-32x32" style="margin-top: auto; margin-right: auto;">
+          <%= link_to user_path(current_user) do %>
+            <%= attachment_image_tag current_user, :profile_image, fallback: "no-image.png" %>
+          <% end %>
+        </figure>
+      </div>
+      <div class="navbar-item">
+        <%= link_to "レシピ投稿", new_recipe_path, class: "button is-warning is-light" %>
+      </div>
+      <div class="navbar-item">
+        <%= link_to "マイページ", user_path(current_user), class: "button is-warning is-light" %>
+      </div>
+      <div class="navbar-item">
+        <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "button is-warning is-light" %>
+      </div>
     </div>
   </div>
 </nav>

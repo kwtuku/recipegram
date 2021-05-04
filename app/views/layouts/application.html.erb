@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja" class="has-navbar-fixed-top">
+<html lang="ja">
   <head>
     <title>recipegram</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -12,7 +12,7 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
+  <body class="<%= 'has-navbar-fixed-top' if user_signed_in? %>">
     <% if flash[:notice] %>
       <div class="notification is-info">
         <p class="notice"><%= notice %></p>
@@ -24,7 +24,7 @@
       </div>
     <% end %>
 
-    <%= render 'layouts/header' %>
+    <%= render 'layouts/header' if user_signed_in? %>
     <%= yield %>
   </body>
 </html>
