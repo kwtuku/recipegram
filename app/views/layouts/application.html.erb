@@ -18,74 +18,13 @@
         <p class="notice"><%= notice %></p>
       </div>
     <% end %>
-
     <% if flash[:alert] %>
       <div class="notification is-danger">
         <p class="alert"><%= alert %></p>
       </div>
     <% end %>
 
-    <nav class="navbar is-fixed-top is-warning">
-      <div class="navbar-brand">
-        <% if user_signed_in? %>
-          <%= link_to recipes_path, class: "navbar-item" do %>
-            <h1 class="title is-4" style="font-family: cursive;">recipegram</h1>
-          <% end %>
-        <% else %>
-          <%= link_to root_path, class: "navbar-item" do %>
-            <h1 class="title is-4" style="font-family: cursive;">recipegram</h1>
-          <% end %>
-        <% end %>
-      </div>
-
-      <div class="navbar-menu">
-        <div class="navbar-start">
-          <div class="navbar-item">
-            <div class="field is-grouped">
-              <p class="control">
-                <%= link_to "レシピ一覧", recipes_path, class: " button is-warning is-light" %>
-              </p>
-              <p class="control">
-                <%= link_to "レシピグラマー一覧", users_path, class: "button is-warning is-light" %>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="navbar-end">
-          <div class="navbar-item">
-            <div class="field is-grouped">
-              <% if user_signed_in? %>
-                <p class="control">
-                  <figure class="image is-32x32" style="margin-top: auto; margin-right: auto;">
-                    <%= link_to user_path(current_user) do %>
-                      <%= attachment_image_tag current_user, :profile_image, fallback: "no-image.png" %>
-                    <% end %>
-                  </figure>
-                </p>
-                <p class="control">
-                  <%= link_to "レシピ投稿", new_recipe_path, class: "button is-warning is-light" %>
-                </p>
-                <p class="control">
-                  <%= link_to "マイページ", user_path(current_user), class: "button is-warning is-light" %>
-                </p>
-                <p class="control">
-                  <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "button is-warning is-light" %>
-                </p>
-              <% else %>
-                <p class="control">
-                  <%= link_to "ログイン", new_user_session_path, class: "button is-warning is-light" %>
-                </p>
-                <p class="control">
-                  <%= link_to "新規登録", new_user_registration_path, class: "button is-warning is-light" %>
-                </p>
-              <% end %>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-
+    <%= render 'layouts/header' %>
     <%= yield %>
   </body>
 </html>
