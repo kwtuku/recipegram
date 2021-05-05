@@ -9,16 +9,18 @@
   </div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+    <div><%= t('.currently_waiting_confirmation_for_email') %></div>
   <% end %>
 
   <div class="field">
     <%= f.label :password, class: 'label' %>
     <%= f.password_field :password, autocomplete: "new-password", class: 'input' %>
-    <p class='help has-text-dark'><%= t('.leave_blank_if_you_dont_want_to_change_it') %></p>
-    <% if @minimum_password_length %>
-      <p class='help has-text-dark'><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></p>
-    <% end %>
+    <p class='help has-text-dark'>
+      <% if @minimum_password_length %>
+        <%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %>
+      <% end %>
+      <%= t('.leave_blank_if_you_don_t_want_to_change_it') %>
+    </p>
   </div>
 
   <div class="field">
@@ -33,12 +35,12 @@
   </div>
 
   <div class="field">
-    <%= f.submit  t('update'), class: 'button is-primary' %>
+    <%= f.submit t('.update'), class: 'button is-primary' %>
   </div>
 <% end %>
 
-<h3>Cancel my account</h3>
+<h3><%= t('.cancel_my_account') %></h3>
 
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
+<p><%= t('.unhappy') %>? <%= button_to t('.cancel_my_account'), registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
 
-<%= link_to  t('.back'), :back %>
+<%= link_to t('devise.shared.links.back'), :back %>
