@@ -53,6 +53,9 @@
             <%= link_to "マイページ", user_path(current_user) %>
           </div>
           <div class="navbar-item">
+            <%= link_to "アカウント編集", edit_user_registration_path %>
+          </div>
+          <div class="navbar-item">
             <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
           </div>
         </div>

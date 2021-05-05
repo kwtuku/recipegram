@@ -1,16 +1,30 @@
-<h1><%= t('.forgot_your_password') %></h1>
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-5">
+        <%= link_to root_path do %>
+          <p class="title is-1 has-text-centered" style="font-family: cursive;">Recipegram</p>
+        <% end %>
+        <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+          <%= render "devise/shared/error_messages", resource: resource %>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+          <div class="field">
+            <%= f.label :email, class: "label" %>
+            <div class="control has-icons-left">
+              <%= f.email_field :email, autofocus: true, autocomplete: "email", :placeholder => "email", required: true, class: "input" %>
+              <span class="icon is-small is-left">
+                <i class="fas fa-envelope"></i>
+              </span>
+            </div>
+          </div>
 
-  <div class="field">
-    <%= f.label :email, class: 'label' %>
-    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'input' %>
+          <div class="field">
+            <%= f.submit t('.send_me_reset_password_instructions'), class: 'button is-fullwidth is-link' %>
+          </div>
+        <% end %>
+
+        <%= render "devise/shared/links" %>
+      </div>
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.submit t('.send_me_reset_password_instructions'), class: 'button is-fullwidth is-link' %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</section>
