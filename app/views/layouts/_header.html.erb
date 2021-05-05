@@ -1,7 +1,17 @@
-<nav class="navbar is-fixed-top is-warning px-5">
+<nav class="navbar is-fixed-top is-warning">
   <div class="navbar-brand">
     <%= link_to recipes_path, class: "navbar-item" do %>
       <h1 class="title is-4" style="font-family: cursive;">Recipegram</h1>
+    <% end %>
+    <%= link_to recipes_path, class: "navbar-item ml-5 is-hidden-desktop" do %>
+      <span class="icon">
+        <i class="fas fa-home"></i>
+      </span>
+    <% end %>
+    <%= link_to new_recipe_path, class: "navbar-item ml-5 is-hidden-desktop" do %>
+      <span class="icon">
+        <i class="fas fa-pen"></i>
+      </span>
     <% end %>
     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar">
       <span aria-hidden="true"></span>
@@ -11,53 +21,37 @@
   </div>
   <div class="navbar-menu" id="navbar">
     <div class="navbar-end">
-      <div class="navbar-item has-dropdown is-hoverable">
-        <div class="navbar-link is-arrowless is-hidden-touch">
-          <%= link_to recipes_path do %>
-            <span class="icon">
-              <i class="fas fa-home"></i>
-            </span>
-          <% end %>
-        </div>
+      <div class="navbar-item has-dropdown is-hoverable ml-2 is-hidden-touch">
+        <%= link_to recipes_path, class: "navbar-link is-arrowless" do %>
+          <span class="icon">
+            <i class="fas fa-home"></i>
+          </span>
+        <% end %>
         <div class="navbar-dropdown is-boxed is-right">
-          <div class="navbar-item">
-            <%= link_to "レシピ一覧", recipes_path %>
-          </div>
-          <div class="navbar-item">
-            <%= link_to "レシレシピグラマー一覧", users_path %>
-          </div>
+          <%= link_to "レシピ一覧", recipes_path, class: "navbar-item" %>
+          <%= link_to "レシレシピグラマー一覧", users_path, class: "navbar-item" %>
         </div>
       </div>
-      <div class="navbar-item has-dropdown is-hoverable">
-        <div class="navbar-link is-arrowless is-hidden-touch">
-          <%= link_to new_recipe_path do %>
-            <span class="icon">
-              <i class="fas fa-pen"></i>
-            </span>
-          <% end %>
-        </div>
+      <div class="navbar-item has-dropdown is-hoverable ml-2 is-hidden-touch">
+        <%= link_to new_recipe_path, class: "navbar-link is-arrowless" do %>
+          <span class="icon">
+            <i class="fas fa-pen"></i>
+          </span>
+        <% end %>
         <div class="navbar-dropdown is-boxed is-right">
-          <div class="navbar-item">
-            <%= link_to "レシピ投稿", new_recipe_path %>
-          </div>
+          <%= link_to "レシピ投稿", new_recipe_path, class: "navbar-item" %>
         </div>
       </div>
-      <div class="navbar-item has-dropdown is-hoverable">
+      <div class="navbar-item has-dropdown is-hoverable ml-2 mr-5">
         <div class="navbar-link is-arrowless is-hidden-touch">
           <figure class="image is-32x32" style="margin-top: auto; margin-right: auto;">
             <%= attachment_image_tag current_user, :profile_image, fallback: "no-image.png" %>
           </figure>
         </div>
         <div class="navbar-dropdown is-boxed is-right">
-          <div class="navbar-item">
-            <%= link_to "マイページ", user_path(current_user) %>
-          </div>
-          <div class="navbar-item">
-            <%= link_to "アカウント編集", edit_user_registration_path %>
-          </div>
-          <div class="navbar-item">
-            <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
-          </div>
+          <%= link_to "マイページ", user_path(current_user), class: "navbar-item" %>
+          <%= link_to "アカウント編集", edit_user_registration_path, class: "navbar-item" %>
+          <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "navbar-item" %>
         </div>
       </div>
     </div>
