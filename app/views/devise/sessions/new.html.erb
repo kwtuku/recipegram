@@ -8,25 +8,22 @@
         <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
           <div class="field">
             <%= f.label :email, class: "label" %>
-            <p class="control has-icons-left">
-              <%= f.email_field :email, autofocus: true, autocomplete: "email", :placeholder => "email", class: "input" %>
+            <div class="control has-icons-left">
+              <%= f.email_field :email, autofocus: true, autocomplete: "email", :placeholder => "email", required: true, class: "input" %>
               <span class="icon is-small is-left">
                 <i class="fas fa-envelope"></i>
               </span>
-            </p>
+            </div>
           </div>
 
           <div class="field">
             <%= f.label :password, class: "label" %>
-            <% if @minimum_password_length %>
-            <em>(<%= @minimum_password_length %> characters minimum)</em>
-            <% end %>
-            <p class="control has-icons-left">
-            <%= f.password_field :password, autocomplete: "new-password", :placeholder => "password", class: "input" %>
+            <div class="control has-icons-left">
+              <%= f.password_field :password, autocomplete: "new-password", :placeholder => "password", required: true, class: "input" %>
               <span class="icon is-small is-left">
                 <i class="fas fa-lock"></i>
               </span>
-            </p>
+            </div>
           </div>
 
           <% if devise_mapping.rememberable? %>

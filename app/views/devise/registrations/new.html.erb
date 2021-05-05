@@ -10,32 +10,32 @@
 
           <div class="field">
             <%= f.label :username, class: "label" %>
-            <p class="control has-icons-left">
-              <%= f.text_field :username, autofocus: true, autocomplete: "email", :placeholder => "username", class: "input" %>
+            <div class="control has-icons-left">
+              <%= f.text_field :username, autofocus: true, autocomplete: "email", :placeholder => "username", required: true, class: "input" %>
               <span class="icon is-small is-left">
                 <i class="fas fa-user"></i>
               </span>
-            </p>
+            </div>
           </div>
 
           <div class="field">
             <%= f.label :email, class: "label" %>
-            <p class="control has-icons-left">
-              <%= f.email_field :email, autofocus: true, autocomplete: "email", :placeholder => "email", class: "input" %>
+            <div class="control has-icons-left">
+              <%= f.email_field :email, autofocus: true, autocomplete: "email", :placeholder => "email", required: true, class: "input" %>
               <span class="icon is-small is-left">
                 <i class="fas fa-envelope"></i>
               </span>
-            </p>
+            </div>
           </div>
 
           <div class="field">
             <%= f.label :password, class: "label" %>
-            <p class="control has-icons-left">
-            <%= f.password_field :password, autocomplete: "new-password", :placeholder => "password", class: "input" %>
+            <div class="control has-icons-left">
+              <%= f.password_field :password, autocomplete: "new-password", :placeholder => "password", required: true, minlength: @minimum_password_length, maxlength: "30", class: "input" %>
               <span class="icon is-small is-left">
                 <i class="fas fa-lock"></i>
               </span>
-            </p>
+            </div>
             <% if @minimum_password_length %>
               <p class='help has-text-dark'><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></p>
             <% end %>
@@ -43,12 +43,12 @@
 
           <div class="field">
             <%= f.label :password_confirmation, class: "label" %>
-            <p class="control has-icons-left">
-              <%= f.password_field :password_confirmation, autocomplete: "new-password", :placeholder => "password confirmation", class: "input" %>
+            <div class="control has-icons-left">
+              <%= f.password_field :password_confirmation, autocomplete: "new-password", :placeholder => "password confirmation", required: true, minlength: @minimum_password_length, maxlength: "30", class: "input" %>
               <span class="icon is-small is-left">
                 <i class="fas fa-lock"></i>
               </span>
-            </p>
+            </div>
           </div>
 
           <div class="field">
