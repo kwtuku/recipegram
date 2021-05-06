@@ -8,17 +8,15 @@
       </p>
     </figure>
     <div class="media-content">
-      <div class="content">
-        <div class="columns">
-          <div class="column is-10">
-            <strong class="is-size-4"><%= link_to user.username, user_path(user) %></strong>
-          </div>
-          <div class="column is-1">
-            <%= render 'shared/follow_button', user: user %>
-          </div>
+      <div class="columns">
+        <div class="column is-10">
+          <strong class="is-size-4"><%= link_to user.username, user_path(user) %></strong>
         </div>
-        <%= simple_format user.profile %>
+        <div class="column is-1">
+          <%= render 'shared/follow_button', user: user %>
+        </div>
       </div>
+      <%= simple_format h(user.profile) %>
     </div>
   </div>
 <% end %>
