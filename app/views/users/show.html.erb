@@ -55,6 +55,12 @@
                 </div>
               </div>
               <div class="level-item has-text-centered">
+                <div>
+                  <p class="heading">いいねされた</p>
+                  <p class="title"><%= @recipes_favorites_count %></p>
+                </div>
+              </div>
+              <div class="level-item has-text-centered">
                 <%= link_to user_followings_path(@user), class: "has-text-black-bis" do %>
                   <div>
                     <p class="heading">フォロー中</p>

@@ -7,8 +7,13 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @recipes = @user.recipes
+    @recipes_favorites_count = 0
+    @recipes.each do |recipe|
+      @recipes_favorites_count += recipe.favorites.size
+    end
   end
-  
+
   def edit
     @user = User.find(params[:id])
     if @user != current_user
