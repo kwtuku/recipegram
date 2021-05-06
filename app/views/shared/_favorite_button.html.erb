@@ -1,13 +1,21 @@
 <div id="favorite_button-<%= recipe.id %>">
   <% if current_user.already_favored?(recipe) %>
     <%= link_to recipe_favorites_path(recipe), method: :delete, remote: true do %>
-      <i class="fas fa-heart"></i>
-      <%= recipe.favorites.size %>
+      <span class="icon-text has-text-danger">
+        <span class="icon">
+          <i class="fas fa-heart"></i>
+        </span>
+        <span><%= recipe.favorites.size %></span>
+      </span>
     <% end %>
   <% else %>
     <%= link_to recipe_favorites_path(recipe), method: :post, remote: true do %>
-      <i class="far fa-heart"></i>
-      <%= recipe.favorites.size %>
+      <span class="icon-text has-text-danger">
+        <span class="icon">
+          <i class="far fa-heart"></i>
+        </span>
+        <span><%= recipe.favorites.size %></span>
+      </span>
     <% end %>
   <% end %>
 </div>
