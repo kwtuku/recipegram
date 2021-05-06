@@ -4,3 +4,5 @@ _recipe_card();
 import header from './header'
 header();
 
+import tab from './tab'
+tab();

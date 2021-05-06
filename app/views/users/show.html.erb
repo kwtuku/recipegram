@@ -91,19 +91,19 @@
   <div class="container">
     <div class="tabs is-boxed is-centered is-fullwidth">
       <ul>
-        <li class="is-active">
+        <li class="tab is-active">
           <a>
             <span class="icon is-small"><i class="fas fa-pen" aria-hidden="true"></i></span>
             <span>投稿</span>
           </a>
         </li>
-        <li>
+        <li class="tab">
           <a>
             <span class="icon is-small"><i class="fas fa-reply" aria-hidden="true"></i></span>
             <span>コメント</span>
           </a>
         </li>
-        <li>
+        <li class="tab">
           <a>
             <span class="icon is-small"><i class="fas fa-heart" aria-hidden="true"></i></span>
             <span>いいね</span>
@@ -111,9 +111,23 @@
         </li>
       </ul>
     </div>
-    <div class="columns is-multiline">
+    <div class="columns is-multiline tab-content">
       <% @user.recipes.find_each do |recipe| %>
         <div class="column is-4">
+          <%= render 'shared/recipe_card', recipe: recipe %>
+        </div>
+      <% end %>
+    </div>
+    <div class="columns is-multiline tab-content">
+      <% @user.comment_recipes.find_each do |recipe| %>
+        <div class="column is-4 display_none">
+          <%= render 'shared/recipe_card', recipe: recipe %>
+        </div>
+      <% end %>
+    </div>
+    <div class="columns is-multiline tab-content">
+      <% @user.favorite_recipes.find_each do |recipe| %>
+        <div class="column is-4 display_none">
           <%= render 'shared/recipe_card', recipe: recipe %>
         </div>
       <% end %>
