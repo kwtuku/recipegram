@@ -3,12 +3,12 @@
     <% if current_user.following?(user) %>
       <%= form_with model: current_user.relationships.find_by(follow_id: user.id), method: :delete, local: false do |f| %>
         <%= hidden_field_tag :follow_id, user.id %>
-        <%= f.submit 'フォロー解除', class: 'button is-light' %>
+        <%= f.submit 'フォロー解除', class: 'button is-light is-rounded' %>
       <% end %>
     <% else %>
       <%= form_with model: current_user.relationships.build, method: :post, local: false do |f| %>
         <%= hidden_field_tag :follow_id, user.id %>
-        <%= f.submit 'フォロー', class: 'button is-link' %>
+        <%= f.submit 'フォロー', class: 'button is-info is-rounded' %>
       <% end %>
     <% end %>
   <% end %>

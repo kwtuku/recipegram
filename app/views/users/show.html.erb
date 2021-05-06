@@ -16,46 +16,64 @@
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-10">
-        <div class="columns">
-          <div class="column is-2">
-            <figure class="image is-128x128" style="margin-left: auto; margin-right: auto;">
+        <div class="media">
+          <figure class="media-left is-hidden-mobile mr-6">
+            <p class="image is-128x128">
               <%= attachment_image_tag @user, :profile_image, fallback: "no-image.png", class: "profile_image is-rounded" %>
+            </p>
+          </figure>
+          <div class="media-content">
+            <figure class="level is-hidden-tablet mb-6">
+              <div class="level-item">
+                <p class="image is-128x128">
+                  <%= attachment_image_tag @user, :profile_image, fallback: "no-image.png", class: "profile_image is-rounded" %>
+                </p>
+              </div>
             </figure>
-          </div>
-          <div class="column is-10">
-            <table class="table is-fullwidth">
-              <tr>
-                <td class="is-size-4">
-                  <strong><%= @user.username %></strong>
-                </td>
-                <% if @user.id == current_user.id %>
-                  <td class="is-size-4">
-                    <%= @user.email %>
-                  </td>
-                  <td>
-                    <%= link_to "編集", edit_user_path(@user), class: "button is-primary" %>
-                  </td>
-                <% end %>
-                <td>
+            <div class="level is-mobile">
+              <div class="level-left">
+                <div class="level-item">
+                  <p class="title"><%= @user.username %></p>
+                </div>
+              </div>
+              <div class="level-right">
+                <div class="level-item">
                   <%= render 'shared/follow_button', user: @user %>
-                </td>
-                <td>
-                  <%= link_to user_followings_path(@user), class: "button has-text-black-bis" do %>
-                    <strong><%= @user.followings.size %></strong> フォロー中
-                  <% end %>
-                </td>
-                <td>
-                  <%= render 'shared/count_followers', user: @user %>
-                </td>
-              </tr>
-            </table>
-            <table class="table is-fullwidth">
-              <tr>
-                <td>
-                  <%= @user.profile %>
-                </td>
-              </tr>
-            </table>
+                </div>
+                <% if @user.id == current_user.id %>
+                  <div class="level-item">
+                    <%= link_to "編集", edit_user_path(@user), class: "button is-primary is-rounded" %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+            <div class="level is-mobile">
+              <div class="level-item has-text-centered">
+                <div>
+                  <p class="heading">投稿</p>
+                  <p class="title"><%= @user.recipes.size %></p>
+                </div>
+              </div>
+              <div class="level-item has-text-centered">
+                <%= link_to user_followings_path(@user), class: "has-text-black-bis" do %>
+                  <div>
+                    <p class="heading">フォロー中</p>
+                    <p class="title"><%= @user.followings.size %></p>
+                  </div>
+                <% end %>
+              </div>
+              <div class="level-item has-text-centered">
+                <%= link_to user_followers_path(@user), class: "has-text-black-bis" do %>
+                  <div>
+                    <p class="heading">フォロワー</p>
+                    <p class="title" id='recount_followers'><%= @user.followers.size %></p>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+            <div class="content">
+              <%= @user.profile %>
+            </div>
           </div>
         </div>
       </div>
