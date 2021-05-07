@@ -15,7 +15,11 @@ export default () => {
           if(!e.target.closest('.dropdown')) {
             $dropdown.classList.remove('is-active');
           }
-        })
+        });
+
+        window.addEventListener('scroll', (e) => {
+          $dropdown.classList.remove('is-active');
+        });
       });
     }
   });
