@@ -20,6 +20,15 @@
     </a>
   </div>
   <div class="navbar-menu" id="navbar">
+    <div class="navbar-item is-hidden-desktop">
+      <%= link_to "マイページ", user_path(current_user), class: "navbar-item" %>
+    </div>
+    <div class="navbar-item is-hidden-desktop">
+      <%= link_to "アカウント編集", edit_user_registration_path, class: "navbar-item" %>
+    </div>
+    <div class="navbar-item is-hidden-desktop">
+      <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "navbar-item" %>
+    </div>
     <div class="navbar-end">
       <div class="navbar-item has-dropdown is-hoverable ml-2 is-hidden-touch">
         <%= link_to recipes_path, class: "navbar-link is-arrowless" do %>
@@ -42,9 +51,9 @@
           <%= link_to "レシピ投稿", new_recipe_path, class: "navbar-item" %>
         </div>
       </div>
-      <div class="navbar-item has-dropdown is-hoverable ml-2 mr-6">
+      <div class="navbar-item has-dropdown is-hoverable ml-2 mr-5 is-hidden-touch">
         <div class="navbar-link is-arrowless is-hidden-touch">
-          <figure class="image is-32x32">
+          <figure class="image is-32x32" style="margin-top: auto;">
             <%= attachment_image_tag current_user, :profile_image, fallback: "no-image.png" %>
           </figure>
         </div>

@@ -4,12 +4,19 @@ export default () => {
 
     if ($navbarBurgers.length > 0) {
       $navbarBurgers.forEach( el => {
-        el.addEventListener('click', () => {
-          const target = el.dataset.target;
-          const $target = document.getElementById(target);
+        const target = el.dataset.target;
+        const $target = document.getElementById(target);
 
+        el.addEventListener('click', () => {
           el.classList.toggle('is-active');
           $target.classList.toggle('is-active');
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!e.target.closest('.navbar')) {
+            el.classList.remove('is-active');
+            $target.classList.remove('is-active');
+          }
         });
       });
     }
