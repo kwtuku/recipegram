@@ -1,5 +1,5 @@
-import _recipe_card from './_recipe_card'
-_recipe_card();
+import dropdown from './dropdown'
+dropdown();
 
 import header from './header'
 header();
