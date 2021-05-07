@@ -1,0 +1,22 @@
+<div class="card">
+  <div class="card-content">
+    <div class="content">
+      <figure class="image is-128x128" style="margin: 0 auto;">
+        <%= link_to user_path(user) do %>
+          <%= attachment_image_tag user, :profile_image, fallback: "no-image.png" %>
+        <% end %>
+      </figure>
+    </div>
+    <div class="content">
+      <p><%= link_to user.username, user_path(user), class: "title is-5" %></p>
+    </div>
+    <div class="content has-text-centered">
+      <p><%= render 'shared/follow_button', user: user %></p>
+    </div>
+    <% unless controller.controller_name == "users" && controller.action_name == "index" %>
+      <div class="content">
+        <p><%= simple_format h(user.profile) %></p>
+      </div>
+    <% end %>
+  </div>
+</div>
