@@ -1,121 +1,123 @@
-<div class="card">
-  <% if controller.controller_name == "recipes" && controller.action_name == "index" %>
-    <div class="card-content">
-      <div class="level is-mobile">
-        <div class="level-left">
-          <div class="level-item">
-            <figure class="image is-32x32">
-              <%= link_to user_path(recipe.user) do %>
-                <%= attachment_image_tag recipe.user, :profile_image, fallback: "no-image.png" %>
-              <% end %>
-            </figure>
+<div class="column <%= recipes_show? ? 'is-7' : 'is-4' %>">
+  <div class="card">
+    <% if controller.controller_name == "recipes" && controller.action_name == "index" %>
+      <div class="card-content">
+        <div class="level is-mobile">
+          <div class="level-left">
+            <div class="level-item">
+              <figure class="image is-32x32">
+                <%= link_to user_path(recipe.user) do %>
+                  <%= attachment_image_tag recipe.user, :profile_image, fallback: "no-image.png" %>
+                <% end %>
+              </figure>
+            </div>
+            <div class="level-item">
+              <%= link_to recipe.user.username, user_path(recipe.user),class: "has-text-black-bis" %>
+            </div>
           </div>
-          <div class="level-item">
-            <%= link_to recipe.user.username, user_path(recipe.user),class: "has-text-black-bis" %>
-          </div>
-        </div>
-        <div class="level-right">
-          <div class="level-item">
-            <div class="dropdown is-right">
-              <div class="dropdown-trigger">
-                <button class="button is-white is-small" aria-haspopup="true" aria-controls="dropdown-menu">
-                  <span class="icon is-small">
-                    <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
-                  </span>
-                </button>
-              </div>
-              <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                <div class="dropdown-content">
-                  <%= link_to "詳細を見る", recipe_path(recipe), class: "dropdown-item" %>
-                  <% if user_signed_in? && recipe.user.id == current_user.id %>
-                    <%= link_to "編集する", edit_recipe_path(recipe), class: "dropdown-item" %>
-                    <%= link_to "削除する", recipe_path(recipe), method: :delete, data: {confirm: "削除しますか？"}, class: "dropdown-item" %>
-                  <% end %>
+          <div class="level-right">
+            <div class="level-item">
+              <div class="dropdown is-right">
+                <div class="dropdown-trigger">
+                  <button class="button is-white is-small" aria-haspopup="true" aria-controls="dropdown-menu">
+                    <span class="icon is-small">
+                      <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                    </span>
+                  </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                  <div class="dropdown-content">
+                    <%= link_to "詳細を見る", recipe_path(recipe), class: "dropdown-item" %>
+                    <% if user_signed_in? && recipe.user.id == current_user.id %>
+                      <%= link_to "編集する", edit_recipe_path(recipe), class: "dropdown-item" %>
+                      <%= link_to "削除する", recipe_path(recipe), method: :delete, data: {confirm: "削除しますか？"}, class: "dropdown-item" %>
+                    <% end %>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  <% end %>
-  <div class="card-image">
-    <figure class="image is-4by3">
-      <% if controller.controller_name == "recipes" && controller.action_name == "show" %>
-        <%= attachment_image_tag recipe, :image, fallback: "no-image.png" %>
-      <% else %>
-        <%= link_to recipe_path(recipe) do %>
+    <% end %>
+    <div class="card-image">
+      <figure class="image is-4by3">
+        <% if controller.controller_name == "recipes" && controller.action_name == "show" %>
           <%= attachment_image_tag recipe, :image, fallback: "no-image.png" %>
+        <% else %>
+          <%= link_to recipe_path(recipe) do %>
+            <%= attachment_image_tag recipe, :image, fallback: "no-image.png" %>
+          <% end %>
         <% end %>
-      <% end %>
-    </figure>
-  </div>
-  <% if controller.controller_name == "recipes" && controller.action_name == "show" %>
-    <div class="card-content">
-      <div class="columns is-vcentered is-mobile">
-        <div class="column is-10">
-          <p class="title is-5"><%= link_to_unless_current recipe.title, recipe_path(recipe) %></p>
-        </div>
-        <div class="column is-2 has-text-centered">
-          <% if user_signed_in? %>
-            <%= render 'shared/favorite_button', recipe: recipe %>
-          <% else %>
-            <span class="icon-text">
-              <span class="icon">
-                <i class="fas fa-heart has-text-danger"></i>
+      </figure>
+    </div>
+    <% if controller.controller_name == "recipes" && controller.action_name == "show" %>
+      <div class="card-content">
+        <div class="columns is-vcentered is-mobile">
+          <div class="column is-10">
+            <p class="title is-5"><%= link_to_unless_current recipe.title, recipe_path(recipe) %></p>
+          </div>
+          <div class="column is-2 has-text-centered">
+            <% if user_signed_in? %>
+              <%= render 'shared/favorite_button', recipe: recipe %>
+            <% else %>
+              <span class="icon-text">
+                <span class="icon">
+                  <i class="fas fa-heart has-text-danger"></i>
+                </span>
+                <span><%= recipe.favorites.size %></span>
               </span>
-              <span><%= recipe.favorites.size %></span>
-            </span>
+            <% end %>
+          </div>
+        </div>
+        <p class="subtitle">レシピ</p>
+        <p><%= simple_format h(recipe.body) %></p>
+      </div>
+      <div class="card-content">
+        <p class="subtitle">コメント</p>
+        <% recipe.comments.find_each do |comment| %>
+          <div class="media">
+            <figure class="media-left">
+              <p class="image is-64x64">
+                <%= link_to user_path(comment.user) do %>
+                  <%= attachment_image_tag comment.user, :profile_image, fallback: "no-image.png" %>
+                <% end %>
+              </p>
+            </figure>
+            <div class="media-content">
+              <p class="title is-5"><%= link_to comment.user.username, user_path(comment.user), class: "has-text-black-bis" %></p>
+              <p><%= simple_format h(comment.body) %></p>
+              <p><%= comment.created_at.strftime("%Y-%m-%d %H:%M") %></p>
+            </div>
+            <div class="media-right">
+              <div class="dropdown is-right">
+                <div class="dropdown-trigger">
+                  <button class="button is-white is-small" aria-haspopup="true" aria-controls="dropdown-menu">
+                    <span class="icon is-small">
+                      <i class="fa fa-ellipsis-h "></i>
+                    </span>
+                  </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                  <div class="dropdown-content">
+                    <% if current_user.id == comment.user_id %>
+                      <%= link_to "削除する", recipe_comment_path(comment), method: :delete, data: {confirm: "削除しますか？"}, class: "dropdown-item" %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        <div class="content">
+          <%= form_with model: [recipe, @comment] do |f| %>
+            <div class="field">
+              <%= f.text_area :body, :placeholder => "コメントを追加", required: true, class: "input" %>
+            </div>
+            <%= f.submit "コメントを投稿", class: "button is-primary is-rounded" %>
           <% end %>
         </div>
       </div>
-      <p class="subtitle">レシピ</p>
-      <p><%= simple_format h(recipe.body) %></p>
-    </div>
-    <div class="card-content">
-      <p class="subtitle">コメント</p>
-      <% recipe.comments.find_each do |comment| %>
-        <div class="media">
-          <figure class="media-left">
-            <p class="image is-64x64">
-              <%= link_to user_path(comment.user) do %>
-                <%= attachment_image_tag comment.user, :profile_image, fallback: "no-image.png" %>
-              <% end %>
-            </p>
-          </figure>
-          <div class="media-content">
-            <p class="title is-5"><%= link_to comment.user.username, user_path(comment.user), class: "has-text-black-bis" %></p>
-            <p><%= simple_format h(comment.body) %></p>
-            <p><%= comment.created_at.strftime("%Y-%m-%d %H:%M") %></p>
-          </div>
-          <div class="media-right">
-            <div class="dropdown is-right">
-              <div class="dropdown-trigger">
-                <button class="button is-white is-small" aria-haspopup="true" aria-controls="dropdown-menu">
-                  <span class="icon is-small">
-                    <i class="fa fa-ellipsis-h "></i>
-                  </span>
-                </button>
-              </div>
-              <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                <div class="dropdown-content">
-                  <% if current_user.id == comment.user_id %>
-                    <%= link_to "削除する", recipe_comment_path(comment), method: :delete, data: {confirm: "削除しますか？"}, class: "dropdown-item" %>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      <% end %>
-      <div class="content">
-        <%= form_with model: [recipe, @comment] do |f| %>
-          <div class="field">
-            <%= f.text_area :body, :placeholder => "コメントを追加", required: true, class: "input" %>
-          </div>
-          <%= f.submit "コメントを投稿", class: "button is-primary is-rounded" %>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>

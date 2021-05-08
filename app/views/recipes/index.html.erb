@@ -10,9 +10,7 @@
   <div class="container">
     <div class="columns is-multiline">
       <% @recipes.eager_load(:user).find_each do |recipe| %>
-        <div class="column is-4">
-          <%= render 'shared/recipe_card', recipe: recipe %>
-        </div>
+        <%= render 'shared/recipe_card', recipe: recipe %>
       <% end %>
     </div>
   </div>
