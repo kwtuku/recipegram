@@ -41,7 +41,7 @@
       </div>
     <% end %>
     <div class="card-image">
-      <figure class="image is-4by3">
+      <figure class="image is-4by3" id="recipe-image">
         <% if controller.controller_name == "recipes" && controller.action_name == "show" %>
           <%= attachment_image_tag recipe, :image, fallback: "no-image.png" %>
         <% else %>
@@ -120,4 +120,14 @@
       </div>
     <% end %>
   </div>
+</div>
+
+<div class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <p class="image is-4by3">
+      <%= attachment_image_tag recipe, :image, fallback: "no-image.png" %>
+    </p>
+  </div>
+  <button class="modal-close is-large" aria-label="close"></button>
 </div>
