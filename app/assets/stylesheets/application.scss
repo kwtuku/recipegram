@@ -31,6 +31,10 @@
 	background-size: contain;
 }
 
-a:hover{
+a:hover {
   text-decoration: underline;
+}
+
+#recipe-image {
+	cursor : pointer;
 }
