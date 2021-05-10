@@ -47,7 +47,6 @@
         <% else %>
           <%= link_to recipe_path(recipe) do %>
             <%= attachment_image_tag recipe, :image, fallback: "no-image.png" %>
-          <% end %>
           <div class="mask has-text-centered">
             <p class="has-text-white">
               <span class="icon-text mr-3">
@@ -64,6 +63,7 @@
               </span>
             </p>
           </div>
+          <% end %>
         <% end %>
       </figure>
     </div>
