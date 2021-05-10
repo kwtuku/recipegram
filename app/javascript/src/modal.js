@@ -4,7 +4,7 @@ export default () => {
 
     if (modals.length > 0) {
       modals.forEach( modal => {
-        const recipeImage = document.querySelector('#recipe-image');
+        const recipeImage = document.querySelector('#recipe-image > img');
         const html = document.querySelector('html');
         const body = document.querySelector('body');
         recipeImage.addEventListener('click', () => {
