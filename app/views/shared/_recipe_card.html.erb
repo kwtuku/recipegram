@@ -48,6 +48,22 @@
           <%= link_to recipe_path(recipe) do %>
             <%= attachment_image_tag recipe, :image, fallback: "no-image.png" %>
           <% end %>
+          <div class="mask has-text-centered">
+            <p class="has-text-white">
+              <span class="icon-text mr-3">
+                <span class="icon">
+                  <i class="fas fa-heart"></i>
+                </span>
+                <span><%= recipe.favorites.size %></span>
+              </span>
+              <span class="icon-text">
+                <span class="icon">
+                  <i class="fas fa-comment"></i>
+                </span>
+                <span><%= recipe.comments.size %></span>
+              </span>
+            </p>
+          </div>
         <% end %>
       </figure>
     </div>
