@@ -90,7 +90,42 @@
         <p><%= simple_format h(recipe.body) %></p>
       </div>
       <div class="card-content">
-        <p class="subtitle">コメント</p>
+        <p class="subtitle">コメント一覧</p>
+        <% if recipe.comments.length > 0 %>
+          <div class="media">
+            <figure class="media-left">
+              <p class="image is-64x64">
+                <%= link_to user_path(recipe.comments.first.user) do %>
+                  <%= attachment_image_tag recipe.comments.first.user, :profile_image, fallback: "no-image.png" %>
+                <% end %>
+              </p>
+            </figure>
+            <div class="media-content">
+              <p class="title is-5"><%= link_to recipe.comments.first.user.username, user_path(recipe.comments.first.user), class: "has-text-black-bis" %></p>
+              <p><%= simple_format h(recipe.comments.first.body) %></p>
+              <p><%= recipe.comments.first.created_at.strftime("%Y-%m-%d %H:%M") %></p>
+            </div>
+            <div class="media-right">
+              <div class="dropdown is-right">
+                <div class="dropdown-trigger">
+                  <button class="button is-white is-small" aria-haspopup="true" aria-controls="dropdown-menu">
+                    <span class="icon is-small">
+                      <i class="fa fa-ellipsis-h "></i>
+                    </span>
+                  </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                  <div class="dropdown-content">
+                    <% if current_user.id == recipe.comments.first.user_id %>
+                      <%= link_to "削除する", recipe_comment_path(recipe.comments.first), method: :delete, data: {confirm: "削除しますか？"}, class: "dropdown-item" %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>もっと見る</div>
+        <% end %>
         <% recipe.comments.find_each do |comment| %>
           <div class="media">
             <figure class="media-left">
