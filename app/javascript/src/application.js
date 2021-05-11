@@ -9,3 +9,6 @@ tab();
 
 import modal from './modal'
 modal();
+
+import readmore from './readmore'
+readmore();
