@@ -1,25 +1,22 @@
 <section class="section">
-  <article class="media">
-    <div class="media-content">
-      <p class="title is-1 has-text-centered" style="font-family: cursive;">Recipegram</p>
-      <div class="columns is-centered">
-        <div class="column is-5">
-          <br>
-          <%= link_to "ゲストユーザーとしてログイン", home_guest_sign_in_path, method: :post, class: "button is-fullwidth" %>
-          <br>
-          <%= link_to "ログイン", new_user_session_path, class: "button is-fullwidth is-primary" %>
-          <br>
-          <%= link_to "新規登録", new_user_registration_path, class: "button is-fullwidth is-success" %>
-        </div>
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-5">
+        <p class="title is-1 has-text-centered" style="font-family: cursive;">Recipegram</p>
+        <br>
+        <%= link_to "ゲストユーザーとしてログイン", home_guest_sign_in_path, method: :post, class: "button is-fullwidth" %>
+        <br>
+        <%= link_to "ログイン", new_user_session_path, class: "button is-fullwidth is-primary" %>
+        <br>
+        <%= link_to "新規登録", new_user_registration_path, class: "button is-fullwidth is-success" %>
       </div>
     </div>
-  </article>
-  <br>
-  <div class="columns is-centered">
-    <div class="column">
-      <figure>
-        <div class="main-image"></div>
-      </figure>
+    <div class="columns is-centered">
+      <div class="column">
+        <figure>
+          <div class="main-image"></div>
+        </figure>
+      </div>
     </div>
   </div>
 </section>
