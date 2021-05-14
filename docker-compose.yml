@@ -1,35 +1,68 @@
-version: '3.9'
+version: "3.9"
 
 services:
-  web: &app_base
+  app:
     build: .
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    command: bash -c "rm -f tmp/pids/server.pid && ./bin/rails s -p 3000 -b '0.0.0.0'"
     volumes:
-      - .:/app
-      - bundle-data:/usr/local/bundle
+      - .:/myapp:cached
+      - rails_cache:/myapp/tmp/cache:cached
+      - node_modules:/myapp/node_modules:cached
+      - yarn_cache:/usr/local/share/.cache/yarn/v6:cached
+      - bundle:/bundle:cached
+      - public:/myapp/public
+      - log:/myapp/log
+    tmpfs:
+      - /tmp
+    tty: true
+    stdin_open: true
     ports:
-      - 3000:3000
+      - "3000:3000"
     environment:
-      WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
+      RAILS_ENV: ${RAILS_ENV:-development}
+      NODE_ENV: ${NODE_ENV:-development}
+      DATABASE_HOST: db
+      DATABASE_PORT: 5432
+      DATABASE_USER: ${POSTGRES_USER}
+      DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
+      WEBPACKER_DEV_SERVER_HOST: webpacker
+    depends_on:
+      - db
+      - webpacker
 
   webpacker:
-    <<: *app_base
-    command: bash -c "rm -rf public/packs && bin/webpack-dev-server"
+    build: .
+    command: ./bin/webpack-dev-server
+    volumes:
+      - .:/myapp:cached
+      - node_modules:/myapp/node_modules:cached
+    environment:
+      RAILS_ENV: development
+      NODE_ENV: development
+      WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
+    tty: false
+    stdin_open: false
     ports:
-      - 3035:3035
+      - "3035:3035"
 
   db:
-    image: mysql:8.0
-    command: --default-authentication-plugin=mysql_native_password
-    ports:
-      - 3306:3306
+    image: postgres:11.0-alpine
     volumes:
-      - db-data:/var/lib/mysql
+      - postgres:/var/lib/postgresql/data:cached
+    ports:
+      - "5432:5432"
     environment:
-      MYSQL_ROOT_PASSWORD: password
-    security_opt:
-      - seccomp:unconfined
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --locale=C.UTF-8"
+      TZ: Asia/Tokyo
 
 volumes:
-  bundle-data:
-  db-data:
+  rails_cache:
+  node_modules:
+  yarn_cache:
+  postgres:
+  bundle:
+  public:
+  log:
