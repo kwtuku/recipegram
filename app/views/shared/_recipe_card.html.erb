@@ -104,7 +104,7 @@
               <div class="media-content">
                 <p class="title is-5"><%= link_to recipe.comments.first.user.username, user_path(recipe.comments.first.user), class: "has-text-black-bis" %></p>
                 <p><%= simple_format h(recipe.comments.first.body) %></p>
-                <p><%= recipe.comments.first.created_at.strftime("%Y-%m-%d %H:%M") %></p>
+                <time class="has-text-grey-light" datetime="<%= recipe.comments.first.created_at %>"><%= time_ago_in_words(recipe.comments.first.created_at) %>前</time>
               </div>
               <div class="media-right">
                 <div class="dropdown is-right">
@@ -143,7 +143,7 @@
               <div class="media-content">
                 <p class="title is-5"><%= link_to comment.user.username, user_path(comment.user), class: "has-text-black-bis" %></p>
                 <p><%= simple_format h(comment.body) %></p>
-                <p><%= comment.created_at.strftime("%Y-%m-%d %H:%M") %></p>
+                <time class="has-text-grey-light" datetime="<%= comment.created_at %>"><%= time_ago_in_words(comment.created_at) %>前</time>
               </div>
               <div class="media-right">
                 <div class="dropdown is-right">
