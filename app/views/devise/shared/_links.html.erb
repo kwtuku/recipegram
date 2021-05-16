@@ -2,7 +2,7 @@
 <p class="has-text-centered">または</p>
 <br />
 
-<%= link_to "ゲストユーザーとしてログイン", home_guest_sign_in_path, method: :post, class: "button is-fullwidth" %><br />
+<%= link_to "ゲストユーザーとしてログイン", users_guest_sign_in_path, method: :post, class: "button is-fullwidth" %><br />
 
 <%- if controller_name != 'sessions' %>
   <%= link_to t(".sign_in"), new_session_path(resource_name), class: "button is-fullwidth is-primary" %><br />

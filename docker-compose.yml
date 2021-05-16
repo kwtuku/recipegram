@@ -8,10 +8,7 @@ services:
       - .:/myapp:cached
       - rails_cache:/myapp/tmp/cache:cached
       - node_modules:/myapp/node_modules:cached
-      - yarn_cache:/usr/local/share/.cache/yarn/v6:cached
       - bundle:/bundle:cached
-      - public:/myapp/public
-      - log:/myapp/log
     tmpfs:
       - /tmp
     tty: true
@@ -21,29 +18,8 @@ services:
     environment:
       RAILS_ENV: ${RAILS_ENV:-development}
       NODE_ENV: ${NODE_ENV:-development}
-      DATABASE_HOST: db
-      DATABASE_PORT: 5432
-      DATABASE_USER: ${POSTGRES_USER}
-      DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
-      WEBPACKER_DEV_SERVER_HOST: webpacker
     depends_on:
       - db
-      - webpacker
-
-  webpacker:
-    build: .
-    command: ./bin/webpack-dev-server
-    volumes:
-      - .:/myapp:cached
-      - node_modules:/myapp/node_modules:cached
-    environment:
-      RAILS_ENV: development
-      NODE_ENV: development
-      WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
-    tty: false
-    stdin_open: false
-    ports:
-      - "3035:3035"
 
   db:
     image: postgres:11.0-alpine
@@ -53,16 +29,11 @@ services:
       - "5432:5432"
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --locale=C.UTF-8"
       TZ: Asia/Tokyo
 
 volumes:
   rails_cache:
   node_modules:
-  yarn_cache:
   postgres:
   bundle:
-  public:
-  log:
