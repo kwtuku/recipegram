@@ -1,5 +1,5 @@
 export default () => {
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('turbolinks:load', function() {
     const dropdownTriggers = Array.prototype.slice.call(document.querySelectorAll('.dropdown-trigger'), 0);
 
     if (dropdownTriggers.length > 0) {

@@ -1,5 +1,5 @@
 export default () => {
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('turbolinks:load', function() {
     const modals = Array.prototype.slice.call(document.querySelectorAll('.modal'), 0);
 
     if (modals.length > 0) {
