@@ -19,14 +19,14 @@
         <div class="media">
           <figure class="media-left is-hidden-mobile mr-6">
             <p class="image is-128x128">
-              <%= attachment_image_tag @user, :profile_image, fallback: "no-image.png", class: "profile_image is-rounded" %>
+              <%= image_tag @user.user_image.url, class: "is-rounded" %>
             </p>
           </figure>
           <div class="media-content">
             <figure class="level is-hidden-tablet mb-6">
               <div class="level-item">
                 <p class="image is-128x128">
-                  <%= attachment_image_tag @user, :profile_image, fallback: "no-image.png", class: "profile_image is-rounded" %>
+                  <%= image_tag @user.user_image.url, class: "is-rounded" %>
                 </p>
               </div>
             </figure>

@@ -26,8 +26,8 @@
             <%= f.text_area :profile, class: "textarea" %>
           </div>
           <div class="field">
-            <%= f.label :profile_image, "プロフィール画像", class: "label" %>
-            <%= f.attachment_field :profile_image, class: "file" %>
+            <%= f.label :user_image, "プロフィール画像", class: "label" %>
+            <%= f.file_field :user_image, class: "file" %>
           </div>
           <%= f.submit "更新", class: "button is-success" %>
         <% end %>

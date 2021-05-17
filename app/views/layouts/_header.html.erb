@@ -53,8 +53,8 @@
       </div>
       <div class="navbar-item has-dropdown is-hoverable ml-2 mr-5 is-hidden-touch">
         <div class="navbar-link is-arrowless is-hidden-touch">
-          <figure class="image is-32x32" style="margin-top: auto;">
-            <%= attachment_image_tag current_user, :profile_image, fallback: "no-image.png" %>
+          <figure class="image is-24x24">
+            <%= image_tag current_user.user_image.url, class: "is-rounded" %>
           </figure>
         </div>
         <div class="navbar-dropdown is-boxed is-right">
