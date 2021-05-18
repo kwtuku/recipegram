@@ -2,7 +2,7 @@
   <div class="hero-body">
     <div class="container">
       <h1 class="title">
-        <%= @user.username %>さんがフォロー中
+        <%= link_to @user.username, user_path(@user) %>さんがフォロー中
       </h1>
     </div>
   </div>
@@ -18,7 +18,7 @@
           <% if @user.id == current_user.id %>
             <p>まだ誰もフォローしていません</p>
           <% else %>
-            <p><%= @user.username %>さんはまだ誰もフォローしていません</p>
+            <p><%= link_to @user.username, user_path(@user) %>さんはまだ誰もフォローしていません</p>
           <% end %>
         <% end %>
       </div>

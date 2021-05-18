@@ -1,6 +1,9 @@
 <nav class="navbar is-fixed-top is-warning">
   <div class="navbar-brand">
-    <%= link_to recipes_path, class: "navbar-item" do %>
+    <%= link_to recipes_path, class: "navbar-item is-hidden-touch" do %>
+      <h1 class="title is-4 ml-6" style="font-family: cursive;">Recipegram</h1>
+    <% end %>
+    <%= link_to recipes_path, class: "navbar-item is-hidden-desktop" do %>
       <h1 class="title is-4" style="font-family: cursive;">Recipegram</h1>
     <% end %>
     <%= link_to recipes_path, class: "navbar-item ml-5 is-hidden-desktop" do %>
@@ -36,9 +39,9 @@
             <i class="fas fa-home"></i>
           </span>
         <% end %>
-        <div class="navbar-dropdown is-boxed is-right">
+        <div class="navbar-dropdown is-boxed">
           <%= link_to "レシピ一覧", recipes_path, class: "navbar-item" %>
-          <%= link_to "レシレシピグラマー一覧", users_path, class: "navbar-item" %>
+          <%= link_to "ユーザ一覧", users_path, class: "navbar-item" %>
         </div>
       </div>
       <div class="navbar-item has-dropdown is-hoverable ml-2 is-hidden-touch">
@@ -47,11 +50,11 @@
             <i class="fas fa-pen"></i>
           </span>
         <% end %>
-        <div class="navbar-dropdown is-boxed is-right">
+        <div class="navbar-dropdown is-boxed">
           <%= link_to "レシピ投稿", new_recipe_path, class: "navbar-item" %>
         </div>
       </div>
-      <div class="navbar-item has-dropdown is-hoverable ml-2 mr-5 is-hidden-touch">
+      <div class="navbar-item has-dropdown is-hoverable ml-2 mr-6 is-hidden-touch">
         <div class="navbar-link is-arrowless is-hidden-touch">
           <figure class="image is-24x24">
             <%= image_tag current_user.user_image.url, class: "is-rounded" %>
