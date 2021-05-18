@@ -12,8 +12,8 @@
             <%= f.text_area :body, class: "textarea" %>
           </div>
           <div class="field">
-            <%= f.label :image, "写真", class: "label" %>
-            <%= f.attachment_field :image, class: "file" %>
+            <%= f.label :recipe_image, "写真", class: "label" %>
+            <%= f.file_field :recipe_image, class: "file" %>
           </div>
           <%= f.submit value, class: "button is-success" %>
         <% end %>
