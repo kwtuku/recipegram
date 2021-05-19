@@ -17,6 +17,8 @@ class User < ApplicationRecord
   has_many :comment_recipes, -> { distinct }, through: :comments, source: :recipe
   has_many :favorite_recipes, through: :favorites, source: :recipe
 
+  mount_uploader :user_image, UserImageUploader
+
   def already_favored?(recipe)
     self.favorites.exists?(recipe_id: recipe.id)
   end

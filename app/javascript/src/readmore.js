@@ -1,5 +1,5 @@
 export default () => {
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('turbolinks:load', function() {
     const readmore = document.querySelector('#readmore');
     const readless = document.querySelector('#readless');
     const oldestComment = document.querySelector('.oldest-comment');

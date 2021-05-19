@@ -1,5 +1,5 @@
 export default () => {
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('turbolinks:load', function() {
     const navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
 
     if (navbarBurgers.length > 0) {

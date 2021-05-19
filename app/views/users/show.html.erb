@@ -19,14 +19,14 @@
         <div class="media">
           <figure class="media-left is-hidden-mobile mr-6">
             <p class="image is-128x128">
-              <%= attachment_image_tag @user, :profile_image, fallback: "no-image.png", class: "profile_image is-rounded" %>
+              <%= image_tag @user.user_image.url, class: "is-rounded" %>
             </p>
           </figure>
           <div class="media-content">
             <figure class="level is-hidden-tablet mb-6">
               <div class="level-item">
                 <p class="image is-128x128">
-                  <%= attachment_image_tag @user, :profile_image, fallback: "no-image.png", class: "profile_image is-rounded" %>
+                  <%= image_tag @user.user_image.url, class: "is-rounded" %>
                 </p>
               </div>
             </figure>
@@ -93,20 +93,20 @@
       <ul>
         <li class="is-active" data-target="posted-recipes">
           <a>
-            <span class="icon is-small"><i class="fas fa-pen" aria-hidden="true"></i></span>
-            <span>投稿</span>
+            <span class="icon is-small has-text-link"><i class="fas fa-pen" aria-hidden="true"></i></span>
+            <span class="has-text-black-ter">投稿</span>
           </a>
         </li>
         <li data-target="favored-recipes">
           <a>
-            <span class="icon is-small"><i class="fas fa-reply" aria-hidden="true"></i></span>
-            <span>コメント</span>
+            <span class="icon is-small has-text-primary"><i class="fas fa-comment" aria-hidden="true"></i></span>
+            <span class="has-text-black-ter">コメント</span>
           </a>
         </li>
         <li data-target="commented-recipes">
           <a>
-            <span class="icon is-small"><i class="fas fa-heart" aria-hidden="true"></i></span>
-            <span>いいね</span>
+            <span class="icon is-small has-text-danger"><i class="fas fa-heart" aria-hidden="true"></i></span>
+            <span class="has-text-black-ter">いいね</span>
           </a>
         </li>
       </ul>

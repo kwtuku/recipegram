@@ -1,5 +1,5 @@
 export default () => {
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('turbolinks:load', function() {
     const tabs = Array.prototype.slice.call(document.querySelectorAll('.tabs li'), 0);
 
     if (tabs.length > 0) {
