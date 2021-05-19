@@ -112,17 +112,17 @@
       </ul>
     </div>
     <div id="tab-contents">
-      <div class="columns is-multiline" id="posted-recipes">
+      <div class="columns is-multiline is-mobile" id="posted-recipes">
         <% @user.recipes.find_each do |recipe| %>
           <%= render 'shared/recipe_card', recipe: recipe %>
         <% end %>
       </div>
-      <div class="columns is-multiline is-hidden" id="favored-recipes">
+      <div class="columns is-multiline is-mobile is-hidden" id="favored-recipes">
         <% @user.comment_recipes.find_each do |recipe| %>
           <%= render 'shared/recipe_card', recipe: recipe %>
         <% end %>
       </div>
-      <div class="columns is-multiline is-hidden" id="commented-recipes">
+      <div class="columns is-multiline is-mobile is-hidden" id="commented-recipes">
         <% @user.favorite_recipes.find_each do |recipe| %>
           <%= render 'shared/recipe_card', recipe: recipe %>
         <% end %>

@@ -8,7 +8,7 @@
 
 <section class="section">
   <div class="container">
-    <div class="columns is-multiline">
+    <div class="columns is-multiline is-mobile">
       <% @recipes.eager_load(:user).find_each do |recipe| %>
         <%= render 'shared/recipe_card', recipe: recipe %>
       <% end %>
