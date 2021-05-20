@@ -2,12 +2,17 @@ class RecipesController < ApplicationController
   before_action :authenticate_user!, except: [:index]
 
   def index
-    @recipes = Recipe.all
+    @recipes = Recipe.includes(:user).order(:id).last(40)
   end
 
   def show
     @recipe = Recipe.find(params[:id])
     @comment = Comment.new
+  end
+
+  def show_additionally
+    last_id = params[:oldest_recipe_id].to_i - 1
+    @recipes = Recipe.includes(:user).order(:id).where(id: 1..last_id).last(40)
   end
 
   def new

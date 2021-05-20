@@ -12,3 +12,6 @@ modal();
 
 import readmore from './readmore'
 readmore();
+
+import infiniteScroll from './infiniteScroll'
+infiniteScroll();
