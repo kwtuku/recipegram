@@ -15,3 +15,6 @@ readmore();
 
 import infiniteScroll from './infiniteScroll'
 infiniteScroll();
+
+import resizeTextarea from './resizeTextarea'
+resizeTextarea();
