@@ -10,6 +10,9 @@ export default () => {
 
 
     window.recipeContainer = document.getElementById('recipe-container')
+    if (recipeContainer === null) {
+      return
+    }
     let oldestRecipeId
     // レシピの追加読み込みの可否を決定する変数
     window.showAdditionally = true
