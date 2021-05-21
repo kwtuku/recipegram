@@ -77,20 +77,18 @@
           </div>
 
           <div class="field">
-            <%= f.submit t('.update'), class: 'button is-fullwidth is-primary' %>
+            <%= f.submit t('.update'), class: 'button is-fullwidth is-rounded is-primary' %>
           </div>
         <% end %>
 
-        <br />
-          <p class="has-text-centered">または</p>
-        <br />
+        <p class="has-text-centered py-4">または</p>
 
         <div class="field">
-          <%= link_to t('devise.shared.links.back'), :back, class: 'button is-fullwidth is-link' %>
+          <%= link_to t('devise.shared.links.back'), :back, class: 'button is-fullwidth is-rounded is-link' %>
         </div>
 
         <div class="field">
-          <%= link_to t('.cancel_my_account'), registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'button is-fullwidth is-light' %>
+          <%= link_to t('.cancel_my_account'), registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'button is-fullwidth is-rounded is-light' %>
         </div>
       </div>
     </div>

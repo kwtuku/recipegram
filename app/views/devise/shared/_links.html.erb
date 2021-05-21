@@ -1,19 +1,17 @@
-<br />
-<p class="has-text-centered">または</p>
-<br />
+<p class="has-text-centered py-4">または</p>
 
-<%= link_to "ゲストユーザーとしてログイン", users_guest_sign_in_path, method: :post, class: "button is-fullwidth" %><br />
+<%= link_to "ゲストユーザーとしてログイン", users_guest_sign_in_path, method: :post, class: "button is-fullwidth is-rounded is-primary is-light" %><br />
 
 <%- if controller_name != 'sessions' %>
-  <%= link_to t(".sign_in"), new_session_path(resource_name), class: "button is-fullwidth is-primary" %><br />
+  <%= link_to t(".sign_in"), new_session_path(resource_name), class: "button is-fullwidth is-rounded is-primary" %><br />
 <% end %>
 
 <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-  <%= link_to  t(".sign_up"), new_registration_path(resource_name), class: "button is-fullwidth is-success" %><br />
+  <%= link_to  t(".sign_up"), new_registration_path(resource_name), class: "button is-fullwidth is-rounded is-success" %><br />
 <% end %>
 
 <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
-  <%= link_to t(".forgot_your_password"), new_password_path(resource_name), class: "button is-fullwidth is-link" %><br />
+  <%= link_to t(".forgot_your_password"), new_password_path(resource_name), class: "button is-fullwidth is-rounded is-link" %><br />
 <% end %>
 
 <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>

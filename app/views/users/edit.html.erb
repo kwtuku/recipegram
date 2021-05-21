@@ -20,10 +20,6 @@
             <%= f.text_field :username, class: "input" %>
           </div>
           <div class="field">
-            <%= f.label :email, "メールアドレス", class: "label" %>
-            <%= f.email_field :email, class: "input" %>
-          </div>
-          <div class="field">
             <%= f.label :profile, "プロフィール", class: "label" %>
             <%= f.text_area :profile, class: "textarea" %>
           </div>
@@ -31,7 +27,7 @@
             <%= f.label :user_image, "プロフィール画像", class: "label" %>
             <%= f.file_field :user_image, class: "file" %>
           </div>
-          <%= f.submit "更新", class: "button is-success" %>
+          <%= f.submit "更新", class: "button is-rounded is-success" %>
         <% end %>
       </div>
     </div>
