@@ -23,9 +23,9 @@ export default () => {
     const createComment =document.getElementById("create_comment");
 
     if (signup) {
-      inputs.forEach( input => {
+      inputs.forEach(input => {
         input.addEventListener('input', () => {
-          if (username.value.length > 0 && email.value.length > 0 && password.value.length >= 6 && passwordConfirmation.value.length >= 6 ) {
+          if (username.value && email.value && password.value.length >= 6 && passwordConfirmation.value.length >= 6) {
             signup.disabled = false;
           } else {
             signup.disabled = true;
@@ -35,9 +35,9 @@ export default () => {
     }
 
     if (signin) {
-      inputs.forEach( input => {
+      inputs.forEach(input => {
         input.addEventListener('input', () => {
-          if ( email.value.length > 0 && password.value.length >= 6 ) {
+          if (email.value && password.value.length >= 6) {
             signin.disabled = false;
           } else {
             signin.disabled = true;
@@ -47,9 +47,9 @@ export default () => {
     }
 
     if (updateAccount) {
-      inputs.forEach( input => {
+      inputs.forEach(input => {
         input.addEventListener('input', () => {
-          if ( username.value.length > 0 && email.value.length > 0 && currentPassword.value.length >= 6 ) {
+          if (username.value && email.value && currentPassword.value.length >= 6) {
             updateAccount.disabled = false;
           } else {
             updateAccount.disabled = true;
@@ -59,9 +59,9 @@ export default () => {
     }
 
     if (resetPassword) {
-      inputs.forEach( input => {
+      inputs.forEach(input => {
         input.addEventListener('input', () => {
-          if ( email.value.length > 0 ) {
+          if (email.value) {
             resetPassword.disabled = false;
           } else {
             resetPassword.disabled = true;
@@ -71,21 +71,26 @@ export default () => {
     }
 
     if (updateUser) {
-      inputs.forEach( input => {
+      inputs.forEach(input => {
         input.addEventListener('input', () => {
-          if ( username.value.length > 0 ) {
+          if (username.value) {
             updateUser.disabled = false;
           } else {
             updateUser.disabled = true;
           }
         });
       });
+      textarea.addEventListener('input', () => {
+        if (username.value && textarea.value) {
+          updateUser.disabled = false;
+        }
+      });
     }
 
     if (createRecipe) {
-      inputs.forEach( input => {
+      inputs.forEach(input => {
         input.addEventListener('input', () => {
-          if ( recipeTitle.value.length > 0 && recipeBody.value.length > 0 ) {
+          if (recipeTitle.value && recipeBody.value) {
             createRecipe.disabled = false;
           } else {
             createRecipe.disabled = true;
@@ -93,7 +98,7 @@ export default () => {
         });
       });
       textarea.addEventListener('input', () => {
-        if ( recipeTitle.value.length > 0 && recipeBody.value.length > 0 ) {
+        if (recipeTitle.value && recipeBody.value) {
           createRecipe.disabled = false;
         } else {
           createRecipe.disabled = true;
@@ -102,9 +107,9 @@ export default () => {
     }
 
     if (updateRecipe) {
-      inputs.forEach( input => {
+      inputs.forEach(input => {
         input.addEventListener('input', () => {
-          if ( recipeTitle.value.length > 0 && recipeBody.value.length > 0 ) {
+          if (recipeTitle.value && recipeBody.value) {
             updateRecipe.disabled = false;
             recipeImage.required = false;
           } else {
@@ -113,7 +118,7 @@ export default () => {
         });
       });
       textarea.addEventListener('input', () => {
-        if ( recipeTitle.value.length > 0 && recipeBody.value.length > 0 ) {
+        if (recipeTitle.value && recipeBody.value) {
           updateRecipe.disabled = false;
           recipeImage.required = false;
         } else {
@@ -124,7 +129,7 @@ export default () => {
 
     if (createComment) {
       textarea.addEventListener('input', () => {
-        if ( commentBody.value.length > 0 ) {
+        if (commentBody.value) {
           createComment.disabled = false;
         } else {
           createComment.disabled = true;
