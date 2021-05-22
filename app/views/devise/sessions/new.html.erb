@@ -21,12 +21,21 @@
 
           <div class="field">
             <%= f.label :password, class: "label" %>
-            <div class="control has-icons-left">
+          </div>
+          <div class="field has-addons">
+            <div class="control has-icons-left is-expanded">
               <%= f.password_field :password, autocomplete: "new-password", :placeholder => "password", required: true, class: "input" %>
               <span class="icon is-small is-left">
                 <i class="fas fa-lock"></i>
               </span>
             </div>
+            <p class="control password-mask">
+              <button class="button" onclick="return false;">
+                <span class="icon is-small">
+                  <i class="far fa-eye-slash"></i>
+                </span>
+              </button>
+            </p>
           </div>
 
           <% if devise_mapping.rememberable? %>

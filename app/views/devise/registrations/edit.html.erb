@@ -43,42 +43,75 @@
 
           <div class="field">
             <%= f.label :password, class: "label" %>
-            <div class="control has-icons-left">
+          </div>
+          <div class="field has-addons">
+            <div class="control has-icons-left is-expanded">
               <%= f.password_field :password, autocomplete: "new-password", :placeholder => "password", minlength: @minimum_password_length, maxlength: "30", class: "input" %>
               <span class="icon is-small is-left">
                 <i class="fas fa-lock"></i>
               </span>
             </div>
-            <%= render "devise/shared/full_error_messages", model: resource, attribute: :password %>
+            <p class="control password-mask">
+              <button class="button" onclick="return false;">
+                <span class="icon is-small">
+                  <i class="far fa-eye-slash"></i>
+                </span>
+              </button>
+            </p>
+          </div>
+          <div class="field">
             <p class='help has-text-dark'>
               <% if @minimum_password_length %>
                 <%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %>
               <% end %>
               <%= t('.leave_blank_if_you_don_t_want_to_change_it') %>
             </p>
+            <%= render "devise/shared/full_error_messages", model: resource, attribute: :password %>
           </div>
 
           <div class="field">
             <%= f.label :password_confirmation, class: "label" %>
-            <div class="control has-icons-left">
+          </div>
+          <div class="field has-addons">
+            <div class="control has-icons-left is-expanded">
               <%= f.password_field :password_confirmation, autocomplete: "new-password", :placeholder => "password confirmation", minlength: @minimum_password_length, maxlength: "30", class: "input" %>
               <span class="icon is-small is-left">
                 <i class="fas fa-lock"></i>
               </span>
             </div>
+            <p class="control password-mask">
+              <button class="button" onclick="return false;">
+                <span class="icon is-small">
+                  <i class="far fa-eye-slash"></i>
+                </span>
+              </button>
+            </p>
+          </div>
+          <div class="field">
             <%= render "devise/shared/full_error_messages", model: resource, attribute: :password_confirmation %>
           </div>
 
           <div class="field">
-            <%= f.label :current_password, class: 'label' %>
-            <div class="control has-icons-left">
-              <%= f.password_field :current_password, autocomplete: "current-password", :placeholder => "current confirmation", required: true, minlength: @minimum_password_length, maxlength: "30", class: 'input' %>
+            <%= f.label :current_password, class: "label" %>
+          </div>
+          <div class="field has-addons">
+            <div class="control has-icons-left is-expanded">
+              <%= f.password_field :current_password, autocomplete: "current-password", :placeholder => "current-password", required: true, minlength: @minimum_password_length, maxlength: "30", class: "input" %>
               <span class="icon is-small is-left">
                 <i class="fas fa-lock"></i>
               </span>
             </div>
-            <%= render "devise/shared/full_error_messages", model: resource, attribute: :current_password %>
+            <p class="control password-mask">
+              <button class="button" onclick="return false;">
+                <span class="icon is-small">
+                  <i class="far fa-eye-slash"></i>
+                </span>
+              </button>
+            </p>
+          </div>
+          <div class="field">
             <p class='help has-text-dark'><%= t('.we_need_your_current_password_to_confirm_your_changes', count: @minimum_password_length) %></p>
+            <%= render "devise/shared/full_error_messages", model: resource, attribute: :current_password %>
           </div>
 
           <div class="field">

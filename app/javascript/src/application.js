@@ -24,3 +24,6 @@ activateButton();
 
 import deleteNotification from './deleteNotification'
 deleteNotification();
+
+import removePasswordMask from './removePasswordMask'
+removePasswordMask();
