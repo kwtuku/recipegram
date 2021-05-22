@@ -18,6 +18,7 @@
                 <i class="fas fa-user"></i>
               </span>
             </div>
+            <%= render "devise/shared/full_error_messages", model: resource, attribute: :username %>
           </div>
 
           <div class="field">
@@ -28,6 +29,7 @@
                 <i class="fas fa-envelope"></i>
               </span>
             </div>
+            <%= render "devise/shared/full_error_messages", model: resource, attribute: :email %>
           </div>
 
           <div class="field">
@@ -38,6 +40,7 @@
                 <i class="fas fa-lock"></i>
               </span>
             </div>
+            <%= render "devise/shared/full_error_messages", model: resource, attribute: :password %>
             <% if @minimum_password_length %>
               <p class='help has-text-dark'><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></p>
             <% end %>
@@ -51,6 +54,7 @@
                 <i class="fas fa-lock"></i>
               </span>
             </div>
+            <%= render "devise/shared/full_error_messages", model: resource, attribute: :password_confirmation %>
           </div>
 
           <div class="field">

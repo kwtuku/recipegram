@@ -8,6 +8,7 @@
           <p class="title is-1 has-text-centered" style="font-family: cursive;">Recipegram</p>
         <% end %>
         <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+
           <div class="field">
             <%= f.label :email, class: "label" %>
             <div class="control has-icons-left">

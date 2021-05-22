@@ -23,6 +23,7 @@
                 <i class="fas fa-user"></i>
               </span>
             </div>
+            <%= render "devise/shared/full_error_messages", model: resource, attribute: :username %>
           </div>
 
           <div class="field">
@@ -33,6 +34,7 @@
                 <i class="fas fa-envelope"></i>
               </span>
             </div>
+            <%= render "devise/shared/full_error_messages", model: resource, attribute: :email %>
           </div>
 
           <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
@@ -47,6 +49,7 @@
                 <i class="fas fa-lock"></i>
               </span>
             </div>
+            <%= render "devise/shared/full_error_messages", model: resource, attribute: :password %>
             <p class='help has-text-dark'>
               <% if @minimum_password_length %>
                 <%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %>
@@ -63,6 +66,7 @@
                 <i class="fas fa-lock"></i>
               </span>
             </div>
+            <%= render "devise/shared/full_error_messages", model: resource, attribute: :password_confirmation %>
           </div>
 
           <div class="field">
@@ -73,6 +77,7 @@
                 <i class="fas fa-lock"></i>
               </span>
             </div>
+            <%= render "devise/shared/full_error_messages", model: resource, attribute: :current_password %>
             <p class='help has-text-dark'><%= t('.we_need_your_current_password_to_confirm_your_changes', count: @minimum_password_length) %></p>
           </div>
 

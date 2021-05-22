@@ -21,3 +21,6 @@ resizeTextarea();
 
 import activateButton from './activateButton'
 activateButton();
+
+import deleteNotification from './deleteNotification'
+deleteNotification();

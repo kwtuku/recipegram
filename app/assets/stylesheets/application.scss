@@ -66,3 +66,9 @@ a:hover {
 textarea {
   resize: none !important;
 }
+
+.field_with_errors {
+  .input {
+    border-color: $danger;
+  }
+}
