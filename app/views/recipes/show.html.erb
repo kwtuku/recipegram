@@ -125,7 +125,7 @@
                   </div>
                 </div>
                 <% if @recipe.comments.length > 1 %>
-                  <div class="has-text-centered mb-5" id="readmore"><div class="button is-rounded">もっと見る</div></div>
+                  <div class="has-text-centered mb-5" id="readmore"><div class="button is-rounded">コメントをすべて見る</div></div>
                 <% end %>
               <% end %>
             </div>
@@ -169,9 +169,9 @@
             <div class="content">
               <%= form_with model: [@recipe, @comment] do |f| %>
                 <div class="field">
-                  <%= f.text_area :body, :placeholder => "コメントを追加", required: true, class: "input" %>
+                  <%= f.text_area :body, :placeholder => "コメントする", required: true, class: "input" %>
                 </div>
-                <%= f.submit "コメントを投稿", class: "button is-primary is-rounded" %>
+                <%= f.submit "コメントを投稿", class: "button is-primary is-rounded", id: "create_comment", disabled: true %>
               <% end %>
             </div>
           </div>

@@ -18,3 +18,6 @@ infiniteScroll();
 
 import resizeTextarea from './resizeTextarea'
 resizeTextarea();
+
+import activateButton from './activateButton'
+activateButton();

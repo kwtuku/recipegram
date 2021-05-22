@@ -15,7 +15,7 @@
     <div class="columns is-centered">
       <div class="column is-9">
         <% if @followings.present? %>
-          <%= render partial: 'shared/user_list', collection: @followings, as: "user" %>
+          <%= render partial: 'users/user_list', collection: @followings, as: "user" %>
         <% else %>
           <% if @user.id == current_user.id %>
             <p>まだ誰もフォローしていません</p>

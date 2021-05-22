@@ -6,12 +6,12 @@
     <%= link_to recipes_path, class: "navbar-item is-hidden-desktop" do %>
       <h1 class="title is-4" style="font-family: cursive;">Recipegram</h1>
     <% end %>
-    <%= link_to recipes_path, class: "navbar-item ml-5 is-hidden-desktop" do %>
+    <%= link_to recipes_path, class: "navbar-item ml-5 is-hidden-desktop", title: "レシピ一覧" do %>
       <span class="icon">
         <i class="fas fa-home"></i>
       </span>
     <% end %>
-    <%= link_to new_recipe_path, class: "navbar-item ml-5 is-hidden-desktop" do %>
+    <%= link_to new_recipe_path, class: "navbar-item ml-5 is-hidden-desktop", title: "レシピ投稿" do %>
       <span class="icon">
         <i class="fas fa-pen"></i>
       </span>
