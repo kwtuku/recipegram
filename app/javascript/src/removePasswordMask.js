@@ -4,10 +4,10 @@ export default () => {
 
     if (passwordMasks) {
       passwordMasks.forEach( passwordMask => {
-        passwordMask.addEventListener('click', () => {
-          const input = passwordMask.previousElementSibling.firstElementChild;
-          const icon = passwordMask.querySelector('i');
+        const input = passwordMask.previousElementSibling.firstElementChild;
+        const icon = passwordMask.querySelector('i');
 
+        passwordMask.addEventListener('click', () => {
           if (input.getAttribute('type') === 'password') {
             input.setAttribute('type', 'text');
             icon.setAttribute('class','far fa-eye');
@@ -15,6 +15,18 @@ export default () => {
             input.setAttribute('type', 'password');
             icon.setAttribute('class','far fa-eye-slash');
           }
+        });
+
+        document.addEventListener('click', (e) => {
+          if(!e.target.closest('.password-area')) {
+            input.setAttribute('type', 'password');
+            icon.setAttribute('class','far fa-eye-slash');
+          }
+        });
+
+        window.addEventListener('scroll', () => {
+          input.setAttribute('type', 'password');
+          icon.setAttribute('class','far fa-eye-slash');
         });
       });
     }

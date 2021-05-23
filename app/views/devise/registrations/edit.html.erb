@@ -44,7 +44,7 @@
           <div class="field">
             <%= f.label :password, class: "label" %>
           </div>
-          <div class="field has-addons">
+          <div class="field has-addons password-area">
             <div class="control has-icons-left is-expanded">
               <%= f.password_field :password, autocomplete: "new-password", :placeholder => "password", minlength: @minimum_password_length, maxlength: "30", class: "input" %>
               <span class="icon is-small is-left">
@@ -72,7 +72,7 @@
           <div class="field">
             <%= f.label :password_confirmation, class: "label" %>
           </div>
-          <div class="field has-addons">
+          <div class="field has-addons password-area">
             <div class="control has-icons-left is-expanded">
               <%= f.password_field :password_confirmation, autocomplete: "new-password", :placeholder => "password confirmation", minlength: @minimum_password_length, maxlength: "30", class: "input" %>
               <span class="icon is-small is-left">
@@ -94,7 +94,7 @@
           <div class="field">
             <%= f.label :current_password, class: "label" %>
           </div>
-          <div class="field has-addons">
+          <div class="field has-addons password-area">
             <div class="control has-icons-left is-expanded">
               <%= f.password_field :current_password, autocomplete: "current-password", :placeholder => "current-password", required: true, minlength: @minimum_password_length, maxlength: "30", class: "input" %>
               <span class="icon is-small is-left">

@@ -35,14 +35,14 @@
           <div class="field">
             <%= f.label :password, class: "label" %>
           </div>
-          <div class="field has-addons">
+          <div class="field has-addons password-area">
             <div class="control has-icons-left is-expanded">
               <%= f.password_field :password, autocomplete: "new-password", :placeholder => "password", required: true, minlength: @minimum_password_length, maxlength: "30", class: "input" %>
               <span class="icon is-small is-left">
                 <i class="fas fa-lock"></i>
               </span>
             </div>
-            <p class="control password-mask">
+            <p class="control password-mask password-mask1">
               <button class="button" onclick="return false;">
                 <span class="icon is-small">
                   <i class="far fa-eye-slash"></i>
@@ -60,14 +60,14 @@
           <div class="field">
             <%= f.label :password_confirmation, class: "label" %>
           </div>
-          <div class="field has-addons">
+          <div class="field has-addons password-area">
             <div class="control has-icons-left is-expanded">
               <%= f.password_field :password_confirmation, autocomplete: "new-password", :placeholder => "password confirmation", required: true, minlength: @minimum_password_length, maxlength: "30", class: "input" %>
               <span class="icon is-small is-left">
                 <i class="fas fa-lock"></i>
               </span>
             </div>
-            <p class="control password-mask">
+            <p class="control password-mask password-confirmation-mask">
               <button class="button" onclick="return false;">
                 <span class="icon is-small">
                   <i class="far fa-eye-slash"></i>
