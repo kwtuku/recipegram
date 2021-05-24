@@ -3,12 +3,12 @@
     <% if current_user.following?(user) %>
       <%= form_with model: current_user.relationships.find_by(follow_id: user.id), method: :delete, local: false do |f| %>
         <%= hidden_field_tag :follow_id, user.id %>
-        <%= f.submit 'フォロー解除', class: 'button is-info is-rounded' %>
+        <%= f.submit 'フォロー中', class: 'button is-info is-rounded', style: "width: 138px;", data: {confirm: "本当に#{user.username}さんのフォローを解除しますか？"}, onmouseover: "this.setAttribute('value', 'フォロー解除'); this.classList.replace('is-info', 'is-danger')", onmouseout: "this.setAttribute('value', 'フォロー中'); this.classList.replace('is-danger', 'is-info')" %>
       <% end %>
     <% else %>
       <%= form_with model: current_user.relationships.build, method: :post, local: false do |f| %>
         <%= hidden_field_tag :follow_id, user.id %>
-        <%= f.submit 'フォロー', class: 'button is-info is-outlined is-rounded' %>
+        <%= f.submit 'フォロー', class: 'button is-info is-outlined is-rounded', style: "width: 138px;" %>
       <% end %>
     <% end %>
   <% end %>
