@@ -12,3 +12,18 @@ modal();
 
 import readmore from './readmore'
 readmore();
+
+import infiniteScroll from './infiniteScroll'
+infiniteScroll();
+
+import resizeTextarea from './resizeTextarea'
+resizeTextarea();
+
+import activateButton from './activateButton'
+activateButton();
+
+import deleteNotification from './deleteNotification'
+deleteNotification();
+
+import removePasswordMask from './removePasswordMask'
+removePasswordMask();

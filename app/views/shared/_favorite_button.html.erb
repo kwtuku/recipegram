@@ -1,6 +1,6 @@
 <div id="favorite_button-<%= recipe.id %>">
   <% if current_user.already_favored?(recipe) %>
-    <%= link_to recipe_favorites_path(recipe), method: :delete, remote: true do %>
+    <%= link_to recipe_favorites_path(recipe), method: :delete, remote: true, title: "いいねを取り消す" do %>
       <span class="icon-text has-text-danger">
         <span class="icon">
           <i class="fas fa-heart"></i>
@@ -9,7 +9,7 @@
       </span>
     <% end %>
   <% else %>
-    <%= link_to recipe_favorites_path(recipe), method: :post, remote: true do %>
+    <%= link_to recipe_favorites_path(recipe), method: :post, remote: true, title: "いいねする" do %>
       <span class="icon-text has-text-danger">
         <span class="icon">
           <i class="far fa-heart"></i>

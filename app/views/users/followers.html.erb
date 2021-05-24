@@ -1,8 +1,17 @@
+<% provide(:title, "#{@user.username}さんのフォロワー") %>
+
 <section class="hero is-success">
   <div class="hero-body">
     <div class="container">
       <h1 class="title">
-        <%= link_to @user.username, user_path(@user) %>さんのフォロワー
+        <span class="icon-text">
+          <%= link_to user_path(@user) do %>
+            <span class="icon">
+              <i class="fas fa-arrow-left"></i>
+            </span>
+          <% end %>
+          <span><%= @user.username %>さんのフォロワー</span>
+        </span>
       </h1>
     </div>
   </div>
@@ -13,7 +22,7 @@
     <div class="columns is-centered">
       <div class="column is-9">
         <% if @followers.present? %>
-          <%= render 'shared/user_list', model: @followers %>
+          <%= render partial: 'users/user_list', collection: @followers, as: "user" %>
         <% else %>
           <% if @user.id == current_user.id %>
             <p>まだフォロワーがいません</p>

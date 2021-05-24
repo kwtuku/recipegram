@@ -1,3 +1,5 @@
+<% provide(:title, "#{t(".sign_in")}") %>
+
 <section class="section">
   <div class="container">
     <div class="columns is-centered">
@@ -6,6 +8,7 @@
           <p class="title is-1 has-text-centered" style="font-family: cursive;">Recipegram</p>
         <% end %>
         <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+
           <div class="field">
             <%= f.label :email, class: "label" %>
             <div class="control has-icons-left">
@@ -18,12 +21,21 @@
 
           <div class="field">
             <%= f.label :password, class: "label" %>
-            <div class="control has-icons-left">
+          </div>
+          <div class="field has-addons password-area">
+            <div class="control has-icons-left is-expanded">
               <%= f.password_field :password, autocomplete: "new-password", :placeholder => "password", required: true, class: "input" %>
               <span class="icon is-small is-left">
                 <i class="fas fa-lock"></i>
               </span>
             </div>
+            <p class="control password-mask">
+              <button class="button" onclick="return false;">
+                <span class="icon is-small">
+                  <i class="far fa-eye-slash"></i>
+                </span>
+              </button>
+            </p>
           </div>
 
           <% if devise_mapping.rememberable? %>
@@ -36,7 +48,7 @@
           <% end %>
 
           <div class="field">
-            <%= f.submit t('.sign_in'), class: "button is-fullwidth is-primary" %>
+            <%= f.submit t('.sign_in'), class: "button is-fullwidth is-rounded is-primary", id: "signin", disabled: true %>
           </div>
         <% end %>
 

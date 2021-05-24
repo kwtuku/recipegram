@@ -1,3 +1,5 @@
+<% provide(:title, "#{t(".forgot_your_password")}") %>
+
 <section class="section">
   <div class="container">
     <div class="columns is-centered">
@@ -19,7 +21,7 @@
           </div>
 
           <div class="field">
-            <%= f.submit t('.send_me_reset_password_instructions'), class: 'button is-fullwidth is-link' %>
+            <%= f.submit t('.send_me_reset_password_instructions'), class: 'button is-fullwidth is-rounded is-link', id: "reset_password", disabled: true %>
           </div>
         <% end %>
 

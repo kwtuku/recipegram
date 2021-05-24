@@ -1,3 +1,5 @@
+<% provide(:title, 'レシピ編集') %>
+
 <section class="hero is-success">
   <div class="hero-body">
     <div class="container">
@@ -8,4 +10,4 @@
 
 <%= render 'shared/error_messages', model: @recipe %>
 
-<%= render 'form', recipe: @recipe, value: "更新" %>
+<%= render 'form', recipe: @recipe, value: "レシピを更新", id: "update_recipe" %>

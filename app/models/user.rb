@@ -14,8 +14,8 @@ class User < ApplicationRecord
 
   validates :username, presence: true
 
-  has_many :comment_recipes, -> { distinct }, through: :comments, source: :recipe
-  has_many :favorite_recipes, through: :favorites, source: :recipe
+  has_many :commented_recipes, -> { distinct }, through: :comments, source: :recipe
+  has_many :favored_recipes, through: :favorites, source: :recipe
 
   mount_uploader :user_image, UserImageUploader
 

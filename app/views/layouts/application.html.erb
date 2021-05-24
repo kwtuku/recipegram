@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
   <head>
-    <title>Recipegram</title>
+    <title><%= full_title(yield(:title)) %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -15,11 +15,13 @@
   <body class="<%= 'has-navbar-fixed-top' if user_signed_in? %>">
     <% if flash[:notice] %>
       <div class="notification is-info">
-        <p class="notice"><%= notice %></p>
+        <button class="delete"></button>
+        <p class="notice haas-text-centered"><%= notice %></p>
       </div>
     <% end %>
     <% if flash[:alert] %>
       <div class="notification is-danger">
+        <button class="delete"></button>
         <p class="alert"><%= alert %></p>
       </div>
     <% end %>

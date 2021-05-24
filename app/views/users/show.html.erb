@@ -1,3 +1,5 @@
+<% provide(:title, "#{@user.username}さんの詳細") %>
+
 <section class="hero is-success">
   <div class="hero-body">
     <div class="container">
@@ -23,61 +25,52 @@
             </p>
           </figure>
           <div class="media-content">
-            <figure class="level is-hidden-tablet mb-6">
-              <div class="level-item">
-                <p class="image is-128x128">
-                  <%= image_tag @user.user_image.url, class: "is-rounded" %>
-                </p>
-              </div>
-            </figure>
-            <div class="level is-mobile">
-              <div class="level-left">
-                <div class="level-item">
-                  <p class="title"><%= @user.username %></p>
-                </div>
-              </div>
-              <div class="level-right">
-                <div class="level-item">
-                  <%= render 'shared/follow_button', user: @user %>
-                </div>
-                <% if @user.id == current_user.id %>
-                  <div class="level-item">
-                    <%= link_to "編集", edit_user_path(@user), class: "button is-primary is-rounded" %>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-            <div class="level is-mobile">
-              <div class="level-item has-text-centered">
-                <div>
-                  <p class="heading">投稿</p>
-                  <p class="title"><%= @user.recipes.size %></p>
-                </div>
-              </div>
-              <div class="level-item has-text-centered">
-                <div>
-                  <p class="heading">いいねされた</p>
-                  <p class="title"><%= @recipes_favorites_count %></p>
-                </div>
-              </div>
-              <div class="level-item has-text-centered">
-                <%= link_to user_followings_path(@user), class: "has-text-black-bis" do %>
-                  <div>
-                    <p class="heading">フォロー中</p>
-                    <p class="title"><%= @user.followings.size %></p>
-                  </div>
-                <% end %>
-              </div>
-              <div class="level-item has-text-centered">
-                <%= link_to user_followers_path(@user), class: "has-text-black-bis" do %>
-                  <div>
-                    <p class="heading">フォロワー</p>
-                    <p class="title" id='recount_followers'><%= @user.followers.size %></p>
-                  </div>
-                <% end %>
-              </div>
+            <div class="content is-hidden-tablet">
+              <p class="image is-96x96" style="margin: 0 auto;"><%= image_tag @user.user_image.url, class: "is-rounded" %></p>
             </div>
             <div class="content">
+              <p class="title"><%= @user.username %></p>
+            </div>
+            <div class="content">
+              <% if @user.id == current_user.id %>
+                <%= link_to "プロフィールを編集", edit_user_path(@user), class: "button is-primary is-rounded" %>
+              <% else %>
+                <%= render 'shared/follow_button', user: @user %>
+              <% end %>
+            </div>
+            <div class="content">
+              <div class="level is-mobile">
+                <div class="level-item has-text-centered">
+                  <div>
+                    <p class="heading">投稿</p>
+                    <p class="title"><%= @user.recipes.size %></p>
+                  </div>
+                </div>
+                <div class="level-item has-text-centered">
+                  <div>
+                    <p class="heading">いいねされた</p>
+                    <p class="title"><%= @recipes_favorites_count %></p>
+                  </div>
+                </div>
+                <div class="level-item has-text-centered">
+                  <%= link_to user_followings_path(@user), class: "has-text-black-bis" do %>
+                    <div>
+                      <p class="heading">フォロー中</p>
+                      <p class="title"><%= @user.followings.size %></p>
+                    </div>
+                  <% end %>
+                </div>
+                <div class="level-item has-text-centered">
+                  <%= link_to user_followers_path(@user), class: "has-text-black-bis" do %>
+                    <div>
+                      <p class="heading">フォロワー</p>
+                      <p class="title" id='recount_followers'><%= @user.followers.size %></p>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+            <div class="content text-break">
               <%= @user.profile %>
             </div>
           </div>
@@ -97,13 +90,13 @@
             <span class="has-text-black-ter">投稿</span>
           </a>
         </li>
-        <li data-target="favored-recipes">
+        <li data-target="commented-recipes">
           <a>
             <span class="icon is-small has-text-primary"><i class="fas fa-comment" aria-hidden="true"></i></span>
             <span class="has-text-black-ter">コメント</span>
           </a>
         </li>
-        <li data-target="commented-recipes">
+        <li data-target="favored-recipes">
           <a>
             <span class="icon is-small has-text-danger"><i class="fas fa-heart" aria-hidden="true"></i></span>
             <span class="has-text-black-ter">いいね</span>
@@ -112,20 +105,14 @@
       </ul>
     </div>
     <div id="tab-contents">
-      <div class="columns is-multiline" id="posted-recipes">
-        <% @user.recipes.find_each do |recipe| %>
-          <%= render 'shared/recipe_card', recipe: recipe %>
-        <% end %>
+      <div class="columns is-multiline is-mobile" id="posted-recipes">
+        <%= render @user.recipes %>
       </div>
-      <div class="columns is-multiline is-hidden" id="favored-recipes">
-        <% @user.comment_recipes.find_each do |recipe| %>
-          <%= render 'shared/recipe_card', recipe: recipe %>
-        <% end %>
+      <div class="columns is-multiline is-mobile is-hidden" id="commented-recipes">
+        <%= render partial: 'recipes/recipe', collection: @user.commented_recipes %>
       </div>
-      <div class="columns is-multiline is-hidden" id="commented-recipes">
-        <% @user.favorite_recipes.find_each do |recipe| %>
-          <%= render 'shared/recipe_card', recipe: recipe %>
-        <% end %>
+      <div class="columns is-multiline is-mobile is-hidden" id="favored-recipes">
+        <%= render partial: 'recipes/recipe', collection: @user.favored_recipes %>
       </div>
     </div>
   </div>

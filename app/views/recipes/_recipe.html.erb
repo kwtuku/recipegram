@@ -1,0 +1,27 @@
+<div class="column is-4-mobile is-3-tablet">
+  <div class="card recipe" id="recipe-<%= recipe.id %>">
+    <div class="card-image">
+      <figure class="image is-4by3" id="recipe-image">
+        <%= link_to recipe_path(recipe) do %>
+          <%= image_tag recipe.recipe_image.url %>
+          <div class="mask has-text-centered">
+            <p class="has-text-white">
+              <span class="icon-text mr-3">
+                <span class="icon">
+                  <i class="far fa-heart"></i>
+                </span>
+                <span><%= recipe.favorites.size %></span>
+              </span>
+              <span class="icon-text">
+                <span class="icon">
+                  <i class="far fa-comment"></i>
+                </span>
+                <span><%= recipe.comments.size %></span>
+              </span>
+            </p>
+          </div>
+        <% end %>
+      </figure>
+    </div>
+  </div>
+</div>

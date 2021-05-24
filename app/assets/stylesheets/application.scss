@@ -62,3 +62,17 @@ a:hover {
 	top: 50%;
 	transform: translateY(-50%);
 }
+
+textarea {
+  resize: none !important;
+}
+
+.field_with_errors {
+  .input {
+    border-color: $danger;
+  }
+}
+
+.text-break {
+	word-break: break-word;
+}

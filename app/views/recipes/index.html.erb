@@ -1,3 +1,5 @@
+<% provide(:title, 'レシピ一覧') %>
+
 <section class="hero is-success">
   <div class="hero-body">
     <div class="container">
@@ -8,10 +10,8 @@
 
 <section class="section">
   <div class="container">
-    <div class="columns is-multiline">
-      <% @recipes.eager_load(:user).find_each do |recipe| %>
-        <%= render 'shared/recipe_card', recipe: recipe %>
-      <% end %>
+    <div class="columns is-multiline is-mobile" id="recipe-container">
+      <%= render @recipes %>
     </div>
   </div>
 </section>

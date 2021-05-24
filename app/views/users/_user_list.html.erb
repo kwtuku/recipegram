@@ -1,0 +1,18 @@
+<div class="media">
+  <figure class="media-left">
+    <p class="image is-64x64 is-hidden-mobile">
+      <%= link_to user_path(user) do %>
+        <%= image_tag user.user_image.url, class: "is-rounded" %>
+      <% end %>
+    </p>
+    <p class="image is-48x48 is-hidden-tablet">
+      <%= link_to user_path(user) do %>
+        <%= image_tag user.user_image.url, class: "is-rounded" %>
+      <% end %>
+    </p>
+  </figure>
+  <div class="media-content">
+    <p class="is-size-4 mb-3"><%= link_to user.username, user_path(user), class: "has-text-black-bis text-break" %></p>
+    <p class="text-break"><%= user.profile %></p>
+  </div>
+</div>

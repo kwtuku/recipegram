@@ -1,0 +1,4 @@
+recipeContainer.insertAdjacentHTML('beforeend', "<%= j(render @recipes) %>")
+<% if @recipes.present? %>
+  showAdditionally = true
+<% end %>

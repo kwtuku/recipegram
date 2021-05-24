@@ -1,11 +1,13 @@
+<% provide(:title, '新規レシピ投稿') %>
+
 <section class="hero is-success">
   <div class="hero-body">
     <div class="container">
-      <h1 class="title">新規レシピ作成</h1>
+      <h1 class="title">新規レシピ投稿</h1>
     </div>
   </div>
 </section>
 
 <%= render 'shared/error_messages', model: @recipe %>
 
-<%= render 'form', recipe: @recipe, value: "投稿" %>
+<%= render 'form', recipe: @recipe, value: "レシピを投稿", id: "create_recipe" %>
