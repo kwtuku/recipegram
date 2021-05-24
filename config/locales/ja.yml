@@ -5,3 +5,16 @@ ja:
       mdhm: "%m/%d %H:%M"
       ymd: "%Y/%m/%d"
       md: "%m/%d"
+  errors:
+    messages:
+      carrierwave_processing_error: 処理できませんでした
+      carrierwave_integrity_error: は許可されていないファイルタイプです
+      carrierwave_download_error: はダウンロードできません
+      extension_allowlist_error: "%{extension}ファイルのアップロードは許可されていません。アップロードできるファイルタイプは %{allowed_types} です。"
+      extension_denylist_error: "%{extension}ファイルのアップロードは許可されていません。アップロードできないファイルタイプは %{prohibited_types} です。"
+      content_type_allowlist_error: "%{content_type}ファイルのアップロードは許可されていません。アップロードできるファイルタイプは %{allowed_types} です。"
+      content_type_denylist_error: "%{content_type}ファイルのアップロードは許可されていません"
+      rmagick_processing_error: "rmagickがファイルを処理できませんでした。画像を確認してください。エラーメッセージ: %{e}"
+      mini_magick_processing_error: "MiniMagickがファイルを処理できませんでした。画像を確認してください。エラーメッセージ: %{e}"
+      min_size_error: "を%{min_size}以上のサイズにしてください"
+      max_size_error: "を%{max_size}以下のサイズにしてください"
