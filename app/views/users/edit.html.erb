@@ -26,6 +26,7 @@
           <div class="field">
             <%= f.label :user_image, "プロフィール画像", class: "label" %>
             <%= f.file_field :user_image, class: "file", accept: "image/jpg, image/jpeg, image/png, image/webp" %>
+            <%= render "devise/shared/full_error_messages", model: @user, attribute: :user_image %>
           </div>
           <%= f.submit "プロフィールを更新", class: "button is-rounded is-success", id: "update_user", disabled: true %>
         <% end %>
