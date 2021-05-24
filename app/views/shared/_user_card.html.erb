@@ -15,7 +15,7 @@
     </div>
     <% unless controller.controller_name == "users" && controller.action_name == "index" %>
       <div class="content">
-        <p><%= simple_format h(user.profile) %></p>
+        <p class="text-break"><%= user.profile %></p>
       </div>
     <% end %>
   </div>
