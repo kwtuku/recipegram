@@ -1,9 +1,9 @@
-<div class="column is-4-mobile is-3-tablet">
+<div class="column is-6-mobile is-3-tablet">
   <div class="card recipe" id="recipe-<%= recipe.id %>">
     <div class="card-image">
-      <figure class="image is-4by3" id="recipe-image">
+      <figure class="image is-1by1" id="recipe-image">
         <%= link_to recipe_path(recipe) do %>
-          <%= image_tag recipe.recipe_image.url %>
+          <%= image_tag recipe.recipe_image.url(:thumb) %>
           <div class="mask has-text-centered">
             <p class="has-text-white">
               <span class="icon-text mr-3">

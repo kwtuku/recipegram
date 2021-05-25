@@ -57,7 +57,7 @@
       <div class="navbar-item has-dropdown is-hoverable ml-2 mr-6 is-hidden-touch">
         <div class="navbar-link is-arrowless is-hidden-touch">
           <figure class="image is-24x24">
-            <%= image_tag current_user.user_image.url, class: "is-rounded" %>
+            <%= image_tag current_user.user_image.url(:icon), class: "is-rounded" %>
           </figure>
         </div>
         <div class="navbar-dropdown is-boxed is-right">
