@@ -3,7 +3,7 @@
     <div class="content">
       <figure class="image is-128x128" style="margin: 0 auto;">
         <%= link_to user_path(user) do %>
-          <%= image_tag user.user_image.url, class: "is-rounded" %>
+          <%= image_tag user.user_image.url(:thumb), class: "is-rounded" %>
         <% end %>
       </figure>
     </div>

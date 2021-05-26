@@ -21,12 +21,12 @@
         <div class="media">
           <figure class="media-left is-hidden-mobile mr-6">
             <p class="image is-128x128">
-              <%= image_tag @user.user_image.url, class: "is-rounded" %>
+              <%= image_tag @user.user_image.url(:thumb), class: "is-rounded" %>
             </p>
           </figure>
           <div class="media-content">
             <div class="content is-hidden-tablet">
-              <p class="image is-96x96" style="margin: 0 auto;"><%= image_tag @user.user_image.url, class: "is-rounded" %></p>
+              <p class="image is-128x128" style="margin: 0 auto;"><%= image_tag @user.user_image.url(:thumb), class: "is-rounded" %></p>
             </div>
             <div class="content">
               <p class="title"><%= @user.username %></p>

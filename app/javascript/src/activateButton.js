@@ -25,7 +25,7 @@ export default () => {
     if (signup) {
       inputs.forEach(input => {
         input.addEventListener('input', () => {
-          if (username.value && email.value && password.value.length >= 6 && passwordConfirmation.value.length >= 6) {
+          if (username.value.trim() && email.value.trim() && password.value.trim().length >= 6 && passwordConfirmation.value.trim().length >= 6) {
             signup.disabled = false;
           } else {
             signup.disabled = true;
@@ -37,7 +37,7 @@ export default () => {
     if (signin) {
       inputs.forEach(input => {
         input.addEventListener('input', () => {
-          if (email.value && password.value.length >= 6) {
+          if (email.value.trim() && password.value.trim().length >= 6) {
             signin.disabled = false;
           } else {
             signin.disabled = true;
@@ -49,7 +49,7 @@ export default () => {
     if (updateAccount) {
       inputs.forEach(input => {
         input.addEventListener('input', () => {
-          if (username.value && email.value && currentPassword.value.length >= 6) {
+          if (username.value.trim() && email.value.trim() && currentPassword.value.trim().length >= 6) {
             updateAccount.disabled = false;
           } else {
             updateAccount.disabled = true;
@@ -61,7 +61,7 @@ export default () => {
     if (resetPassword) {
       inputs.forEach(input => {
         input.addEventListener('input', () => {
-          if (email.value) {
+          if (email.value.trim()) {
             resetPassword.disabled = false;
           } else {
             resetPassword.disabled = true;
@@ -73,7 +73,7 @@ export default () => {
     if (updateUser) {
       inputs.forEach(input => {
         input.addEventListener('input', () => {
-          if (username.value) {
+          if (username.value.trim()) {
             updateUser.disabled = false;
           } else {
             updateUser.disabled = true;
@@ -81,7 +81,7 @@ export default () => {
         });
       });
       textarea.addEventListener('input', () => {
-        if (username.value && textarea.value) {
+        if (username.value.trim() && textarea.value.trim()) {
           updateUser.disabled = false;
         }
       });
@@ -90,7 +90,7 @@ export default () => {
     if (createRecipe) {
       inputs.forEach(input => {
         input.addEventListener('input', () => {
-          if (recipeTitle.value && recipeBody.value) {
+          if (recipeTitle.value.trim() && recipeBody.value.trim() && recipeImage.value) {
             createRecipe.disabled = false;
           } else {
             createRecipe.disabled = true;
@@ -98,7 +98,7 @@ export default () => {
         });
       });
       textarea.addEventListener('input', () => {
-        if (recipeTitle.value && recipeBody.value) {
+        if (recipeTitle.value.trim() && recipeBody.value.trim() && recipeImage.value) {
           createRecipe.disabled = false;
         } else {
           createRecipe.disabled = true;
@@ -109,7 +109,7 @@ export default () => {
     if (updateRecipe) {
       inputs.forEach(input => {
         input.addEventListener('input', () => {
-          if (recipeTitle.value && recipeBody.value) {
+          if (recipeTitle.value.trim() && recipeBody.value.trim()) {
             updateRecipe.disabled = false;
             recipeImage.required = false;
           } else {
@@ -118,7 +118,7 @@ export default () => {
         });
       });
       textarea.addEventListener('input', () => {
-        if (recipeTitle.value && recipeBody.value) {
+        if (recipeTitle.value.trim() && recipeBody.value.trim()) {
           updateRecipe.disabled = false;
           recipeImage.required = false;
         } else {
@@ -129,7 +129,7 @@ export default () => {
 
     if (createComment) {
       textarea.addEventListener('input', () => {
-        if (commentBody.value) {
+        if (commentBody.value.trim()) {
           createComment.disabled = false;
         } else {
           createComment.disabled = true;
