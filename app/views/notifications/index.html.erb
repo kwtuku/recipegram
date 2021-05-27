@@ -1,6 +1,25 @@
-<% notifications = @notifications.where.not(visitor_id: current_user.id) %>
-<% if notifications.exists? %>
-  <%= render notifications %>
-<% else %>
-  <p>通知はありません</p>
-<% end %>
+<% provide(:title, '通知一覧') %>
+
+<section class="hero is-success">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">通知一覧</h1>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-9">
+        <% notifications = @notifications.where.not(visitor_id: current_user.id) %>
+        <% if notifications.present? %>
+          <%= render notifications %>
+        <% else %>
+          <p>通知はありません。</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>
+

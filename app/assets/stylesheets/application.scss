@@ -81,3 +81,26 @@ textarea {
 	position: sticky;
   top: 70px;
 }
+
+.notification-box {
+  width: 500px;
+	.media {
+		padding: 0.5rem 0.75rem;
+	}
+}
+
+.has-unchecked-notification {
+	position: relative;
+	&::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(10%, -10%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #ef5350;
+    border: 1px solid #fff;
+    content: attr(data-num);
+	}
+}
