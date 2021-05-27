@@ -105,6 +105,11 @@ GEM
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     erubi (1.10.0)
+    factory_bot (6.2.0)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.2.0)
+      factory_bot (~> 6.2.0)
+      railties (>= 5.0.0)
     faker (2.18.0)
       i18n (>= 1.6, < 2)
     ffi (1.15.0)
@@ -235,6 +240,8 @@ GEM
       sprockets-rails
       tilt
     semantic_range (3.0.0)
+    shoulda-matchers (4.5.1)
+      activesupport (>= 4.2.0)
     sinatra (2.0.8.1)
       mustermann (~> 1.0)
       rack (~> 2.0)
@@ -287,6 +294,7 @@ DEPENDENCIES
   cloudinary
   devise
   devise-i18n
+  factory_bot_rails
   faker
   jbuilder (~> 2.7)
   listen (~> 3.3)
@@ -300,6 +308,7 @@ DEPENDENCIES
   refile-mini_magick
   rspec-rails
   sass-rails (>= 6)
+  shoulda-matchers
   spring
   turbolinks (~> 5)
   tzinfo-data
