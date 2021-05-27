@@ -1,0 +1,9 @@
+<% visitor = notification.visitor %>
+<% visited = notification.visited %>
+
+<div>
+  <%= visitor.username %>さんが
+  <% if notification.action == 'favorite' %>
+    あなたの投稿にいいねしました
+  <% end %>
+</div>

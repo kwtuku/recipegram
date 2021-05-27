@@ -19,6 +19,9 @@ class User < ApplicationRecord
 
   mount_uploader :user_image, UserImageUploader
 
+  has_many :active_notifications, class_name: 'Notification', foreign_key: 'visitor_id', dependent: :destroy
+  has_many :passive_notifications, class_name: 'Notification', foreign_key: 'visited_id', dependent: :destroy
+
   def already_favored?(recipe)
     self.favorites.exists?(recipe_id: recipe.id)
   end

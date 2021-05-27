@@ -16,4 +16,6 @@ Rails.application.routes.draw do
     resources :comments, only: [:create, :destroy]
   end
   get '/show_additionally', to: 'recipes#show_additionally'
+
+  resources :notifications, only: :index
 end

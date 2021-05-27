@@ -54,6 +54,16 @@
           <%= link_to "レシピ投稿", new_recipe_path, class: "navbar-item" %>
         </div>
       </div>
+      <div class="navbar-item has-dropdown is-hoverable ml-2 is-hidden-touch">
+        <%= link_to new_recipe_path, class: "navbar-link is-arrowless" do %>
+          <span class="icon">
+            <i class="fas fa-bell"></i>
+          </span>
+        <% end %>
+        <div class="navbar-dropdown is-boxed">
+          <%= link_to "通知", notifications_path, class: "navbar-item" %>
+        </div>
+      </div>
       <div class="navbar-item has-dropdown is-hoverable ml-2 mr-6 is-hidden-touch">
         <div class="navbar-link is-arrowless is-hidden-touch">
           <figure class="image is-24x24">
