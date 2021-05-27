@@ -19,6 +19,8 @@
       <%= link_to visitor.username, user_path(visitor), class: "has-text-black-bis has-text-weight-bold text-break" %>さんが
       <% if notification.action == 'favorite' %>
         <%= link_to "あなたの投稿「#{notification.recipe.title}」", recipe_path(notification.recipe), class: 'has-text-black-bis has-text-weight-bold text-break' %>にいいねしました。
+      <% else notification.action == 'comment' %>
+        <%= link_to "あなたの投稿「#{notification.comment.recipe.title}」", recipe_path(notification.comment.recipe), class: 'has-text-black-bis has-text-weight-bold text-break' %>にコメントしました。
       <% end %>
     </p>
     <time class="has-text-grey-light" datetime="<%= notification.created_at %>"><%= time_ago_in_words(notification.created_at) %>前</time>
