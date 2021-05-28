@@ -13,6 +13,11 @@
     <div class="content has-text-centered">
       <p><%= render 'shared/follow_button', user: user %></p>
     </div>
+    <% if user.following?(current_user) %>
+      <div class="content">
+        <span class="tag is-light">フォローされています</span>
+      </div>
+    <% end %>
     <% unless controller.controller_name == "users" && controller.action_name == "index" %>
       <div class="content">
         <p class="text-break"><%= user.profile %></p>

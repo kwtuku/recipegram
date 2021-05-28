@@ -38,6 +38,11 @@
                 <%= render 'shared/follow_button', user: @user %>
               <% end %>
             </div>
+            <% if @user.following?(current_user) %>
+              <div class="content">
+                <span class="tag is-light">フォローされています</span>
+              </div>
+            <% end %>
             <div class="content">
               <div class="level is-mobile">
                 <div class="level-item has-text-centered">
