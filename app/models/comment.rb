@@ -12,7 +12,7 @@ class Comment < ApplicationRecord
       save_comment_notification!(current_user, comment_id, recipe_id, temp_id['user_id'])
     end
 
-    save_comment_notification!(current_user, comment_id, recipe_id, user_id) if temp_ids.blank?
+    save_comment_notification!(current_user, comment_id, recipe_id, recipe.user.id)
   end
 
   def save_comment_notification!(current_user, comment_id, recipe_id, visited_id)
@@ -26,7 +26,7 @@ class Comment < ApplicationRecord
     if notification.visitor_id == notification.visited_id
       notification.checked = true
     end
-    
+
     notification.save if notification.valid?
   end
 end

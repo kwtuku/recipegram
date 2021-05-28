@@ -20,7 +20,11 @@
       <% if notification.action == 'favorite' %>
         <%= link_to "あなたの投稿「#{notification.recipe.title}」", recipe_path(notification.recipe), class: 'has-text-black-bis has-text-weight-bold text-break' %>にいいねしました。
       <% elsif notification.action == 'comment' %>
-        <%= link_to "あなたの投稿「#{notification.comment.recipe.title}」", recipe_path(notification.comment.recipe), class: 'has-text-black-bis has-text-weight-bold text-break' %>にコメントしました。
+        <% if notification.recipe.user_id == visited.id %>
+          <%= link_to "あなたの投稿「#{notification.comment.recipe.title}」", recipe_path(notification.comment.recipe), class: 'has-text-black-bis has-text-weight-bold text-break' %>にコメントしました。
+        <% else %>
+          <%= link_to "あなたがコメントした投稿「#{notification.comment.recipe.title}」", recipe_path(notification.comment.recipe), class: 'has-text-black-bis has-text-weight-bold text-break' %>にコメントしました。
+        <% end %>
       <% else notification.action == 'follow' %>
         あなたをフォローしました。
       <% end %>
