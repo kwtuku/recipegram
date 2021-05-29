@@ -22,8 +22,8 @@
                   <%= image_tag @recipe.user.user_image.url(:icon), class: "is-rounded" %>
                 </p>
               </figure>
-              <div class="media-content">
-                <%= link_to @recipe.user.username, user_path(@recipe.user),class: "has-text-black-bis text-break" %>
+              <div class="media-content oneline">
+                <span><%= link_to @recipe.user.username, user_path(@recipe.user),class: "has-text-black-bis text-break" %></span>
               </div>
               <% if user_signed_in? && @recipe.user.id == current_user.id %>
                 <div class="media-right">
@@ -108,11 +108,11 @@
                     </p>
                   </figure>
                   <div class="media-content">
-                    <p class="title is-5"><%= link_to @recipe.comments.first.user.username, user_path(@recipe.comments.first.user), class: "has-text-black-bis" %></p>
+                    <p class="title is-5 oneline"><span><%= link_to @recipe.comments.first.user.username, user_path(@recipe.comments.first.user), class: "has-text-black-bis" %></span></p>
                     <%= simple_format h(@recipe.comments.first.body), class: "text-break" %>
                     <time class="has-text-grey-light" datetime="<%= @recipe.comments.first.created_at %>"><%= time_ago_in_words(@recipe.comments.first.created_at) %>前</time>
                   </div>
-                  <% if current_user == @recipe.comments.first %>
+                  <% if current_user == @recipe.comments.first.user %>
                     <div class="media-right">
                       <div class="dropdown is-right">
                         <div class="dropdown-trigger">
@@ -154,7 +154,7 @@
                     </p>
                   </figure>
                   <div class="media-content">
-                    <p class="title is-5"><%= link_to comment.user.username, user_path(comment.user), class: "has-text-black-bis" %></p>
+                    <p class="title is-5 oneline"><span><%= link_to comment.user.username, user_path(comment.user), class: "has-text-black-bis" %></span></p>
                     <%= simple_format h(comment.body), class: "text-break" %>
                     <time class="has-text-grey-light" datetime="<%= comment.created_at %>"><%= time_ago_in_words(comment.created_at) %>前</time>
                   </div>

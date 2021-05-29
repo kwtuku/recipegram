@@ -1,2 +1,8 @@
-document.getElementById('follow_button-<%= @user.id %>').innerHTML = "<%= j(render 'shared/follow_button', user: @user) %>"
+document.querySelectorAll('#follow_button-<%= @user.id %> .button').forEach( button => {
+  if (button.classList.contains('is-small')) {
+    document.getElementById('follow_button-<%= @user.id %>').innerHTML = "<%= j(render 'shared/follow_button', user: @user, size: 'is-small') %>"
+  } else {
+    document.getElementById('follow_button-<%= @user.id %>').innerHTML = "<%= j(render 'shared/follow_button', user: @user, size: '') %>"
+  }
+});
 document.getElementById('recount_followers').innerHTML = "<%= @user.followers.size %>"
