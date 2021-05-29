@@ -14,13 +14,13 @@
 
   <body class="<%= 'has-navbar-fixed-top' if user_signed_in? %>">
     <% if flash[:notice] %>
-      <div class="notification is-info">
+      <div class="notification is-info is-light">
         <button class="delete"></button>
         <p class="notice haas-text-centered"><%= notice %></p>
       </div>
     <% end %>
     <% if flash[:alert] %>
-      <div class="notification is-danger">
+      <div class="notification is-danger is-light">
         <button class="delete"></button>
         <p class="alert"><%= alert %></p>
       </div>

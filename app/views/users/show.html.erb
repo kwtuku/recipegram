@@ -1,19 +1,5 @@
 <% provide(:title, "#{@user.username}さんの詳細") %>
 
-<section class="hero is-success">
-  <div class="hero-body">
-    <div class="container">
-      <h1 class="title">
-        <% if @user == current_user %>
-          マイページ
-        <% else %>
-          <%= @user.username %>さんの詳細
-        <% end %>
-      </h1>
-    </div>
-  </div>
-</section>
-
 <section class="section">
   <div class="container">
     <div class="columns is-centered">
@@ -33,14 +19,14 @@
             </div>
             <div class="content">
               <% if @user == current_user %>
-                <%= link_to "プロフィールを編集", edit_user_path(@user), class: "button is-primary is-rounded" %>
+                <%= link_to "プロフィールを編集", edit_user_path(@user), class: "button is-rounded" %>
               <% else %>
                 <%= render 'shared/follow_button', user: @user, size: '' %>
               <% end %>
             </div>
             <% if @user.following?(current_user) %>
               <div class="content">
-                <span class="tag is-light">フォローされています</span>
+                <span class="tag is-info is-light">フォローされています</span>
               </div>
             <% end %>
             <div class="content">
@@ -87,7 +73,7 @@
 
 <section class="section">
   <div class="container">
-    <div class="tabs is-boxed is-centered is-fullwidth">
+    <div class="tabs is-boxead is-centered is-fullwidth">
       <ul>
         <li class="is-active" data-target="posted-recipes">
           <a>

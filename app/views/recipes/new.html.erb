@@ -1,12 +1,6 @@
 <% provide(:title, '新規レシピ投稿') %>
 
-<section class="hero is-success">
-  <div class="hero-body">
-    <div class="container">
-      <h1 class="title">新規レシピ投稿</h1>
-    </div>
-  </div>
-</section>
+<%= render 'layouts/hero', hero_title: '新規レシピ投稿' %>
 
 <%= render 'shared/error_messages', model: @recipe %>
 

@@ -1,26 +1,37 @@
-<nav class="navbar is-fixed-top is-warning">
+<nav class="navbar is-fixed-top is-white" style="border-bottom: solid hsl(0, 0%, 86%);">
   <div class="navbar-brand">
-    <%= link_to recipes_path, class: "navbar-item is-hidden-touch" do %>
-      <h1 class="title is-4 ml-6" style="font-family: cursive;">Recipegram</h1>
+    <%= link_to recipes_path, class: "navbar-item is-hidden-touch ml-6" do %>
+      <h1 class="title is-4" style="font-family: cursive;">Recipegram</h1>
     <% end %>
+
     <%= link_to recipes_path, class: "navbar-item is-hidden-desktop" do %>
       <h1 class="title is-4" style="font-family: cursive;">Recipegram</h1>
     <% end %>
-    <%= link_to recipes_path, class: "navbar-item ml-2 is-hidden-desktop", title: "レシピ一覧" do %>
+
+    <%= link_to recipes_path, class: "navbar-item ml-1 is-hidden-desktop", title: "レシピ一覧へ" do %>
       <span class="icon">
         <i class="fas fa-home"></i>
       </span>
     <% end %>
-    <%= link_to new_recipe_path, class: "navbar-item ml-2 is-hidden-desktop", title: "レシピ投稿" do %>
+
+    <%= link_to users_path, class: "navbar-item ml-1 is-hidden-desktop", title: "ユーザ一覧へ" do %>
       <span class="icon">
-        <i class="fas fa-pen"></i>
+        <i class="fas fa-users"></i>
       </span>
     <% end %>
-    <%= link_to notifications_path, class: "navbar-item ml-2 is-hidden-desktop", title: "通知一覧" do %>
+
+    <%= link_to new_recipe_path, class: "navbar-item ml-1 is-hidden-desktop", title: "レシピを投稿する" do %>
+      <span class="icon">
+        <i class="fas fa-plus"></i>
+      </span>
+    <% end %>
+
+    <%= link_to notifications_path, class: "navbar-item ml-1 is-hidden-desktop", title: "通知一覧へ" do %>
       <span class="icon <%= 'has-unchecked-notification' if current_user.passive_notifications.where(checked: false).present? %>">
         <i class="fas fa-bell"></i>
       </span>
     <% end %>
+
     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar">
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
@@ -37,47 +48,34 @@
     <div class="navbar-item is-hidden-desktop">
       <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "navbar-item" %>
     </div>
+
     <div class="navbar-end">
-      <div class="navbar-item has-dropdown is-hoverable ml-2 is-hidden-touch">
-        <%= link_to recipes_path, class: "navbar-link is-arrowless" do %>
-          <span class="icon">
-            <i class="fas fa-home"></i>
-          </span>
-        <% end %>
-        <div class="navbar-dropdown is-boxed">
-          <%= link_to "レシピ一覧", recipes_path, class: "navbar-item" %>
-          <%= link_to "ユーザ一覧", users_path, class: "navbar-item" %>
-        </div>
-      </div>
-      <div class="navbar-item has-dropdown is-hoverable ml-2 is-hidden-touch">
-        <%= link_to new_recipe_path, class: "navbar-link is-arrowless" do %>
-          <span class="icon">
-            <i class="fas fa-pen"></i>
-          </span>
-        <% end %>
-        <div class="navbar-dropdown is-boxed">
-          <%= link_to "レシピ投稿", new_recipe_path, class: "navbar-item" %>
-        </div>
-      </div>
-      <div class="navbar-item has-dropdown is-hoverable ml-2 is-hidden-touch">
-        <%= link_to notifications_path, class: "navbar-link is-arrowless" do %>
-          <span class="icon <%= 'has-unchecked-notification' if current_user.passive_notifications.where(checked: false).present? %>">
-            <i class="fas fa-bell"></i>
-          </span>
-        <% end %>
-        <div class="navbar-dropdown is-boxed is-right notification-box">
-          <%= link_to "通知一覧を見る", notifications_path, class: "navbar-item" %>
-          <hr class="navbar-divider">
-          <% notifications = current_user.passive_notifications.where.not(visitor_id: current_user.id).first(5) %>
-          <% if notifications.present? %>
-            <%= render partial: 'notifications/notification', collection: notifications %>
-          <% else %>
-            <p class="navbar-item">通知はありません。</p>
-          <% end %>
-        </div>
-      </div>
+      <%= link_to recipes_path, class: "navbar-item ml-2 is-hidden-touch", title: "レシピ一覧へ" do %>
+        <span class="icon">
+          <i class="fas fa-home"></i>
+        </span>
+      <% end %>
+
+      <%= link_to users_path, class: "navbar-item ml-2 is-hidden-touch", title: "ユーザ一覧へ" do %>
+        <span class="icon">
+          <i class="fas fa-users"></i>
+        </span>
+      <% end %>
+
+      <%= link_to new_recipe_path, class: "navbar-item ml-2 is-hidden-touch", title: "レシピを投稿する" do %>
+        <span class="icon">
+          <i class="fas fa-plus"></i>
+        </span>
+      <% end %>
+
+      <%= link_to notifications_path, class: "navbar-item ml-2 is-hidden-touch", title: "通知一覧へ" do %>
+        <span class="icon <%= 'has-unchecked-notification' if current_user.passive_notifications.where(checked: false).present? %>">
+          <i class="fas fa-bell"></i>
+        </span>
+      <% end %>
+
       <div class="navbar-item has-dropdown is-hoverable ml-2 mr-6 is-hidden-touch">
-        <div class="navbar-link is-arrowless is-hidden-touch">
+        <div class="navbar-link is-hidden-touch">
           <figure class="image is-24x24">
             <%= image_tag current_user.user_image.url(:icon), class: "is-rounded" %>
           </figure>

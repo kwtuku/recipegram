@@ -1,12 +1,6 @@
 <% provide(:title, 'プロフィール編集') %>
 
-<section class="hero is-success">
-  <div class="hero-body">
-    <div class="container">
-      <h1 class="title">プロフィール編集</h1>
-    </div>
-  </div>
-</section>
+<%= render 'layouts/hero', hero_title: 'プロフィール編集' %>
 
 <%= render 'shared/error_messages', model: @user %>
 
