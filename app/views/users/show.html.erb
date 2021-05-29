@@ -4,7 +4,7 @@
   <div class="hero-body">
     <div class="container">
       <h1 class="title">
-        <% if @user.id == current_user.id %>
+        <% if @user == current_user %>
           マイページ
         <% else %>
           <%= @user.username %>さんの詳細
@@ -32,7 +32,7 @@
               <p class="title"><%= @user.username %></p>
             </div>
             <div class="content">
-              <% if @user.id == current_user.id %>
+              <% if @user == current_user %>
                 <%= link_to "プロフィールを編集", edit_user_path(@user), class: "button is-primary is-rounded" %>
               <% else %>
                 <%= render 'shared/follow_button', user: @user %>
