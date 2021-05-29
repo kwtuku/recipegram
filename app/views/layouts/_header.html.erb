@@ -70,7 +70,7 @@
           <hr class="navbar-divider">
           <% notifications = current_user.passive_notifications.where.not(visitor_id: current_user.id).first(5) %>
           <% if notifications.present? %>
-            <%= render notifications %>
+            <%= render partial: 'notifications/notification', collection: notifications %>
           <% else %>
             <p class="navbar-item">通知はありません。</p>
           <% end %>
