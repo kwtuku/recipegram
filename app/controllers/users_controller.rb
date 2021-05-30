@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  skip_before_action :authenticate_user!, only: %i(index show)
 
   def index
     @users = User.all
@@ -42,6 +42,6 @@ class UsersController < ApplicationController
 
   private
     def user_params
-      params.require(:user).permit(:username, :email, :profile, :profile_image, :user_image)
+      params.require(:user).permit(:username, :profile, :profile_image, :user_image)
     end
 end
