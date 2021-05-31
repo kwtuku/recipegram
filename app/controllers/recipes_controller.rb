@@ -2,7 +2,7 @@ class RecipesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i(index show)
 
   def index
-    @recipes = Recipe.includes(:user).order(id: :DESC).first(40)
+    @recipes = Recipe.preload(:favorites, :comments).order(updated_at: :DESC).first(40)
   end
 
   def show
@@ -11,8 +11,9 @@ class RecipesController < ApplicationController
   end
 
   def show_additionally
-    first_id = params[:last_recipe_id].to_i - 1
-    @recipes = Recipe.includes(:user).order(id: :DESC).where(id: 1..first_id).first(40)
+    first = params[:recipesSize].to_i
+    last = first + 39
+    @recipes = Recipe.includes(:user).order(updated_at: :DESC)[first..last]
   end
 
   def new

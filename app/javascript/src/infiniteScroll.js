@@ -22,13 +22,13 @@ export default () => {
         showAdditionally = false;
 
         const recipes = Array.prototype.slice.call(document.getElementsByClassName('recipe'), 0);
-        lastRecipeId = recipes.slice(-1)[0].id.replace(/[^0-9]/g, '');
+        const recipesSize = recipes.length;
 
         $.ajax({
           type: 'GET',
           url: '/show_additionally',
           cache: false,
-          data: {last_recipe_id: lastRecipeId, remote: true}
+          data: {recipesSize: recipesSize, remote: true}
         });
       }
     }, {passive: true});
