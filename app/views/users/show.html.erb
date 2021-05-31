@@ -97,13 +97,13 @@
     </div>
     <div id="tab-contents">
       <div class="columns is-multiline is-mobile" id="posted-recipes">
-        <%= render @user.recipes %>
+        <%= render @recipes %>
       </div>
       <div class="columns is-multiline is-mobile is-hidden" id="commented-recipes">
-        <%= render partial: 'recipes/recipe', collection: @user.commented_recipes %>
+        <%= render partial: 'recipes/recipe', collection: @commented_recipes %>
       </div>
       <div class="columns is-multiline is-mobile is-hidden" id="favored-recipes">
-        <%= render partial: 'recipes/recipe', collection: @user.favored_recipes %>
+        <%= render partial: 'recipes/recipe', collection: @favored_recipes %>
       </div>
     </div>
   </div>

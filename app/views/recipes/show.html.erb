@@ -60,7 +60,7 @@
                       <span class="icon">
                         <i class="far fa-comment"></i>
                       </span>
-                      <span><%= @recipe.comments.size %></span>
+                      <span><%= @comments.size %></span>
                     </span>
                   </a>
                 </div>
@@ -85,26 +85,26 @@
           <div class="card-content">
             <p class="subtitle" id="comments">コメント一覧</p>
             <div class="oldest-comment">
-              <% if @recipe.comments.size > 0 %>
+              <% if @comments.size > 0 %>
                 <div class="media mb-5">
                   <figure class="media-left">
                     <p class="image is-64x64 is-hidden-mobile">
-                      <%= link_to user_path(@recipe.comments.first.user) do %>
-                        <%= image_tag @recipe.comments.first.user.user_image.url(:icon), class: "is-rounded" %>
+                      <%= link_to user_path(@comments.first.user) do %>
+                        <%= image_tag @comments.first.user.user_image.url(:icon), class: "is-rounded" %>
                       <% end %>
                     </p>
                     <p class="image is-32x32 is-hidden-tablet">
-                      <%= link_to user_path(@recipe.comments.first.user) do %>
-                        <%= image_tag @recipe.comments.first.user.user_image.url(:icon), class: "is-rounded" %>
+                      <%= link_to user_path(@comments.first.user) do %>
+                        <%= image_tag @comments.first.user.user_image.url(:icon), class: "is-rounded" %>
                       <% end %>
                     </p>
                   </figure>
                   <div class="media-content">
-                    <p class="title is-5 oneline"><span><%= link_to @recipe.comments.first.user.username, user_path(@recipe.comments.first.user), class: "has-text-black-bis" %></span></p>
-                    <%= simple_format h(@recipe.comments.first.body), class: "text-break" %>
-                    <time class="has-text-grey-light" datetime="<%= @recipe.comments.first.created_at %>"><%= time_ago_in_words(@recipe.comments.first.created_at) %>前</time>
+                    <p class="title is-5 oneline"><span><%= link_to @comments.first.user.username, user_path(@comments.first.user), class: "has-text-black-bis" %></span></p>
+                    <%= simple_format h(@comments.first.body), class: "text-break" %>
+                    <time class="has-text-grey-light" datetime="<%= @comments.first.created_at %>"><%= time_ago_in_words(@comments.first.created_at) %>前</time>
                   </div>
-                  <% if current_user == @recipe.comments.first.user %>
+                  <% if current_user == @comments.first.user %>
                     <div class="media-right">
                       <div class="dropdown is-right">
                         <div class="dropdown-trigger">
@@ -116,22 +116,22 @@
                         </div>
                         <div class="dropdown-menu" id="dropdown-menu" role="menu">
                           <div class="dropdown-content">
-                              <%= link_to "削除する", recipe_comment_path(@recipe.comments.first), method: :delete, data: {confirm: "削除しますか？"}, class: "dropdown-item" %>
+                              <%= link_to "削除する", recipe_comment_path(@comments.first), method: :delete, data: {confirm: "削除しますか？"}, class: "dropdown-item" %>
                           </div>
                         </div>
                       </div>
                     </div>
                   <% end %>
                 </div>
-                <% if @recipe.comments.size > 1 %>
+                <% if @comments.size > 1 %>
                   <div class="has-text-centered mb-5" id="readmore">
-                    <div class="button is-rounded"><%= @recipe.comments.size %>件のコメントをすべて見る</div>
+                    <div class="button is-rounded"><%= @comments.size %>件のコメントをすべて見る</div>
                   </div>
                 <% end %>
               <% end %>
             </div>
             <div class="all-comments is-hidden">
-              <% @recipe.comments.find_each do |comment| %>
+              <% @comments.find_each do |comment| %>
                 <div class="media">
                   <figure class="media-left">
                     <p class="image is-64x64 is-hidden-mobile">

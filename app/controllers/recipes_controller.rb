@@ -2,27 +2,27 @@ class RecipesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i(index show)
 
   def index
-    @recipes = Recipe.preload(:favorites, :comments).order(updated_at: :DESC).first(40)
+    @recipes = Recipe.eager_load(:favorites, :comments).order(updated_at: :DESC).first(40)
   end
 
   def show
     @recipe = Recipe.find(params[:id])
-    @comment = Comment.new
+    @comment = current_user.comments.new
+    @comments = @recipe.comments.eager_load(:user)
   end
 
   def show_additionally
     first = params[:recipesSize].to_i
     last = first + 39
-    @recipes = Recipe.includes(:user).order(updated_at: :DESC)[first..last]
+    @recipes = Recipe.eager_load(:favorites, :comments).order(updated_at: :DESC)[first..last]
   end
 
   def new
-    @recipe = Recipe.new
+    @recipe = current_user.recipes.new
   end
 
   def create
-    @recipe = Recipe.new(recipe_params)
-    @recipe.user_id = current_user.id
+    @recipe = current_user.recipes.new(recipe_params)
     if @recipe.save
       redirect_to recipe_path(@recipe), notice: '投稿に成功しました。'
     else

@@ -7,7 +7,9 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @recipes = @user.recipes
+    @recipes = @user.recipes.eager_load(:favorites, :comments)
+    @commented_recipes = @user.commented_recipes.eager_load(:favorites, :comments)
+    @favored_recipes = @user.favored_recipes.eager_load(:favorites, :comments)
     @recipes_favorites_count = 0
     @recipes.each do |recipe|
       @recipes_favorites_count += recipe.favorites.size
