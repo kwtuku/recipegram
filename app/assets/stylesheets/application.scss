@@ -138,3 +138,15 @@ textarea {
     -webkit-line-clamp: 5;
   }
 }
+
+.bottom-item {
+  position: sticky;
+  bottom: 0;
+  overflow :visible;
+  border-top: solid hsl(0, 0%, 86%);
+  background-color: white;
+}
+
+.sticky .card {
+  overflow :visible;
+}
