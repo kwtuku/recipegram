@@ -58,4 +58,8 @@ class User < ApplicationRecord
       notification.save if notification.valid?
     end
   end
+
+  def feed
+    Recipe.where("user_id IN (?) OR user_id = ?", following_ids, id)
+  end
 end
