@@ -1,22 +1,32 @@
-<section class="section">
-  <div class="container">
-    <div class="columns is-centered">
-      <div class="column is-5">
-        <p class="title is-1 has-text-centered" style="font-family: cursive;">Recipegram</p>
-        <br>
-        <%= link_to "ゲストユーザーとしてログイン", users_guest_sign_in_path, method: :post, class: "button is-fullwidth is-rounded is-primary is-light" %>
-        <br>
-        <%= link_to "ログイン", new_user_session_path, class: "button is-fullwidth is-rounded is-primary" %>
-        <br>
-        <%= link_to "新規登録", new_user_registration_path, class: "button is-fullwidth is-rounded is-success" %>
+<% if user_signed_in? %>
+  <section class="section">
+    <div class="container">
+      <div class="columns is-multiline is-mobile" id="recipe-container">
+        <%= render partial: 'recipes/recipe', collection: @feed_items %>
       </div>
     </div>
-    <div class="columns is-centered">
-      <div class="column">
-        <figure>
-          <div class="main-image"></div>
-        </figure>
+  </section>
+<% else %>
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-5">
+          <p class="title is-1 has-text-centered" style="font-family: cursive;">Recipegram</p>
+          <br>
+          <%= link_to "ゲストユーザーとしてログイン", users_guest_sign_in_path, method: :post, class: "button is-fullwidth is-rounded is-primary is-light" %>
+          <br>
+          <%= link_to "ログイン", new_user_session_path, class: "button is-fullwidth is-rounded is-primary" %>
+          <br>
+          <%= link_to "新規登録", new_user_registration_path, class: "button is-fullwidth is-rounded is-success" %>
+        </div>
+      </div>
+      <div class="columns is-centered">
+        <div class="column">
+          <figure>
+            <div class="main-image"></div>
+          </figure>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+<% end %>
