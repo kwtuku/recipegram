@@ -7,7 +7,7 @@
     <div class="columns is-centered">
       <div class="column is-9">
         <% notifications = @notifications.where.not(visitor_id: current_user.id) %>
-        <% if notifications.present? %>
+        <% if notifications.exists? %>
           <%= render notifications %>
         <% else %>
           <p>通知はありません。</p>

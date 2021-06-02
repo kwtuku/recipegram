@@ -1,10 +1,10 @@
 <nav class="navbar is-fixed-top is-white" style="border-bottom: solid hsl(0, 0%, 86%);">
   <div class="navbar-brand">
-    <%= link_to recipes_path, class: "navbar-item is-hidden-touch ml-6" do %>
+    <%= link_to root_path, class: "navbar-item is-hidden-touch ml-6" do %>
       <h1 class="title is-4" style="font-family: cursive;">Recipegram</h1>
     <% end %>
 
-    <%= link_to recipes_path, class: "navbar-item is-hidden-desktop" do %>
+    <%= link_to root_path, class: "navbar-item is-hidden-desktop" do %>
       <h1 class="title is-4" style="font-family: cursive;">Recipegram</h1>
     <% end %>
 
@@ -27,7 +27,7 @@
     <% end %>
 
     <%= link_to notifications_path, class: "navbar-item ml-1 is-hidden-desktop", title: "通知一覧へ" do %>
-      <span class="icon <%= 'has-unchecked-notification' if current_user.passive_notifications.where(checked: false).present? %>">
+      <span class="icon <%= 'has-unchecked-notification' if current_user.passive_notifications.where(checked: false).exists? %>">
         <i class="fas fa-bell"></i>
       </span>
     <% end %>
@@ -69,7 +69,7 @@
       <% end %>
 
       <%= link_to notifications_path, class: "navbar-item ml-2 is-hidden-touch", title: "通知一覧へ" do %>
-        <span class="icon <%= 'has-unchecked-notification' if current_user.passive_notifications.where(checked: false).present? %>">
+        <span class="icon <%= 'has-unchecked-notification' if current_user.passive_notifications.where(checked: false).exists? %>">
           <i class="fas fa-bell"></i>
         </span>
       <% end %>
