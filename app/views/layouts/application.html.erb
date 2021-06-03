@@ -12,7 +12,7 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body class="<%= 'has-navbar-fixed-top' if user_signed_in? %>">
+  <body class="has-navbar-fixed-top">
     <% if flash[:notice] %>
       <div class="notification is-info is-light">
         <button class="delete"></button>
@@ -26,7 +26,7 @@
       </div>
     <% end %>
 
-    <%= render 'layouts/header' if user_signed_in? %>
+    <%= render 'layouts/header' %>
     <%= yield %>
   </body>
 </html>
