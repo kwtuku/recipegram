@@ -1,13 +1,11 @@
 export default () => {
   document.addEventListener('turbolinks:load', () => {
-    window.recipeContainer = document.getElementById('recipe-container');
-    if (!recipeContainer) {
+    window.infiniteScrollContainer = document.getElementById('infinite-scroll-container')
+    if (!infiniteScrollContainer) {
       return
     }
 
-    let lastRecipeId;
-
-    window.showAdditionally = true;
+    infiniteScrollContainer.dataset.infiniteScroll = 'true';
 
     window.addEventListener('scroll', () => {
       const scrollHeight = Math.max(
@@ -18,10 +16,10 @@ export default () => {
       const pageMostBottom = scrollHeight - window.innerHeight;
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-      if (scrollTop >= pageMostBottom * 0.9 && showAdditionally) {
-        showAdditionally = false;
+      if (scrollTop >= pageMostBottom * 0.9 && infiniteScrollContainer.dataset.infiniteScroll === 'true') {
+        infiniteScrollContainer.dataset.infiniteScroll = 'false';
 
-        const recipes = Array.prototype.slice.call(document.getElementsByClassName('recipe'), 0);
+        const recipes = Array.prototype.slice.call(document.querySelectorAll('[data-infinite-scroll-item]'), 0);
         const recipesSize = recipes.length;
 
         $.ajax({

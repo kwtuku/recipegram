@@ -1,4 +1,4 @@
-recipeContainer.insertAdjacentHTML('beforeend', "<%= j(render @recipes) %>")
+infiniteScrollContainer.insertAdjacentHTML('beforeend', "<%= j(render @recipes) %>")
 <% if @recipes.present? %>
-  showAdditionally = true
+  infiniteScrollContainer.dataset.infiniteScroll = 'true';
 <% end %>
