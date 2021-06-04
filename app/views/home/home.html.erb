@@ -2,12 +2,26 @@
   <section class="section">
     <div class="container">
       <div class="columns is-centered">
-        <div class="column is-6" id="infinite-scroll-container" data-infinite-scroll="true">
+        <div class="column is-5" id="infinite-scroll-container" data-infinite-scroll="true">
           <%= render partial: 'home/feed', collection: @feed_items %>
         </div>
-        <div class="column is-3 is-hidden-mobile">
-          <div class="sticky">
-            <%= render 'shared/user_card', user: current_user %>
+        <div class="column is-4 is-hidden-mobile">
+          <div class="media sticky">
+            <figure class="media-left">
+              <p class="image is-48x48">
+                <%= link_to user_path(current_user) do %>
+                  <%= image_tag current_user.user_image.url(:icon), class: "is-rounded" %>
+                <% end %>
+              </p>
+            </figure>
+            <div class="media-content vertical-center">
+              <p class="is-size-5 oneline">
+                <span><%= link_to current_user.username, user_path(current_user), class: "has-text-black-bis text-break" %></span>
+              </p>
+            </div>
+            <div class="media-right vertical-center">
+              <%= link_to "プロフィールを編集", edit_user_path(current_user), class: "button is-small is-rounded" %>
+            </div>
           </div>
         </div>
       </div>
@@ -18,7 +32,7 @@
     <div class="container">
       <div class="columns is-centered">
         <div class="column is-5">
-          <p class="title is-1 has-text-centered mb-6" style="font-family: cursive;">Recipegram</p>
+          <p class="title is-1 has-text-centered mb-6 recipegram">Recipegram</p>
           <%= link_to "ゲストユーザーとしてログイン", users_guest_sign_in_path, method: :post, class: "button is-fullwidth is-rounded is-primary is-light mb-5" %>
           <%= link_to "ログイン", new_user_session_path, class: "button is-fullwidth is-rounded is-primary mb-5" %>
           <%= link_to "新規登録", new_user_registration_path, class: "button is-fullwidth is-rounded is-success" %>

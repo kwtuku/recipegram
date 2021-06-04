@@ -12,7 +12,7 @@
           </figure>
           <div class="media-content">
             <div class="content is-hidden-tablet">
-              <p class="image is-128x128" style="margin: 0 auto;"><%= image_tag @user.user_image.url(:thumb), class: "is-rounded" %></p>
+              <p class="image is-128x128"><%= image_tag @user.user_image.url(:thumb), class: "is-rounded" %></p>
             </div>
             <div class="content">
               <p class="title"><%= @user.username %></p>
@@ -21,7 +21,7 @@
               <% if @user == current_user %>
                 <%= link_to "プロフィールを編集", edit_user_path(@user), class: "button is-rounded" %>
               <% else %>
-                <%= render 'shared/follow_button', user: @user, size: '' %>
+                <%= render 'shared/follow_button', user: @user, size: 'is-normal' %>
               <% end %>
             </div>
             <% if @user.following?(current_user) %>

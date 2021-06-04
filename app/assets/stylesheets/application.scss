@@ -16,16 +16,16 @@
 
 @import "bulma";
 
+.recipegram {
+  font-family: Monotype Corsiva;
+}
+
 html {
   background: #fafafa;
 }
 
 .notification:not(:last-child){
 	margin-bottom: 0;
-}
-
-.profile_image {
-	border-radius: 50%;
 }
 
 .main-image {
@@ -85,13 +85,6 @@ a:hover {
   top: 100px;
 }
 
-.notification-box {
-  width: 500px;
-	.media {
-		padding: 0.5rem 0.75rem;
-	}
-}
-
 .has-unchecked-notification {
 	position: relative;
 	&::before {
@@ -148,4 +141,8 @@ a:hover {
 
 .sticky .card {
   overflow :visible;
+}
+
+.vertical-center {
+  margin: auto 0;
 }
