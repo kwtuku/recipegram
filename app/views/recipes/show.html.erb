@@ -175,7 +175,7 @@
             <div class="content">
               <%= form_with model: [@recipe, @comment] do |f| %>
                 <div class="field">
-                  <%= f.text_area :body, :placeholder => "コメントする", required: true, class: "input" %>
+                  <%= f.text_area :body, :placeholder => "コメントする", required: true, class: "textarea has-fixed-size" %>
                 </div>
                 <%= f.submit "コメントを投稿", class: "button is-primary is-rounded", id: "create_comment", disabled: true %>
               <% end %>

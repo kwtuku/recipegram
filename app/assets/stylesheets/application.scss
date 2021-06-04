@@ -70,10 +70,6 @@ a:hover {
 	transform: translateY(-50%);
 }
 
-textarea {
-  resize: none !important;
-}
-
 .field_with_errors {
   .input {
     border-color: $danger;
