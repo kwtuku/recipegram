@@ -5,8 +5,6 @@ export default () => {
       return
     }
 
-    infiniteScrollContainer.dataset.infiniteScroll = 'true';
-
     window.addEventListener('scroll', () => {
       const scrollHeight = Math.max(
         document.body.scrollHeight, document.documentElement.scrollHeight,
@@ -19,14 +17,22 @@ export default () => {
       if (scrollTop >= pageMostBottom * 0.9 && infiniteScrollContainer.dataset.infiniteScroll === 'true') {
         infiniteScrollContainer.dataset.infiniteScroll = 'false';
 
-        const recipes = Array.prototype.slice.call(document.querySelectorAll('[data-infinite-scroll-item]'), 0);
-        const recipesSize = recipes.length;
+        const items = Array.prototype.slice.call(document.querySelectorAll('[data-infinite-scroll-item]'), 0);
+        const itemsSize = items.length;
+
+        let type;
+
+        if (location.pathname === '/') {
+          type = 'home_home';
+        } else if (location.pathname === '/recipes') {
+          type = 'recipes_index';
+        }
 
         $.ajax({
           type: 'GET',
           url: '/show_additionally',
           cache: false,
-          data: {recipesSize: recipesSize, remote: true}
+          data: {itemsSize: itemsSize, type: type, remote: true}
         });
       }
     }, {passive: true});

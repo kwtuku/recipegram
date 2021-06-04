@@ -12,9 +12,18 @@ class RecipesController < ApplicationController
   end
 
   def show_additionally
-    first = params[:recipesSize].to_i
-    last = first + 39
-    @recipes = Recipe.eager_load(:favorites, :comments).order(updated_at: :DESC)[first..last]
+    first = params[:itemsSize].to_i
+    if params[:type].to_s == 'recipes_index'
+      file_path = 'recipes/recipe'
+      last = first + 39
+      items = Recipe.eager_load(:favorites, :comments).order(updated_at: :DESC)[first..last]
+    elsif params[:type].to_s == 'home_home'
+      last = first + 19
+      file_path = 'home/feed'
+      items = current_user.feed.order(updated_at: :DESC)[first..last]
+    end
+    @file_path = file_path
+    @items = items
   end
 
   def new

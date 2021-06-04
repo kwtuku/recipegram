@@ -1,8 +1,15 @@
 <% if user_signed_in? %>
   <section class="section">
     <div class="container">
-      <div class="columns is-multiline is-mobile" id="recipe-container">
-        <%= render partial: 'recipes/recipe', collection: @feed_items %>
+      <div class="columns is-centered">
+        <div class="column is-6" id="infinite-scroll-container" data-infinite-scroll="true">
+          <%= render partial: 'home/feed', collection: @feed_items %>
+        </div>
+        <div class="column is-3 is-hidden-mobile">
+          <div class="sticky">
+            <%= render 'shared/user_card', user: current_user %>
+          </div>
+        </div>
       </div>
     </div>
   </section>

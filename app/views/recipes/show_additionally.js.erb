@@ -1,4 +1,4 @@
-infiniteScrollContainer.insertAdjacentHTML('beforeend', "<%= j(render @recipes) %>")
-<% if @recipes.present? %>
+infiniteScrollContainer.insertAdjacentHTML('beforeend', "<%= j(render partial: @file_path, collection: @items) %>")
+<% if @items.present? %>
   infiniteScrollContainer.dataset.infiniteScroll = 'true';
 <% end %>
