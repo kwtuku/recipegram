@@ -9,27 +9,21 @@
     <% end %>
 
     <% if user_signed_in? %>
-      <%= link_to recipes_path, class: "navbar-item ml-1 is-hidden-desktop", title: "レシピ一覧へ" do %>
-        <span class="icon">
-          <i class="fas fa-home"></i>
+      <%= link_to root_path, class: "navbar-item is-hidden-desktop", title: "ホームへ" do %>
+        <span class="icon is-medium">
+          <i class="fas fa-lg fa-home"></i>
         </span>
       <% end %>
 
-      <%= link_to users_path, class: "navbar-item ml-1 is-hidden-desktop", title: "ユーザ一覧へ" do %>
-        <span class="icon">
-          <i class="fas fa-users"></i>
+      <%= link_to new_recipe_path, class: "navbar-item is-hidden-desktop", title: "レシピを投稿する" do %>
+        <span class="icon is-medium">
+          <i class="fas fa-lg fa-plus"></i>
         </span>
       <% end %>
 
-      <%= link_to new_recipe_path, class: "navbar-item ml-1 is-hidden-desktop", title: "レシピを投稿する" do %>
-        <span class="icon">
-          <i class="fas fa-plus"></i>
-        </span>
-      <% end %>
-
-      <%= link_to notifications_path, class: "navbar-item ml-1 is-hidden-desktop", title: "通知一覧へ" do %>
-        <span class="icon <%= 'has-unchecked-notification' if current_user.passive_notifications.where(checked: false).exists? %>">
-          <i class="fas fa-bell"></i>
+      <%= link_to notifications_path, class: "navbar-item is-hidden-desktop", title: "通知一覧へ" do %>
+        <span class="icon is-medium <%= 'has-unchecked-notification' if current_user.passive_notifications.where(checked: false).exists? %>">
+          <i class="fas fa-lg fa-bell"></i>
         </span>
       <% end %>
 
@@ -52,6 +46,12 @@
   <div class="navbar-menu" id="navbar">
     <% if user_signed_in? %>
       <div class="navbar-item is-hidden-desktop">
+        <%= link_to "レシピ一覧", recipes_path, class: "navbar-item" %>
+      </div>
+      <div class="navbar-item is-hidden-desktop">
+        <%= link_to "ユーザー一覧", users_path, class: "navbar-item" %>
+      </div>
+      <div class="navbar-item is-hidden-desktop">
         <%= link_to "マイページ", user_path(current_user), class: "navbar-item" %>
       </div>
       <div class="navbar-item is-hidden-desktop">
@@ -63,28 +63,34 @@
     <% end %>
 
     <div class="navbar-end">
+      <%= link_to root_path, class: "navbar-item ml-2 is-hidden-touch", title: "ホームへ" do %>
+        <span class="icon is-medium">
+          <i class="fas fa-lg fa-home"></i>
+        </span>
+      <% end %>
+
       <%= link_to recipes_path, class: "navbar-item ml-2 is-hidden-touch", title: "レシピ一覧へ" do %>
-        <span class="icon">
-          <i class="fas fa-home"></i>
+        <span class="icon is-medium">
+          <i class="fas fa-lg fa-compass"></i>
         </span>
       <% end %>
 
       <%= link_to users_path, class: "navbar-item ml-2 is-hidden-touch", title: "ユーザ一覧へ" do %>
-        <span class="icon">
-          <i class="fas fa-users"></i>
+        <span class="icon is-medium">
+          <i class="fas fa-lg fa-users"></i>
         </span>
       <% end %>
 
       <% if user_signed_in? %>
         <%= link_to new_recipe_path, class: "navbar-item ml-2 is-hidden-touch", title: "レシピを投稿する" do %>
-          <span class="icon">
-            <i class="fas fa-plus"></i>
+          <span class="icon is-medium">
+            <i class="fas fa-lg fa-plus"></i>
           </span>
         <% end %>
 
         <%= link_to notifications_path, class: "navbar-item ml-2 is-hidden-touch", title: "通知一覧へ" do %>
-          <span class="icon <%= 'has-unchecked-notification' if current_user.passive_notifications.where(checked: false).exists? %>">
-            <i class="fas fa-bell"></i>
+          <span class="icon is-medium <%= 'has-unchecked-notification' if current_user.passive_notifications.where(checked: false).exists? %>">
+            <i class="fas fa-lg fa-bell"></i>
           </span>
         <% end %>
 
