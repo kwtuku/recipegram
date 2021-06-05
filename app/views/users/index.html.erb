@@ -4,12 +4,8 @@
 
 <section class="section">
   <div class="container">
-    <div class="columns is-multiline">
-      <% @users.find_each do |user| %>
-        <div class="column is-3">
-          <%= render 'shared/user_card', user: user %>
-        </div>
-      <% end %>
+    <div class="columns is-multiline" id="infinite-scroll-container" data-infinite-scroll="true">
+      <%= render @users %>
     </div>
   </div>
 </section>

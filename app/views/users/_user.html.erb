@@ -1,0 +1,26 @@
+<div class="column is-3">
+  <div class="card" data-infinite-scroll-item="">
+    <div class="card-content">
+      <div class="media">
+        <figure class="media-left">
+          <p class="image is-64x64">
+            <%= link_to user_path(user) do %>
+              <%= image_tag user.user_image.url(:icon), class: "is-rounded" %>
+            <% end %>
+          </p>
+        </figure>
+        <div class="media-content">
+          <p class="is-size-5 oneline">
+            <span><%= link_to user.username, user_path(user), class: "has-text-black-bis text-break" %></span>
+          </p>
+          <%= render 'shared/follow_button', user: user, size: 'is-small' %>
+        </div>
+      </div>
+      <% if user.following?(current_user) %>
+        <div class="content">
+          <span class="tag is-info is-light">フォローされています</span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -26,6 +26,8 @@ export default () => {
           type = 'home_home';
         } else if (location.pathname === '/recipes') {
           type = 'recipes_index';
+        } else if (location.pathname === '/users') {
+          type = 'users_index';
         }
 
         $.ajax({
