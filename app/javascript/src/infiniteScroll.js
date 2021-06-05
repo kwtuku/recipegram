@@ -32,6 +32,9 @@ export default () => {
         } else if (location.pathname.indexOf('followings') !== -1) {
           type = 'followings';
           paramsId = location.pathname.replace(/\D/g, '');
+        } else if (location.pathname.indexOf('followers') !== -1) {
+          type = 'followers';
+          paramsId = location.pathname.replace(/\D/g, '');
         }
 
         $.ajax({

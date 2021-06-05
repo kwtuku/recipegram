@@ -34,6 +34,12 @@ class RecipesController < ApplicationController
       last = first + 39
       items = user.followings[first..last]
       local_value = 'user'
+    elsif params[:type].to_s == 'followers'
+      file_path = 'users/user_list'
+      user = User.find(params[:paramsId].to_i)
+      last = first + 39
+      items = user.followers[first..last]
+      local_value = 'user'
     end
     @file_path = file_path
     @items = items
