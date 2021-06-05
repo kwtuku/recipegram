@@ -21,6 +21,7 @@ export default () => {
         const itemsSize = items.length;
 
         let type;
+        let paramsId;
 
         if (location.pathname === '/') {
           type = 'home_home';
@@ -28,13 +29,16 @@ export default () => {
           type = 'recipes_index';
         } else if (location.pathname === '/users') {
           type = 'users_index';
+        } else if (location.pathname.indexOf('followings') !== -1) {
+          type = 'followings';
+          paramsId = location.pathname.replace(/\D/g, '');
         }
 
         $.ajax({
           type: 'GET',
           url: '/show_additionally',
           cache: false,
-          data: {itemsSize: itemsSize, type: type, remote: true}
+          data: {itemsSize: itemsSize, type: type, remote: true, paramsId: paramsId}
         });
       }
     }, {passive: true});
