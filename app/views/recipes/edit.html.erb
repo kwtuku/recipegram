@@ -4,4 +4,23 @@
 
 <%= render 'shared/error_messages', model: @recipe %>
 
-<%= render 'form', recipe: @recipe, submit_value: "レシピを更新", id_value: "update_recipe" %>
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-6 vertical-center">
+        <%= form_with model: @recipe do |f| %>
+          <%= f.label :recipe_image do %>
+            <%= f.file_field :recipe_image, class: 'is-hidden', required: true, accept: 'image/jpg, image/jpeg, image/png, image/webp' %>
+            <figure class="image is-4by3 cursor-pointer">
+              <%= image_tag @recipe.recipe_image.url(:thumb) %>
+            </figure>
+          <% end %>
+          <%= render 'devise/shared/full_error_messages', model: @recipe, attribute: :recipe_image %>
+        <% end %>
+      </div>
+      <div class="column is-6">
+        <%= render 'form', recipe: @recipe, submit_value: 'レシピを更新', id_value: 'update_recipe' %>
+      </div>
+    </div>
+  </div>
+</section>

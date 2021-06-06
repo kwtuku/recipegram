@@ -4,4 +4,31 @@
 
 <%= render 'shared/error_messages', model: @recipe %>
 
-<%= render 'form', recipe: @recipe, submit_value: "レシピを投稿", id_value: "create_recipe" %>
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-6 vertical-center">
+        <%= form_with model: @recipe do |f| %>
+          <div class="file is-boxed is-centered">
+            <%= f.label :recipe_image, class: 'file-label' do %>
+              <%= f.file_field :recipe_image, class: 'file-input', required: true, accept: 'image/jpg, image/jpeg, image/png, image/webp' %>
+              <span class="file-cta border_red_with_errors" id="file-cta">
+                <span class="file-icon">
+                  <i class="far fa-images"></i>
+                </span>
+                <span class="file-label">
+                  ファイルを選択してください。
+                </span>
+              </span>
+              <img id="file-preview">
+            <% end %>
+          </div>
+          <%= render 'devise/shared/full_error_messages', model: @recipe, attribute: :recipe_image %>
+        <% end %>
+      </div>
+      <div class="column is-6">
+        <%= render 'form', recipe: @recipe, submit_value: 'レシピを投稿', id_value: 'create_recipe' %>
+      </div>
+    </div>
+  </div>
+</section>
