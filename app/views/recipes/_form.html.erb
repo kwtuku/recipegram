@@ -1,7 +1,32 @@
 <section class="section">
   <div class="container">
     <div class="columns is-centered">
-      <div class="column is-8">
+      <div class="column is-6 vertical-center">
+        <%= form_with model: recipe do |f| %>
+          <div class="file is-boxed is-centered">
+            <%= f.label :recipe_image, class: "file-label" do %>
+              <%= f.file_field :recipe_image, class: "file-input", required: true, accept: "image/jpg, image/jpeg, image/png, image/webp" %>
+              <% if recipe.recipe_image.present? %>
+                <figure class="image is-4by3">
+                  <%= image_tag recipe.recipe_image.url(:thumb) %>
+                </figure>
+              <% else %>
+                <span class="file-cta border_red_with_errors" id="file-cta">
+                  <span class="file-icon">
+                    <i class="far fa-images"></i>
+                  </span>
+                  <span class="file-label">
+                    ファイルを選択してください。
+                  </span>
+                </span>
+                <img id="file-preview">
+              <% end %>
+            <% end %>
+          </div>
+          <%= render "devise/shared/full_error_messages", model: recipe, attribute: :recipe_image %>
+        <% end %>
+      </div>
+      <div class="column is-6">
         <%= form_with model: recipe do |f| %>
           <div class="field">
             <%= f.label :title, "レシピ名", class: "label" %>
@@ -11,12 +36,7 @@
             <%= f.label :body, "作り方", class: "label" %>
             <%= f.text_area :body, required: true, class: "textarea has-fixed-size" %>
           </div>
-          <div class="field">
-            <%= f.label :recipe_image, "レシピ画像", class: "label" %>
-            <%= f.file_field :recipe_image, required: true, class: "file", accept: "image/jpg, image/jpeg, image/png, image/webp" %>
-            <%= render "devise/shared/full_error_messages", model: recipe, attribute: :recipe_image %>
-          </div>
-          <%= f.submit value, class: "button is-rounded is-success", id: "#{id}", disabled: true %>
+          <%= f.submit submit_value, class: "button is-rounded is-success", id: "#{id_value}", disabled: true %>
         <% end %>
       </div>
     </div>

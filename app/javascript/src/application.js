@@ -27,3 +27,6 @@ deleteNotification();
 
 import removePasswordMask from './removePasswordMask'
 removePasswordMask();
+
+import imagePreview from './imagePreview'
+imagePreview();
