@@ -152,3 +152,12 @@ a:hover {
 .vertical-center {
   margin: auto 0;
 }
+
+.is-256x256 {
+  height: 256px !important;
+  width: 256px !important;
+}
+
+.round {
+  border-radius: 50%;
+}

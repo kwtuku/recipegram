@@ -7,7 +7,21 @@
 <section class="section">
   <div class="container">
     <div class="columns is-centered">
-      <div class="column is-8">
+      <div class="column is-5">
+        <div class="file is-centered">
+          <%= form_with model: @user do |f| %>
+            <%= f.label :user_image do %>
+              <%= f.file_field :user_image, class: 'is-hidden', required: true, accept: 'image/jpg, image/jpeg, image/png, image/webp' %>
+              <figure class="image cursor-pointer" id="file-cta">
+                <%= image_tag @user.user_image.url(:thumb), class: 'is-rounded is-256x256' %>
+              </figure>
+              <img class="is-hidden is-256x256 round" id="file-preview">
+            <% end %>
+            <%= render "devise/shared/full_error_messages", model: @user, attribute: :user_image %>
+          <% end %>
+        </div>
+      </div>
+      <div class="column is-6">
         <%= form_with model: @user do |f| %>
           <div class="field">
             <%= f.label :username, "ユーザー名", class: "label" %>
@@ -16,11 +30,6 @@
           <div class="field">
             <%= f.label :profile, "プロフィール", class: "label" %>
             <%= f.text_area :profile, class: "textarea has-fixed-size" %>
-          </div>
-          <div class="field">
-            <%= f.label :user_image, "プロフィール画像", class: "label" %>
-            <%= f.file_field :user_image, class: "file", accept: "image/jpg, image/jpeg, image/png, image/webp" %>
-            <%= render "devise/shared/full_error_messages", model: @user, attribute: :user_image %>
           </div>
           <%= f.submit "プロフィールを更新", class: "button is-rounded is-success", id: "update_user", disabled: true %>
         <% end %>
