@@ -7,6 +7,7 @@ class HomeController < ApplicationController
 
   def search
     @q = Recipe.ransack(params[:q])
+    @q_word = @q.conditions.first.values.first.value if @q.conditions.present?
     @results = @q.result(distinct: true)
   end
 end

@@ -18,5 +18,16 @@
           <% end %>
         </div>
       </div>
+      <% if @q.conditions.present? %>
+        <div class="columns is-centered">
+          <div class="column is-5">
+            <% if @results.exists? %>
+              <%= render partial: 'result', collection: @results %>
+            <% else %>
+              <p class="has-text-centered"><%= "「#{@q_word}」は見つかりませんでした。" %></p>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
     </div>
   </section>
