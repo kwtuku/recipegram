@@ -9,6 +9,12 @@
     <% end %>
 
     <% if user_signed_in? %>
+      <%= link_to search_path, class: 'navbar-item is-hidden-desktop', title: '検索する' do %>
+        <span class="icon is-medium">
+          <i class="fas fa-lg fa-search"></i>
+        </span>
+      <% end %>
+
       <%= link_to root_path, class: "navbar-item is-hidden-desktop", title: "ホームへ" do %>
         <span class="icon is-medium">
           <i class="fas fa-lg fa-home"></i>
@@ -43,6 +49,7 @@
       </div>
     <% end %>
   </div>
+
   <div class="navbar-menu" id="navbar">
     <% if user_signed_in? %>
       <div class="navbar-item is-hidden-desktop">
@@ -63,6 +70,12 @@
     <% end %>
 
     <div class="navbar-end">
+      <%= link_to search_path, class: 'navbar-item ml-2 is-hidden-touch', title: '検索する' do %>
+        <span class="icon is-medium">
+          <i class="fas fa-lg fa-search"></i>
+        </span>
+      <% end %>
+
       <%= link_to root_path, class: "navbar-item ml-2 is-hidden-touch", title: "ホームへ" do %>
         <span class="icon is-medium">
           <i class="fas fa-lg fa-home"></i>

@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 
   root to: "home#home"
 
+  get  "/search", to: "home#search"
+
   resources :notifications, only: %i(index)
 
   resources :relationships, only: %i(create destroy)
