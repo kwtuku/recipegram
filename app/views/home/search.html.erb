@@ -7,7 +7,7 @@
           <%= search_form_for @q, url: search_path do |f| %>
             <div class="field has-addons">
               <div class="control is-expanded">
-                <%= f.search_field :title_cont, autofocus: true, placeholder: 'キーワードを入力…', required: true, class: 'input is-rounded' %>
+                <%= f.search_field :title_has_every_term, autofocus: true, placeholder: 'キーワードを入力…', required: true, class: 'input is-rounded' %>
               </div>
                 <div class="control">
                   <%= button_tag type: 'submit', class: 'button is-rounded' do %>
