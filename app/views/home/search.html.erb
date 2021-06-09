@@ -7,7 +7,7 @@
           <%= search_form_for @q, url: search_path do |f| %>
             <div class="field has-addons">
               <div class="control is-expanded">
-                <%= f.search_field :title_has_every_term, autofocus: true, placeholder: 'キーワードを入力…', required: true, class: 'input is-rounded' %>
+                <%= f.search_field :title_has_every_term, value: @q_word, autofocus: true, placeholder: 'キーワードを入力…', required: true, class: 'input is-rounded' %>
               </div>
                 <div class="control">
                   <%= button_tag type: 'submit', class: 'button is-rounded' do %>
@@ -18,11 +18,51 @@
           <% end %>
         </div>
       </div>
+
+      <% if @q.conditions.present? || @user_q.conditions.present? %>
+        <div class="columns is-centered">
+          <div class="column">
+            <div class="tabs is-centered">
+              <ul>
+                <li class="<%= 'is-active' if request.query_string.include? 'title' %>">
+                  <%= link_to 'レシピ名に含まれる', search_path(q: {title_has_every_term: "#{@q_word}"}), class: 'is-hidden-mobile' %>
+                  <%= link_to 'レシピ名', search_path(q: {title_has_every_term: "#{@q_word}"}), class: 'is-hidden-tablet is-size-7' %>
+                </li>
+                <li class="<%= 'is-active' if request.query_string.include? 'body' %>">
+                  <%= link_to '作り方に含まれる', search_path(q: {body_has_every_term: "#{@q_word}"}), class: 'is-hidden-mobile' %>
+                  <%= link_to '作り方', search_path(q: {body_has_every_term: "#{@q_word}"}), class: 'is-hidden-tablet is-size-7' %>
+                </li>
+                <li class="<%= 'is-active' if request.query_string.include? 'username' %>">
+                  <%= link_to 'ユーザー名に含まれる', search_path(q: {username_has_every_term: "#{@q_word}"}), class: 'is-hidden-mobile' %>
+                  <%= link_to 'ユーザー名', search_path(q: {username_has_every_term: "#{@q_word}"}), class: 'is-hidden-tablet is-size-7' %>
+                </li>
+                <li class="<%= 'is-active' if request.query_string.include? 'profile' %>">
+                  <%= link_to 'プロフィールに含まれる', search_path(q: {profile_has_every_term: "#{@q_word}"}), class: 'is-hidden-mobile' %>
+                  <%= link_to 'プロフィール', search_path(q: {profile_has_every_term: "#{@q_word}"}), class: 'is-hidden-tablet is-size-7' %>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
       <% if @q.conditions.present? %>
         <div class="columns is-centered">
           <div class="column is-5">
             <% if @results.exists? %>
               <%= render partial: 'result', collection: @results %>
+            <% else %>
+              <p class="has-text-centered"><%= "「#{@q_word}」は見つかりませんでした。" %></p>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <% if @user_q.conditions.present? %>
+        <div class="columns is-centered">
+          <div class="column is-5">
+            <% if @user_results.exists? %>
+              <%= render partial: 'user_result', collection: @user_results, as: 'result' %>
             <% else %>
               <p class="has-text-centered"><%= "「#{@q_word}」は見つかりませんでした。" %></p>
             <% end %>

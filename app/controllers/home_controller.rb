@@ -7,7 +7,15 @@ class HomeController < ApplicationController
 
   def search
     @q = Recipe.ransack(params[:q])
-    @q_word = @q.conditions.first.values.first.value if @q.conditions.present?
     @results = @q.result(distinct: true)
+
+    @user_q = User.ransack(params[:q])
+    @user_results = @user_q.result(distinct: true)
+
+    @q_word = if @q.conditions.present?
+                @q.conditions.first.values.first.value
+              elsif @user_q.conditions.present?
+                @user_q.conditions.first.values.first.value
+              end
   end
 end
