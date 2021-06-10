@@ -62,4 +62,9 @@ class User < ApplicationRecord
   def feed
     Recipe.where("user_id IN (?) OR user_id = ?", following_ids, id)
   end
+
+  private
+    def self.ransackable_attributes(auth_object = nil)
+      %w(username profile)
+    end
 end

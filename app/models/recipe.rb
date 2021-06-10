@@ -30,4 +30,9 @@ class Recipe < ApplicationRecord
       notification.save if notification.valid?
     end
   end
+
+  private
+    def self.ransackable_attributes(auth_object = nil)
+      %w(title body)
+    end
 end
