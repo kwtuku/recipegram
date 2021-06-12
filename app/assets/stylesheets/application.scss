@@ -145,8 +145,8 @@ a:hover {
   background-color: white;
 }
 
-.sticky .card {
-  overflow :visible;
+.z-index-1 {
+  z-index: 1;
 }
 
 .vertical-center {
@@ -160,4 +160,8 @@ a:hover {
 
 .round {
   border-radius: 50%;
+}
+
+.is-fafafa {
+  background-color: #fafafa !important;
 }

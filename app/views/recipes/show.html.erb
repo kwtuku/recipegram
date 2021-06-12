@@ -5,6 +5,47 @@
 <section class="section">
   <div class="container">
     <div class="columns is-centered">
+      <div class="column is-1 is-hidden-mobile">
+        <aside class="menu sticky z-index-1">
+          <ul class="menu-list has-text-centered">
+            <li>
+              <%= render 'shared/favorite_button', recipe: @recipe, icon_size: 'is-medium', fa_size: 'fa-lg' %>
+            </li>
+            <li>
+              <%= @recipe.favorites.size %>
+            </li>
+            <li>
+              <a href="#comments" title="コメント一覧へ">
+                <span class="icon is-medium has-text-primary">
+                  <i class="far fa-lg fa-comment"></i>
+                </span>
+              </a>
+            </li>
+            <li>
+              <%= @comments.size %>
+            </li>
+            <li>
+              <% if user_signed_in? && @recipe.user == current_user %>
+                <div class="dropdown has-text-left">
+                  <div class="dropdown-trigger">
+                    <button class="button is-white is-fafafa" aria-haspopup="true" aria-controls="dropdown-menu">
+                      <span class="icon">
+                        <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                      </span>
+                    </button>
+                  </div>
+                  <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div class="dropdown-content">
+                      <%= link_to '編集する', edit_recipe_path(@recipe), class: 'dropdown-item' %>
+                      <%= link_to '削除する', recipe_path(@recipe), method: :delete, data: {confirm: '本当にレシピを削除しますか？'}, class: 'dropdown-item' %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </li>
+          </ul>
+        </aside>
+      </div>
       <div class="column is-8">
         <div class="card">
           <div class="card-content">
@@ -46,44 +87,17 @@
           </div>
 
           <div class="card-content">
-            <p class="title is-3"><%= link_to_unless_current @recipe.title, recipe_path(@recipe) %></p>
-            <div class="level is-mobile">
-              <div class="level-item">
-                <div>
-                  <%= render 'shared/favorite_button', recipe: @recipe %>
-                </div>
-              </div>
-              <div class="level-item">
-                <div>
-                  <a href="#comments" title="コメント一覧へ">
-                    <span class="icon-text has-text-primary">
-                      <span class="icon">
-                        <i class="far fa-comment"></i>
-                      </span>
-                      <span><%= @comments.size %></span>
-                    </span>
-                  </a>
-                </div>
-              </div>
-              <div class="level-item has-text-centered">
-                <div>
-                  <p class="heading">投稿日</p>
-                  <p class="title is-6"><%= l @recipe.created_at, format: :ymd %></p>
-                </div>
-              </div>
-              <div class="level-item has-text-centered">
-                <div>
-                  <p class="heading">更新日</p>
-                  <p class="title is-6"><%= l @recipe.updated_at, format: :ymd %></p>
-                </div>
-              </div>
-            </div>
-            <p class="subtitle">レシピ</p>
+            <p class="title is-spaced"><%= @recipe.title %></p>
+            <p class="subtitle">作り方</p>
             <%= simple_format h(@recipe.body), class: "text-break" %>
+            <p class="has-text-right has-text-grey-light">
+              <span>投稿日：<%= l @recipe.created_at, format: :ymd %></span>
+              <span class="ml-2">更新日：<%= l @recipe.updated_at, format: :ymd %></span>
+            </p>
           </div>
 
-          <div class="card-content">
-            <p class="subtitle" id="comments">コメント一覧</p>
+          <div class="card-content" id="comments">
+            <p class="subtitle">コメント一覧</p>
             <div class="oldest-comment">
               <% if @comments.size > 0 %>
                 <div class="media mb-5">
@@ -187,48 +201,6 @@
       <div class="column is-3 is-hidden-mobile">
         <div class="sticky">
           <%= render 'shared/user_card', user: @recipe.user %>
-          <div class="card mt-5">
-            <div class="card-content">
-              <div class="level is-mobile">
-                <div class="level-item">
-                  <div>
-                    <%= render 'shared/favorite_button', recipe: @recipe %>
-                  </div>
-                </div>
-                <div class="level-item">
-                  <div>
-                    <a href="#comments" title="コメント一覧へ">
-                      <span class="icon-text has-text-primary">
-                        <span class="icon">
-                          <i class="far fa-comment"></i>
-                        </span>
-                        <span><%= @comments.size %></span>
-                      </span>
-                    </a>
-                  </div>
-                </div>
-                <% if user_signed_in? && @recipe.user.id == current_user.id %>
-                  <div class="level-item">
-                    <div class="dropdown is-right">
-                      <div class="dropdown-trigger">
-                        <button class="button is-white is-small" aria-haspopup="true" aria-controls="dropdown-menu">
-                          <span class="icon is-small">
-                            <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
-                          </span>
-                        </button>
-                      </div>
-                      <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                        <div class="dropdown-content">
-                            <%= link_to "編集する", edit_recipe_path(@recipe), class: "dropdown-item" %>
-                            <%= link_to "削除する", recipe_path(@recipe), method: :delete, data: {confirm: "本当にレシピを削除しますか？"}, class: "dropdown-item" %>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -240,7 +212,7 @@
     <div class="level is-mobile">
       <div class="level-item">
         <div>
-          <%= render 'shared/favorite_button', recipe: @recipe %>
+          <%= render 'shared/favorite_button', recipe: @recipe, icon_size: '', fa_size: '' %>
         </div>
       </div>
       <div class="level-item">

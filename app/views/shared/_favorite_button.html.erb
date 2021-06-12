@@ -2,29 +2,20 @@
   <div id="favorite_button-<%= recipe.id %>">
     <% if current_user.already_favored?(recipe) %>
       <%= link_to recipe_favorites_path(recipe), method: :delete, remote: true, title: "いいねを取り消す" do %>
-        <span class="icon-text has-text-danger">
-          <span class="icon">
-            <i class="fas fa-heart"></i>
-          </span>
-          <span><%= recipe.favorites.size %></span>
+        <span class="icon <%= icon_size %> has-text-danger">
+          <i class="fas <%= fa_size %> fa-heart"></i>
         </span>
       <% end %>
     <% else %>
       <%= link_to recipe_favorites_path(recipe), method: :post, remote: true, title: "いいねする" do %>
-        <span class="icon-text has-text-danger">
-          <span class="icon">
-            <i class="far fa-heart"></i>
-          </span>
-          <span><%= recipe.favorites.size %></span>
+        <span class="icon <%= icon_size %> has-text-danger">
+          <i class="far <%= fa_size %> fa-heart"></i>
         </span>
       <% end %>
     <% end %>
   </div>
 <% else %>
-  <span class="icon-text has-text-danger">
-    <span class="icon">
-      <i class="far fa-heart"></i>
-    </span>
-    <span><%= recipe.favorites.size %></span>
+  <span class="icon has-text-danger">
+    <i class="far fa-heart"></i>
   </span>
 <% end %>
