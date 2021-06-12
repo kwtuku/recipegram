@@ -8,10 +8,10 @@
       <div class="column is-1 is-hidden-mobile">
         <aside class="menu sticky z-index-1">
           <ul class="menu-list has-text-centered">
-            <li>
+            <li id="favorite_button-<%= @recipe.id %>">
               <%= render 'shared/favorite_button', recipe: @recipe, icon_size: 'is-medium', fa_size: 'fa-lg' %>
             </li>
-            <li>
+            <li id="recount-favorites">
               <%= @recipe.favorites.size %>
             </li>
             <li>
