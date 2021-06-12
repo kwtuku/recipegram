@@ -135,23 +135,20 @@
   <div class="content py-3">
     <div class="level is-mobile">
       <div class="level-item">
-        <div>
+        <div id="favorite_button-<%= @recipe.id %>">
           <%= render 'shared/favorite_button', recipe: @recipe, icon_size: '', fa_size: '' %>
         </div>
+        <div class="ml-3" id="recount-favorites"><%= @recipe.favorites.size %></div>
       </div>
       <div class="level-item">
-        <div>
-          <a href="#comments" title="コメント一覧へ">
-            <span class="icon-text has-text-primary">
-              <span class="icon">
-                <i class="far fa-comment"></i>
-              </span>
-              <span><%= @comments.size %></span>
-            </span>
-          </a>
-        </div>
+        <a href="#comments" title="コメント一覧へ">
+          <span class="icon has-text-primary">
+            <i class="far fa-comment"></i>
+          </span>
+        </a>
+        <div class="ml-3"><%= @comments.size %></div>
       </div>
-      <% if user_signed_in? && @recipe.user.id == current_user.id %>
+      <% if user_signed_in? && @recipe.user == current_user %>
         <div class="level-item">
           <div class="dropdown is-right is-up">
             <div class="dropdown-trigger">
@@ -163,8 +160,8 @@
             </div>
             <div class="dropdown-menu" id="dropdown-menu" role="menu">
               <div class="dropdown-content">
-                  <%= link_to "編集する", edit_recipe_path(@recipe), class: "dropdown-item" %>
-                  <%= link_to "削除する", recipe_path(@recipe), method: :delete, data: {confirm: "本当にレシピを削除しますか？"}, class: "dropdown-item" %>
+                <%= link_to '編集する', edit_recipe_path(@recipe), class: 'dropdown-item' %>
+                <%= link_to '削除する', recipe_path(@recipe), method: :delete, data: {confirm: '本当に投稿を削除しますか？'}, class: 'dropdown-item' %>
               </div>
             </div>
           </div>

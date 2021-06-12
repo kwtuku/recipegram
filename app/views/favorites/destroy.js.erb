@@ -9,8 +9,6 @@ document.querySelectorAll('#favorite_button-<%= @recipe.id %>').forEach( button 
   }
 });
 
-var recountFavorites = document.getElementById('recount-favorites');
-
-if (recountFavorites) {
+document.querySelectorAll('#recount-favorites').forEach( recountFavorites => {
   recountFavorites.innerHTML = "<%= @recipe.favorites.size %>";
-}
+});
