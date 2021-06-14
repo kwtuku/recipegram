@@ -7,8 +7,6 @@ RSpec.describe "Users", type: :system do
     it 'valid sign up', js: true do
       visit root_path
 
-      expect(page).to have_link '新規登録'
-
       click_link '新規登録'
 
       expect(current_path).to eq new_user_registration_path
@@ -33,8 +31,6 @@ RSpec.describe "Users", type: :system do
       visit root_path
 
       within '.container' do
-        expect(page).to have_link 'ログイン'
-
         click_link 'ログイン'
       end
 
@@ -49,5 +45,13 @@ RSpec.describe "Users", type: :system do
 
       expect(page).to have_content 'ログインしました。'
     end
+  end
+
+  it 'guest sign in' do
+    visit root_path
+
+    click_link 'ゲストユーザーとしてログイン'
+
+    expect(page).to have_content 'ゲストユーザーとしてログインしました。'
   end
 end
