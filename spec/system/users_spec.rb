@@ -54,4 +54,19 @@ RSpec.describe "Users", type: :system do
 
     expect(page).to have_content 'ゲストユーザーとしてログインしました。'
   end
+
+  describe 'edit user' do
+    context 'signed in as wrong user' do
+      let(:user) { create :user, username: 'user' }
+      let(:other_user) { create :user, username: 'other_user' }
+
+      it 'redirect edit', js: true do
+        sign_in other_user
+
+        visit edit_user_path(user)
+
+        expect(page).to have_content '権限がありません。'
+      end
+    end
+  end
 end
