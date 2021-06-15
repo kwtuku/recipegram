@@ -65,6 +65,7 @@ RSpec.configure do |config|
 
   config.include FactoryBot::Syntax::Methods
   config.include SignInModule
+  config.include Devise::Test::IntegrationHelpers, type: :request
 end
 
 Shoulda::Matchers.configure do |config|
