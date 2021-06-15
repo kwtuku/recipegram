@@ -1,31 +1,65 @@
-<% provide(:title, 'レシピ詳細') %>
-
-<section class="hero is-success">
-  <div class="hero-body">
-    <div class="container">
-      <h1 class="title">レシピ詳細</h1>
-    </div>
-  </div>
-</section>
+<% provide(:title, @recipe.title) %>
 
 <%= render 'shared/error_messages', model: @comment %>
 
 <section class="section">
   <div class="container">
     <div class="columns is-centered">
+      <div class="column is-1 is-hidden-mobile">
+        <aside class="menu sticky z-index-1">
+          <ul class="menu-list has-text-centered">
+            <li id="favorite_button-<%= @recipe.id %>">
+              <%= render 'shared/favorite_button', recipe: @recipe, icon_size: 'is-medium', fa_size: 'fa-lg' %>
+            </li>
+            <li id="recount-favorites">
+              <%= @recipe.favorites.size %>
+            </li>
+            <li>
+              <a href="#comments" title="コメント一覧へ">
+                <span class="icon is-medium has-text-primary">
+                  <i class="far fa-lg fa-comment"></i>
+                </span>
+              </a>
+            </li>
+            <li>
+              <%= @comments.size %>
+            </li>
+            <li>
+              <% if user_signed_in? && @recipe.user == current_user %>
+                <div class="dropdown has-text-left">
+                  <div class="dropdown-trigger">
+                    <button class="button is-white is-fafafa" aria-haspopup="true" aria-controls="dropdown-menu">
+                      <span class="icon">
+                        <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                      </span>
+                    </button>
+                  </div>
+                  <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div class="dropdown-content">
+                      <%= link_to '編集する', edit_recipe_path(@recipe), class: 'dropdown-item' %>
+                      <%= link_to '削除する', recipe_path(@recipe), method: :delete, data: {confirm: '本当にレシピを削除しますか？'}, class: 'dropdown-item' %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </li>
+          </ul>
+        </aside>
+      </div>
+
       <div class="column is-8">
         <div class="card">
           <div class="card-content">
             <div class="media">
               <figure class="media-left">
                 <p class="image is-24x24">
-                  <%= image_tag @recipe.user.user_image.url(:icon), class: "is-rounded" %>
+                  <%= image_tag @recipe.user.user_image.url(:icon), class: 'is-rounded' %>
                 </p>
               </figure>
-              <div class="media-content">
-                <%= link_to @recipe.user.username, user_path(@recipe.user),class: "has-text-black-bis text-break" %>
+              <div class="media-content oneline">
+                <span><%= link_to @recipe.user.username, user_path(@recipe.user),class: 'has-text-black-bis text-break' %></span>
               </div>
-              <% if user_signed_in? && @recipe.user.id == current_user.id %>
+              <% if user_signed_in? && @recipe.user == current_user %>
                 <div class="media-right">
                   <div class="dropdown is-right">
                     <div class="dropdown-trigger">
@@ -37,8 +71,8 @@
                     </div>
                     <div class="dropdown-menu" id="dropdown-menu" role="menu">
                       <div class="dropdown-content">
-                          <%= link_to "編集する", edit_recipe_path(@recipe), class: "dropdown-item" %>
-                          <%= link_to "削除する", recipe_path(@recipe), method: :delete, data: {confirm: "本当にレシピを削除しますか？"}, class: "dropdown-item" %>
+                        <%= link_to '編集する', edit_recipe_path(@recipe), class: 'dropdown-item' %>
+                        <%= link_to '削除する', recipe_path(@recipe), method: :delete, data: {confirm: '本当にレシピを削除しますか？'}, class: 'dropdown-item' %>
                       </div>
                     </div>
                   </div>
@@ -46,148 +80,44 @@
               <% end %>
             </div>
           </div>
-
           <div class="card-image">
-            <figure class="image is-4by3" id="recipe-image">
+            <figure class="image is-4by3 cursor-pointer" id="open-modal">
               <%= image_tag @recipe.recipe_image.url %>
             </figure>
           </div>
-
           <div class="card-content">
-            <p class="title is-3"><%= link_to_unless_current @recipe.title, recipe_path(@recipe) %></p>
-            <div class="level is-mobile">
-              <div class="level-item">
-                <div>
-                  <%= render 'shared/favorite_button', recipe: @recipe %>
-                </div>
-              </div>
-              <div class="level-item">
-                <div>
-                  <a href="#comments" title="コメント一覧へ">
-                    <span class="icon-text has-text-primary">
-                      <span class="icon">
-                        <i class="far fa-comment"></i>
-                      </span>
-                      <span><%= @recipe.comments.size %></span>
-                    </span>
-                  </a>
-                </div>
-              </div>
-              <div class="level-item has-text-centered">
-                <div>
-                  <p class="heading">投稿日</p>
-                  <p class="title is-6"><%= l @recipe.created_at, format: :ymd %></p>
-                </div>
-              </div>
-              <div class="level-item has-text-centered">
-                <div>
-                  <p class="heading">更新日</p>
-                  <p class="title is-6"><%= l @recipe.updated_at, format: :ymd %></p>
-                </div>
-              </div>
-            </div>
-            <p class="subtitle">レシピ</p>
-            <%= simple_format h(@recipe.body), class: "text-break" %>
+            <p class="title is-spaced"><%= @recipe.title %></p>
+            <p class="subtitle">作り方</p>
+            <%= simple_format h(@recipe.body), class: 'text-break' %>
+            <p class="has-text-right has-text-grey-light">
+              <span>投稿日：<%= l @recipe.created_at, format: :ymd %></span>
+              <span class="ml-2">更新日：<%= l @recipe.updated_at, format: :ymd %></span>
+            </p>
           </div>
-
-          <div class="card-content">
-            <p class="subtitle" id="comments">コメント一覧</p>
-            <div class="oldest-comment">
-              <% if @recipe.comments.size > 0 %>
-                <div class="media mb-5">
-                  <figure class="media-left">
-                    <p class="image is-64x64 is-hidden-mobile">
-                      <%= link_to user_path(@recipe.comments.first.user) do %>
-                        <%= image_tag @recipe.comments.first.user.user_image.url(:icon), class: "is-rounded" %>
-                      <% end %>
-                    </p>
-                    <p class="image is-32x32 is-hidden-tablet">
-                      <%= link_to user_path(@recipe.comments.first.user) do %>
-                        <%= image_tag @recipe.comments.first.user.user_image.url(:icon), class: "is-rounded" %>
-                      <% end %>
-                    </p>
-                  </figure>
-                  <div class="media-content">
-                    <p class="title is-5"><%= link_to @recipe.comments.first.user.username, user_path(@recipe.comments.first.user), class: "has-text-black-bis" %></p>
-                    <p><%= simple_format h(@recipe.comments.first.body), class: "text-break" %></p>
-                    <time class="has-text-grey-light" datetime="<%= @recipe.comments.first.created_at %>"><%= time_ago_in_words(@recipe.comments.first.created_at) %>前</time>
-                  </div>
-                  <% if current_user.id == @recipe.comments.first.user_id %>
-                    <div class="media-right">
-                      <div class="dropdown is-right">
-                        <div class="dropdown-trigger">
-                          <button class="button is-white is-small" aria-haspopup="true" aria-controls="dropdown-menu">
-                            <span class="icon is-small">
-                              <i class="fa fa-ellipsis-h "></i>
-                            </span>
-                          </button>
-                        </div>
-                        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                          <div class="dropdown-content">
-                              <%= link_to "削除する", recipe_comment_path(@recipe.comments.first), method: :delete, data: {confirm: "削除しますか？"}, class: "dropdown-item" %>
-                          </div>
-                        </div>
-                      </div>
+          <div class="card-content" id="comments">
+            <p class="subtitle">コメント一覧</p>
+            <div class="mb-5">
+              <div class="oldest-comment">
+                <% if @comments.size > 0 %>
+                  <%= render 'comment', comment: @comments.first %>
+                  <% if @comments.size > 1 %>
+                    <div class="has-text-centered" id="readmore">
+                      <div class="button is-rounded"><%= @comments.size %>件のコメントをすべて見る</div>
                     </div>
                   <% end %>
-                </div>
-                <% if @recipe.comments.size > 1 %>
-                  <div class="has-text-centered mb-5" id="readmore">
-                    <div class="button is-rounded"><%= @recipe.comments.size %>件のコメントをすべて見る</div>
-                  </div>
                 <% end %>
-              <% end %>
+              </div>
+              <div class="all-comments is-hidden">
+                <%= render partial: 'comment', collection: @comments %>
+                <div class="has-text-centered" id="readless"><div class="button is-rounded">閉じる</div></div>
+              </div>
             </div>
-            <div class="all-comments is-hidden">
-              <% @recipe.comments.find_each do |comment| %>
-                <div class="media">
-                  <figure class="media-left">
-                    <p class="image is-64x64 is-hidden-mobile">
-                      <%= link_to user_path(comment.user) do %>
-                        <%= image_tag comment.user.user_image.url(:icon), class: "is-rounded" %>
-                      <% end %>
-                    </p>
-                    <p class="image is-32x32 is-hidden-tablet">
-                      <%= link_to user_path(comment.user) do %>
-                        <%= image_tag comment.user.user_image.url(:icon), class: "is-rounded" %>
-                      <% end %>
-                    </p>
-                  </figure>
-                  <div class="media-content">
-                    <p class="title is-5"><%= link_to comment.user.username, user_path(comment.user), class: "has-text-black-bis" %></p>
-                    <p><%= simple_format h(comment.body), class: "text-break" %></p>
-                    <time class="has-text-grey-light" datetime="<%= comment.created_at %>"><%= time_ago_in_words(comment.created_at) %>前</time>
-                  </div>
-                  <% if current_user.id == comment.user_id %>
-                    <div class="media-right">
-                      <div class="dropdown is-right">
-                        <div class="dropdown-trigger">
-                          <button class="button is-white is-small" aria-haspopup="true" aria-controls="dropdown-menu">
-                            <span class="icon is-small">
-                              <i class="fa fa-ellipsis-h "></i>
-                            </span>
-                          </button>
-                        </div>
-                        <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                          <div class="dropdown-content">
-                              <%= link_to "削除する", recipe_comment_path(comment), method: :delete, data: {confirm: "削除しますか？"}, class: "dropdown-item" %>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  <% end %>
-                </div>
-              <% end %>
-              <div class="has-text-centered mb-5" id="readless"><div class="button is-rounded">閉じる</div></div>
-            </div>
-            <div class="content">
-              <%= form_with model: [@recipe, @comment] do |f| %>
-                <div class="field">
-                  <%= f.text_area :body, :placeholder => "コメントする", required: true, class: "input" %>
-                </div>
-                <%= f.submit "コメントを投稿", class: "button is-primary is-rounded", id: "create_comment", disabled: true %>
-              <% end %>
-            </div>
+            <%= form_with model: [@recipe, @comment] do |f| %>
+              <div class="field">
+                <%= f.text_area :body, placeholder: 'コメントする', required: true, class: 'textarea has-fixed-size' %>
+              </div>
+              <%= f.submit 'コメントを投稿', class: 'button is-primary is-rounded', id: 'create_comment', disabled: true %>
+            <% end %>
           </div>
         </div>
       </div>
@@ -200,6 +130,46 @@
     </div>
   </div>
 </section>
+
+<div class="bottom-item is-hidden-tablet">
+  <div class="content py-3">
+    <div class="level is-mobile">
+      <div class="level-item">
+        <div id="favorite_button-<%= @recipe.id %>">
+          <%= render 'shared/favorite_button', recipe: @recipe, icon_size: '', fa_size: '' %>
+        </div>
+        <div class="ml-3" id="recount-favorites"><%= @recipe.favorites.size %></div>
+      </div>
+      <div class="level-item">
+        <a href="#comments" title="コメント一覧へ">
+          <span class="icon has-text-primary">
+            <i class="far fa-comment"></i>
+          </span>
+        </a>
+        <div class="ml-3"><%= @comments.size %></div>
+      </div>
+      <% if user_signed_in? && @recipe.user == current_user %>
+        <div class="level-item">
+          <div class="dropdown is-right is-up">
+            <div class="dropdown-trigger">
+              <button class="button is-rounded is-white is-small" aria-haspopup="true" aria-controls="dropdown-menu">
+                <span class="icon is-small">
+                  <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                </span>
+              </button>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+              <div class="dropdown-content">
+                <%= link_to '編集する', edit_recipe_path(@recipe), class: 'dropdown-item' %>
+                <%= link_to '削除する', recipe_path(@recipe), method: :delete, data: {confirm: '本当に投稿を削除しますか？'}, class: 'dropdown-item' %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
 
 <div class="modal">
   <div class="modal-background"></div>

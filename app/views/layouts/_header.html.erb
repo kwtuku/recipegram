@@ -1,71 +1,137 @@
-<nav class="navbar is-fixed-top is-warning">
+<nav class="navbar is-fixed-top is-white" style="border-bottom: solid hsl(0, 0%, 86%);">
   <div class="navbar-brand">
-    <%= link_to recipes_path, class: "navbar-item is-hidden-touch" do %>
-      <h1 class="title is-4 ml-6" style="font-family: cursive;">Recipegram</h1>
+    <%= link_to root_path, class: "navbar-item is-hidden-touch ml-6" do %>
+      <h1 class="title is-4 recipegram">Recipegram</h1>
     <% end %>
-    <%= link_to recipes_path, class: "navbar-item is-hidden-desktop" do %>
-      <h1 class="title is-4" style="font-family: cursive;">Recipegram</h1>
+
+    <%= link_to root_path, class: "navbar-item is-hidden-desktop" do %>
+      <h1 class="title is-4 recipegram">Recipegram</h1>
     <% end %>
-    <%= link_to recipes_path, class: "navbar-item ml-5 is-hidden-desktop", title: "レシピ一覧" do %>
-      <span class="icon">
-        <i class="fas fa-home"></i>
-      </span>
+
+    <% if user_signed_in? %>
+      <%= link_to search_path, class: 'navbar-item is-hidden-desktop', title: '検索する' do %>
+        <span class="icon is-medium">
+          <i class="fas fa-lg fa-search"></i>
+        </span>
+      <% end %>
+
+      <%= link_to root_path, class: "navbar-item is-hidden-desktop", title: "ホームへ" do %>
+        <span class="icon is-medium">
+          <i class="fas fa-lg fa-home"></i>
+        </span>
+      <% end %>
+
+      <%= link_to new_recipe_path, class: "navbar-item is-hidden-desktop", title: "レシピを投稿する" do %>
+        <span class="icon is-medium">
+          <i class="fas fa-lg fa-plus"></i>
+        </span>
+      <% end %>
+
+      <%= link_to notifications_path, class: "navbar-item is-hidden-desktop", title: "通知一覧へ" do %>
+        <span class="icon is-medium <%= 'has-unchecked-notification' if current_user.passive_notifications.where(checked: false).exists? %>">
+          <i class="fas fa-lg fa-bell"></i>
+        </span>
+      <% end %>
+
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    <% else %>
+      <div class="field is-grouped navbar-item is-hidden-desktop">
+        <p class="control">
+          <%= link_to "ログイン", new_user_session_path, class: "button is-small is-rounded is-primary" %>
+        </p>
+        <p class="control">
+          <%= link_to "登録", new_user_registration_path, class: "button is-small is-rounded is-white" %>
+        </p>
+      </div>
     <% end %>
-    <%= link_to new_recipe_path, class: "navbar-item ml-5 is-hidden-desktop", title: "レシピ投稿" do %>
-      <span class="icon">
-        <i class="fas fa-pen"></i>
-      </span>
-    <% end %>
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
   </div>
+
   <div class="navbar-menu" id="navbar">
-    <div class="navbar-item is-hidden-desktop">
-      <%= link_to "マイページ", user_path(current_user), class: "navbar-item" %>
-    </div>
-    <div class="navbar-item is-hidden-desktop">
-      <%= link_to "アカウント編集", edit_user_registration_path, class: "navbar-item" %>
-    </div>
-    <div class="navbar-item is-hidden-desktop">
-      <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "navbar-item" %>
-    </div>
+    <% if user_signed_in? %>
+      <div class="navbar-item is-hidden-desktop">
+        <%= link_to "レシピ一覧", recipes_path, class: "navbar-item" %>
+      </div>
+      <div class="navbar-item is-hidden-desktop">
+        <%= link_to "ユーザー一覧", users_path, class: "navbar-item" %>
+      </div>
+      <div class="navbar-item is-hidden-desktop">
+        <%= link_to "マイページ", user_path(current_user), class: "navbar-item" %>
+      </div>
+      <div class="navbar-item is-hidden-desktop">
+        <%= link_to "アカウント編集", edit_user_registration_path, class: "navbar-item" %>
+      </div>
+      <div class="navbar-item is-hidden-desktop">
+        <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "navbar-item" %>
+      </div>
+    <% end %>
+
     <div class="navbar-end">
-      <div class="navbar-item has-dropdown is-hoverable ml-2 is-hidden-touch">
-        <%= link_to recipes_path, class: "navbar-link is-arrowless" do %>
-          <span class="icon">
-            <i class="fas fa-home"></i>
+      <%= link_to search_path, class: 'navbar-item ml-2 is-hidden-touch', title: '検索する' do %>
+        <span class="icon is-medium">
+          <i class="fas fa-lg fa-search"></i>
+        </span>
+      <% end %>
+
+      <%= link_to root_path, class: "navbar-item ml-2 is-hidden-touch", title: "ホームへ" do %>
+        <span class="icon is-medium">
+          <i class="fas fa-lg fa-home"></i>
+        </span>
+      <% end %>
+
+      <%= link_to recipes_path, class: "navbar-item ml-2 is-hidden-touch", title: "レシピ一覧へ" do %>
+        <span class="icon is-medium">
+          <i class="fas fa-lg fa-compass"></i>
+        </span>
+      <% end %>
+
+      <%= link_to users_path, class: "navbar-item ml-2 is-hidden-touch", title: "ユーザ一覧へ" do %>
+        <span class="icon is-medium">
+          <i class="fas fa-lg fa-users"></i>
+        </span>
+      <% end %>
+
+      <% if user_signed_in? %>
+        <%= link_to new_recipe_path, class: "navbar-item ml-2 is-hidden-touch", title: "レシピを投稿する" do %>
+          <span class="icon is-medium">
+            <i class="fas fa-lg fa-plus"></i>
           </span>
         <% end %>
-        <div class="navbar-dropdown is-boxed">
-          <%= link_to "レシピ一覧", recipes_path, class: "navbar-item" %>
-          <%= link_to "ユーザ一覧", users_path, class: "navbar-item" %>
-        </div>
-      </div>
-      <div class="navbar-item has-dropdown is-hoverable ml-2 is-hidden-touch">
-        <%= link_to new_recipe_path, class: "navbar-link is-arrowless" do %>
-          <span class="icon">
-            <i class="fas fa-pen"></i>
+
+        <%= link_to notifications_path, class: "navbar-item ml-2 is-hidden-touch", title: "通知一覧へ" do %>
+          <span class="icon is-medium <%= 'has-unchecked-notification' if current_user.passive_notifications.where(checked: false).exists? %>">
+            <i class="fas fa-lg fa-bell"></i>
           </span>
         <% end %>
-        <div class="navbar-dropdown is-boxed">
-          <%= link_to "レシピ投稿", new_recipe_path, class: "navbar-item" %>
+
+        <div class="navbar-item has-dropdown is-hoverable ml-2 mr-6 is-hidden-touch">
+          <div class="navbar-link is-hidden-touch">
+            <figure class="image is-24x24">
+              <%= image_tag current_user.user_image.url(:icon), class: "is-rounded" %>
+            </figure>
+          </div>
+          <div class="navbar-dropdown is-boxed is-right">
+            <%= link_to "マイページ", user_path(current_user), class: "navbar-item" %>
+            <%= link_to "アカウント編集", edit_user_registration_path, class: "navbar-item" %>
+            <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "navbar-item" %>
+          </div>
         </div>
-      </div>
-      <div class="navbar-item has-dropdown is-hoverable ml-2 mr-6 is-hidden-touch">
-        <div class="navbar-link is-arrowless is-hidden-touch">
-          <figure class="image is-24x24">
-            <%= image_tag current_user.user_image.url(:icon), class: "is-rounded" %>
-          </figure>
+      <% else %>
+        <div class="field is-grouped navbar-item mr-6">
+          <p class="control">
+            <%= link_to "ゲストログイン", users_guest_sign_in_path, method: :post, class: "button is-small is-rounded is-primary is-light" %>
+          </p>
+          <p class="control">
+            <%= link_to "ログイン", new_user_session_path, class: "button is-small is-rounded is-primary" %>
+          </p>
+          <p class="control">
+            <%= link_to "登録", new_user_registration_path, class: "button is-small is-rounded is-white" %>
+          </p>
         </div>
-        <div class="navbar-dropdown is-boxed is-right">
-          <%= link_to "マイページ", user_path(current_user), class: "navbar-item" %>
-          <%= link_to "アカウント編集", edit_user_registration_path, class: "navbar-item" %>
-          <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "navbar-item" %>
-        </div>
-      </div>
+      <% end %>
     </div>
   </div>
 </nav>

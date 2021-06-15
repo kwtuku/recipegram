@@ -19,6 +19,9 @@ class User < ApplicationRecord
 
   mount_uploader :user_image, UserImageUploader
 
+  has_many :active_notifications, class_name: 'Notification', foreign_key: 'visitor_id', dependent: :destroy
+  has_many :passive_notifications, class_name: 'Notification', foreign_key: 'visited_id', dependent: :destroy
+
   def already_favored?(recipe)
     self.favorites.exists?(recipe_id: recipe.id)
   end
@@ -44,4 +47,24 @@ class User < ApplicationRecord
       user.username = "ゲスト"
     end
   end
+
+  def create_follow_notification!(current_user)
+    temp = Notification.where(["visitor_id = ? and visited_id = ? and action = ? ",current_user.id, id, 'follow'])
+    if temp.blank?
+      notification = current_user.active_notifications.new(
+        visited_id: id,
+        action: 'follow'
+      )
+      notification.save if notification.valid?
+    end
+  end
+
+  def feed
+    Recipe.where("user_id IN (?) OR user_id = ?", following_ids, id)
+  end
+
+  private
+    def self.ransackable_attributes(auth_object = nil)
+      %w(username profile)
+    end
 end

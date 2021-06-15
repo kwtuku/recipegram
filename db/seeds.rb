@@ -84,8 +84,17 @@ def create_favorite(favorite_creation_time)
   end
 end
 
+def update_recipe(recipe_updating_time)
+  recipe_updating_time.times do
+    recipe_title = Faker::Lorem.words(number: rand(1..10)).join(" ")
+    recipe_body = Faker::Lorem.paragraphs(number: rand(5..40)).join("\n")
+    Recipe.all.sample.update!(title: recipe_title, body: recipe_body)
+  end
+end
+
 create_user(100)
 create_relationship
 create_recipe(100)
 create_comment(500)
 create_favorite(500)
+update_recipe(10)

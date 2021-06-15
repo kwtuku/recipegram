@@ -12,21 +12,21 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body class="<%= 'has-navbar-fixed-top' if user_signed_in? %>">
+  <body class="has-navbar-fixed-top">
     <% if flash[:notice] %>
-      <div class="notification is-info">
+      <div class="notification is-info is-light">
         <button class="delete"></button>
         <p class="notice haas-text-centered"><%= notice %></p>
       </div>
     <% end %>
     <% if flash[:alert] %>
-      <div class="notification is-danger">
+      <div class="notification is-danger is-light">
         <button class="delete"></button>
         <p class="alert"><%= alert %></p>
       </div>
     <% end %>
 
-    <%= render 'layouts/header' if user_signed_in? %>
+    <%= render 'layouts/header' %>
     <%= yield %>
   </body>
 </html>

@@ -1,1 +1,14 @@
-document.getElementById('favorite_button-<%= @recipe.id %>').innerHTML = "<%= j(render 'shared/favorite_button', recipe: @recipe) %>"
+document.querySelectorAll('#favorite_button-<%= @recipe.id %>').forEach( button => {
+  var buttonIcon = button.querySelector('.icon');
+  var buttonFont = button.querySelector('i');
+
+  if (buttonIcon.classList.contains('is-medium') && buttonFont.classList.contains('fa-lg')) {
+    button.innerHTML = "<%= j(render 'shared/favorite_button', recipe: @recipe, icon_size: 'is-medium', fa_size: 'fa-lg') %>";
+  } else {
+    button.innerHTML = "<%= j(render 'shared/favorite_button', recipe: @recipe, icon_size: '', fa_size: '') %>";
+  }
+});
+
+document.querySelectorAll('#recount-favorites').forEach( recountFavorites => {
+  recountFavorites.innerHTML = "<%= @recipe.favorites.size %>";
+});

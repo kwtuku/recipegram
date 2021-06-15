@@ -1,0 +1,19 @@
+<% provide(:title, '通知一覧') %>
+
+<%= render 'layouts/hero', hero_title: '通知一覧' %>
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-9">
+        <% notifications = @notifications.where.not(visitor_id: current_user.id) %>
+        <% if notifications.exists? %>
+          <%= render notifications %>
+        <% else %>
+          <p>通知はありません。</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>
+

@@ -1,9 +1,9 @@
 <% provide(:title, "#{@user.username}さんがフォロー中") %>
 
-<section class="hero is-success">
+<section class="hero is-small">
   <div class="hero-body">
     <div class="container">
-      <h1 class="title">
+      <h1 class="title has-text-centered">
         <span class="icon-text">
           <%= link_to user_path(@user) do %>
             <span class="icon">
@@ -20,8 +20,8 @@
 <section class="section">
   <div class="container">
     <div class="columns is-centered">
-      <div class="column is-9">
-        <% if @followings.present? %>
+      <div class="column is-9" id="infinite-scroll-container" data-infinite-scroll="true">
+        <% if @followings.exists? %>
           <%= render partial: 'users/user_list', collection: @followings, as: "user" %>
         <% else %>
           <% if @user.id == current_user.id %>

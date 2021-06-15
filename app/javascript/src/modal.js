@@ -4,10 +4,10 @@ export default () => {
 
     if (modals.length > 0) {
       modals.forEach( modal => {
-        const recipeImage = document.querySelector('#recipe-image > img');
+        const modalTriggerImage = document.querySelector('#open-modal > img');
         const html = document.querySelector('html');
         const body = document.querySelector('body');
-        recipeImage.addEventListener('click', () => {
+        modalTriggerImage.addEventListener('click', () => {
           modal.classList.add('is-active');
           html.classList.add('is-clipped');
           body.classList.add('mr-4');

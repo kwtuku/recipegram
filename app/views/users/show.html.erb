@@ -1,19 +1,5 @@
 <% provide(:title, "#{@user.username}さんの詳細") %>
 
-<section class="hero is-success">
-  <div class="hero-body">
-    <div class="container">
-      <h1 class="title">
-        <% if @user.id == current_user.id %>
-          マイページ
-        <% else %>
-          <%= @user.username %>さんの詳細
-        <% end %>
-      </h1>
-    </div>
-  </div>
-</section>
-
 <section class="section">
   <div class="container">
     <div class="columns is-centered">
@@ -26,18 +12,23 @@
           </figure>
           <div class="media-content">
             <div class="content is-hidden-tablet">
-              <p class="image is-128x128" style="margin: 0 auto;"><%= image_tag @user.user_image.url(:thumb), class: "is-rounded" %></p>
+              <p class="image is-128x128"><%= image_tag @user.user_image.url(:thumb), class: "is-rounded" %></p>
             </div>
             <div class="content">
               <p class="title"><%= @user.username %></p>
             </div>
             <div class="content">
-              <% if @user.id == current_user.id %>
-                <%= link_to "プロフィールを編集", edit_user_path(@user), class: "button is-primary is-rounded" %>
+              <% if @user == current_user %>
+                <%= link_to "プロフィールを編集", edit_user_path(@user), class: "button is-rounded" %>
               <% else %>
-                <%= render 'shared/follow_button', user: @user %>
+                <%= render 'shared/follow_button', user: @user, size: 'is-normal' %>
               <% end %>
             </div>
+            <% if @user.following?(current_user) %>
+              <div class="content">
+                <span class="tag is-info is-light">フォローされています</span>
+              </div>
+            <% end %>
             <div class="content">
               <div class="level is-mobile">
                 <div class="level-item has-text-centered">
@@ -64,7 +55,7 @@
                   <%= link_to user_followers_path(@user), class: "has-text-black-bis" do %>
                     <div>
                       <p class="heading">フォロワー</p>
-                      <p class="title" id='recount_followers'><%= @user.followers.size %></p>
+                      <p class="title" id='recount-followers'><%= @user.followers.size %></p>
                     </div>
                   <% end %>
                 </div>
@@ -82,7 +73,7 @@
 
 <section class="section">
   <div class="container">
-    <div class="tabs is-boxed is-centered is-fullwidth">
+    <div class="tabs is-boxead is-centered is-fullwidth">
       <ul>
         <li class="is-active" data-target="posted-recipes">
           <a>
@@ -106,13 +97,13 @@
     </div>
     <div id="tab-contents">
       <div class="columns is-multiline is-mobile" id="posted-recipes">
-        <%= render @user.recipes %>
+        <%= render @recipes %>
       </div>
       <div class="columns is-multiline is-mobile is-hidden" id="commented-recipes">
-        <%= render partial: 'recipes/recipe', collection: @user.commented_recipes %>
+        <%= render partial: 'recipes/recipe', collection: @commented_recipes %>
       </div>
       <div class="columns is-multiline is-mobile is-hidden" id="favored-recipes">
-        <%= render partial: 'recipes/recipe', collection: @user.favored_recipes %>
+        <%= render partial: 'recipes/recipe', collection: @favored_recipes %>
       </div>
     </div>
   </div>

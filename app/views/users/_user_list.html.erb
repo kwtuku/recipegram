@@ -1,4 +1,4 @@
-<div class="media">
+<div class="media" data-infinite-scroll-item="">
   <figure class="media-left">
     <p class="image is-64x64 is-hidden-mobile">
       <%= link_to user_path(user) do %>
@@ -12,7 +12,10 @@
     </p>
   </figure>
   <div class="media-content">
-    <p class="is-size-4 mb-3"><%= link_to user.username, user_path(user), class: "has-text-black-bis text-break" %></p>
-    <p class="text-break"><%= user.profile %></p>
+    <p class="is-size-4 mb-3 oneline"><span><%= link_to user.username, user_path(user), class: "has-text-black-bis text-break" %></span></p>
+    <% if user.following?(current_user) %>
+      <span class="tag is-info is-light mb-3">フォローされています</span>
+    <% end %>
+    <p class="text-break threeline"><span><%= user.profile %></span></p>
   </div>
 </div>
