@@ -11,9 +11,10 @@
         <div class="column is-6 vertical-center">
           <%= f.label :recipe_image do %>
             <%= f.file_field :recipe_image, class: 'is-hidden', required: true, accept: 'image/jpg, image/jpeg, image/png, image/webp' %>
-            <figure class="image is-4by3 cursor-pointer">
+            <figure class="image is-4by3 cursor-pointer" id="file-cta">
               <%= image_tag @recipe.recipe_image.url(:thumb) %>
             </figure>
+            <img id="file-preview">
           <% end %>
           <%= render 'devise/shared/full_error_messages', model: @recipe, attribute: :recipe_image %>
         </div>
