@@ -25,5 +25,26 @@ RSpec.describe 'Recipes', type: :system do
         expect(page).to have_content '権限がありません。'
       end
     end
+
+    context 'signed in as correct user' do
+      it 'edit title', js: true do
+        sign_in user
+        visit edit_recipe_path(user.recipes[0])
+        expect(page).to have_button 'update_recipe', disabled: true
+        fill_in 'recipe[title]', with: 'クリームシチュー'
+        click_button 'update_recipe'
+        expect(page).to have_content 'レシピを編集しました。'
+        expect(user.recipes[0].reload.title).to eq 'クリームシチュー'
+      end
+      it 'edit body', js: true do
+        sign_in user
+        visit edit_recipe_path(user.recipes[0])
+        expect(page).to have_button 'update_recipe', disabled: true
+        fill_in 'recipe[body]', with: '切ったにんじん、玉ねぎ、じゃがいも、肉とクリームシチューのルーと水を鍋に入れて煮込む。'
+        click_button 'update_recipe'
+        expect(page).to have_content 'レシピを編集しました。'
+        expect(user.recipes[0].reload.body).to eq '切ったにんじん、玉ねぎ、じゃがいも、肉とクリームシチューのルーと水を鍋に入れて煮込む。'
+      end
+    end
   end
 end
