@@ -45,6 +45,15 @@ RSpec.describe 'Recipes', type: :system do
         expect(page).to have_content 'レシピを編集しました。'
         expect(user.recipes[0].reload.body).to eq '切ったにんじん、玉ねぎ、じゃがいも、肉とクリームシチューのルーと水を鍋に入れて煮込む。'
       end
+      it 'edit recipe_image', js: true do
+        sign_in user
+        visit edit_recipe_path(user.recipes[0])
+        expect(page).to have_button 'update_recipe', disabled: true
+        attach_file 'recipe[recipe_image]', "#{Rails.root}/spec/fixtures/recipe_image_sample_after.jpg", visible: false
+        click_button 'update_recipe'
+        expect(page).to have_content 'レシピを編集しました。'
+        expect(page).to have_selector("img[src$='recipe_image_sample_after.jpg']")
+      end
     end
   end
 end
