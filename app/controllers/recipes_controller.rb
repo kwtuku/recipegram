@@ -7,7 +7,7 @@ class RecipesController < ApplicationController
 
   def show
     @recipe = Recipe.find(params[:id])
-    @comment = current_user.comments.new
+    @comment = Comment.new
     @comments = @recipe.comments.eager_load(:user).order(:id)
   end
 

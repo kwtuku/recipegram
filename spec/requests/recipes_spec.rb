@@ -1,6 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe 'Recipes', type: :request do
+  describe 'public' do
+    let(:recipe) { create :recipe }
+
+    it 'recipes#index returns a 200 response' do
+      get recipes_path
+      expect(response).to have_http_status(200)
+    end
+    it 'recipes#show returns a 200 response' do
+      get recipe_path(recipe)
+      expect(response).to have_http_status(200)
+    end
+  end
   describe 'GET /recipes/:id/edit' do
     let(:user) { create :user, :with_recipes, username: 'user' }
     let(:other_user) { create :user, username: 'other_user' }
