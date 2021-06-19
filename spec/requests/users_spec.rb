@@ -1,6 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe 'Users', type: :request do
+  describe 'public' do
+    let(:user) { create :user }
+
+    it 'users#index returns a 200 response' do
+      get users_path
+      expect(response).to have_http_status(200)
+    end
+    it 'users#show returns a 200 response' do
+      get user_path(user)
+      expect(response).to have_http_status(200)
+    end
+  end
   describe 'GET /users/:id/edit' do
     let(:user) { create :user, username: 'user' }
     let(:other_user) { create :user, username: 'other_user' }
