@@ -5,11 +5,13 @@ RSpec.describe 'Notifications', type: :system do
   let(:other_user) { create :user }
   let(:user_recipe) { user.recipes[0] }
 
-  it 'favorite notification', js: true do
+  it 'create favorite notification', js: true do
+    sign_in user
+    expect(page).to have_no_css '.has-unchecked-notification'
     user_recipe.create_favorite_notification!(other_user)
     notification = user.passive_notifications[0]
     expect(notification.checked?).to eq false
-    sign_in user
+    visit current_path
     expect(page).to have_css '.has-unchecked-notification'
     click_link href: notifications_path
     expect(current_path).to eq notifications_path
