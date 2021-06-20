@@ -79,8 +79,12 @@ class RecipesController < ApplicationController
 
   def destroy
     @recipe = Recipe.find(params[:id])
-    @recipe.destroy
-    redirect_to recipes_path(@recipe)
+    if @recipe.user != current_user
+      redirect_to recipe_url(@recipe), alert: '権限がありません。'
+    else
+      @recipe.destroy
+      redirect_to recipes_path(@recipe)
+    end
   end
 
   private
