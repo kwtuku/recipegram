@@ -68,7 +68,9 @@ class RecipesController < ApplicationController
 
   def update
     @recipe = Recipe.find(params[:id])
-    if @recipe.update(recipe_params)
+    if @recipe.user != current_user
+      redirect_to recipe_path(@recipe), alert: '権限がありません。'
+    elsif @recipe.update(recipe_params)
       redirect_to recipe_path(@recipe), notice: 'レシピを編集しました。'
     else
       render :edit
