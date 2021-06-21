@@ -7,7 +7,7 @@
           <%= search_form_for @q, url: search_path do |f| %>
             <div class="field has-addons">
               <div class="control is-expanded">
-                <%= f.search_field @q_column, value: @q_word, autofocus: true, placeholder: 'キーワードを入力…', required: true, class: 'input is-rounded' %>
+                <%= f.search_field @q_column, value: @q_word, autofocus: true, placeholder: 'レシピまたはユーザーを検索', required: true, class: 'input is-rounded' %>
               </div>
                 <div class="control">
                   <%= button_tag type: 'submit', class: 'button is-rounded' do %>
@@ -50,6 +50,7 @@
         <div class="columns is-centered">
           <div class="column is-5">
             <% if @results.exists? %>
+              <p class="has-text-grey-light mb-5"><%= @results_size %>件</p>
               <%= render partial: 'result', collection: @results %>
             <% else %>
               <p class="has-text-centered"><%= "「#{@q_word}」は見つかりませんでした。" %></p>
@@ -62,6 +63,7 @@
         <div class="columns is-centered">
           <div class="column is-5">
             <% if @user_results.exists? %>
+              <p class="has-text-grey-light mb-5"><%= @user_results_size %>件</p>
               <%= render partial: 'user_result', collection: @user_results, as: 'result' %>
             <% else %>
               <p class="has-text-centered"><%= "「#{@q_word}」は見つかりませんでした。" %></p>
