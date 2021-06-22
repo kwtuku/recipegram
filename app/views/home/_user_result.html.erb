@@ -1,19 +1,19 @@
-  <div class="block">
-    <div class="media">
-      <div class="media-left">
-        <%= link_to user_path(result) do %>
-          <figure class="image is-128x128">
-              <%= image_tag result.user_image.url(:thumb), class: 'is-rounded' %>
-          </figure>
-        <% end %>
-      </div>
-      <div class="media-content text-break">
-        <p class="is-size-4 mb-3 oneline">
-          <span><%= link_to result.username, user_path(result), class: 'has-text-black-bis' %></span>
-        </p>
-        <p class="threeline">
-          <span><%= result.profile %></span>
-        </p>
-      </div>
+<div class="block">
+  <div class="media">
+    <div class="media-left">
+      <%= link_to user_path(result) do %>
+        <figure class="image is-128x128">
+          <%= image_tag result.user_image.url(:thumb), class: 'is-rounded' %>
+        </figure>
+      <% end %>
+    </div>
+    <div class="media-content text-break">
+      <p class="is-size-4 mb-3 oneline">
+        <span><%= link_to result.username, user_path(result), class: 'has-text-black-bis' %></span>
+      </p>
+      <p class="threeline">
+        <span><%= result.profile %></span>
+      </p>
     </div>
   </div>
+</div>
