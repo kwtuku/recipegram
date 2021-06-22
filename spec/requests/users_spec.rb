@@ -1,19 +1,31 @@
 require 'rails_helper'
 
-RSpec.describe "Users", type: :request do
-  describe "GET /users/:id/edit" do
+RSpec.describe 'Users', type: :request do
+  describe 'public' do
+    let(:user) { create :user }
+
+    it 'users#index returns a 200 response' do
+      get users_path
+      expect(response).to have_http_status(200)
+    end
+    it 'users#show returns a 200 response' do
+      get user_path(user)
+      expect(response).to have_http_status(200)
+    end
+  end
+  describe 'GET /users/:id/edit' do
     let(:user) { create :user, username: 'user' }
     let(:other_user) { create :user, username: 'other_user' }
 
     context 'not signed in' do
-      it 'redirecto_to new_user_registration_path' do
+      it 'redirect_to new_user_session_path' do
         get edit_user_path(user)
         expect(response).to redirect_to new_user_session_path
       end
     end
 
     context 'signed in as wrong user' do
-      it 'redirecto_to user_path(user)' do
+      it 'redirect_to user_path(user)' do
         sign_in other_user
         get edit_user_path(user)
         expect(response).to redirect_to user_path(user)

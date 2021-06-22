@@ -7,7 +7,7 @@ class RecipesController < ApplicationController
 
   def show
     @recipe = Recipe.find(params[:id])
-    @comment = current_user.comments.new
+    @comment = Comment.new
     @comments = @recipe.comments.eager_load(:user).order(:id)
   end
 
@@ -53,7 +53,7 @@ class RecipesController < ApplicationController
   def create
     @recipe = current_user.recipes.new(recipe_params)
     if @recipe.save
-      redirect_to recipe_path(@recipe), notice: '投稿に成功しました。'
+      redirect_to recipe_path(@recipe), notice: 'レシピを投稿しました。'
     else
       render :new
     end
@@ -68,8 +68,10 @@ class RecipesController < ApplicationController
 
   def update
     @recipe = Recipe.find(params[:id])
-    if @recipe.update(recipe_params)
-      redirect_to recipe_path(@recipe), notice: '更新に成功しました。'
+    if @recipe.user != current_user
+      redirect_to recipe_path(@recipe), alert: '権限がありません。'
+    elsif @recipe.update(recipe_params)
+      redirect_to recipe_path(@recipe), notice: 'レシピを編集しました。'
     else
       render :edit
     end
@@ -77,8 +79,12 @@ class RecipesController < ApplicationController
 
   def destroy
     @recipe = Recipe.find(params[:id])
-    @recipe.destroy
-    redirect_to recipes_path(@recipe)
+    if @recipe.user != current_user
+      redirect_to recipe_url(@recipe), alert: '権限がありません。'
+    else
+      @recipe.destroy
+      redirect_to recipes_path(@recipe)
+    end
   end
 
   private

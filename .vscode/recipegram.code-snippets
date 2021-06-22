@@ -1,0 +1,265 @@
+{
+	// devise
+	"devise/sessions#new": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "new_user_session_path",
+		"body": [
+			"new_user_session_path",
+		],
+	},
+
+	"devise/sessions#destroy": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "destroy_user_session_path",
+		"body": [
+			"destroy_user_session_path",
+		],
+	},
+
+	"devise/registrations#new": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "new_user_registration_path",
+		"body": [
+			"new_user_registration_path",
+		],
+	},
+
+	"devise/registrations#edit": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "edit_user_registration_path",
+		"body": [
+			"edit_user_registration_path",
+		],
+	},
+
+	"users_guest_sign_in_path": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "users_guest_sign_in_path",
+		"body": [
+			"users_guest_sign_in_path",
+		],
+	},
+
+	// home
+	"root_path": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "root_path",
+		"body": [
+			"root_path",
+		],
+	},
+
+	"home#search": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "search_path",
+		"body": [
+			"search_path",
+		],
+	},
+
+	// notifications
+	"notification": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "notification",
+		"body": [
+			"notification",
+		],
+	},
+
+	"notifications": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "notifications",
+		"body": [
+			"notifications",
+		],
+	},
+
+	"notifications#index": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "notifications_path",
+		"body": [
+			"notifications_path",
+		],
+	},
+
+	// relationships
+	"relationship": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "relationship",
+		"body": [
+			"relationship",
+		],
+	},
+
+	"relationships": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "relationships",
+		"body": [
+			"relationships",
+		],
+	},
+
+	// favorites
+	"favorite": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "favorite",
+		"body": [
+			"favorite",
+		],
+	},
+
+	"favorites": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "favorites",
+		"body": [
+			"favorites",
+		],
+	},
+
+	"favorites#create": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "recipe_favorites_path",
+		"body": [
+			"recipe_favorites_path($1)",
+		],
+	},
+
+	// comments
+	"comment": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "comment",
+		"body": [
+			"comment",
+		],
+	},
+
+	"comments": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "comments",
+		"body": [
+			"comments",
+		],
+	},
+
+	// recipes
+	"recipe": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "recipe",
+		"body": [
+			"recipe",
+		],
+	},
+
+	"recipes": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "recipes",
+		"body": [
+			"recipes",
+		],
+	},
+
+	"recipes#index": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "recipes_path",
+		"body": [
+			"recipes_path",
+		],
+	},
+
+	"recipes#new": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "new_recipe_path",
+		"body": [
+			"new_recipe_path",
+		],
+	},
+
+	"recipes#edit": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "edit_recipe_path",
+		"body": [
+			"edit_recipe_path($1)",
+		],
+	},
+
+	"recipes#show": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "recipe_path",
+		"body": [
+			"recipe_path($1)",
+		],
+	},
+
+	// users
+	"user": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "user",
+		"body": [
+			"user",
+		],
+	},
+
+	"users": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "users",
+		"body": [
+			"users",
+		],
+	},
+
+	"followings": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "followings",
+		"body": [
+			"followings",
+		],
+	},
+
+	"followers": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "followers",
+		"body": [
+			"followers",
+		],
+	},
+
+	"users#followings": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "user_followings_path",
+		"body": [
+			"user_followings_path($1)",
+		],
+	},
+
+	"users#followers": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "user_followers_path",
+		"body": [
+			"user_followers_path($1)",
+		],
+	},
+
+	"users#index": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "users_path",
+		"body": [
+			"users_path",
+		],
+	},
+
+	"users#edit": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "edit_user_path",
+		"body": [
+			"edit_user_path",
+		],
+	},
+
+	"users#show": {
+		"scope": "ruby, html.erb, js.erb",
+		"prefix": "user_path",
+		"body": [
+			"user_path($1)",
+		],
+	},
+}

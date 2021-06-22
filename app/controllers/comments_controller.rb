@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
     @comment.recipe_id = params[:recipe_id]
     if @comment.save
       @comment.create_comment_notification!(current_user, @comment.id, @comment.recipe.id)
-      redirect_to "/recipes/#{params[:recipe_id]}", notice: '投稿に成功しました。'
+      redirect_to "/recipes/#{params[:recipe_id]}", notice: 'レシピにコメントしました。'
     else
       @recipe = Recipe.find(params[:recipe_id])
       render "recipes/show"

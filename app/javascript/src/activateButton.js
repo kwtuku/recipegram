@@ -3,24 +3,24 @@ export default () => {
     const inputs = Array.prototype.slice.call(document.querySelectorAll('input'), 0);
     const textarea = document.querySelector('textarea');
 
-    const username = document.getElementById("user_username");
-    const email = document.getElementById("user_email");
-    const password = document.getElementById("user_password");
-    const passwordConfirmation = document.getElementById("user_password_confirmation");
-    const currentPassword = document.getElementById("user_current_password");
-    const recipeTitle = document.getElementById("recipe_title");
-    const recipeBody = document.getElementById("recipe_body");
-    const recipeImage = document.getElementById("recipe_recipe_image");
-    const commentBody = document.getElementById("comment_body");
+    const username = document.getElementById('user_username');
+    const email = document.getElementById('user_email');
+    const password = document.getElementById('user_password');
+    const passwordConfirmation = document.getElementById('user_password_confirmation');
+    const currentPassword = document.getElementById('user_current_password');
+    const recipeTitle = document.getElementById('recipe_title');
+    const recipeBody = document.getElementById('recipe_body');
+    const recipeImage = document.getElementById('recipe_recipe_image');
+    const commentBody = document.getElementById('comment_body');
 
-    const signup = document.getElementById("signup");
-    const signin = document.getElementById("signin");
-    const updateAccount = document.getElementById("update_account");
-    const resetPassword = document.getElementById("reset_password");
-    const updateUser = document.getElementById("update_user");
-    const createRecipe = document.getElementById("create_recipe");
-    const updateRecipe = document.getElementById("update_recipe");
-    const createComment =document.getElementById("create_comment");
+    const signup = document.getElementById('signup');
+    const signin = document.getElementById('signin');
+    const updateAccount = document.getElementById('update_account');
+    const resetPassword = document.getElementById('reset_password');
+    const updateUser = document.getElementById('update_user');
+    const createRecipe = document.getElementById('create_recipe');
+    const updateRecipe = document.getElementById('update_recipe');
+    const createComment =document.getElementById('create_comment');
 
     if (signup) {
       inputs.forEach(input => {
@@ -49,7 +49,7 @@ export default () => {
     if (updateAccount) {
       inputs.forEach(input => {
         input.addEventListener('input', () => {
-          if (username.value.trim() && email.value.trim() && currentPassword.value.trim().length >= 6) {
+          if (email.value.trim() && currentPassword.value.trim().length >= 6) {
             updateAccount.disabled = false;
           } else {
             updateAccount.disabled = true;
