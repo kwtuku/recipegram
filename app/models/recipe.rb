@@ -1,8 +1,12 @@
 class Recipe < ApplicationRecord
   attachment :image
+
   belongs_to :user
+
   has_many :favorites, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many :notifications, dependent: :destroy
+
   mount_uploader :recipe_image, RecipeImageUploader
 
   with_options presence: true do
@@ -10,8 +14,6 @@ class Recipe < ApplicationRecord
     validates :body
     validates :recipe_image
   end
-
-  has_many :notifications, dependent: :destroy
 
   def create_favorite_notification!(current_user)
     temp = Notification.where(["visitor_id = ? and visited_id = ? and recipe_id = ? and action = ? ", current_user.id, user_id, id, 'favorite'])

@@ -1,10 +1,10 @@
 class Comment < ApplicationRecord
-  belongs_to :user
   belongs_to :recipe
-
-  validates :body, presence: true
+  belongs_to :user
 
   has_many :notifications, dependent: :destroy
+
+  validates :body, presence: true
 
   def create_comment_notification!(current_user, comment_id, recipe_id)
     temp_ids = Comment.select(:user_id).where(recipe_id: recipe_id).where.not(user_id: current_user.id).distinct
