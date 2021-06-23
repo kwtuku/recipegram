@@ -165,3 +165,12 @@ a:hover {
 .is-fafafa {
   background-color: #fafafa !important;
 }
+
+.tabs li.is-active a {
+  border-bottom-color: #363636;
+  color: #363636;
+}
+
+.tabs a:hover {
+  border-bottom-color: #dbdbdb;
+}
