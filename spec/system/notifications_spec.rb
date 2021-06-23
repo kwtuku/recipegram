@@ -1,19 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe 'Notifications', type: :system do
-  let(:user) { create :user,  :with_recipes }
-  let(:other_user) { create :user }
-  let(:user_recipe) { user.recipes[0] }
-  let(:other_user_recipe) { create :recipe, user: other_user }
+  let(:alice) { create :user }
+  let(:bob) { create :user }
+  let(:alice_recipe) { create :recipe, user: alice }
+  let(:bob_recipe) { create :recipe, user: bob }
 
-  context 'other_user makes a comment on the recipe user created' do
-    let(:other_user_comment) { create :comment, user: other_user, recipe: user_recipe }
+  context 'bob makes a comment on the recipe alice created' do
+    let(:bob_comment) { create :comment, user: bob, recipe: alice_recipe }
 
     it 'create comment notification', js: true do
-      sign_in user
+      sign_in alice
       expect(page).to have_no_css '.has-unchecked-notification'
-      other_user_comment.create_comment_notification!(other_user, other_user_comment.id, user_recipe.id)
-      notification = user.passive_notifications[0]
+      bob_comment.create_comment_notification!(bob, bob_comment.id, alice_recipe.id)
+      notification = alice.passive_notifications[0]
       expect(notification.checked?).to eq false
       visit current_path
       expect(page).to have_css '.has-unchecked-notification'
@@ -26,15 +26,15 @@ RSpec.describe 'Notifications', type: :system do
       expect(notification.reload.checked?).to eq true
     end
   end
-  context 'other_user makes a comment on the recipe user made a comment' do
-    let(:other_user_comment) { create :comment, user: other_user, recipe: other_user_recipe }
+  context 'bob makes a comment on the recipe alice made a comment on' do
+    let(:bob_comment) { create :comment, user: bob, recipe: bob_recipe }
 
     it 'create comment notification', js: true do
-      sign_in user
+      sign_in alice
       expect(page).to have_no_css '.has-unchecked-notification'
-      user.comments.create!(recipe_id: other_user_recipe.id, body: 'いいね！')
-      other_user_comment.create_comment_notification!(other_user, other_user_comment.id, other_user_recipe.id)
-      notification = user.passive_notifications[0]
+      alice.comments.create!(recipe_id: bob_recipe.id, body: 'いいね！')
+      bob_comment.create_comment_notification!(bob, bob_comment.id, bob_recipe.id)
+      notification = alice.passive_notifications[0]
       expect(notification.checked?).to eq false
       visit current_path
       expect(page).to have_css '.has-unchecked-notification'
@@ -48,10 +48,10 @@ RSpec.describe 'Notifications', type: :system do
     end
   end
   it 'create favorite notification', js: true do
-    sign_in user
+    sign_in alice
     expect(page).to have_no_css '.has-unchecked-notification'
-    user_recipe.create_favorite_notification!(other_user)
-    notification = user.passive_notifications[0]
+    alice_recipe.create_favorite_notification!(bob)
+    notification = alice.passive_notifications[0]
     expect(notification.checked?).to eq false
     visit current_path
     expect(page).to have_css '.has-unchecked-notification'
@@ -64,10 +64,10 @@ RSpec.describe 'Notifications', type: :system do
     expect(notification.reload.checked?).to eq true
   end
   it 'create follow notification', js: true do
-    sign_in user
+    sign_in alice
     expect(page).to have_no_css '.has-unchecked-notification'
-    user.create_follow_notification!(other_user)
-    notification = user.passive_notifications[0]
+    alice.create_follow_notification!(bob)
+    notification = alice.passive_notifications[0]
     expect(notification.checked?).to eq false
     visit current_path
     expect(page).to have_css '.has-unchecked-notification'
