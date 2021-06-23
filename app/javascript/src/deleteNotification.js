@@ -1,10 +1,15 @@
 export default () => {
   document.addEventListener('turbolinks:load', () => {
-    (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
-      const $notification = $delete.parentNode;
+    const deleteButtons = document.querySelectorAll('.notification .delete');
+    if (deleteButtons === null) {
+      return false;
+    }
 
-      $delete.addEventListener('click', () => {
-        $notification.parentNode.removeChild($notification);
+    (deleteButtons || []).forEach((deleteButton) => {
+      const notification = deleteButton.parentNode;
+
+      deleteButton.addEventListener('click', () => {
+        notification.remove();
       });
     });
   });

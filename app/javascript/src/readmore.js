@@ -1,20 +1,23 @@
 export default () => {
-  document.addEventListener('turbolinks:load', function() {
+  document.addEventListener('turbolinks:load', () => {
     const readmore = document.querySelector('#readmore');
-    const readless = document.querySelector('#readless');
+    if (readmore === null) {
+      return false;
+    }
+
     const oldestComment = document.querySelector('.oldest-comment');
     const allComments = document.querySelector('.all-comments');
 
-    if (readmore) {
-      readmore.addEventListener('click', () => {
-        oldestComment.classList.add('is-hidden');
-        allComments.classList.remove('is-hidden');
-      });
+    readmore.addEventListener('click', () => {
+      oldestComment.classList.add('is-hidden');
+      allComments.classList.remove('is-hidden');
+    });
 
-      readless.addEventListener('click', () => {
-        oldestComment.classList.remove('is-hidden');
-        allComments.classList.add('is-hidden');
-      });
-    }
+    const readless = document.querySelector('#readless');
+
+    readless.addEventListener('click', () => {
+      oldestComment.classList.remove('is-hidden');
+      allComments.classList.add('is-hidden');
+    });
   });
 }
