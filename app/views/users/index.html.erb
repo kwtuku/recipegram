@@ -2,9 +2,9 @@
 
 <%= render 'layouts/hero', hero_title: 'ユーザー一覧' %>
 
-<section class="section">
+<section class="section" data-add-class-mobile="p-0">
   <div class="container">
-    <div class="columns is-multiline is-mobile" id="infinite-scroll-container" data-infinite-scroll="true">
+    <div class="columns is-multiline is-mobile" id="infinite-scroll-container" data-infinite-scroll="true" data-add-class-mobile="m-0">
       <%= render @users %>
     </div>
   </div>
