@@ -8,15 +8,15 @@ export default () => {
 
     const addClass = () => {
       addClassTargets.forEach( target => {
-        const className = target.dataset.addClassMobile
+        const classNames = target.dataset.addClassMobile.split(' ');
 
         window.addEventListener('resize', () => {
           const windowWidth = window.innerWidth;
 
           if (windowWidth <= 768) {
-            target.classList.add(className);
+            target.classList.add(...classNames);
           } else {
-            target.classList.remove(className);
+            target.classList.remove(...classNames);
           }
         });
 
@@ -24,9 +24,9 @@ export default () => {
           const windowWidth = window.innerWidth;
 
           if (windowWidth <= 768) {
-            target.classList.add(className);
+            target.classList.add(...classNames);
           } else {
-            target.classList.remove(className);
+            target.classList.remove(...classNames);
           }
         });
       });
@@ -34,15 +34,15 @@ export default () => {
 
     const removeClass = () => {
       removeClassTargets.forEach( target => {
-        const className = target.dataset.removeClassMobile
+        const classNames = target.dataset.removeClassMobile.split(' ');
 
         window.addEventListener('resize', () => {
           const windowWidth = window.innerWidth;
 
           if (windowWidth <= 768) {
-            target.classList.remove(className);
+            target.classList.remove(...classNames);
           } else {
-            target.classList.add(className);
+            target.classList.add(...classNames);
           }
         });
 
@@ -50,9 +50,9 @@ export default () => {
           const windowWidth = window.innerWidth;
 
           if (windowWidth <= 768) {
-            target.classList.remove(className);
+            target.classList.remove(...classNames);
           } else {
-            target.classList.add(className);
+            target.classList.add(...classNames);
           }
         });
       });
