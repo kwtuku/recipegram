@@ -1,10 +1,6 @@
 <nav class="navbar is-fixed-top is-white" style="border-bottom: solid hsl(0, 0%, 86%);">
   <div class="navbar-brand">
-    <%= link_to root_path, class: "navbar-item is-hidden-touch ml-6" do %>
-      <h1 class="title is-4 recipegram">Recipegram</h1>
-    <% end %>
-
-    <%= link_to root_path, class: "navbar-item is-hidden-desktop" do %>
+    <%= link_to root_path, class: "navbar-item ml-6", data: {remove_class_mobile: 'ml-6'} do %>
       <h1 class="title is-4 recipegram">Recipegram</h1>
     <% end %>
 
