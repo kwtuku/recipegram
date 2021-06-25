@@ -179,3 +179,14 @@ a:hover {
   background-color: #6a737d !important;
   color: #fff !important;
 }
+
+.menu-list li.is-active {
+  position: relative;
+  &::before {
+    position: absolute;
+    content: "";
+    width: 2px;
+    height: 100%;
+    background-color: #f9826c;
+  }
+}
