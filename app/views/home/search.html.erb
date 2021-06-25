@@ -56,7 +56,6 @@
 
       <div class="columns is-centered">
         <div class="column is-one-fifth is-2-widescreen is-hidden-touch">
-        <div class="card">
           <aside class="menu sticky">
             <ul class="menu-list">
               <li class="<%= 'is-active' if @source == 'recipe_title' %>">
@@ -86,17 +85,16 @@
             </ul>
           </aside>
         </div>
-        </div>
 
         <% if @source == 'recipe_title' || @source == 'recipe_body' %>
-          <div class="column">
+          <div class="column is-9">
             <% if @too_much_results %>
               <p class="has-text-centered">検索結果の合計数が全レシピ数と一致しています。</p>
               <p class="has-text-centered">より具体的なキーワードで検索してください。</p>
             <% elsif @source == 'recipe_title' && @recipe_title_results.exists? %>
-              <%= render partial: 'result', collection: @recipe_title_results %>
+              <%= render partial: 'recipe_result', collection: @recipe_title_results, as: 'recipe' %>
             <% elsif @source == 'recipe_body' && @recipe_body_results.exists? %>
-              <%= render partial: 'result', collection: @recipe_body_results %>
+              <%= render partial: 'recipe_result', collection: @recipe_body_results, as: 'recipe' %>
             <% else %>
               <p class="has-text-centered text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
             <% end %>
@@ -104,14 +102,14 @@
         <% end %>
 
         <% if @source == 'user_username' || @source == 'user_profile' %>
-          <div class="column">
+          <div class="column is-9">
             <% if @too_much_results %>
               <p class="has-text-centered">検索結果の数合計が全ユーザー数と一致しています。</p>
               <p class="has-text-centered">より具体的なキーワードで検索してください。</p>
             <% elsif @source == 'user_username' && @user_username_results.exists? %>
-              <%= render partial: 'user_result', collection: @user_username_results, as: 'result' %>
+              <%= render partial: 'user_result', collection: @user_username_results, as: 'user' %>
             <% elsif @source == 'user_profile' && @user_username_results.exists? %>
-              <%= render partial: 'user_result', collection: @user_profile_results, as: 'result' %>
+              <%= render partial: 'user_result', collection: @user_profile_results, as: 'user' %>
             <% else %>
               <p class="has-text-centered text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
             <% end %>

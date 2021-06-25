@@ -1,18 +1,18 @@
 <div class="block">
   <div class="media">
     <div class="media-left">
-      <%= link_to recipe_path(result) do %>
+      <%= link_to recipe_path(recipe) do %>
         <figure class="image is-128x128">
-          <%= image_tag result.recipe_image.url(:thumb) %>
+          <%= image_tag recipe.recipe_image.url(:thumb) %>
         </figure>
       <% end %>
     </div>
     <div class="media-content text-break">
       <p class="is-size-4 mb-3 oneline">
-        <span><%= link_to result.title, recipe_path(result), class: 'has-text-black-bis' %></span>
+        <span><%= link_to recipe.title, recipe_path(recipe), class: 'has-text-black-bis' %></span>
       </p>
       <p class="threeline">
-        <span><%= result.body %></span>
+        <span><%= recipe.body %></span>
       </p>
     </div>
   </div>
