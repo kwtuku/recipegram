@@ -185,8 +185,17 @@ a:hover {
   &::before {
     position: absolute;
     content: "";
-    width: 2px;
+    width: 3px;
     height: 100%;
     background-color: #f9826c;
   }
+}
+
+.float-right {
+  float: right;
+}
+
+.menu-tag {
+  height: auto !important;
+  display: inline-block !important;
 }

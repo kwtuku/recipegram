@@ -1,7 +1,7 @@
 <% provide(:title, '検索') %>
 
 <section class="section">
-  <div class="container">
+  <div class="container is-fullhd">
     <div class="columns is-centered">
       <div class="column is-6">
         <%= form_with url: search_path, method: :get do |f| %>
@@ -55,39 +55,41 @@
       </div>
 
       <div class="columns is-centered">
-        <div class="column is-2 is-hidden-touch">
+        <div class="column is-one-fifth is-2-widescreen is-hidden-touch">
+        <div class="card">
           <aside class="menu sticky">
             <ul class="menu-list">
               <li class="<%= 'is-active' if @source == 'recipe_title' %>">
-                <%= link_to search_path(q: @q_value, source: 'recipe_title'), class: 'has-text-weight-bold' do %>
+                <%= link_to search_path(q: @q_value, source: 'recipe_title'), class: 'has-text-weight-bold px-4 py-3' do %>
                   <span>レシピ名</span>
-                  <span class="tag is-grey is-rounded ml-2 has-text-right"><%= @recipe_title_results_size %></span>
+                  <span class="tag is-rounded is-grey float-right menu-tag"><%= @recipe_title_results_size %></span>
                 <% end %>
               </li>
               <li class="<%= 'is-active' if @source == 'recipe_body' %>">
-                <%= link_to search_path(q: @q_value, source: 'recipe_body'), class: 'has-text-weight-bold' do %>
+                <%= link_to search_path(q: @q_value, source: 'recipe_body'), class: 'has-text-weight-bold px-4 py-3' do %>
                   <span>作り方</span>
-                  <span class="tag is-grey is-rounded ml-2"><%= @recipe_body_results_size %></span>
+                  <span class="tag is-rounded is-grey float-right menu-tag"><%= @recipe_body_results_size %></span>
                 <% end %>
               </li>
               <li class="<%= 'is-active' if @source == 'user_username' %>">
-                <%= link_to search_path(q: @q_value, source: 'user_username'), class: 'has-text-weight-bold' do %>
+                <%= link_to search_path(q: @q_value, source: 'user_username'), class: 'has-text-weight-bold px-4 py-3' do %>
                   <span>ユーザー名</span>
-                  <span class="tag is-grey is-rounded ml-2"><%= @user_username_results_size %></span>
+                  <span class="tag is-rounded is-grey float-right menu-tag"><%= @user_username_results_size %></span>
                 <% end %>
               </li>
               <li class="<%= 'is-active' if @source == 'user_profile' %>">
-                <%= link_to search_path(q: @q_value, source: 'user_profile'), class: 'has-text-weight-bold' do %>
+                <%= link_to search_path(q: @q_value, source: 'user_profile'), class: 'has-text-weight-bold px-4 py-3' do %>
                   <span>プロフィール</span>
-                  <span class="tag is-grey is-rounded ml-2"><%= @user_profile_results_size %></span>
+                  <span class="tag is-rounded is-grey float-right menu-tag"><%= @user_profile_results_size %></span>
                 <% end %>
               </li>
             </ul>
           </aside>
         </div>
+        </div>
 
         <% if @source == 'recipe_title' || @source == 'recipe_body' %>
-          <div class="column is-10">
+          <div class="column">
             <% if @too_much_results %>
               <p class="has-text-centered">検索結果の合計数が全レシピ数と一致しています。</p>
               <p class="has-text-centered">より具体的なキーワードで検索してください。</p>
@@ -102,7 +104,7 @@
         <% end %>
 
         <% if @source == 'user_username' || @source == 'user_profile' %>
-          <div class="column is-10">
+          <div class="column">
             <% if @too_much_results %>
               <p class="has-text-centered">検索結果の数合計が全ユーザー数と一致しています。</p>
               <p class="has-text-centered">より具体的なキーワードで検索してください。</p>
