@@ -12,6 +12,7 @@ export default () => {
     const recipeBody = document.getElementById('recipe_body');
     const recipeImage = document.getElementById('recipe_recipe_image');
     const commentBody = document.getElementById('comment_body');
+    const q = document.getElementById('q');
 
     const signup = document.getElementById('signup');
     const signin = document.getElementById('signin');
@@ -21,6 +22,7 @@ export default () => {
     const createRecipe = document.getElementById('create_recipe');
     const updateRecipe = document.getElementById('update_recipe');
     const createComment =document.getElementById('create_comment');
+    const search =document.getElementById('search');
 
     if (signup) {
       inputs.forEach(input => {
@@ -133,6 +135,16 @@ export default () => {
           createComment.disabled = false;
         } else {
           createComment.disabled = true;
+        }
+      });
+    }
+
+    if (search) {
+      q.addEventListener('input', () => {
+        if (q.value.trim()) {
+          search.disabled = false;
+        } else {
+          search.disabled = true;
         }
       });
     }

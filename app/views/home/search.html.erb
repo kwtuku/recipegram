@@ -11,7 +11,7 @@
               <%= f.hidden_field :source, value: @source %>
             </div>
             <div class="control">
-              <%= button_tag type: 'submit', name: nil, class: 'button is-rounded' do %>
+              <%= button_tag type: 'submit', name: nil, class: 'button is-rounded', id: 'search', disabled: true do %>
                 <i class="fas fa-search"></i>
               <% end %>
             </div>
