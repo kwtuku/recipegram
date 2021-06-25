@@ -7,7 +7,7 @@
         <%= form_with url: search_path, method: :get do |f| %>
           <div class="field has-addons">
             <div class="control is-expanded">
-              <%= f.text_field :q, value: @q_value, autofocus: true, placeholder: 'レシピまたはユーザーを検索', required: true, class: 'input is-rounded' %>
+              <%= f.text_field :q, value: @q_value, autofocus: true, placeholder: 'レシピまたはユーザーを検索', required: true, class: 'input is-rounded', id: 'search_query' %>
               <%= f.hidden_field :source, value: @source %>
             </div>
             <div class="control">

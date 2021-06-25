@@ -12,7 +12,7 @@ export default () => {
     const recipeBody = document.getElementById('recipe_body');
     const recipeImage = document.getElementById('recipe_recipe_image');
     const commentBody = document.getElementById('comment_body');
-    const q = document.getElementById('q');
+    const searchQuery = document.getElementById('search_query');
 
     const signup = document.getElementById('signup');
     const signin = document.getElementById('signin');
@@ -140,8 +140,8 @@ export default () => {
     }
 
     if (search) {
-      q.addEventListener('input', () => {
-        if (q.value.trim()) {
+      searchQuery.addEventListener('input', () => {
+        if (searchQuery.value.trim()) {
           search.disabled = false;
         } else {
           search.disabled = true;
