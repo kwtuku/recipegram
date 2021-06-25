@@ -28,25 +28,25 @@
               <li class="<%= 'is-active' if @source == 'recipe_title' %>">
                 <%= link_to search_path(q: @q_value, source: 'recipe_title'), class: 'has-text-weight-bold' do %>
                   <span>レシピ名</span>
-                  <span class="tag is-grey is-rounded ml-2"><%= @recipe_title_results_size %></span>
+                  <span class="tag is-grey is-rounded ml-2 rspec_recipe_title_results_size"><%= @recipe_title_results_size %></span>
                 <% end %>
               </li>
               <li class="<%= 'is-active' if @source == 'recipe_body' %>">
                 <%= link_to search_path(q: @q_value, source: 'recipe_body'), class: 'has-text-weight-bold' do %>
                   <span>作り方</span>
-                  <span class="tag is-grey is-rounded ml-2"><%= @recipe_body_results_size %></span>
+                  <span class="tag is-grey is-rounded ml-2 rspec_recipe_body_results_size"><%= @recipe_body_results_size %></span>
                 <% end %>
               </li>
               <li class="<%= 'is-active' if @source == 'user_username' %>">
                 <%= link_to search_path(q: @q_value, source: 'user_username'), class: 'has-text-weight-bold' do %>
                   <span>ユーザー名</span>
-                  <span class="tag is-grey is-rounded ml-2"><%= @user_username_results_size %></span>
+                  <span class="tag is-grey is-rounded ml-2 rspec_user_username_results_size"><%= @user_username_results_size %></span>
                 <% end %>
               </li>
               <li class="<%= 'is-active' if @source == 'user_profile' %>">
                 <%= link_to search_path(q: @q_value, source: 'user_profile'), class: 'has-text-weight-bold' do %>
                   <span>プロフィール</span>
-                  <span class="tag is-grey is-rounded ml-2"><%= @user_profile_results_size %></span>
+                  <span class="tag is-grey is-rounded ml-2 rspec_user_profile_results_size"><%= @user_profile_results_size %></span>
                 <% end %>
               </li>
             </ul>
@@ -61,25 +61,25 @@
               <li class="<%= 'is-active' if @source == 'recipe_title' %>">
                 <%= link_to search_path(q: @q_value, source: 'recipe_title'), class: 'has-text-weight-bold px-4 py-3' do %>
                   <span>レシピ名</span>
-                  <span class="tag is-rounded is-grey float-right menu-tag"><%= @recipe_title_results_size %></span>
+                  <span class="tag is-rounded is-grey float-right menu-tag rspec_recipe_title_results_size"><%= @recipe_title_results_size %></span>
                 <% end %>
               </li>
               <li class="<%= 'is-active' if @source == 'recipe_body' %>">
                 <%= link_to search_path(q: @q_value, source: 'recipe_body'), class: 'has-text-weight-bold px-4 py-3' do %>
                   <span>作り方</span>
-                  <span class="tag is-rounded is-grey float-right menu-tag"><%= @recipe_body_results_size %></span>
+                  <span class="tag is-rounded is-grey float-right menu-tag rspec_recipe_body_results_size"><%= @recipe_body_results_size %></span>
                 <% end %>
               </li>
               <li class="<%= 'is-active' if @source == 'user_username' %>">
                 <%= link_to search_path(q: @q_value, source: 'user_username'), class: 'has-text-weight-bold px-4 py-3' do %>
                   <span>ユーザー名</span>
-                  <span class="tag is-rounded is-grey float-right menu-tag"><%= @user_username_results_size %></span>
+                  <span class="tag is-rounded is-grey float-right menu-tag rspec_user_username_results_size"><%= @user_username_results_size %></span>
                 <% end %>
               </li>
               <li class="<%= 'is-active' if @source == 'user_profile' %>">
                 <%= link_to search_path(q: @q_value, source: 'user_profile'), class: 'has-text-weight-bold px-4 py-3' do %>
                   <span>プロフィール</span>
-                  <span class="tag is-rounded is-grey float-right menu-tag"><%= @user_profile_results_size %></span>
+                  <span class="tag is-rounded is-grey float-right menu-tag rspec_user_profile_results_size"><%= @user_profile_results_size %></span>
                 <% end %>
               </li>
             </ul>

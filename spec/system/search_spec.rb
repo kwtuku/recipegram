@@ -13,52 +13,40 @@ RSpec.describe 'Search', type: :system do
   it 'returns no result' do
     visit root_path
     click_link href: search_path
-    q_word = 'ごはん'
-    q = Recipe.ransack({ "title_has_every_term" => q_word })
-    results = q.result(distinct: true)
-    fill_in 'q[title_has_every_term]', with: q_word
+    fill_in 'q', with: 'ごはん'
     click_button 'button'
     expect(page).to have_content '「ごはん」は見つかりませんでした。'
-    expect(results.count).to eq 0
+    expect(page).to have_selector '.rspec_recipe_title_results_size', text: '0'
   end
   it 'returns result from recipe titles' do
     visit root_path
     click_link href: search_path
-    q_word = '味噌'
-    q = Recipe.ransack({ "title_has_every_term" => q_word })
-    results = q.result(distinct: true)
-    fill_in 'q[title_has_every_term]', with: q_word
+    fill_in 'q', with: '味噌'
     click_button 'button'
     expect(page).to have_link 'こってり味噌ラーメン'
     expect(page).to have_link 'さっぱり味噌ラーメン'
-    expect(results.count).to eq 2
+    expect(page).to have_selector '.rspec_recipe_title_results_size', text: '2'
   end
   it 'and search using space' do
     visit root_path
     click_link href: search_path
-    q_word = 'こってり ラーメン'
-    q = Recipe.ransack({ "title_has_every_term" => q_word })
-    results = q.result(distinct: true)
-    fill_in 'q[title_has_every_term]', with: q_word
+    fill_in 'q', with: 'こってり ラーメン'
     click_button 'button'
     expect(page).to have_link 'こってり味噌ラーメン'
     expect(page).to have_link 'こってり塩ラーメン'
     expect(page).to have_link 'こってりしょうゆラーメン'
     expect(page).to have_link 'こってり豚骨ラーメン'
-    expect(results.count).to eq 4
+    expect(page).to have_selector '.rspec_recipe_title_results_size', text: '4'
   end
   it 'and search using zenkaku spece' do
     visit root_path
     click_link href: search_path
-    q_word = 'こってり　ラーメン'
-    q = Recipe.ransack({ "title_has_every_term" => q_word })
-    results = q.result(distinct: true)
-    fill_in 'q[title_has_every_term]', with: q_word
+    fill_in 'q', with: 'こってり　ラーメン'
     click_button 'button'
     expect(page).to have_link 'こってり味噌ラーメン'
     expect(page).to have_link 'こってり塩ラーメン'
     expect(page).to have_link 'こってりしょうゆラーメン'
     expect(page).to have_link 'こってり豚骨ラーメン'
-    expect(results.count).to eq 4
+    expect(page).to have_selector '.rspec_recipe_title_results_size', text: '4'
   end
 end
