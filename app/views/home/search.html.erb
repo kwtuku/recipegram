@@ -20,7 +20,13 @@
       </div>
     </div>
 
-    <% if @q_value.present? %>
+    <% unless @q_value.present? %>
+      <div class="columns is-centered">
+        <div class="column">
+          <p class="has-text-centered">検索キーワードがありません。</p>
+        </div>
+      </div>
+    <% else %>
       <div class="columns is-centered is-hidden-desktop">
         <div class="column">
           <div class="tabs is-centered">
@@ -88,10 +94,7 @@
 
         <% if @source == 'recipe_title' || @source == 'recipe_body' %>
           <div class="column is-9">
-            <% if @too_much_results %>
-              <p class="has-text-centered">検索結果の合計数が全レシピ数と一致しています。</p>
-              <p class="has-text-centered">より具体的なキーワードで検索してください。</p>
-            <% elsif @source == 'recipe_title' && @recipe_title_results.exists? %>
+            <% if @source == 'recipe_title' && @recipe_title_results.exists? %>
               <%= render partial: 'recipe_result', collection: @recipe_title_results, as: 'recipe' %>
             <% elsif @source == 'recipe_body' && @recipe_body_results.exists? %>
               <%= render partial: 'recipe_result', collection: @recipe_body_results, as: 'recipe' %>
@@ -103,10 +106,7 @@
 
         <% if @source == 'user_username' || @source == 'user_profile' %>
           <div class="column is-9">
-            <% if @too_much_results %>
-              <p class="has-text-centered">検索結果の数合計が全ユーザー数と一致しています。</p>
-              <p class="has-text-centered">より具体的なキーワードで検索してください。</p>
-            <% elsif @source == 'user_username' && @user_username_results.exists? %>
+            <% if @source == 'user_username' && @user_username_results.exists? %>
               <%= render partial: 'user_result', collection: @user_username_results, as: 'user' %>
             <% elsif @source == 'user_profile' && @user_username_results.exists? %>
               <%= render partial: 'user_result', collection: @user_profile_results, as: 'user' %>

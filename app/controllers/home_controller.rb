@@ -31,13 +31,6 @@ class HomeController < ApplicationController
     @user_username_results_size = @user_username_results.size
     @user_profile_results_size = @user_profile_results.size
 
-    recipe_size = Recipe.count
-    user_size = User.count
-    if @recipe_title_results_size == recipe_size || @recipe_body_results_size == recipe_size ||
-        @user_username_results_size == user_size || @user_profile_results_size == user_size
-      @too_much_results = true
-    end
-
     @q_value = if recipe_title_q.conditions.present?
                 recipe_title_q.conditions.first.values.first.value
               elsif recipe_body_q.conditions.present?
