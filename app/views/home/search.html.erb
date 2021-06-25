@@ -26,20 +26,28 @@
           <div class="tabs is-centered">
             <ul>
               <li class="<%= 'is-active' if @source == 'recipe_title' %>">
-                <%= link_to 'レシピ名に含まれる', search_path(q: @q_value, source: 'recipe_title'), class: 'is-hidden-mobile' %>
-                <%= @recipe_title_results_size %>
+                <%= link_to search_path(q: @q_value, source: 'recipe_title'), class: 'is-hidden-mobile has-text-weight-bold' do %>
+                  <span>レシピ名に含まれる</span>
+                  <span class="tag is-grey is-rounded ml-2"><%= @recipe_title_results_size %></span>
+                <% end %>
               </li>
               <li class="<%= 'is-active' if @source == 'recipe_body' %>">
-                <%= link_to '作り方に含まれる', search_path(q: @q_value, source: 'recipe_body'), class: 'is-hidden-mobile' %>
-                <%= @recipe_body_results_size %>
+                <%= link_to search_path(q: @q_value, source: 'recipe_body'), class: 'is-hidden-mobile has-text-weight-bold' do %>
+                  <span>作り方に含まれる</span>
+                  <span class="tag is-grey is-rounded ml-2"><%= @recipe_body_results_size %></span>
+                <% end %>
               </li>
               <li class="<%= 'is-active' if @source == 'user_username' %>">
-                <%= link_to 'ユーザー名に含まれる', search_path(q: @q_value, source: 'user_username'), class: 'is-hidden-mobile' %>
-                <%= @user_username_results_size %>
+                <%= link_to search_path(q: @q_value, source: 'user_username'), class: 'is-hidden-mobile has-text-weight-bold' do %>
+                  <span>ユーザー名に含まれる</span>
+                  <span class="tag is-grey is-rounded ml-2"><%= @user_username_results_size %></span>
+                <% end %>
               </li>
               <li class="<%= 'is-active' if @source == 'user_profile' %>">
-                <%= link_to 'プロフィールに含まれる', search_path(q: @q_value, source: 'user_profile'), class: 'is-hidden-mobile' %>
-                <%= @user_profile_results_size %>
+                <%= link_to search_path(q: @q_value, source: 'user_profile'), class: 'is-hidden-mobile has-text-weight-bold' do %>
+                  <span>プロフィールに含まれる</span>
+                  <span class="tag is-grey is-rounded ml-2"><%= @user_profile_results_size %></span>
+                <% end %>
               </li>
             </ul>
           </div>
