@@ -1,75 +1,84 @@
 <% provide(:title, '検索') %>
 
 <section class="section">
-    <div class="container">
-      <div class="columns is-centered">
-        <div class="column is-6">
-          <%= search_form_for @q, url: search_path do |f| %>
-            <div class="field has-addons">
-              <div class="control is-expanded">
-                <%= f.search_field @q_column, value: @q_word, autofocus: true, placeholder: 'レシピまたはユーザーを検索', required: true, class: 'input is-rounded' %>
-              </div>
-                <div class="control">
-                  <%= button_tag type: 'submit', class: 'button is-rounded' do %>
-                    <i class="fas fa-search"></i>
-                  <% end %>
-                </div>
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-6">
+        <%= form_with url: search_path, method: :get do |f| %>
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <%= f.text_field :q, value: @q_value, autofocus: true, placeholder: 'レシピまたはユーザーを検索', required: true, class: 'input is-rounded' %>
+              <%= f.hidden_field :source, value: @source %>
             </div>
-          <% end %>
+            <div class="control">
+              <%= button_tag type: 'submit', class: 'button is-rounded' do %>
+                <i class="fas fa-search"></i>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <% if @q_value.present? %>
+      <div class="columns is-centered">
+        <div class="column">
+          <div class="tabs is-centered">
+            <ul>
+              <li class="<%= 'is-active' if @source == 'recipe_title' %>">
+                <%= link_to 'レシピ名に含まれる', search_path(q: @q_value, source: 'recipe_title'), class: 'is-hidden-mobile' %>
+                <%= @recipe_title_results_size %>
+              </li>
+              <li class="<%= 'is-active' if @source == 'recipe_body' %>">
+                <%= link_to '作り方に含まれる', search_path(q: @q_value, source: 'recipe_body'), class: 'is-hidden-mobile' %>
+                <%= @recipe_body_results_size %>
+              </li>
+              <li class="<%= 'is-active' if @source == 'user_username' %>">
+                <%= link_to 'ユーザー名に含まれる', search_path(q: @q_value, source: 'user_username'), class: 'is-hidden-mobile' %>
+                <%= @user_username_results_size %>
+              </li>
+              <li class="<%= 'is-active' if @source == 'user_profile' %>">
+                <%= link_to 'プロフィールに含まれる', search_path(q: @q_value, source: 'user_profile'), class: 'is-hidden-mobile' %>
+                <%= @user_profile_results_size %>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
 
-      <% if @q.conditions.present? || @user_q.conditions.present? %>
-        <div class="columns is-centered">
-          <div class="column">
-            <div class="tabs is-centered">
-              <ul>
-                <li class="<%= 'is-active' if request.query_string.include? 'title' %>">
-                  <%= link_to 'レシピ名に含まれる', search_path(q: { title_has_every_term: @q_word }), class: 'is-hidden-mobile' %>
-                  <%= link_to 'レシピ名', search_path(q: { title_has_every_term: @q_word }), class: 'is-hidden-tablet is-size-7' %>
-                </li>
-                <li class="<%= 'is-active' if request.query_string.include? 'body' %>">
-                  <%= link_to '作り方に含まれる', search_path(q: { body_has_every_term: @q_word }), class: 'is-hidden-mobile' %>
-                  <%= link_to '作り方', search_path(q: { body_has_every_term: @q_word }), class: 'is-hidden-tablet is-size-7' %>
-                </li>
-                <li class="<%= 'is-active' if request.query_string.include? 'username' %>">
-                  <%= link_to 'ユーザー名に含まれる', search_path(q: { username_has_every_term: @q_word }), class: 'is-hidden-mobile' %>
-                  <%= link_to 'ユーザー名', search_path(q: { username_has_every_term: @q_word }), class: 'is-hidden-tablet is-size-7' %>
-                </li>
-                <li class="<%= 'is-active' if request.query_string.include? 'profile' %>">
-                  <%= link_to 'プロフィールに含まれる', search_path(q: { profile_has_every_term: @q_word }), class: 'is-hidden-mobile' %>
-                  <%= link_to 'プロフィール', search_path(q: { profile_has_every_term: @q_word }), class: 'is-hidden-tablet is-size-7' %>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      <% end %>
-
-      <% if @q.conditions.present? %>
+      <% if @source == 'recipe_title' || @source == 'recipe_body' %>
         <div class="columns is-centered">
           <div class="column is-5">
-            <% if @results.exists? %>
-              <p class="has-text-grey-light mb-5"><%= @results_size %>件</p>
-              <%= render partial: 'result', collection: @results %>
+            <% if @too_much_results %>
+              <p class="has-text-centered">検索結果の合計数が全レシピ数と一致しています。</p>
+              <p class="has-text-centered">より具体的なキーワードで検索してください。</p>
+            <% elsif @source == 'recipe_title' && @recipe_title_results.exists? %>
+              <%= render partial: 'result', collection: @recipe_title_results %>
+            <% elsif @source == 'recipe_body' && @recipe_body_results.exists? %>
+              <%= render partial: 'result', collection: @recipe_body_results %>
             <% else %>
-              <p class="has-text-centered"><%= "「#{@q_word}」は見つかりませんでした。" %></p>
+              <p class="has-text-centered text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
             <% end %>
           </div>
         </div>
       <% end %>
 
-      <% if @user_q.conditions.present? %>
+      <% if @source == 'user_username' || @source == 'user_profile' %>
         <div class="columns is-centered">
           <div class="column is-5">
-            <% if @user_results.exists? %>
-              <p class="has-text-grey-light mb-5"><%= @user_results_size %>件</p>
-              <%= render partial: 'user_result', collection: @user_results, as: 'result' %>
+            <% if @too_much_results %>
+              <p class="has-text-centered">検索結果の数合計が全ユーザー数と一致しています。</p>
+              <p class="has-text-centered">より具体的なキーワードで検索してください。</p>
+            <% elsif @source == 'user_username' && @user_username_results.exists? %>
+              <%= render partial: 'user_result', collection: @user_username_results, as: 'result' %>
+            <% elsif @source == 'user_profile' && @user_username_results.exists? %>
+              <%= render partial: 'user_result', collection: @user_profile_results, as: 'result' %>
             <% else %>
-              <p class="has-text-centered"><%= "「#{@q_word}」は見つかりませんでした。" %></p>
+              <p class="has-text-centered text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
             <% end %>
           </div>
         </div>
       <% end %>
-    </div>
-  </section>
+    <% end %>
+  </div>
+</section>
