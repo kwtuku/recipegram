@@ -23,7 +23,7 @@
     <% if request.query_string.present? && @q_value.blank? %>
       <div class="columns is-centered">
         <div class="column">
-          <p class="has-text-centered">検索キーワードがありません。</p>
+          <p class="has-text-centered-touch">検索キーワードがありません。</p>
         </div>
       </div>
     <% elsif request.query_string.present? && @q_value.present? %>
@@ -34,25 +34,33 @@
               <li class="<%= 'is-active' if @source == 'recipe_title' %>">
                 <%= link_to search_path(q: @q_value, source: 'recipe_title'), class: 'has-text-weight-bold' do %>
                   <span>レシピ名</span>
-                  <span class="tag is-grey is-rounded ml-2 rspec_recipe_title_results_size"><%= @recipe_title_results_size %></span>
+                  <span class="tag is-rounded ml-2 rspec_recipe_title_results_size <%= 'is-grey' if @recipe_title_results_size != 0 %>">
+                    <%= @recipe_title_results_size %>
+                  </span>
                 <% end %>
               </li>
               <li class="<%= 'is-active' if @source == 'recipe_body' %>">
                 <%= link_to search_path(q: @q_value, source: 'recipe_body'), class: 'has-text-weight-bold' do %>
                   <span>作り方</span>
-                  <span class="tag is-grey is-rounded ml-2 rspec_recipe_body_results_size"><%= @recipe_body_results_size %></span>
+                  <span class="tag is-rounded ml-2 rspec_recipe_body_results_size <%= 'is-grey' if @recipe_body_results_size != 0 %>">
+                    <%= @recipe_body_results_size %>
+                  </span>
                 <% end %>
               </li>
               <li class="<%= 'is-active' if @source == 'user_username' %>">
                 <%= link_to search_path(q: @q_value, source: 'user_username'), class: 'has-text-weight-bold' do %>
                   <span>ユーザー名</span>
-                  <span class="tag is-grey is-rounded ml-2 rspec_user_username_results_size"><%= @user_username_results_size %></span>
+                  <span class="tag is-rounded ml-2 rspec_user_username_results_size <%= 'is-grey' if @user_username_results_size != 0 %>">
+                    <%= @user_username_results_size %>
+                  </span>
                 <% end %>
               </li>
               <li class="<%= 'is-active' if @source == 'user_profile' %>">
                 <%= link_to search_path(q: @q_value, source: 'user_profile'), class: 'has-text-weight-bold' do %>
                   <span>プロフィール</span>
-                  <span class="tag is-grey is-rounded ml-2 rspec_user_profile_results_size"><%= @user_profile_results_size %></span>
+                  <span class="tag is-rounded ml-2 rspec_user_profile_results_size <%= 'is-grey' if @user_profile_results_size != 0 %>">
+                    <%= @user_profile_results_size %>
+                  </span>
                 <% end %>
               </li>
             </ul>
@@ -67,25 +75,33 @@
               <li class="<%= 'is-active' if @source == 'recipe_title' %>">
                 <%= link_to search_path(q: @q_value, source: 'recipe_title'), class: 'has-text-weight-bold px-4 py-3' do %>
                   <span>レシピ名</span>
-                  <span class="tag is-rounded is-grey float-right menu-tag rspec_recipe_title_results_size"><%= @recipe_title_results_size %></span>
+                  <span class="tag is-rounded float-right menu-tag rspec_recipe_title_results_size <%= 'is-grey' if @recipe_title_results_size != 0 %>">
+                    <%= @recipe_title_results_size %>
+                  </span>
                 <% end %>
               </li>
               <li class="<%= 'is-active' if @source == 'recipe_body' %>">
                 <%= link_to search_path(q: @q_value, source: 'recipe_body'), class: 'has-text-weight-bold px-4 py-3' do %>
                   <span>作り方</span>
-                  <span class="tag is-rounded is-grey float-right menu-tag rspec_recipe_body_results_size"><%= @recipe_body_results_size %></span>
+                  <span class="tag is-rounded float-right menu-tag rspec_recipe_body_results_size <%= 'is-grey' if @recipe_body_results_size != 0 %>">
+                    <%= @recipe_body_results_size %>
+                  </span>
                 <% end %>
               </li>
               <li class="<%= 'is-active' if @source == 'user_username' %>">
                 <%= link_to search_path(q: @q_value, source: 'user_username'), class: 'has-text-weight-bold px-4 py-3' do %>
                   <span>ユーザー名</span>
-                  <span class="tag is-rounded is-grey float-right menu-tag rspec_user_username_results_size"><%= @user_username_results_size %></span>
+                  <span class="tag is-rounded float-right menu-tag rspec_user_username_results_size <%= 'is-grey' if @user_username_results_size != 0 %>">
+                    <%= @user_username_results_size %>
+                  </span>
                 <% end %>
               </li>
               <li class="<%= 'is-active' if @source == 'user_profile' %>">
                 <%= link_to search_path(q: @q_value, source: 'user_profile'), class: 'has-text-weight-bold px-4 py-3' do %>
                   <span>プロフィール</span>
-                  <span class="tag is-rounded is-grey float-right menu-tag rspec_user_profile_results_size"><%= @user_profile_results_size %></span>
+                  <span class="tag is-rounded float-right menu-tag rspec_user_profile_results_size <%= 'is-grey' if @user_profile_results_size != 0 %>">
+                    <%= @user_profile_results_size %>
+                  </span>
                 <% end %>
               </li>
             </ul>
@@ -99,7 +115,7 @@
             <% elsif @source == 'recipe_body' && @recipe_body_results.exists? %>
               <%= render partial: 'recipe_result', collection: @recipe_body_results, as: 'recipe' %>
             <% else %>
-              <p class="has-text-centered text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
+              <p class="has-text-centered-touch text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
             <% end %>
           </div>
         <% end %>
@@ -111,7 +127,7 @@
             <% elsif @source == 'user_profile' && @user_profile_results.exists? %>
               <%= render partial: 'user_result', collection: @user_profile_results, as: 'user' %>
             <% else %>
-              <p class="has-text-centered text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
+              <p class="has-text-centered-touch text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
             <% end %>
           </div>
         <% end %>
