@@ -1,11 +1,12 @@
 export default () => {
   document.addEventListener('turbolinks:load', () => {
     window.infiniteScrollContainer = document.getElementById('infinite-scroll-container')
-    if (!infiniteScrollContainer) {
-      return
-    }
 
     window.addEventListener('scroll', () => {
+      if (infiniteScrollContainer === null) {
+        return false;
+      }
+
       const scrollHeight = Math.max(
         document.body.scrollHeight, document.documentElement.scrollHeight,
         document.body.offsetHeight, document.documentElement.offsetHeight,

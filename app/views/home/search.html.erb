@@ -1,75 +1,137 @@
-<% provide(:title, '検索') %>
+<% @q_value.present? ? provide(:title, "「#{@q_value}」の検索結果") : provide(:title, '検索') %>
 
 <section class="section">
-    <div class="container">
-      <div class="columns is-centered">
-        <div class="column is-6">
-          <%= search_form_for @q, url: search_path do |f| %>
-            <div class="field has-addons">
-              <div class="control is-expanded">
-                <%= f.search_field @q_column, value: @q_word, autofocus: true, placeholder: 'レシピまたはユーザーを検索', required: true, class: 'input is-rounded' %>
-              </div>
-                <div class="control">
-                  <%= button_tag type: 'submit', class: 'button is-rounded' do %>
-                    <i class="fas fa-search"></i>
-                  <% end %>
-                </div>
+  <div class="container is-fullhd">
+    <div class="columns is-centered">
+      <div class="column is-6">
+        <%= form_with url: search_path, method: :get do |f| %>
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <%= f.text_field :q, value: @q_value, placeholder: 'レシピまたはユーザーを検索', required: true, class: 'input is-rounded', id: 'search_query' %>
+              <%= f.hidden_field :source, value: @source %>
             </div>
-          <% end %>
+            <div class="control">
+              <%= button_tag type: 'submit', name: nil, class: 'button is-rounded', id: 'search', disabled: true do %>
+                <i class="fas fa-search"></i>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <% if request.query_string.present? && @q_value.blank? %>
+      <div class="columns is-centered">
+        <div class="column">
+          <p class="has-text-centered-touch">検索キーワードがありません。</p>
+        </div>
+      </div>
+    <% elsif request.query_string.present? && @q_value.present? %>
+      <div class="columns is-centered is-hidden-desktop">
+        <div class="column">
+          <div class="tabs is-centered">
+            <ul>
+              <li class="<%= 'is-active' if @source == 'recipe_title' %>">
+                <%= link_to search_path(q: @q_value, source: 'recipe_title'), class: 'has-text-weight-bold' do %>
+                  <span>レシピ名</span>
+                  <span class="tag is-rounded ml-2 rspec_recipe_title_results_size <%= 'is-grey' if @recipe_title_results_size != 0 %>">
+                    <%= @recipe_title_results_size %>
+                  </span>
+                <% end %>
+              </li>
+              <li class="<%= 'is-active' if @source == 'recipe_body' %>">
+                <%= link_to search_path(q: @q_value, source: 'recipe_body'), class: 'has-text-weight-bold' do %>
+                  <span>作り方</span>
+                  <span class="tag is-rounded ml-2 rspec_recipe_body_results_size <%= 'is-grey' if @recipe_body_results_size != 0 %>">
+                    <%= @recipe_body_results_size %>
+                  </span>
+                <% end %>
+              </li>
+              <li class="<%= 'is-active' if @source == 'user_username' %>">
+                <%= link_to search_path(q: @q_value, source: 'user_username'), class: 'has-text-weight-bold' do %>
+                  <span>ユーザー名</span>
+                  <span class="tag is-rounded ml-2 rspec_user_username_results_size <%= 'is-grey' if @user_username_results_size != 0 %>">
+                    <%= @user_username_results_size %>
+                  </span>
+                <% end %>
+              </li>
+              <li class="<%= 'is-active' if @source == 'user_profile' %>">
+                <%= link_to search_path(q: @q_value, source: 'user_profile'), class: 'has-text-weight-bold' do %>
+                  <span>プロフィール</span>
+                  <span class="tag is-rounded ml-2 rspec_user_profile_results_size <%= 'is-grey' if @user_profile_results_size != 0 %>">
+                    <%= @user_profile_results_size %>
+                  </span>
+                <% end %>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
 
-      <% if @q.conditions.present? || @user_q.conditions.present? %>
-        <div class="columns is-centered">
-          <div class="column">
-            <div class="tabs is-centered">
-              <ul>
-                <li class="<%= 'is-active' if request.query_string.include? 'title' %>">
-                  <%= link_to 'レシピ名に含まれる', search_path(q: { title_has_every_term: @q_word }), class: 'is-hidden-mobile' %>
-                  <%= link_to 'レシピ名', search_path(q: { title_has_every_term: @q_word }), class: 'is-hidden-tablet is-size-7' %>
-                </li>
-                <li class="<%= 'is-active' if request.query_string.include? 'body' %>">
-                  <%= link_to '作り方に含まれる', search_path(q: { body_has_every_term: @q_word }), class: 'is-hidden-mobile' %>
-                  <%= link_to '作り方', search_path(q: { body_has_every_term: @q_word }), class: 'is-hidden-tablet is-size-7' %>
-                </li>
-                <li class="<%= 'is-active' if request.query_string.include? 'username' %>">
-                  <%= link_to 'ユーザー名に含まれる', search_path(q: { username_has_every_term: @q_word }), class: 'is-hidden-mobile' %>
-                  <%= link_to 'ユーザー名', search_path(q: { username_has_every_term: @q_word }), class: 'is-hidden-tablet is-size-7' %>
-                </li>
-                <li class="<%= 'is-active' if request.query_string.include? 'profile' %>">
-                  <%= link_to 'プロフィールに含まれる', search_path(q: { profile_has_every_term: @q_word }), class: 'is-hidden-mobile' %>
-                  <%= link_to 'プロフィール', search_path(q: { profile_has_every_term: @q_word }), class: 'is-hidden-tablet is-size-7' %>
-                </li>
-              </ul>
-            </div>
-          </div>
+      <div class="columns is-centered">
+        <div class="column is-one-fifth is-2-widescreen is-hidden-touch">
+          <aside class="menu sticky">
+            <ul class="menu-list">
+              <li class="<%= 'is-active' if @source == 'recipe_title' %>">
+                <%= link_to search_path(q: @q_value, source: 'recipe_title'), class: 'has-text-weight-bold px-4 py-3' do %>
+                  <span>レシピ名</span>
+                  <span class="tag is-rounded float-right menu-tag rspec_recipe_title_results_size <%= 'is-grey' if @recipe_title_results_size != 0 %>">
+                    <%= @recipe_title_results_size %>
+                  </span>
+                <% end %>
+              </li>
+              <li class="<%= 'is-active' if @source == 'recipe_body' %>">
+                <%= link_to search_path(q: @q_value, source: 'recipe_body'), class: 'has-text-weight-bold px-4 py-3' do %>
+                  <span>作り方</span>
+                  <span class="tag is-rounded float-right menu-tag rspec_recipe_body_results_size <%= 'is-grey' if @recipe_body_results_size != 0 %>">
+                    <%= @recipe_body_results_size %>
+                  </span>
+                <% end %>
+              </li>
+              <li class="<%= 'is-active' if @source == 'user_username' %>">
+                <%= link_to search_path(q: @q_value, source: 'user_username'), class: 'has-text-weight-bold px-4 py-3' do %>
+                  <span>ユーザー名</span>
+                  <span class="tag is-rounded float-right menu-tag rspec_user_username_results_size <%= 'is-grey' if @user_username_results_size != 0 %>">
+                    <%= @user_username_results_size %>
+                  </span>
+                <% end %>
+              </li>
+              <li class="<%= 'is-active' if @source == 'user_profile' %>">
+                <%= link_to search_path(q: @q_value, source: 'user_profile'), class: 'has-text-weight-bold px-4 py-3' do %>
+                  <span>プロフィール</span>
+                  <span class="tag is-rounded float-right menu-tag rspec_user_profile_results_size <%= 'is-grey' if @user_profile_results_size != 0 %>">
+                    <%= @user_profile_results_size %>
+                  </span>
+                <% end %>
+              </li>
+            </ul>
+          </aside>
         </div>
-      <% end %>
 
-      <% if @q.conditions.present? %>
-        <div class="columns is-centered">
-          <div class="column is-5">
-            <% if @results.exists? %>
-              <p class="has-text-grey-light mb-5"><%= @results_size %>件</p>
-              <%= render partial: 'result', collection: @results %>
+        <% if @source == 'recipe_title' || @source == 'recipe_body' %>
+          <div class="column is-9">
+            <% if @source == 'recipe_title' && @recipe_title_results.exists? %>
+              <%= render partial: 'recipe_result', collection: @recipe_title_results, as: 'recipe' %>
+            <% elsif @source == 'recipe_body' && @recipe_body_results.exists? %>
+              <%= render partial: 'recipe_result', collection: @recipe_body_results, as: 'recipe' %>
             <% else %>
-              <p class="has-text-centered"><%= "「#{@q_word}」は見つかりませんでした。" %></p>
+              <p class="has-text-centered-touch text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
             <% end %>
           </div>
-        </div>
-      <% end %>
+        <% end %>
 
-      <% if @user_q.conditions.present? %>
-        <div class="columns is-centered">
-          <div class="column is-5">
-            <% if @user_results.exists? %>
-              <p class="has-text-grey-light mb-5"><%= @user_results_size %>件</p>
-              <%= render partial: 'user_result', collection: @user_results, as: 'result' %>
+        <% if @source == 'user_username' || @source == 'user_profile' %>
+          <div class="column is-9">
+            <% if @source == 'user_username' && @user_username_results.exists? %>
+              <%= render partial: 'user_result', collection: @user_username_results, as: 'user' %>
+            <% elsif @source == 'user_profile' && @user_profile_results.exists? %>
+              <%= render partial: 'user_result', collection: @user_profile_results, as: 'user' %>
             <% else %>
-              <p class="has-text-centered"><%= "「#{@q_word}」は見つかりませんでした。" %></p>
+              <p class="has-text-centered-touch text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
             <% end %>
           </div>
-        </div>
-      <% end %>
-    </div>
-  </section>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</section>

@@ -30,3 +30,6 @@ removePasswordMask();
 
 import imagePreview from './imagePreview'
 imagePreview();
+
+import responsive from './responsive'
+responsive();

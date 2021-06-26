@@ -6,30 +6,31 @@ class HomeController < ApplicationController
   end
 
   def search
-    @q = Recipe.ransack(params[:q])
-    @results = @q.result(distinct: true)
-    @results_size = @results.size
+    @source = 'recipe_title'
+    if params[:source].present?
+      @source = params[:source].to_s
+    end
 
-    @user_q = User.ransack(params[:q])
-    @user_results = @user_q.result(distinct: true)
-    @user_results_size = @user_results.size
+    @q_value = params[:q]
 
-    @q_word = if @q.conditions.present?
-                @q.conditions.first.values.first.value
-              elsif @user_q.conditions.present?
-                @user_q.conditions.first.values.first.value
-              end
+    title_q = { title_has_every_term: @q_value }
+    body_q = { body_has_every_term: @q_value }
+    username_q = { username_has_every_term: @q_value }
+    profile_q = { profile_has_every_term: @q_value }
 
-    @q_column = if request.query_string.include? 'title'
-                  :title_has_every_term
-                elsif request.query_string.include? 'body'
-                  :body_has_every_term
-                elsif request.query_string.include? 'username'
-                  :username_has_every_term
-                elsif request.query_string.include? 'profile'
-                  :profile_has_every_term
-                else
-                  :title_has_every_term
-                end
+    recipe_title_q = Recipe.ransack(title_q)
+    recipe_body_q = Recipe.ransack(body_q)
+    user_username_q = User.ransack(username_q)
+    user_profile_q = User.ransack(profile_q)
+
+    @recipe_title_results = recipe_title_q.result(distinct: true)
+    @recipe_body_results = recipe_body_q.result(distinct: true)
+    @user_username_results = user_username_q.result(distinct: true)
+    @user_profile_results = user_profile_q.result(distinct: true)
+
+    @recipe_title_results_size = @recipe_title_results.size
+    @recipe_body_results_size = @recipe_body_results.size
+    @user_username_results_size = @user_username_results.size
+    @user_profile_results_size = @user_profile_results.size
   end
 end

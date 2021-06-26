@@ -165,3 +165,37 @@ a:hover {
 .is-fafafa {
   background-color: #fafafa !important;
 }
+
+.tabs li.is-active a {
+  border-bottom-color: #363636;
+  color: #363636;
+}
+
+.tabs a:hover {
+  border-bottom-color: #dbdbdb;
+}
+
+.is-grey {
+  background-color: #6a737d !important;
+  color: #fff !important;
+}
+
+.menu-list li.is-active {
+  position: relative;
+  &::before {
+    position: absolute;
+    content: "";
+    width: 3px;
+    height: 100%;
+    background-color: #f9826c;
+  }
+}
+
+.float-right {
+  float: right;
+}
+
+.menu-tag {
+  height: auto !important;
+  display: inline-block !important;
+}

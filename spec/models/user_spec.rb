@@ -2,11 +2,11 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   before do
-    @user = build(:user)
+    @alice = build(:user)
   end
 
   it 'is valid with a username, email and password' do
-    expect(@user).to be_valid
+    expect(@alice).to be_valid
   end
 
   it { is_expected.to validate_presence_of(:username) }
@@ -14,24 +14,24 @@ RSpec.describe User, type: :model do
   it { is_expected.to validate_presence_of(:password) }
 
   describe 'feed' do
-    let(:michael) { create(:user,  :with_recipes) }
-    let(:archer) { create(:user,  :with_recipes) }
-    let(:lana) { create(:user,  :with_recipes) }
-    before { michael.relationships.create!(follow_id: lana.id) }
+    let(:alice) { create(:user,  :with_recipes) }
+    let(:bob) { create(:user,  :with_recipes) }
+    let(:carol) { create(:user,  :with_recipes) }
+    before { alice.relationships.create!(follow_id: bob.id) }
 
-    it 'has following user recipes' do
-      lana.recipes.each do |recipe_following|
-        expect(michael.feed.include?(recipe_following)).to be_truthy
+    it 'has self recipes' do
+      alice.recipes.each do |recipe_self|
+        expect(alice.feed.include?(recipe_self)).to eq true
       end
     end
-    it 'has self recipes' do
-      michael.recipes.each do |recipe_self|
-        expect(michael.feed.include?(recipe_self)).to be_truthy
+    it 'has following user recipes' do
+      bob.recipes.each do |recipe_following|
+        expect(alice.feed.include?(recipe_following)).to eq true
       end
     end
     it 'does not have unfollowing user recipes' do
-      archer.recipes.each do |recipe_unfollowed|
-        expect(michael.feed.include?(recipe_unfollowed)).to be_falsy
+      carol.recipes.each do |recipe_unfollowed|
+        expect(alice.feed.include?(recipe_unfollowed)).to eq false
       end
     end
   end

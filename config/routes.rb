@@ -4,9 +4,9 @@ Rails.application.routes.draw do
     post 'users/guest_sign_in', to: 'users/sessions#guest_sign_in'
   end
 
-  root to: "home#home"
+  root to: 'home#home'
 
-  get  "/search", to: "home#search"
+  get '/search', to: 'home#search'
 
   resources :notifications, only: %i(index)
 
