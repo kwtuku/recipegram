@@ -11,10 +11,12 @@ class HomeController < ApplicationController
       @source = params[:source].to_s
     end
 
-    title_q = { title_has_every_term: params[:q] }
-    body_q = { body_has_every_term: params[:q] }
-    username_q = { username_has_every_term: params[:q] }
-    profile_q = { profile_has_every_term: params[:q] }
+    @q_value = params[:q]
+
+    title_q = { title_has_every_term: @q_value }
+    body_q = { body_has_every_term: @q_value }
+    username_q = { username_has_every_term: @q_value }
+    profile_q = { profile_has_every_term: @q_value }
 
     recipe_title_q = Recipe.ransack(title_q)
     recipe_body_q = Recipe.ransack(body_q)
@@ -30,15 +32,5 @@ class HomeController < ApplicationController
     @recipe_body_results_size = @recipe_body_results.size
     @user_username_results_size = @user_username_results.size
     @user_profile_results_size = @user_profile_results.size
-
-    @q_value = if recipe_title_q.conditions.present?
-                recipe_title_q.conditions.first.values.first.value
-              elsif recipe_body_q.conditions.present?
-                recipe_body_q.conditions.first.values.first.value
-              elsif user_username_q.conditions.present?
-                user_username_q.conditions.first.values.first.value
-              elsif user_profile_q.conditions.present?
-                user_profile_q.conditions.first.values.first.value
-              end
   end
 end
