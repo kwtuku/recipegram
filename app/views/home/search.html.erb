@@ -112,8 +112,10 @@
           <div class="column is-9">
             <% if @source == 'recipe_title' && @recipe_title_results.exists? %>
               <%= render partial: 'recipe_result', collection: @recipe_title_results, as: 'recipe' %>
+              <%= paginate @recipe_title_results %>
             <% elsif @source == 'recipe_body' && @recipe_body_results.exists? %>
               <%= render partial: 'recipe_result', collection: @recipe_body_results, as: 'recipe' %>
+              <%= paginate @recipe_body_results %>
             <% else %>
               <p class="has-text-centered-touch text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
             <% end %>
@@ -124,8 +126,10 @@
           <div class="column is-9">
             <% if @source == 'user_username' && @user_username_results.exists? %>
               <%= render partial: 'user_result', collection: @user_username_results, as: 'user' %>
+              <%= paginate @user_username_results %>
             <% elsif @source == 'user_profile' && @user_profile_results.exists? %>
               <%= render partial: 'user_result', collection: @user_profile_results, as: 'user' %>
+              <%= paginate @user_profile_results %>
             <% else %>
               <p class="has-text-centered-touch text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
             <% end %>
