@@ -111,13 +111,19 @@
         <% if @source == 'recipe_title' || @source == 'recipe_body' %>
           <div class="column is-9">
             <% if @source == 'recipe_title' && @recipe_title_results.exists? %>
-              <%= render partial: 'recipe_result', collection: @recipe_title_results, as: 'recipe' %>
-              <%= paginate @recipe_title_results %>
+              <div class="rspec_recipe_title_results">
+                <%= render partial: 'recipe_result', collection: @recipe_title_results, as: 'recipe' %>
+                <%= paginate @recipe_title_results %>
+              </div>
             <% elsif @source == 'recipe_body' && @recipe_body_results.exists? %>
-              <%= render partial: 'recipe_result', collection: @recipe_body_results, as: 'recipe' %>
-              <%= paginate @recipe_body_results %>
+              <div class="rspec_recipe_body_results">
+                <%= render partial: 'recipe_result', collection: @recipe_body_results, as: 'recipe' %>
+                <%= paginate @recipe_body_results %>
+              </div>
             <% else %>
-              <p class="has-text-centered-touch text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
+              <div class="<%= 'rspec_recipe_title_results' if @source == 'recipe_title' %> <%= 'rspec_recipe_body_results' if @source == 'recipe_body' %>">
+                <p class="has-text-centered-touch text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
+              </div>
             <% end %>
           </div>
         <% end %>
@@ -125,13 +131,19 @@
         <% if @source == 'user_username' || @source == 'user_profile' %>
           <div class="column is-9">
             <% if @source == 'user_username' && @user_username_results.exists? %>
-              <%= render partial: 'user_result', collection: @user_username_results, as: 'user' %>
-              <%= paginate @user_username_results %>
+              <div class="rspec_user_username_results">
+                <%= render partial: 'user_result', collection: @user_username_results, as: 'user' %>
+                <%= paginate @user_username_results %>
+              </div>
             <% elsif @source == 'user_profile' && @user_profile_results.exists? %>
-              <%= render partial: 'user_result', collection: @user_profile_results, as: 'user' %>
-              <%= paginate @user_profile_results %>
+              <div class="rspec_user_profile_results">
+                <%= render partial: 'user_result', collection: @user_profile_results, as: 'user' %>
+                <%= paginate @user_profile_results %>
+              </div>
             <% else %>
-              <p class="has-text-centered-touch text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
+              <div class="<%= 'rspec_user_username_results' if @source == 'user_username' %> <%= 'rspec_user_profile_results' if @source == 'user_profile' %>">
+                <p class="has-text-centered-touch text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
+              </div>
             <% end %>
           </div>
         <% end %>
