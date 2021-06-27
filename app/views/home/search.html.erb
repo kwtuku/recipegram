@@ -113,12 +113,12 @@
             <% if @source == 'recipe_title' && @recipe_title_results.exists? %>
               <div class="rspec_recipe_title_results">
                 <%= render partial: 'recipe_result', collection: @recipe_title_results, as: 'recipe' %>
-                <%= paginate @recipe_title_results %>
+                <%= paginate @recipe_title_results, window: 2, outer_window: 1 %>
               </div>
             <% elsif @source == 'recipe_body' && @recipe_body_results.exists? %>
               <div class="rspec_recipe_body_results">
                 <%= render partial: 'recipe_result', collection: @recipe_body_results, as: 'recipe' %>
-                <%= paginate @recipe_body_results %>
+                <%= paginate @recipe_body_results, window: 2, outer_window: 1 %>
               </div>
             <% else %>
               <div class="<%= 'rspec_recipe_title_results' if @source == 'recipe_title' %> <%= 'rspec_recipe_body_results' if @source == 'recipe_body' %>">
@@ -133,12 +133,12 @@
             <% if @source == 'user_username' && @user_username_results.exists? %>
               <div class="rspec_user_username_results">
                 <%= render partial: 'user_result', collection: @user_username_results, as: 'user' %>
-                <%= paginate @user_username_results %>
+                <%= paginate @user_username_results, window: 2, outer_window: 1 %>
               </div>
             <% elsif @source == 'user_profile' && @user_profile_results.exists? %>
               <div class="rspec_user_profile_results">
                 <%= render partial: 'user_result', collection: @user_profile_results, as: 'user' %>
-                <%= paginate @user_profile_results %>
+                <%= paginate @user_profile_results, window: 2, outer_window: 1 %>
               </div>
             <% else %>
               <div class="<%= 'rspec_user_username_results' if @source == 'user_username' %> <%= 'rspec_user_profile_results' if @source == 'user_profile' %>">
