@@ -1,10 +1,10 @@
 <p class="has-text-centered my-4">または</p>
 
-<%= link_to "ゲストユーザーとしてログイン", users_guest_sign_in_path, method: :post, class: "button is-fullwidth is-rounded is-primary is-light mb-4" %>
+<%= link_to 'ゲストユーザーとしてログイン', users_guest_sign_in_path, method: :post, class: 'button is-fullwidth is-rounded is-primary is-light mb-4' %>
 
 <div class="has-text-centered">
   <%- if controller_name != 'sessions' %>
-    <%= link_to t(".sign_in"), new_session_path(resource_name) %>
+    <%= link_to t('.sign_in'), new_session_path(resource_name), class: 'hover-underline' %>
   <% end %>
 
   <%- if devise_mapping.recoverable? && controller_name == 'passwords' %>
@@ -12,13 +12,13 @@
   <% end %>
 
   <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-    <%= link_to  t(".sign_up"), new_registration_path(resource_name) %>
+    <%= link_to  t('.sign_up'), new_registration_path(resource_name), class: 'hover-underline' %>
   <% end %>
 
 
   <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
     <span>・</span>
-    <%= link_to t(".forgot_your_password"), new_password_path(resource_name) %>
+    <%= link_to t('.forgot_your_password'), new_password_path(resource_name), class: 'hover-underline' %>
   <% end %>
 </div>
 

@@ -4,13 +4,13 @@
       <figure class="media-left">
         <p class="image is-64x64">
           <%= link_to user_path(user) do %>
-            <%= image_tag user.user_image.url(:icon), class: "is-rounded" %>
+            <%= image_tag user.user_image.url(:icon), class: 'is-rounded' %>
           <% end %>
         </p>
       </figure>
       <div class="media-content">
         <p class="is-size-5 oneline">
-          <span><%= link_to user.username, user_path(user), class: "has-text-black-bis text-break" %></span>
+          <span><%= link_to user.username, user_path(user), class: 'has-text-black-bis text-break hover-underline' %></span>
         </p>
         <%= render 'shared/follow_button', user: user, size: 'is-small' %>
       </div>
@@ -20,7 +20,7 @@
         <span class="tag is-info is-light">フォローされています</span>
       </div>
     <% end %>
-    <% unless controller.controller_name == "users" && controller.action_name == "index" %>
+    <% unless controller.controller_name == 'users' && controller.action_name == 'index' %>
       <div class="content">
         <p class="text-break fiveline"><span><%= user.profile %></span></p>
       </div>

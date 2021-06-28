@@ -5,12 +5,13 @@
     <div class="container">
       <h1 class="title has-text-centered">
         <span class="icon-text">
-          <%= link_to user_path(@user) do %>
+          <%= link_to user_path(@user), class: 'has-text-grey-darker hover-underline' do %>
             <span class="icon">
               <i class="fas fa-arrow-left"></i>
             </span>
+            <span><%= @user.username %>さん</span>
           <% end %>
-          <span><%= @user.username %>さんのフォロワー</span>
+          <span>のフォロワー</span>
         </span>
       </h1>
     </div>
@@ -22,12 +23,12 @@
     <div class="columns is-centered">
       <div class="column is-9" id="infinite-scroll-container" data-infinite-scroll="true">
         <% if @followers.exists? %>
-          <%= render partial: 'users/user_list', collection: @followers, as: "user" %>
+          <%= render partial: 'users/user_list', collection: @followers, as: 'user' %>
         <% else %>
-          <% if @user.id == current_user.id %>
+          <% if @user == current_user %>
             <p>まだフォロワーがいません</p>
           <% else %>
-            <p><%= link_to @user.username, user_path(@user) %>さんにはまだフォロワーがいません</p>
+            <p><%= @user.username %>さんにはまだフォロワーがいません</p>
           <% end %>
         <% end %>
       </div>
