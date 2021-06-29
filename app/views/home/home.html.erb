@@ -10,17 +10,17 @@
             <figure class="media-left">
               <p class="image is-48x48">
                 <%= link_to user_path(current_user) do %>
-                  <%= image_tag current_user.user_image.url(:icon), class: "is-rounded" %>
+                  <%= image_tag current_user.user_image.url(:icon), class: 'is-rounded' %>
                 <% end %>
               </p>
             </figure>
             <div class="media-content vertical-center">
               <p class="is-size-5 oneline">
-                <span><%= link_to current_user.username, user_path(current_user), class: "has-text-black-bis text-break" %></span>
+                <span><%= link_to current_user.username, user_path(current_user), class: 'has-text-black-bis text-break hover-underline' %></span>
               </p>
             </div>
             <div class="media-right vertical-center">
-              <%= link_to "プロフィールを編集", edit_user_path(current_user), class: "button is-small is-rounded" %>
+              <%= link_to 'プロフィールを編集', edit_user_path(current_user), class: 'button is-small is-rounded' %>
             </div>
           </div>
         </div>
@@ -33,9 +33,9 @@
       <div class="columns is-centered">
         <div class="column is-5">
           <p class="title is-1 has-text-centered mb-6 recipegram">Recipegram</p>
-          <%= link_to "ゲストユーザーとしてログイン", users_guest_sign_in_path, method: :post, class: "button is-fullwidth is-rounded is-primary is-light mb-5" %>
-          <%= link_to "ログイン", new_user_session_path, class: "button is-fullwidth is-rounded is-primary mb-5" %>
-          <%= link_to "新規登録", new_user_registration_path, class: "button is-fullwidth is-rounded is-success" %>
+          <%= link_to 'ゲストユーザーとしてログイン', users_guest_sign_in_path, method: :post, class: 'button is-fullwidth is-rounded is-primary is-light mb-5' %>
+          <%= link_to 'ログイン', new_user_session_path, class: 'button is-fullwidth is-rounded is-primary mb-5' %>
+          <%= link_to '新規登録', new_user_registration_path, class: 'button is-fullwidth is-rounded is-success' %>
         </div>
       </div>
       <div class="columns is-centered">

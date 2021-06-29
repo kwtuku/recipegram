@@ -8,7 +8,10 @@
       <div class="column is-9">
         <% notifications = @notifications.where.not(visitor_id: current_user.id) %>
         <% if notifications.exists? %>
-          <%= render notifications %>
+          <div class="mb-5">
+            <%= render notifications %>
+          </div>
+          <%= paginate notifications, window: 2, outer_window: 1 %>
         <% else %>
           <p>通知はありません。</p>
         <% end %>

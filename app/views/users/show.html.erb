@@ -7,19 +7,19 @@
         <div class="media">
           <figure class="media-left is-hidden-mobile mr-6">
             <p class="image is-128x128">
-              <%= image_tag @user.user_image.url(:thumb), class: "is-rounded" %>
+              <%= image_tag @user.user_image.url(:thumb), class: 'is-rounded' %>
             </p>
           </figure>
           <div class="media-content">
             <div class="content is-hidden-tablet">
-              <p class="image is-128x128"><%= image_tag @user.user_image.url(:thumb), class: "is-rounded" %></p>
+              <p class="image is-128x128"><%= image_tag @user.user_image.url(:thumb), class: 'is-rounded' %></p>
             </div>
             <div class="content">
               <p class="title"><%= @user.username %></p>
             </div>
             <div class="content">
               <% if @user == current_user %>
-                <%= link_to "プロフィールを編集", edit_user_path(@user), class: "button is-rounded" %>
+                <%= link_to 'プロフィールを編集', edit_user_path(@user), class: 'button is-rounded' %>
               <% else %>
                 <%= render 'shared/follow_button', user: @user, size: 'is-normal' %>
               <% end %>
@@ -44,7 +44,7 @@
                   </div>
                 </div>
                 <div class="level-item has-text-centered">
-                  <%= link_to user_followings_path(@user), class: "has-text-black-bis" do %>
+                  <%= link_to user_followings_path(@user), class: 'has-text-black-bis hover-underline' do %>
                     <div>
                       <p class="heading">フォロー中</p>
                       <p class="title"><%= @user.followings.size %></p>
@@ -52,7 +52,7 @@
                   <% end %>
                 </div>
                 <div class="level-item has-text-centered">
-                  <%= link_to user_followers_path(@user), class: "has-text-black-bis" do %>
+                  <%= link_to user_followers_path(@user), class: 'has-text-black-bis hover-underline' do %>
                     <div>
                       <p class="heading">フォロワー</p>
                       <p class="title" id='recount-followers'><%= @user.followers.size %></p>

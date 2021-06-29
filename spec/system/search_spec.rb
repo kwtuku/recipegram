@@ -20,7 +20,9 @@ RSpec.describe 'Search', type: :system do
     expect(page).to have_button 'search', disabled: true
     fill_in 'search_query', with: 'ごはん'
     click_button 'search'
-    expect(page).to have_content '「ごはん」は見つかりませんでした。'
+    within '.rspec_recipe_title_results' do
+      expect(page).to have_content '「ごはん」は見つかりませんでした。'
+    end
     expect(page).to have_selector '.rspec_recipe_title_results_size', text: '0'
     expect(page).to have_selector '.rspec_recipe_body_results_size', text: '0'
     expect(page).to have_selector '.rspec_user_username_results_size', text: '0'
@@ -39,27 +41,183 @@ RSpec.describe 'Search', type: :system do
     expect(page).to have_selector '.rspec_user_profile_results_size', text: '3'
   end
 
-  it 'can AND search using space', js: true do
+  it 'keeps search keyword', js: true do
     visit root_path
     click_link href: search_path
     expect(page).to have_button 'search', disabled: true
-    fill_in 'search_query', with: '味噌 作り方'
+    fill_in 'search_query', with: '味噌'
     click_button 'search'
-    expect(page).to have_selector '.rspec_recipe_title_results_size', text: '1'
-    expect(page).to have_selector '.rspec_recipe_body_results_size', text: '4'
-    expect(page).to have_selector '.rspec_user_username_results_size', text: '0'
-    expect(page).to have_selector '.rspec_user_profile_results_size', text: '2'
+    expect(find('#search_query').value).to eq '味噌'
   end
 
-  it 'and search using zenkaku spece', js: true do
-    visit root_path
-    click_link href: search_path
-    expect(page).to have_button 'search', disabled: true
-    fill_in 'search_query', with: '味噌　作り方'
-    click_button 'search'
-    expect(page).to have_selector '.rspec_recipe_title_results_size', text: '1'
-    expect(page).to have_selector '.rspec_recipe_body_results_size', text: '4'
-    expect(page).to have_selector '.rspec_user_username_results_size', text: '0'
-    expect(page).to have_selector '.rspec_user_profile_results_size', text: '2'
+  describe 'AND search' do
+    it 'using space', js: true do
+      visit root_path
+      click_link href: search_path
+      expect(page).to have_button 'search', disabled: true
+      fill_in 'search_query', with: '味噌 作り方'
+      click_button 'search'
+      expect(page).to have_selector '.rspec_recipe_title_results_size', text: '1'
+      expect(page).to have_selector '.rspec_recipe_body_results_size', text: '4'
+      expect(page).to have_selector '.rspec_user_username_results_size', text: '0'
+      expect(page).to have_selector '.rspec_user_profile_results_size', text: '2'
+    end
+
+    it 'using zenkaku spece', js: true do
+      visit root_path
+      click_link href: search_path
+      expect(page).to have_button 'search', disabled: true
+      fill_in 'search_query', with: '味噌　作り方'
+      click_button 'search'
+      expect(page).to have_selector '.rspec_recipe_title_results_size', text: '1'
+      expect(page).to have_selector '.rspec_recipe_body_results_size', text: '4'
+      expect(page).to have_selector '.rspec_user_username_results_size', text: '0'
+      expect(page).to have_selector '.rspec_user_profile_results_size', text: '2'
+    end
+  end
+
+  describe 'show correct condition results' do
+    it 'recipe title', js: true do
+      visit root_path
+      click_link href: search_path
+      expect(page).to have_button 'search', disabled: true
+      fill_in 'search_query', with: '味噌'
+      click_button 'search'
+      expect(page).to have_css '.rspec_recipe_title_results'
+      expect(page).to have_no_css '.rspec_recipe_body_results'
+      expect(page).to have_no_css '.rspec_user_username_results'
+      expect(page).to have_no_css '.rspec_user_profile_results'
+    end
+
+    it 'recipe body', js: true do
+      visit root_path
+      click_link href: search_path
+      expect(page).to have_button 'search', disabled: true
+      fill_in 'search_query', with: '味噌'
+      click_button 'search'
+      within '.menu' do
+        click_link '作り方'
+      end
+      expect(page).to have_no_css '.rspec_recipe_title_results'
+      expect(page).to have_css '.rspec_recipe_body_results'
+      expect(page).to have_no_css '.rspec_user_username_results'
+      expect(page).to have_no_css '.rspec_user_profile_results'
+    end
+
+    it 'user username', js: true do
+      visit root_path
+      click_link href: search_path
+      expect(page).to have_button 'search', disabled: true
+      fill_in 'search_query', with: '味噌'
+      click_button 'search'
+      within '.menu' do
+        click_link 'ユーザー名'
+      end
+      expect(page).to have_no_css '.rspec_recipe_title_results'
+      expect(page).to have_no_css '.rspec_recipe_body_results'
+      expect(page).to have_css '.rspec_user_username_results'
+      expect(page).to have_no_css '.rspec_user_profile_results'
+    end
+
+    it 'user username', js: true do
+      visit root_path
+      click_link href: search_path
+      expect(page).to have_button 'search', disabled: true
+      fill_in 'search_query', with: '味噌'
+      click_button 'search'
+      within '.menu' do
+        click_link 'プロフィール'
+      end
+      expect(page).to have_no_css '.rspec_recipe_title_results'
+      expect(page).to have_no_css '.rspec_recipe_body_results'
+      expect(page).to have_no_css '.rspec_user_username_results'
+      expect(page).to have_css '.rspec_user_profile_results'
+    end
+  end
+
+  describe 'keep condition' do
+    it 'recipe title', js: true do
+      visit root_path
+      click_link href: search_path
+      expect(page).to have_button 'search', disabled: true
+      fill_in 'search_query', with: '味噌'
+      click_button 'search'
+      within '.menu' do
+        click_link 'レシピ名'
+      end
+      expect(page).to have_css '.rspec_recipe_title_results'
+      expect(page).to have_no_css '.rspec_recipe_body_results'
+      expect(page).to have_no_css '.rspec_user_username_results'
+      expect(page).to have_no_css '.rspec_user_profile_results'
+      fill_in 'search_query', with: 'ラーメン'
+      click_button 'search'
+      expect(page).to have_css '.rspec_recipe_title_results'
+      expect(page).to have_no_css '.rspec_recipe_body_results'
+      expect(page).to have_no_css '.rspec_user_username_results'
+      expect(page).to have_no_css '.rspec_user_profile_results'
+    end
+
+    it 'recipe body', js: true do
+      visit root_path
+      click_link href: search_path
+      expect(page).to have_button 'search', disabled: true
+      fill_in 'search_query', with: '味噌'
+      click_button 'search'
+      within '.menu' do
+        click_link '作り方'
+      end
+      expect(page).to have_no_css '.rspec_recipe_title_results'
+      expect(page).to have_css '.rspec_recipe_body_results'
+      expect(page).to have_no_css '.rspec_user_username_results'
+      expect(page).to have_no_css '.rspec_user_profile_results'
+      fill_in 'search_query', with: 'ラーメン'
+      click_button 'search'
+      expect(page).to have_no_css '.rspec_recipe_title_results'
+      expect(page).to have_css '.rspec_recipe_body_results'
+      expect(page).to have_no_css '.rspec_user_username_results'
+      expect(page).to have_no_css '.rspec_user_profile_results'
+    end
+
+    it 'user username', js: true do
+      visit root_path
+      click_link href: search_path
+      expect(page).to have_button 'search', disabled: true
+      fill_in 'search_query', with: '味噌'
+      click_button 'search'
+      within '.menu' do
+        click_link 'ユーザー名'
+      end
+      expect(page).to have_no_css '.rspec_recipe_title_results'
+      expect(page).to have_no_css '.rspec_recipe_body_results'
+      expect(page).to have_css '.rspec_user_username_results'
+      expect(page).to have_no_css '.rspec_user_profile_results'
+      fill_in 'search_query', with: 'ラーメン'
+      click_button 'search'
+      expect(page).to have_no_css '.rspec_recipe_title_results'
+      expect(page).to have_no_css '.rspec_recipe_body_results'
+      expect(page).to have_css '.rspec_user_username_results'
+      expect(page).to have_no_css '.rspec_user_profile_results'
+    end
+
+    it 'user profile', js: true do
+      visit root_path
+      click_link href: search_path
+      expect(page).to have_button 'search', disabled: true
+      fill_in 'search_query', with: '味噌'
+      click_button 'search'
+      within '.menu' do
+        click_link 'プロフィール'
+      end
+      expect(page).to have_no_css '.rspec_recipe_title_results'
+      expect(page).to have_no_css '.rspec_recipe_body_results'
+      expect(page).to have_no_css '.rspec_user_username_results'
+      expect(page).to have_css '.rspec_user_profile_results'
+      fill_in 'search_query', with: 'ラーメン'
+      click_button 'search'
+      expect(page).to have_no_css '.rspec_recipe_title_results'
+      expect(page).to have_no_css '.rspec_recipe_body_results'
+      expect(page).to have_no_css '.rspec_user_username_results'
+      expect(page).to have_css '.rspec_user_profile_results'
+    end
   end
 end

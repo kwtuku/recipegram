@@ -3,11 +3,11 @@
     <div class="media">
       <figure class="media-left">
         <p class="image is-24x24">
-          <%= image_tag feed.user.user_image.url(:icon), class: "is-rounded" %>
+          <%= image_tag feed.user.user_image.url(:icon), class: 'is-rounded' %>
         </p>
       </figure>
       <div class="media-content oneline">
-        <span><%= link_to feed.user.username, user_path(feed.user),class: "has-text-black-bis text-break" %></span>
+        <span><%= link_to feed.user.username, user_path(feed.user),class: 'has-text-black-bis text-break hover-underline' %></span>
       </div>
       <% if user_signed_in? && feed.user.id == current_user.id %>
         <div class="media-right">
@@ -21,8 +21,8 @@
             </div>
             <div class="dropdown-menu" id="dropdown-menu" role="menu">
               <div class="dropdown-content">
-                  <%= link_to "編集する", edit_recipe_path(feed), class: "dropdown-item" %>
-                  <%= link_to "削除する", recipe_path(feed), method: :delete, data: {confirm: "本当にレシピを削除しますか？"}, class: "dropdown-item" %>
+                  <%= link_to '編集する', edit_recipe_path(feed), class: 'dropdown-item' %>
+                  <%= link_to '削除する', recipe_path(feed), method: :delete, data: {confirm: '本当にレシピを削除しますか？'}, class: 'dropdown-item' %>
               </div>
             </div>
           </div>

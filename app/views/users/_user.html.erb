@@ -5,13 +5,13 @@
         <figure class="media-left">
           <p class="image is-64x64">
             <%= link_to user_path(user) do %>
-              <%= image_tag user.user_image.url(:icon), class: "is-rounded" %>
+              <%= image_tag user.user_image.url(:icon), class: 'is-rounded' %>
             <% end %>
           </p>
         </figure>
         <div class="media-content">
-          <p class="is-size-5 oneline">
-            <span><%= link_to user.username, user_path(user), class: "has-text-black-bis text-break" %></span>
+          <p class="is-size-5 oneline mb-2">
+            <span><%= link_to user.username, user_path(user), class: 'has-text-black-bis text-break hover-underline' %></span>
           </p>
           <%= render 'shared/follow_button', user: user, size: 'is-small' %>
         </div>

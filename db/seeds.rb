@@ -92,9 +92,27 @@ def update_recipe(recipe_updating_time)
   end
 end
 
+def create_notification(notification_creation_time, user_id)
+  user = User.find(user_id)
+  other_user_ids = User.ids - [user.id]
+
+  notification_creation_time.times do
+    other_user = User.find(other_user_ids.sample)
+    user_recipe = user.recipes.sample
+    other_user_recipe = other_user.recipes.sample
+    other_user_comment = other_user.comments.sample
+
+    other_user_comment.create_comment_notification!(other_user, other_user_comment.id, user_recipe.id)
+    other_user_comment.create_comment_notification!(other_user, other_user_comment.id, other_user_recipe.id)
+    user_recipe.create_favorite_notification!(other_user)
+    user.create_follow_notification!(other_user)
+  end
+end
+
 create_user(100)
 create_relationship
 create_recipe(100)
 create_comment(500)
 create_favorite(500)
 update_recipe(10)
+create_notification(10, 52)

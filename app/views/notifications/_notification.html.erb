@@ -5,25 +5,25 @@
   <figure class="media-left">
     <p class="image is-32x32 is-hidden-mobile">
       <%= link_to user_path(visitor) do %>
-        <%= image_tag visitor.user_image.url(:icon), class: "is-rounded" %>
+        <%= image_tag visitor.user_image.url(:icon), class: 'is-rounded' %>
       <% end %>
     </p>
     <p class="image is-32x32 is-hidden-tablet">
       <%= link_to user_path(visitor) do %>
-        <%= image_tag visitor.user_image.url(:icon), class: "is-rounded" %>
+        <%= image_tag visitor.user_image.url(:icon), class: 'is-rounded' %>
       <% end %>
     </p>
   </figure>
   <div class="media-content">
     <p>
-      <%= link_to visitor.username, user_path(visitor), class: "has-text-black-bis has-text-weight-bold text-break" %>さんが
+      <%= link_to visitor.username, user_path(visitor), class: 'has-text-black-bis has-text-weight-bold text-break hover-underline' %>さんが
       <% if notification.action == 'favorite' %>
-        <%= link_to "あなたの投稿「#{notification.recipe.title}」", recipe_path(notification.recipe), class: 'has-text-black-bis has-text-weight-bold text-break' %>にいいねしました。
+        <%= link_to "あなたの投稿「#{notification.recipe.title}」", recipe_path(notification.recipe), class: 'has-text-black-bis has-text-weight-bold text-break hover-underline' %>にいいねしました。
       <% elsif notification.action == 'comment' %>
         <% if notification.recipe.user_id == visited.id %>
-          <%= link_to "あなたの投稿「#{notification.comment.recipe.title}」", recipe_path(notification.comment.recipe), class: 'has-text-black-bis has-text-weight-bold text-break' %>にコメントしました。
+          <%= link_to "あなたの投稿「#{notification.comment.recipe.title}」", recipe_path(notification.comment.recipe), class: 'has-text-black-bis has-text-weight-bold text-break hover-underline' %>にコメントしました。
         <% else %>
-          <%= link_to "あなたがコメントした投稿「#{notification.comment.recipe.title}」", recipe_path(notification.comment.recipe), class: 'has-text-black-bis has-text-weight-bold text-break' %>にコメントしました。
+          <%= link_to "あなたがコメントした投稿「#{notification.comment.recipe.title}」", recipe_path(notification.comment.recipe), class: 'has-text-black-bis has-text-weight-bold text-break hover-underline' %>にコメントしました。
         <% end %>
       <% else notification.action == 'follow' %>
         あなたをフォローしました。
