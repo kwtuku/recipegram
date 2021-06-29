@@ -15,6 +15,16 @@ class UserImageUploader < CarrierWave::Uploader::Base
     end
   end
 
+  def public_id
+    environment = if Rails.env.development?
+                    'development'
+                  elsif Rails.env.production?
+                    'production'
+                  end
+
+    "#{environment}/user/#{Cloudinary::Utils.random_public_id}"
+  end
+
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
