@@ -83,7 +83,7 @@ class RecipesController < ApplicationController
       redirect_to recipe_url(@recipe), alert: '権限がありません。'
     else
       @recipe.destroy
-      redirect_to recipes_path(@recipe)
+      redirect_to recipes_url, notice: 'レシピを削除しました。'
     end
   end
 

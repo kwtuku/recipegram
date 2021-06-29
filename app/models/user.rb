@@ -5,6 +5,8 @@ class User < ApplicationRecord
 
   attachment :profile_image
 
+  before_destroy :remove_image
+
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :recipes, dependent: :destroy
@@ -69,5 +71,9 @@ class User < ApplicationRecord
   private
     def self.ransackable_attributes(auth_object = nil)
       %w(username profile)
+    end
+
+    def remove_image
+      user_image.remove!
     end
 end

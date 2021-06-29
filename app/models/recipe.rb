@@ -1,6 +1,8 @@
 class Recipe < ApplicationRecord
   attachment :image
 
+  before_destroy :remove_image
+
   belongs_to :user
 
   has_many :favorites, dependent: :destroy
@@ -36,5 +38,9 @@ class Recipe < ApplicationRecord
   private
     def self.ransackable_attributes(auth_object = nil)
       %w(title body)
+    end
+
+    def remove_image
+      recipe_image.remove!
     end
 end
