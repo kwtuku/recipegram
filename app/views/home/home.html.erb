@@ -1,8 +1,8 @@
 <% if user_signed_in? %>
-  <section class="section" data-add-class-mobile="p-0">
+  <section class="section p-0-mobile">
     <div class="container">
-      <div class="columns is-centered" data-add-class-mobile="m-0">
-        <div class="column is-5" id="infinite-scroll-container" data-infinite-scroll="true" data-add-class-mobile="p-0">
+      <div class="columns is-centered m-0-mobile">
+        <div class="column is-5 p-0-mobile" id="infinite-scroll-container" data-infinite-scroll="true">
           <%= render partial: 'home/feed', collection: @feed_items %>
         </div>
         <div class="column is-4 is-hidden-mobile">

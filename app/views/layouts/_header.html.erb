@@ -1,7 +1,7 @@
 <nav class="navbar is-fixed-top is-white" style="border-bottom: solid hsl(0, 0%, 86%);">
   <div class="navbar-brand">
-    <%= link_to root_path, class: "navbar-item ml-6", data: {remove_class_mobile: 'ml-6'} do %>
-      <h1 class="title is-4 recipegram">Recipegram</h1>
+    <%= link_to root_path, class: "navbar-item ml-6 m-0-mobile" do %>
+      <h1 class="title is-4 is-size-5-mobile recipegram">Recipegram</h1>
     <% end %>
 
     <% if user_signed_in? %>
