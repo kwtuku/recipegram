@@ -37,6 +37,7 @@ RSpec.describe 'Recipes', type: :system do
         expect(page).to have_content 'レシピを編集しました。'
         expect(alice_recipe.reload.title).to eq 'クリームシチュー'
       end
+
       it 'edit body', js: true do
         sign_in alice
         visit edit_recipe_path(alice_recipe)
@@ -46,14 +47,17 @@ RSpec.describe 'Recipes', type: :system do
         expect(page).to have_content 'レシピを編集しました。'
         expect(alice_recipe.reload.body).to eq '切ったにんじん、玉ねぎ、じゃがいも、肉とクリームシチューのルーと水を鍋に入れて煮込む。'
       end
+
       it 'edit recipe_image', js: true do
         sign_in alice
+        before_image_public_id = alice_recipe.recipe_image.public_id
         visit edit_recipe_path(alice_recipe)
         expect(page).to have_button 'update_recipe', disabled: true
         attach_file 'recipe[recipe_image]', "#{Rails.root}/spec/fixtures/recipe_image_sample_after.jpg", visible: false
         click_button 'update_recipe'
+        after_image_public_id = alice_recipe.reload.recipe_image.public_id
+        expect(before_image_public_id).to_not eq after_image_public_id
         expect(page).to have_content 'レシピを編集しました。'
-        expect(page).to have_selector("img[src$='recipe_image_sample_after.jpg']")
       end
     end
   end
