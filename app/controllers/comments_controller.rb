@@ -14,8 +14,12 @@ class CommentsController < ApplicationController
   def destroy
     @comment = Comment.find(params[:recipe_id])
     @recipe = Recipe.find(params[:id])
-    @comment.destroy
-    redirect_to recipe_path(@recipe)
+    if @comment.user != current_user
+      redirect_to recipe_url(@recipe), alert: '権限がありません。'
+    else
+      @comment.destroy
+      redirect_to recipe_url(@recipe), notice: 'コメントを削除しました。'
+    end
   end
 
   private
