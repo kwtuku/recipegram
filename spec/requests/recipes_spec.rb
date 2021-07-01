@@ -17,30 +17,19 @@ RSpec.describe 'Recipes', type: :request do
 
   describe 'POST /recipes' do
     let(:alice) { create :user }
-    let(:bob) { create :user }
 
     context 'not signed in' do
       it 'redirect_to new_user_session_path' do
         recipe_params = attributes_for(:recipe)
         expect {
           post recipes_path, params: { recipe: recipe_params }
-        }.to change { alice.recipes.count }.by(0)
+        }.to change { Recipe.count }.by(0)
         expect(response).to have_http_status(302)
         expect(response).to redirect_to new_user_session_path
       end
     end
 
-    context 'signed in as wrong user' do
-      it 'can not create other user recipe' do
-        sign_in bob
-        recipe_params = attributes_for(:recipe)
-        expect {
-          post recipes_path, params: { recipe: recipe_params }
-        }.to change { alice.recipes.count }.by(0)
-      end
-    end
-
-    context 'signed in as correct user' do
+    context 'signed in' do
       it 'create recipe' do
         sign_in alice
         recipe_params = attributes_for(:recipe, user: alice)
