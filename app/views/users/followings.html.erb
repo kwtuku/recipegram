@@ -22,15 +22,7 @@
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-9" id="infinite-scroll-container" data-infinite-scroll="true">
-        <% if @followings.exists? %>
-          <%= render partial: 'users/user_list', collection: @followings, as: 'user' %>
-        <% else %>
-          <% if @user == current_user %>
-            <p>まだ誰もフォローしていません</p>
-          <% else %>
-            <p><%= @user.username %>さんはまだ誰もフォローしていません</p>
-          <% end %>
-        <% end %>
+        <%= follows_or_no_follow_description(@followings, @user) %>
       </div>
     </div>
   </div>
