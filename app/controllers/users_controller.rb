@@ -54,6 +54,11 @@ class UsersController < ApplicationController
     @followers = @user.followers.limit(40)
   end
 
+  def comments
+    @user = User.find(params[:user_id])
+    @commented_recipes = @user.commented_recipes
+  end
+
   def favorites
     @user = User.find(params[:user_id])
     @favored_recipes = @user.favored_recipes.order('favorites.created_at desc')
