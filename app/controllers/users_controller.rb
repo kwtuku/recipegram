@@ -54,6 +54,11 @@ class UsersController < ApplicationController
     @followers = @user.followers.limit(40)
   end
 
+  def favorites
+    @user = User.find(params[:user_id])
+    @favored_recipes = @user.favored_recipes.order('favorites.created_at desc')
+  end
+
   private
     def user_params
       params.require(:user).permit(:username, :profile, :profile_image, :user_image)

@@ -19,6 +19,6 @@ Rails.application.routes.draw do
   get '/show_additionally', to: 'recipes#show_additionally'
 
   resources :users, only: %i(index show edit update) do
-    get :followings, :followers
+    get :followings, :followers, :favorites
   end
 end

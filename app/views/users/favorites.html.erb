@@ -1,0 +1,103 @@
+<% provide(:title, "#{@user.username}さんのがいいねしたレシピ") %>
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-10">
+        <div class="media">
+          <figure class="media-left is-hidden-mobile mr-6">
+            <p class="image is-128x128">
+              <%= image_tag @user.user_image.url(:thumb), class: 'is-rounded' %>
+            </p>
+          </figure>
+          <div class="media-content">
+            <div class="content is-hidden-tablet">
+              <p class="image is-128x128"><%= image_tag @user.user_image.url(:thumb), class: 'is-rounded' %></p>
+            </div>
+            <div class="content">
+              <p class="title"><%= @user.username %></p>
+            </div>
+            <div class="content">
+              <% if @user == current_user %>
+                <%= link_to 'プロフィールを編集', edit_user_path(@user), class: 'button is-rounded' %>
+              <% else %>
+                <%= render 'shared/follow_button', user: @user, size: 'is-normal' %>
+              <% end %>
+            </div>
+            <% if @user.following?(current_user) %>
+              <div class="content">
+                <span class="tag is-info is-light">フォローされています</span>
+              </div>
+            <% end %>
+            <div class="content">
+              <div class="level is-mobile">
+                <div class="level-item has-text-centered">
+                  <div>
+                    <p class="heading">投稿</p>
+                    <p class="title"><%= @user.recipes.size %></p>
+                  </div>
+                </div>
+                <div class="level-item has-text-centered">
+                  <div>
+                    <p class="heading">いいねされた</p>
+                    <p class="title"><%= @recipes_favorites_count %></p>
+                  </div>
+                </div>
+                <div class="level-item has-text-centered">
+                  <%= link_to user_followings_path(@user), class: 'has-text-black-bis hover-underline' do %>
+                    <div>
+                      <p class="heading">フォロー中</p>
+                      <p class="title"><%= @user.followings.size %></p>
+                    </div>
+                  <% end %>
+                </div>
+                <div class="level-item has-text-centered">
+                  <%= link_to user_followers_path(@user), class: 'has-text-black-bis hover-underline' do %>
+                    <div>
+                      <p class="heading">フォロワー</p>
+                      <p class="title" id='recount-followers'><%= @user.followers.size %></p>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+            <div class="content text-break">
+              <%= @user.profile %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="tabs is-centered is-fullwidth">
+      <ul>
+        <li>
+          <%= link_to user_path(@user) do %>
+            <span class="icon is-small has-text-link"><i class="fas fa-pen" aria-hidden="true"></i></span>
+            <span class="has-text-black-ter">投稿</span>
+          <% end %>
+        </li>
+        <li>
+          <a>
+            <span class="icon is-small has-text-primary"><i class="fas fa-comment" aria-hidden="true"></i></span>
+            <span class="has-text-black-ter">コメント</span>
+          </a>
+        </li>
+        <li class="is-active">
+          <a>
+            <span class="icon is-small has-text-danger"><i class="fas fa-heart" aria-hidden="true"></i></span>
+            <span class="has-text-black-ter">いいね</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="columns is-multiline is-mobile">
+      <%= render partial: 'recipes/recipe', collection: @favored_recipes %>
+    </div>
+  </div>
+</section>
