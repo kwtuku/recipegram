@@ -1,4 +1,4 @@
-<% provide(:title, "#{@user.username}さんのがいいねしたレシピ") %>
+<% provide(:title, "#{@user.username}さんがいいねしたレシピ") %>
 
 <section class="section">
   <div class="container">
@@ -82,10 +82,10 @@
           <% end %>
         </li>
         <li>
-          <a>
+          <%= link_to user_comments_path do %>
             <span class="icon is-small has-text-primary"><i class="fas fa-comment" aria-hidden="true"></i></span>
             <span class="has-text-black-ter">コメント</span>
-          </a>
+          <% end %>
         </li>
         <li class="is-active">
           <a>
