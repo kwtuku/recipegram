@@ -20,10 +20,8 @@
         <span class="tag is-info is-light">フォローされています</span>
       </div>
     <% end %>
-    <% unless controller.controller_name == 'users' && controller.action_name == 'index' %>
-      <div class="content">
-        <p class="text-break fiveline"><span><%= user.profile %></span></p>
-      </div>
-    <% end %>
+    <div class="content">
+      <p class="text-break fiveline"><span><%= user.profile %></span></p>
+    </div>
   </div>
 </div>

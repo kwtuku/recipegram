@@ -70,10 +70,20 @@ class RecipesController < ApplicationController
     @recipe = Recipe.find(params[:id])
     if @recipe.user != current_user
       redirect_to recipe_path(@recipe), alert: '権限がありません。'
-    elsif @recipe.update(recipe_params)
-      redirect_to recipe_path(@recipe), notice: 'レシピを編集しました。'
+    elsif recipe_params[:recipe_image]
+      tmp_image = @recipe.recipe_image
+      if @recipe.update(recipe_params)
+        tmp_image.remove!
+        redirect_to recipe_path(@recipe), notice: 'レシピを編集しました。'
+      else
+        render :edit
+      end
     else
-      render :edit
+      if @recipe.update(recipe_params)
+        redirect_to recipe_path(@recipe), notice: 'レシピを編集しました。'
+      else
+        render :edit
+      end
     end
   end
 
@@ -83,7 +93,7 @@ class RecipesController < ApplicationController
       redirect_to recipe_url(@recipe), alert: '権限がありません。'
     else
       @recipe.destroy
-      redirect_to recipes_path(@recipe)
+      redirect_to recipes_url, notice: 'レシピを削除しました。'
     end
   end
 

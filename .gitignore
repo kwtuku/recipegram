@@ -30,9 +30,10 @@
 
 /public/packs
 /public/packs-test
-/public/uploads
-/public/images/seeds
 /node_modules
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+
+/db/fixtures/*
+/public/uploads

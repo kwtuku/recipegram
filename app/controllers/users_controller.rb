@@ -25,10 +25,22 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    if @user.update(user_params)
-      redirect_to user_path(@user), notice: 'プロフィールを変更しました。'
+    if @user != current_user
+      redirect_to user_path(@user), alert: '権限がありません。'
+    elsif user_params[:user_image]
+      tmp_image = @user.user_image
+      if @user.update(user_params)
+        tmp_image.remove!
+        redirect_to user_path(@user), notice: 'プロフィールを変更しました。'
+      else
+        render :edit
+      end
     else
-      render :edit
+      if @user.update(user_params)
+        redirect_to user_path(@user), notice: 'プロフィールを変更しました。'
+      else
+        render :edit
+      end
     end
   end
 
@@ -40,6 +52,18 @@ class UsersController < ApplicationController
   def followers
     @user = User.find(params[:user_id])
     @followers = @user.followers.limit(40)
+  end
+
+  def comments
+    @user = User.find(params[:user_id])
+    @recipes = @user.commented_recipes
+    render 'show'
+  end
+
+  def favorites
+    @user = User.find(params[:user_id])
+    @recipes = @user.favored_recipes.order('favorites.created_at desc')
+    render 'show'
   end
 
   private

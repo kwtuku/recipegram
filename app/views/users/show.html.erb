@@ -1,4 +1,6 @@
-<% provide(:title, "#{@user.username}さんの詳細") %>
+<% provide(:title, "#{@user.username}さんの詳細") if controller.action_name == 'show' %>
+<% provide(:title, "#{@user.username}さんがコメントしたレシピ") if controller.action_name == 'comments' %>
+<% provide(:title, "#{@user.username}さんがいいねしたレシピ") if controller.action_name == 'favorites' %>
 
 <section class="section">
   <div class="container">
@@ -73,38 +75,31 @@
 
 <section class="section">
   <div class="container">
-    <div class="tabs is-centered is-fullwidth js-tab">
+    <div class="tabs is-centered is-fullwidth">
       <ul>
-        <li class="is-active" data-target="posted-recipes">
-          <a>
+        <li class="<%= 'is-active' if controller.action_name == 'show' %>">
+          <%= link_to user_path(@user) do %>
             <span class="icon is-small has-text-link"><i class="fas fa-pen" aria-hidden="true"></i></span>
             <span class="has-text-black-ter">投稿</span>
-          </a>
+          <% end %>
         </li>
-        <li data-target="commented-recipes">
-          <a>
+        <li class="<%= 'is-active' if controller.action_name == 'comments' %>">
+          <%= link_to user_comments_path(@user) do %>
             <span class="icon is-small has-text-primary"><i class="fas fa-comment" aria-hidden="true"></i></span>
             <span class="has-text-black-ter">コメント</span>
-          </a>
+          <% end %>
         </li>
-        <li data-target="favored-recipes">
-          <a>
+        <li class="<%= 'is-active' if controller.action_name == 'favorites' %>">
+          <%= link_to user_favorites_path(@user) do %>
             <span class="icon is-small has-text-danger"><i class="fas fa-heart" aria-hidden="true"></i></span>
             <span class="has-text-black-ter">いいね</span>
-          </a>
+          <% end %>
         </li>
       </ul>
     </div>
-    <div id="tab-contents">
-      <div class="columns is-multiline is-mobile" id="posted-recipes">
-        <%= render @recipes %>
-      </div>
-      <div class="columns is-multiline is-mobile is-hidden" id="commented-recipes">
-        <%= render partial: 'recipes/recipe', collection: @commented_recipes %>
-      </div>
-      <div class="columns is-multiline is-mobile is-hidden" id="favored-recipes">
-        <%= render partial: 'recipes/recipe', collection: @favored_recipes %>
-      </div>
+
+    <div class="columns is-multiline is-mobile">
+      <%= render @recipes %>
     </div>
   </div>
 </section>

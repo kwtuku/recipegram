@@ -199,3 +199,12 @@ html {
   height: auto !important;
   display: inline-block !important;
 }
+
+@media (max-width:767px) {
+  .m-0-mobile {
+    margin: 0 !important;
+  }
+  .p-0-mobile {
+    padding: 0 !important;
+  }
+}

@@ -2,9 +2,9 @@
 
 <%= render 'shared/error_messages', model: @comment %>
 
-<section class="section" data-add-class-mobile="p-0">
+<section class="section p-0-mobile">
   <div class="container">
-    <div class="columns is-centered" data-add-class-mobile="m-0">
+    <div class="columns is-centered m-0-mobile">
       <div class="column is-1 is-hidden-mobile">
         <aside class="menu sticky z-index-1">
           <ul class="menu-list has-text-centered">
@@ -47,7 +47,7 @@
         </aside>
       </div>
 
-      <div class="column is-8" data-add-class-mobile="p-0">
+      <div class="column is-8 p-0-mobile">
         <div class="card">
           <div class="card-content">
             <div class="media">
@@ -124,7 +124,7 @@
 
       <div class="column is-3 is-hidden-mobile">
         <div class="sticky">
-          <%= render 'shared/user_card', user: @recipe.user %>
+          <%= render 'user_card', user: @recipe.user %>
         </div>
       </div>
     </div>
