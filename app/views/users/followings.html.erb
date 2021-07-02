@@ -1,4 +1,5 @@
-<% provide(:title, "#{@user.username}さんがフォロー中") %>
+<% controller.action_name == 'followings' ? followings_or_followers = 'がフォロー中' : followings_or_followers = 'のフォロワー' %>
+<% provide(:title, "#{@user.username}さん#{followings_or_followers}") %>
 
 <section class="hero is-small">
   <div class="hero-body">
@@ -11,7 +12,7 @@
             </span>
             <span><%= @user.username %>さん</span>
           <% end %>
-          <span>がフォロー中</span>
+          <span><%= followings_or_followers %></span>
         </span>
       </h1>
     </div>
@@ -22,7 +23,7 @@
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-9" id="infinite-scroll-container" data-infinite-scroll="true">
-        <%= follows_or_no_follow_description(@followings, @user) %>
+        <%= follows_or_no_follow_description(@follows, @user) %>
       </div>
     </div>
   </div>
