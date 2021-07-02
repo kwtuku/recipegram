@@ -56,12 +56,14 @@ class UsersController < ApplicationController
 
   def comments
     @user = User.find(params[:user_id])
-    @commented_recipes = @user.commented_recipes
+    @recipes = @user.commented_recipes
+    render 'show'
   end
 
   def favorites
     @user = User.find(params[:user_id])
-    @favored_recipes = @user.favored_recipes.order('favorites.created_at desc')
+    @recipes = @user.favored_recipes.order('favorites.created_at desc')
+    render 'show'
   end
 
   private

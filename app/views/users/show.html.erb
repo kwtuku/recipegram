@@ -1,4 +1,6 @@
-<% provide(:title, "#{@user.username}さんの詳細") %>
+<% provide(:title, "#{@user.username}さんの詳細") if controller.action_name == 'show' %>
+<% provide(:title, "#{@user.username}さんがコメントしたレシピ") if controller.action_name == 'comments' %>
+<% provide(:title, "#{@user.username}さんがいいねしたレシピ") if controller.action_name == 'favorites' %>
 
 <section class="section">
   <div class="container">
@@ -75,19 +77,19 @@
   <div class="container">
     <div class="tabs is-centered is-fullwidth">
       <ul>
-        <li class="is-active">
-          <a>
+        <li class="<%= 'is-active' if controller.action_name == 'show' %>">
+          <%= link_to user_path(@user) do %>
             <span class="icon is-small has-text-link"><i class="fas fa-pen" aria-hidden="true"></i></span>
             <span class="has-text-black-ter">投稿</span>
-          </a>
+          <% end %>
         </li>
-        <li>
+        <li class="<%= 'is-active' if controller.action_name == 'comments' %>">
           <%= link_to user_comments_path(@user) do %>
             <span class="icon is-small has-text-primary"><i class="fas fa-comment" aria-hidden="true"></i></span>
             <span class="has-text-black-ter">コメント</span>
           <% end %>
         </li>
-        <li>
+        <li class="<%= 'is-active' if controller.action_name == 'favorites' %>">
           <%= link_to user_favorites_path(@user) do %>
             <span class="icon is-small has-text-danger"><i class="fas fa-heart" aria-hidden="true"></i></span>
             <span class="has-text-black-ter">いいね</span>
