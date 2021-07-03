@@ -8,8 +8,6 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @recipes = @user.recipes.eager_load(:favorites, :comments).order(id: :DESC)
-    @commented_recipes = @user.commented_recipes.eager_load(:favorites, :comments)
-    @favored_recipes = @user.favored_recipes.eager_load(:favorites, :comments)
     @recipes_favorites_count = @user.recipes_favorites_count
   end
 
@@ -54,13 +52,15 @@ class UsersController < ApplicationController
 
   def comments
     @user = User.find(params[:user_id])
-    @recipes = @user.commented_recipes
+    @recipes = @user.commented_recipes.eager_load(:favorites, :comments)
+    @recipes_favorites_count = @user.recipes_favorites_count
     render 'show'
   end
 
   def favorites
     @user = User.find(params[:user_id])
-    @recipes = @user.favored_recipes.order('favorites.created_at desc')
+    @recipes = @user.favored_recipes.eager_load(:favorites, :comments).order('favorites.created_at desc')
+    @recipes_favorites_count = @user.recipes_favorites_count
     render 'show'
   end
 
