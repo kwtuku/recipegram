@@ -27,4 +27,22 @@ module ApplicationHelper
       tag.p "#{user.username}さんはまだ誰もフォローしていません"
     end
   end
+
+  def recipe_sort_condition
+    if request.query_parameters[:sort] == 'updated_at' && request.query_parameters[:order] == 'asc'
+      '更新日が古い順'
+    elsif request.query_parameters[:sort] == 'updated_at' && request.query_parameters[:order] == 'desc'
+      '更新日が新しい順'
+    elsif request.query_parameters[:sort] == 'favorites_count' && request.query_parameters[:order] == 'asc'
+      'いいねが少ない順'
+    elsif request.query_parameters[:sort] == 'favorites_count' && request.query_parameters[:order] == 'desc'
+      'いいねが多い順'
+    elsif request.query_parameters[:sort] == 'comments_count' && request.query_parameters[:order] == 'asc'
+      'コメントが少ない順'
+    elsif request.query_parameters[:sort] == 'comments_count' && request.query_parameters[:order] == 'desc'
+      'コメントが多い順'
+    else
+      'デフォルト'
+    end
+  end
 end

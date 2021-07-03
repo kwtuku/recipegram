@@ -119,7 +119,7 @@
                   <div class="level-item dropdown">
                     <div class="dropdown-trigger">
                       <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                        <span>Dropdown button</span>
+                        <span><%= recipe_sort_condition %></span>
                         <span class="icon is-small">
                           <i class="fas fa-angle-down" aria-hidden="true"></i>
                         </span>
@@ -127,13 +127,13 @@
                     </div>
                     <div class="dropdown-menu" id="dropdown-menu" role="menu">
                       <div class="dropdown-content">
-                        <%= link_to 'デフォルト', search_path(q: @q_value, source: @source), class: 'dropdown-item is-active' %>
-                        <%= link_to '更新日昇順', search_path(q: @q_value, source: @source, sort: 'updated_at', order: 'asc'), class: 'dropdown-item' %>
-                        <%= link_to '更新日降順', search_path(q: @q_value, source: @source, sort: 'updated_at', order: 'desc'), class: 'dropdown-item' %>
-                        <%= link_to 'いいね数昇順', search_path(q: @q_value, source: @source, sort: 'favorites_count', order: 'asc'), class: 'dropdown-item' %>
-                        <%= link_to 'いいね数降順', search_path(q: @q_value, source: @source, sort: 'favorites_count', order: 'desc'), class: 'dropdown-item' %>
-                        <%= link_to 'コメント数昇順', search_path(q: @q_value, source: @source, sort: 'comments_count', order: 'asc'), class: 'dropdown-item' %>
-                        <%= link_to 'コメント数降順', search_path(q: @q_value, source: @source, sort: 'comments_count', order: 'desc'), class: 'dropdown-item' %>
+                        <%= link_to 'デフォルト', search_path(q: @q_value, source: @source), class: "dropdown-item #{'is-active' if request.query_parameters[:sort].nil? && request.query_parameters[:order].nil?}" %>
+                        <%= link_to '更新日が古い順', search_path(q: @q_value, source: @source, sort: 'updated_at', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'updated_at' && request.query_parameters[:order] == 'asc'}" %>
+                        <%= link_to '更新日が新しい順', search_path(q: @q_value, source: @source, sort: 'updated_at', order: 'desc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'updated_at' && request.query_parameters[:order] == 'desc'}" %>
+                        <%= link_to 'いいねが少ない順', search_path(q: @q_value, source: @source, sort: 'favorites_count', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'favorites_count' && request.query_parameters[:order] == 'asc'}" %>
+                        <%= link_to 'いいねが多い順', search_path(q: @q_value, source: @source, sort: 'favorites_count', order: 'desc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'favorites_count' && request.query_parameters[:order] == 'desc'}" %>
+                        <%= link_to 'コメントが少ない順', search_path(q: @q_value, source: @source, sort: 'comments_count', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'comments_count' && request.query_parameters[:order] == 'asc'}" %>
+                        <%= link_to 'コメントが多い順', search_path(q: @q_value, source: @source, sort: 'comments_count', order: 'desc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'comments_count' && request.query_parameters[:order] == 'desc'}" %>
                       </div>
                     </div>
                   </div>
