@@ -20,6 +20,13 @@
       </div>
     </div>
 
+    <div class="columns">
+      <div class="column">
+        <%= link_to '更新日昇順', search_path(q: @q_value, source: @source, sort: 'updated_at', order: 'asc') %>
+        <%= link_to '更新日降順', search_path(q: @q_value, source: @source, sort: 'updated_at', order: 'desc') %>
+      </div>
+    </div>
+
     <% if request.query_string.present? && @q_value.blank? %>
       <div class="columns is-centered">
         <div class="column">

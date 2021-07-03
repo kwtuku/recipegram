@@ -13,8 +13,8 @@ class HomeController < ApplicationController
 
     @q_value = params[:q]
 
-    title_q = { title_has_every_term: @q_value }
-    body_q = { body_has_every_term: @q_value }
+    title_q = { title_has_every_term: @q_value, s: { '0' => { name: params[:sort], dir: params[:order] } } }
+    body_q = { body_has_every_term: @q_value, s: { '0' => { name: params[:sort], dir: params[:order] } } }
     username_q = { username_has_every_term: @q_value }
     profile_q = { profile_has_every_term: @q_value }
 

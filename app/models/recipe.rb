@@ -37,7 +37,7 @@ class Recipe < ApplicationRecord
 
   private
     def self.ransackable_attributes(auth_object = nil)
-      %w(title body)
+      %w(title body updated_at)
     end
 
     def remove_image
