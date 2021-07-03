@@ -68,6 +68,14 @@ class User < ApplicationRecord
     Recipe.where("user_id IN (?) OR user_id = ?", following_ids, id)
   end
 
+  def recipes_favorites_count
+    recipes_favorites_count = 0
+    recipes.each do |recipe|
+      recipes_favorites_count += recipe.favorites.size
+    end
+    recipes_favorites_count
+  end
+
   private
     def self.ransackable_attributes(auth_object = nil)
       %w(username profile)

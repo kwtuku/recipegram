@@ -10,10 +10,7 @@ class UsersController < ApplicationController
     @recipes = @user.recipes.eager_load(:favorites, :comments).order(id: :DESC)
     @commented_recipes = @user.commented_recipes.eager_load(:favorites, :comments)
     @favored_recipes = @user.favored_recipes.eager_load(:favorites, :comments)
-    @recipes_favorites_count = 0
-    @recipes.each do |recipe|
-      @recipes_favorites_count += recipe.favorites.size
-    end
+    @recipes_favorites_count = @user.recipes_favorites_count
   end
 
   def edit
