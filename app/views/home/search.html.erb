@@ -20,13 +20,6 @@
       </div>
     </div>
 
-    <div class="columns">
-      <div class="column">
-        <%= link_to '更新日昇順', search_path(q: @q_value, source: @source, sort: 'updated_at', order: 'asc') %>
-        <%= link_to '更新日降順', search_path(q: @q_value, source: @source, sort: 'updated_at', order: 'desc') %>
-      </div>
-    </div>
-
     <% if request.query_string.present? && @q_value.blank? %>
       <div class="columns is-centered">
         <div class="column">
@@ -117,6 +110,32 @@
 
         <% if @source == 'recipe_title' || @source == 'recipe_body' %>
           <div class="column is-9">
+            <% if @recipe_title_results.exists? || @recipe_body_results.exists? %>
+              <nav class="level is-mobile">
+                <div class="level-left">
+                  <div class="level-item"><%= @recipe_title_results_size %>件の検索結果</div>
+                </div>
+                <div class="level-right">
+                  <div class="level-item dropdown">
+                    <div class="dropdown-trigger">
+                      <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                        <span>Dropdown button</span>
+                        <span class="icon is-small">
+                          <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                      </button>
+                    </div>
+                    <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                      <div class="dropdown-content">
+                        <%= link_to 'デフォルト', search_path(q: @q_value, source: @source), class: 'dropdown-item is-active' %>
+                        <%= link_to '更新日昇順', search_path(q: @q_value, source: @source, sort: 'updated_at', order: 'asc'), class: 'dropdown-item' %>
+                        <%= link_to '更新日降順', search_path(q: @q_value, source: @source, sort: 'updated_at', order: 'desc'), class: 'dropdown-item' %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </nav>
+            <% end %>
             <% if @source == 'recipe_title' && @recipe_title_results.exists? %>
               <div class="rspec_recipe_title_results">
                 <%= render partial: 'recipe_result', collection: @recipe_title_results, as: 'recipe' %>
