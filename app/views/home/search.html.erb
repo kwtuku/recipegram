@@ -132,6 +132,8 @@
                         <%= link_to '更新日降順', search_path(q: @q_value, source: @source, sort: 'updated_at', order: 'desc'), class: 'dropdown-item' %>
                         <%= link_to 'いいね数昇順', search_path(q: @q_value, source: @source, sort: 'favorites_count', order: 'asc'), class: 'dropdown-item' %>
                         <%= link_to 'いいね数降順', search_path(q: @q_value, source: @source, sort: 'favorites_count', order: 'desc'), class: 'dropdown-item' %>
+                        <%= link_to 'コメント数昇順', search_path(q: @q_value, source: @source, sort: 'comments_count', order: 'asc'), class: 'dropdown-item' %>
+                        <%= link_to 'コメント数降順', search_path(q: @q_value, source: @source, sort: 'comments_count', order: 'desc'), class: 'dropdown-item' %>
                       </div>
                     </div>
                   </div>

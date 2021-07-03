@@ -11,6 +11,10 @@ class Recipe < ApplicationRecord
 
   mount_uploader :recipe_image, RecipeImageUploader
 
+  ransacker :comments_count do
+    query = '(SELECT COUNT(*) FROM comments where comments.recipe_id = recipes.id)'
+    Arel.sql(query)
+  end
   ransacker :favorites_count do
     query = '(SELECT COUNT(*) FROM favorites where favorites.recipe_id = recipes.id)'
     Arel.sql(query)
@@ -42,7 +46,7 @@ class Recipe < ApplicationRecord
 
   private
     def self.ransackable_attributes(auth_object = nil)
-      %w(title body updated_at favorites_count)
+      %w(title body updated_at comments_count favorites_count)
     end
 
     def remove_image
