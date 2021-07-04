@@ -83,7 +83,7 @@ class User < ApplicationRecord
 
   def recipes_favorites_count
     recipes_favorites_count = 0
-    recipes.each do |recipe|
+    recipes.eager_load(:favorites).each do |recipe|
       recipes_favorites_count += recipe.favorites.size
     end
     recipes_favorites_count
