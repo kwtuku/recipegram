@@ -23,10 +23,10 @@ class HomeController < ApplicationController
     user_username_q = User.ransack(username_q)
     user_profile_q = User.ransack(profile_q)
 
-    recipe_title_results = recipe_title_q.result
-    recipe_body_results = recipe_body_q.result
-    user_username_results = user_username_q.result
-    user_profile_results = user_profile_q.result
+    recipe_title_results = recipe_title_q.result.eager_load(:favorites, :comments)
+    recipe_body_results = recipe_body_q.result.eager_load(:favorites, :comments)
+    user_username_results = user_username_q.result.preload(:recipes, :followers, :followings)
+    user_profile_results = user_profile_q.result.preload(:recipes, :followers, :followings)
 
     @recipe_title_results = recipe_title_results.page(params[:page]).per(10)
     @recipe_body_results = recipe_body_results.page(params[:page]).per(10)
