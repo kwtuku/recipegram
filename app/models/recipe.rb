@@ -12,11 +12,11 @@ class Recipe < ApplicationRecord
   mount_uploader :recipe_image, RecipeImageUploader
 
   ransacker :comments_count do
-    query = '(SELECT COUNT(*) FROM comments where comments.recipe_id = recipes.id)'
+    query = '(SELECT COUNT(*) FROM comments WHERE comments.recipe_id = recipes.id)'
     Arel.sql(query)
   end
   ransacker :favorites_count do
-    query = '(SELECT COUNT(*) FROM favorites where favorites.recipe_id = recipes.id)'
+    query = '(SELECT COUNT(*) FROM favorites WHERE favorites.recipe_id = recipes.id)'
     Arel.sql(query)
   end
 
