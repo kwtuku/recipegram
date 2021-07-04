@@ -15,8 +15,8 @@ class HomeController < ApplicationController
 
     title_q = { title_has_every_term: @q_value, s: { '0' => { name: params[:sort], dir: params[:order] } } }
     body_q = { body_has_every_term: @q_value, s: { '0' => { name: params[:sort], dir: params[:order] } } }
-    username_q = { username_has_every_term: @q_value }
-    profile_q = { profile_has_every_term: @q_value }
+    username_q = { username_has_every_term: @q_value, s: { '0' => { name: params[:sort], dir: params[:order] } } }
+    profile_q = { profile_has_every_term: @q_value, s: { '0' => { name: params[:sort], dir: params[:order] } } }
 
     recipe_title_q = Recipe.ransack(title_q)
     recipe_body_q = Recipe.ransack(body_q)
