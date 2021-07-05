@@ -8,6 +8,31 @@ module ApplicationHelper
     end
   end
 
+  def recipes_or_no_recipes_description(recipes, user)
+    if recipes.exists?
+      render recipes
+    else
+      no_recipes_description(user)
+    end
+  end
+
+  def no_recipes_description(user)
+    description = if user == current_user && controller.action_name == 'show'
+                    'まだレシピを投稿していません'
+                  elsif user == current_user && controller.action_name == 'comments'
+                    'まだレシピにコメントをしていません'
+                  elsif user == current_user && controller.action_name == 'favorites'
+                    'まだレシピにいいねをしていません'
+                  elsif user != current_user && controller.action_name == 'show'
+                    "#{user.username}さんはまだレシピを投稿していません"
+                  elsif user != current_user && controller.action_name == 'comments'
+                    "#{user.username}さんはまだレシピにコメントをしていません"
+                  else
+                    "#{user.username}さんはまだレシピにいいねをしていません"
+                  end
+    tag.div tag.p(description, class: 'has-text-centered'), class: 'column'
+  end
+
   def follows_or_no_follows_description(follows, user)
     if follows.exists?
       render partial: 'users/follow', collection: follows, as: 'user'
@@ -19,10 +44,10 @@ module ApplicationHelper
   def no_follows_description(user)
     if user == current_user && controller.action_name == 'followings'
       tag.p 'まだ誰もフォローしていません'
-    elsif user != current_user && controller.action_name == 'followings'
-      tag.p "#{user.username}さんはまだ誰もフォローしていません"
     elsif user == current_user && controller.action_name == 'followers'
       tag.p 'まだフォロワーがいません'
+    elsif user != current_user && controller.action_name == 'followings'
+      tag.p "#{user.username}さんはまだ誰もフォローしていません"
     else
       tag.p "#{user.username}さんはまだ誰もフォローしていません"
     end

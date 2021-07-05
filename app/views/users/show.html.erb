@@ -99,7 +99,7 @@
     </div>
 
     <div class="columns is-multiline is-mobile">
-      <%= render @recipes %>
+      <%= recipes_or_no_recipes_description(@recipes, @user) %>
     </div>
   </div>
 </section>
