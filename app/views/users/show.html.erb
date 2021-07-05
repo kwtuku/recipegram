@@ -64,16 +64,28 @@
               </div>
             </div>
             <% if @user != current_user && @followers_you_follow.present? %>
-              <div class="content text-break">
-                <% if @followers_you_follow.size >= 3 %>
-                  <p class="has-text-grey-light">
-                    <%= "#{@followers_you_follow.map(&:username).first(2).join('さん、')}さん、他#{@followers_you_follow.size - 2}人にフォローされています" %>
-                  </p>
-                <% else %>
-                  <p class="has-text-grey-light">
-                    <%= "#{@followers_you_follow.map(&:username).join('さん、')}さんにフォローされています" %>
-                  </p>
-                <% end %>
+              <div class="media border-0">
+                <div class="media-left display-flex">
+                  <figure class="image is-24x24">
+                    <%= image_tag @followers_you_follow.map(&:user_image).first.url(:icon), class: 'is-rounded' %>
+                  </figure>
+                  <% if @followers_you_follow.size >= 2 %>
+                    <figure class="image is-24x24">
+                      <%= image_tag @followers_you_follow.map(&:user_image)[1].url(:icon), class: 'is-rounded' %>
+                    </figure>
+                  <% end %>
+                </div>
+                <div class="media-content">
+                  <% if @followers_you_follow.size >= 3 %>
+                    <p class="has-text-grey-light">
+                      <%= "#{@followers_you_follow.map(&:username).first(2).join('さん、')}さん、他#{@followers_you_follow.size - 2}人にフォローされています" %>
+                    </p>
+                  <% else %>
+                    <p class="has-text-grey-light">
+                      <%= "#{@followers_you_follow.map(&:username).join('さん、')}さんにフォローされています" %>
+                    </p>
+                  <% end %>
+                </div>
               </div>
             <% end %>
             <div class="content text-break">
