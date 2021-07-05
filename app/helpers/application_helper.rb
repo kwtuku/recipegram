@@ -8,15 +8,15 @@ module ApplicationHelper
     end
   end
 
-  def follows_or_no_follow_description(follows, user)
+  def follows_or_no_follows_description(follows, user)
     if follows.exists?
       render partial: 'users/user_list', collection: follows, as: 'user'
     else
-      no_follow_description(user)
+      no_follows_description(user)
     end
   end
 
-  def no_follow_description(user)
+  def no_follows_description(user)
     if user == current_user && controller.action_name == 'followings'
       tag.p 'まだ誰もフォローしていません'
     elsif user != current_user && controller.action_name == 'followings'
