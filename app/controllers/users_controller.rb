@@ -42,12 +42,13 @@ class UsersController < ApplicationController
   def followings
     @user = User.find(params[:user_id])
     @follows = @user.followings.preload(:followings).limit(40)
+    render 'follows'
   end
 
   def followers
     @user = User.find(params[:user_id])
     @follows = @user.followers.preload(:followings).limit(40)
-    render 'followings'
+    render 'follows'
   end
 
   def comments
