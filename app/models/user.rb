@@ -89,6 +89,10 @@ class User < ApplicationRecord
     recipes_favorites_count
   end
 
+  def followers_you_follow(current_user)
+    followers & current_user.followings
+  end
+
   private
     def self.ransackable_attributes(auth_object = nil)
       %w(username profile followers_count followings_count recipes_count)

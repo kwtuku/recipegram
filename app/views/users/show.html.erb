@@ -63,6 +63,19 @@
                 </div>
               </div>
             </div>
+            <% if @user != current_user && @followers_you_follow.present? %>
+              <div class="content text-break">
+                <% if @followers_you_follow.size >= 3 %>
+                  <p class="has-text-grey-light">
+                    <%= "#{@followers_you_follow.map(&:username).first(2).join('さん、')}さん、他#{@followers_you_follow.size - 2}人にフォローされています" %>
+                  </p>
+                <% else %>
+                  <p class="has-text-grey-light">
+                    <%= "#{@followers_you_follow.map(&:username).join('さん、')}さんにフォローされています" %>
+                  </p>
+                <% end %>
+              </div>
+            <% end %>
             <div class="content text-break">
               <%= @user.profile %>
             </div>
