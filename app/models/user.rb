@@ -25,6 +25,19 @@ class User < ApplicationRecord
 
   mount_uploader :user_image, UserImageUploader
 
+  ransacker :followers_count do
+    query = '(SELECT COUNT(*) FROM relationships WHERE relationships.follow_id = users.id)'
+    Arel.sql(query)
+  end
+  ransacker :followings_count do
+    query = '(SELECT COUNT(*) FROM relationships WHERE relationships.user_id = users.id)'
+    Arel.sql(query)
+  end
+  ransacker :recipes_count do
+    query = '(SELECT COUNT(*) FROM recipes WHERE recipes.user_id = users.id)'
+    Arel.sql(query)
+  end
+
   validates :username, presence: true
 
   def already_favored?(recipe)
@@ -68,9 +81,17 @@ class User < ApplicationRecord
     Recipe.where("user_id IN (?) OR user_id = ?", following_ids, id)
   end
 
+  def recipes_favorites_count
+    recipes_favorites_count = 0
+    recipes.eager_load(:favorites).each do |recipe|
+      recipes_favorites_count += recipe.favorites.size
+    end
+    recipes_favorites_count
+  end
+
   private
     def self.ransackable_attributes(auth_object = nil)
-      %w(username profile)
+      %w(username profile followers_count followings_count recipes_count)
     end
 
     def remove_image

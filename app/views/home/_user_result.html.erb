@@ -11,8 +11,13 @@
       <p class="is-size-4 mb-3 oneline">
         <span><%= link_to user.username, user_path(user), class: 'has-text-black-bis hover-underline' %></span>
       </p>
-      <p class="threeline">
+      <p class="threeline mb-3">
         <span><%= user.profile %></span>
+      </p>
+      <p>
+        <span class="mr-5">投稿<%= user.recipes.size %>件</span>
+        <span class="mr-5">フォロワー<%= user.followers.size %>人</span>
+        <span>フォロー中<%= user.followings.size %>人</span>
       </p>
     </div>
   </div>

@@ -11,8 +11,23 @@
       <p class="is-size-4 mb-3 oneline">
         <span><%= link_to recipe.title, recipe_path(recipe), class: 'has-text-black-bis hover-underline' %></span>
       </p>
-      <p class="threeline">
+      <p class="threeline mb-3">
         <span><%= recipe.body %></span>
+      </p>
+      <p>
+        <span class="icon-text mr-5">
+          <span class="icon">
+            <i class="far fa-heart"></i>
+          </span>
+          <span><%= recipe.favorites.size %></span>
+        </span>
+        <span class="icon-text mr-5">
+          <span class="icon">
+            <i class="far fa-comment"></i>
+          </span>
+          <span><%= recipe.comments.size %></span>
+        </span>
+        <time datetime="<%= recipe.updated_at %>">更新日：<%= l recipe.updated_at %></time>
       </p>
     </div>
   </div>
