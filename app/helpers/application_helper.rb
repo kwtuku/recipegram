@@ -10,7 +10,7 @@ module ApplicationHelper
 
   def follows_or_no_follows_description(follows, user)
     if follows.exists?
-      render partial: 'users/user_list', collection: follows, as: 'user'
+      render partial: 'users/follow', collection: follows, as: 'user'
     else
       no_follows_description(user)
     end
