@@ -27,6 +27,7 @@ def create_characteristic_user_recipe_comment
 end
 
 def create_user(user_creation_time)
+  creation_time = 0
   common_password = 'fffffr'
 
   user_creation_time.times do |n|
@@ -53,6 +54,9 @@ def create_user(user_creation_time)
       profile:               profile,
       user_image:            user_image,
     )
+
+    creation_time += 1
+    puts creation_time
   end
 end
 
@@ -70,6 +74,7 @@ def create_relationship
 end
 
 def create_recipe(recipe_creation_time)
+  creation_time = 0
   recipe_creation_time.times do
     recipe_title = Faker::Lorem.words(number: rand(1..10)).join(' ')
     recipe_body = <<~TEXT
@@ -86,10 +91,13 @@ def create_recipe(recipe_creation_time)
     recipe_image = File.open("./db/fixtures/recipe/recipe_sample_#{rand(1..15)}.jpg")
 
     User.all.sample.recipes.create!(title: recipe_title, body: recipe_body, recipe_image: recipe_image)
+    creation_time += 1
+    puts creation_time
   end
 end
 
 def create_comment(comment_creation_time)
+  creation_time = 0
   comment_creation_time.times do
     comment_body = <<~TEXT
       #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
@@ -99,12 +107,17 @@ def create_comment(comment_creation_time)
     TEXT
 
     User.all.sample.comments.create!(body: comment_body, recipe_id: Recipe.all.sample.id)
+    creation_time += 1
+    puts creation_time
   end
 end
 
 def create_favorite(favorite_creation_time)
+  creation_time = 0
   favorite_creation_time.times do
     User.all.sample.favorites.find_or_create_by(recipe_id: Recipe.all.sample.id)
+    creation_time += 1
+    puts creation_time
   end
 end
 
@@ -128,6 +141,8 @@ def update_recipe(recipe_updating_time)
 end
 
 def create_notification_for_one_user(notification_creation_time, user_id)
+  creation_time = 0
+
   user = User.find(user_id)
   other_user_ids = User.ids - [user.id]
 
@@ -141,6 +156,9 @@ def create_notification_for_one_user(notification_creation_time, user_id)
     other_user_comment.create_comment_notification!(other_user, other_user_comment.id, other_user_recipe.id)
     user_recipe.create_favorite_notification!(other_user)
     user.create_follow_notification!(other_user)
+
+    creation_time += 1
+    puts creation_time
   end
 end
 
