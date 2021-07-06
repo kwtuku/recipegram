@@ -29,13 +29,13 @@ class RecipesController < ApplicationController
       items = User.order(id: :DESC)[first..last]
       local_value = 'user'
     elsif params[:type].to_s == 'followings'
-      file_path = 'users/user_list'
+      file_path = 'users/follow'
       user = User.find(params[:paramsId].to_i)
       last = first + 39
       items = user.followings[first..last]
       local_value = 'user'
     elsif params[:type].to_s == 'followers'
-      file_path = 'users/user_list'
+      file_path = 'users/follow'
       user = User.find(params[:paramsId].to_i)
       last = first + 39
       items = user.followers[first..last]
