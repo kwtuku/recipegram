@@ -24,7 +24,9 @@
             </div>
           </div>
         </div>
-        <div class="column is-12" id="remove-after-loading"><div class="loading-animation"></div></div>
+        <% if @feed_items.size >= 20 %>
+          <div class="column is-12" id="remove-after-loading"><div class="loading-animation"></div></div>
+        <% end %>
       </div>
     </div>
   </section>
