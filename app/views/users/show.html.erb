@@ -75,7 +75,7 @@
                     </figure>
                   <% end %>
                 </div>
-                <div class="media-content">
+                <div class="media-content text-break">
                   <% if @followers_you_follow.size >= 3 %>
                     <p class="has-text-grey-light">
                       <%= "#{@followers_you_follow.map(&:username).first(2).join('さん、')}さん、他#{@followers_you_follow.size - 2}人にフォローされています" %>
