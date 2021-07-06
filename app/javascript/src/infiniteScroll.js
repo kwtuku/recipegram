@@ -40,7 +40,7 @@ export default () => {
 
         $.ajax({
           type: 'GET',
-          url: '/show_additionally',
+          url: '/infinite_scroll',
           cache: false,
           data: {itemsSize: itemsSize, type: type, remote: true, paramsId: paramsId}
         });
