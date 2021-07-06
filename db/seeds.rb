@@ -190,6 +190,31 @@ def create_recipe_for_one_user(recipe_creation_time, user_id)
   end
 end
 
+def create_comment_for_one_user(comment_creation_time, user_id)
+  creation_time = 0
+  comment_creation_time.times do
+    comment_body = <<~TEXT
+      #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(1..10)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(5..8)).join(' ')}
+    TEXT
+
+    User.find(user_id).comments.create!(body: comment_body, recipe_id: Recipe.all.sample.id)
+    creation_time += 1
+    puts creation_time
+  end
+end
+
+def create_favorite_for_one_user(favorite_creation_time, user_id)
+  creation_time = 0
+  favorite_creation_time.times do
+    User.find(user_id).favorites.find_or_create_by(recipe_id: Recipe.all.sample.id)
+    creation_time += 1
+    puts creation_time
+  end
+end
+
 create_characteristic_user_recipe_comment
 create_user(time)
 create_relationship(time)
@@ -199,3 +224,5 @@ create_favorite(time)
 update_recipe(time)
 create_notification_for_one_user(time, user_id)
 create_recipe_for_one_user(time, user_id)
+create_comment_for_one_user(time, user_id)
+create_favorite_for_one_user(time, user_id)
