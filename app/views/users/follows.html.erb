@@ -21,10 +21,11 @@
 
 <section class="section">
   <div class="container">
-    <div class="columns is-centered">
+    <div class="columns is-centered is-multiline">
       <div class="column is-9" id="infinite-scroll-container" data-infinite-scroll="true">
         <%= follows_or_no_follows_description(@follows, @user) %>
       </div>
+      <div class="column is-12" id="remove-after-loading"><div class="loading-animation"></div></div>
     </div>
   </div>
 </div>
