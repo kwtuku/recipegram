@@ -146,14 +146,20 @@ def create_notification_for_one_user(notification_creation_time, user_id)
   user = User.find(user_id)
   other_user_ids = User.ids - [user.id]
 
+  unless user.recipes.present?
+    puts 'ユーザーのレシピがありません'
+    return
+  end
+
   notification_creation_time.times do
     other_user = User.find(other_user_ids.sample)
     user_recipe = user.recipes.sample
-    other_user_recipe = other_user.recipes.sample
-    other_user_comment = other_user.comments.sample
+    other_user_recipes = Recipe.all - user.recipes
+    other_user_comments = Comment.all - user.comments
+    other_user_comment = other_user_comments.sample
 
     other_user_comment.create_comment_notification!(other_user, other_user_comment.id, user_recipe.id)
-    other_user_comment.create_comment_notification!(other_user, other_user_comment.id, other_user_recipe.id)
+    other_user_comment.create_comment_notification!(other_user, other_user_comment.id, other_user_recipes.sample.id)
     user_recipe.create_favorite_notification!(other_user)
     user.create_follow_notification!(other_user)
 
