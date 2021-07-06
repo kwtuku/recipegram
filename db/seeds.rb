@@ -167,6 +167,29 @@ def create_notification_for_one_user(notification_creation_time, user_id)
   end
 end
 
+def create_recipe_for_one_user(recipe_creation_time, user_id)
+  creation_time = 0
+  recipe_creation_time.times do
+    recipe_title = Faker::Lorem.words(number: rand(1..10)).join(' ')
+    recipe_body = <<~TEXT
+      #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(3..5)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(1..10)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(5..8)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(1..10)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(5..10)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(3..8)).join(' ')}
+    TEXT
+    recipe_image = File.open("./db/fixtures/recipe/recipe_sample_#{rand(1..15)}.jpg")
+
+    User.find(user_id).recipes.create!(title: recipe_title, body: recipe_body, recipe_image: recipe_image)
+    creation_time += 1
+    puts creation_time
+  end
+end
+
 create_characteristic_user_recipe_comment
 create_user(time)
 create_relationship(time)
@@ -175,3 +198,4 @@ create_comment(time)
 create_favorite(time)
 update_recipe(time)
 create_notification_for_one_user(time, user_id)
+create_recipe_for_one_user(time, user_id)
