@@ -60,16 +60,15 @@ def create_user(user_creation_time)
   end
 end
 
-def create_relationship
+def create_relationship(create_relationship_time)
   users = User.all
 
-  users.each do |user|
-    rand(users.size).times do
-      followed = users.sample
-      unless user.id == followed.id
-        user.relationships.find_or_create_by(follow_id: followed.id)
-      end
+  users.sample(create_relationship_time).each do |user|
+    followed_ids = User.ids.sample(rand(1..users.size)) - [user.id]
+    followed_ids.each do |followed_id|
+      user.relationships.find_or_create_by(follow_id: followed_id)
     end
+    puts "#{user.id}が#{followed_ids}をフォロー"
   end
 end
 
@@ -170,7 +169,7 @@ end
 
 create_characteristic_user_recipe_comment
 create_user(time)
-create_relationship
+create_relationship(time)
 create_recipe(time)
 create_comment(time)
 create_favorite(time)
