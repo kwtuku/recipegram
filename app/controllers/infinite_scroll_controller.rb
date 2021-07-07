@@ -30,6 +30,12 @@ class InfiniteScrollController < ApplicationController
       last = first + 39
       items = user.followers.preload(:followings).order('relationships.created_at desc')[first..last]
       local_value = 'user'
+    elsif params[:type].to_s == 'favorites'
+      file_path = 'recipes/recipe'
+      user = User.find(params[:paramsId].to_i)
+      last = first + 39
+      items = user.favored_recipes.eager_load(:favorites, :comments).order('favorites.created_at desc')[first..last]
+      local_value = 'recipe'
     elsif params[:type].to_s == 'users_show'
       file_path = 'recipes/recipe'
       user = User.find(params[:paramsId].to_i)

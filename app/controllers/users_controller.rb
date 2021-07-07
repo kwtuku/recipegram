@@ -61,7 +61,7 @@ class UsersController < ApplicationController
 
   def favorites
     @user = User.find(params[:user_id])
-    @recipes = @user.favored_recipes.eager_load(:favorites, :comments).order('favorites.created_at desc')
+    @recipes = @user.favored_recipes.eager_load(:favorites, :comments).order('favorites.created_at desc').limit(40)
     @recipes_favorites_count = @user.recipes_favorites_count
     render 'show'
   end

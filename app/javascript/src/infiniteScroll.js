@@ -37,6 +37,9 @@ export default () => {
         } else if (location.pathname.indexOf('followers') !== -1) {
           type = 'followers';
           paramsId = location.pathname.replace(/\D/g, '');
+        } else if (location.pathname.indexOf('favorites') !== -1) {
+          type = 'favorites';
+          paramsId = location.pathname.replace(/\D/g, '');
         } else if (regexp.test(location.pathname)) {
           type = 'users_show';
           paramsId = location.pathname.replace(/\D/g, '');
