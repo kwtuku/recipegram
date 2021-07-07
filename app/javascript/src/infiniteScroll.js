@@ -23,6 +23,7 @@ export default () => {
 
         let type;
         let paramsId;
+        const regexp = /users\/\d/;
 
         if (location.pathname === '/') {
           type = 'home_home';
@@ -35,6 +36,9 @@ export default () => {
           paramsId = location.pathname.replace(/\D/g, '');
         } else if (location.pathname.indexOf('followers') !== -1) {
           type = 'followers';
+          paramsId = location.pathname.replace(/\D/g, '');
+        } else if (regexp.test(location.pathname)) {
+          type = 'users_show';
           paramsId = location.pathname.replace(/\D/g, '');
         }
 

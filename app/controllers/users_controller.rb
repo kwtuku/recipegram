@@ -7,7 +7,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @recipes = @user.recipes.eager_load(:favorites, :comments).order(id: :DESC)
+    @recipes = @user.recipes.eager_load(:favorites, :comments).order(id: :DESC).limit(40)
     @recipes_favorites_count = @user.recipes_favorites_count
     @followers_you_follow = @user.followers_you_follow(current_user) if user_signed_in?
   end

@@ -123,8 +123,11 @@
       </ul>
     </div>
 
-    <div class="columns is-multiline is-mobile">
+    <div class="columns is-multiline is-mobile" id="infinite-scroll-container" data-infinite-scroll="true">
       <%= recipes_or_no_recipes_description(@recipes, @user) %>
+      <% if @recipes.size >= 40 %>
+        <div class="column is-12" id="remove-after-loading"><div class="loading-animation"></div></div>
+      <% end %>
     </div>
   </div>
 </section>
