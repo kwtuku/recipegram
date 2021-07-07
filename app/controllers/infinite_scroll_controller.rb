@@ -22,13 +22,13 @@ class InfiniteScrollController < ApplicationController
       file_path = 'users/follow'
       user = User.find(params[:paramsId].to_i)
       last = first + 39
-      items = user.followings[first..last]
+      items = user.followings.preload(:followings).order('relationships.created_at desc')[first..last]
       local_value = 'user'
     elsif params[:type].to_s == 'followers'
       file_path = 'users/follow'
       user = User.find(params[:paramsId].to_i)
       last = first + 39
-      items = user.followers[first..last]
+      items = user.followers.preload(:followings).order('relationships.created_at desc')[first..last]
       local_value = 'user'
     elsif params[:type].to_s == 'users_show'
       file_path = 'recipes/recipe'
