@@ -17,7 +17,7 @@ class User < ApplicationRecord
   has_many :followings, through: :relationships, source: :follow
   has_many :followers, through: :reverse_of_relationships, source: :user
 
-  has_many :commented_recipes, -> { distinct }, through: :comments, source: :recipe
+  has_many :commented_recipes, through: :comments, source: :recipe
   has_many :favored_recipes, through: :favorites, source: :recipe
 
   has_many :active_notifications, class_name: 'Notification', foreign_key: 'visitor_id', dependent: :destroy
