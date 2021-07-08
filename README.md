@@ -103,6 +103,17 @@ https://recipegram-kwtuku.herokuapp.com/
 <br>
 <br>
 
+# ER図
+
+<details>
+
+![ER図](er_diagram.drawio.svg)
+
+</details>
+
+<br>
+<br>
+
 # 各機能の詳細
 
 <details>
