@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   root to: 'home#home'
 
+  get '/infinite_scroll', to: 'infinite_scroll#show'
   get '/search', to: 'home#search'
 
   resources :notifications, only: %i(index)
@@ -16,7 +17,6 @@ Rails.application.routes.draw do
     resource :favorites, only: %i(create destroy)
     resources :comments, only: %i(create destroy)
   end
-  get '/show_additionally', to: 'recipes#show_additionally'
 
   resources :users, only: %i(index show edit update) do
     get :followings, :followers, :comments, :favorites

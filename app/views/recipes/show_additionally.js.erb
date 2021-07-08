@@ -1,4 +1,0 @@
-infiniteScrollContainer.insertAdjacentHTML('beforeend', "<%= j(render partial: @file_path, collection: @items, as: @local_value) %>")
-<% if @items.present? %>
-  infiniteScrollContainer.dataset.infiniteScroll = 'true';
-<% end %>

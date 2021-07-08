@@ -7,8 +7,9 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @recipes = @user.recipes.eager_load(:favorites, :comments).order(id: :DESC)
+    @recipes = @user.recipes.eager_load(:favorites, :comments).order(id: :DESC).limit(40)
     @recipes_favorites_count = @user.recipes_favorites_count
+    @followers_you_follow = @user.followers_you_follow(current_user) if user_signed_in?
   end
 
   def edit
@@ -41,26 +42,26 @@ class UsersController < ApplicationController
 
   def followings
     @user = User.find(params[:user_id])
-    @follows = @user.followings.preload(:followings).limit(40)
+    @follows = @user.followings.preload(:followings).order('relationships.created_at desc').limit(40)
     render 'follows'
   end
 
   def followers
     @user = User.find(params[:user_id])
-    @follows = @user.followers.preload(:followings).limit(40)
+    @follows = @user.followers.preload(:followings).order('relationships.created_at desc').limit(40)
     render 'follows'
   end
 
   def comments
     @user = User.find(params[:user_id])
-    @recipes = @user.commented_recipes.eager_load(:favorites, :comments)
+    @recipes = @user.commented_recipes.eager_load(:favorites, :comments).order('comments.created_at desc').limit(40)
     @recipes_favorites_count = @user.recipes_favorites_count
     render 'show'
   end
 
   def favorites
     @user = User.find(params[:user_id])
-    @recipes = @user.favored_recipes.eager_load(:favorites, :comments).order('favorites.created_at desc')
+    @recipes = @user.favored_recipes.eager_load(:favorites, :comments).order('favorites.created_at desc').limit(40)
     @recipes_favorites_count = @user.recipes_favorites_count
     render 'show'
   end
