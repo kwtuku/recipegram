@@ -22,10 +22,11 @@ RSpec.describe 'Notifications', type: :system do
         .and change { alice.notifications.count }.by(1)
         .and change { bob.notifications.count }.by(1)
         .and change { carol.notifications.count }.by(1)
+        .and change { dave.notifications.count }.by(0)
         sign_out dave
       end
 
-      it 'creates comment notification about own recipe', js: true do
+      it 'creates comment notification for recipe user', js: true do
         sign_in alice
         expect(page).to have_css '.has-unchecked-notification'
         click_link href: notifications_path
@@ -36,7 +37,7 @@ RSpec.describe 'Notifications', type: :system do
         expect(page).to  have_content 'にコメントしました。'
       end
 
-      it 'creates comment notification about other user recipe user made a comment on', js: true do
+      it 'creates comment notification for other comment user', js: true do
         sign_in bob
         expect(page).to have_css '.has-unchecked-notification'
         click_link href: notifications_path
@@ -45,6 +46,11 @@ RSpec.describe 'Notifications', type: :system do
         expect(page).to  have_content 'さんが'
         expect(page).to  have_link "あなたがコメントした投稿「#{alice_recipe.title}」"
         expect(page).to  have_content 'にコメントしました。'
+      end
+
+      it 'does not create comment notification for comment user', js: true do
+        sign_in dave
+        expect(page).to have_no_css '.has-unchecked-notification'
       end
     end
 
@@ -62,12 +68,12 @@ RSpec.describe 'Notifications', type: :system do
         sign_out alice
       end
 
-      it 'does not create comment notification about own recipe', js: true do
+      it 'does not create comment notification for recipe user', js: true do
         sign_in alice
         expect(page).to have_no_css '.has-unchecked-notification'
       end
 
-      it 'creates comment notification about other user recipe user made a comment on', js: true do
+      it 'creates comment notification for other comment user', js: true do
         sign_in bob
         expect(page).to have_css '.has-unchecked-notification'
         click_link href: notifications_path
