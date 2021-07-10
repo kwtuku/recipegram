@@ -9,6 +9,7 @@ class User < ApplicationRecord
 
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
+  has_many :notifications, foreign_key: :receiver_id, dependent: :destroy
   has_many :recipes, dependent: :destroy
 
   has_many :relationships
@@ -19,9 +20,6 @@ class User < ApplicationRecord
 
   has_many :commented_recipes, through: :comments, source: :recipe
   has_many :favored_recipes, through: :favorites, source: :recipe
-
-  has_many :active_notifications, class_name: 'Notification', foreign_key: 'visitor_id', dependent: :destroy
-  has_many :passive_notifications, class_name: 'Notification', foreign_key: 'visited_id', dependent: :destroy
 
   mount_uploader :user_image, UserImageUploader
 

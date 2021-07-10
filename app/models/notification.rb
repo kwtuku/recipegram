@@ -1,9 +1,24 @@
 class Notification < ApplicationRecord
-  belongs_to :comment, optional: true
-  belongs_to :recipe, optional: true
-
-  belongs_to :visited, class_name: 'User', foreign_key: 'visited_id', optional: true
-  belongs_to :visitor, class_name: 'User', foreign_key: 'visitor_id', optional: true
+  belongs_to :notifiable, polymorphic: true
+  belongs_to :receiver, class_name: 'User'
 
   default_scope -> { order(created_at: :desc) }
+
+  def self.create_comment_notification(comment)
+    comment_notification_receiver_ids(comment).each do |receiver_id|
+      Notification.create(
+        notifiable_id: comment.id,
+        receiver_id: receiver_id,
+        notifiable_type: comment.class.name
+      )
+    end
+  end
+
+  def self.comment_notification_receiver_ids(comment)
+    if comment.user_id == comment.recipe.user.id
+      comment.recipe.comments.map(&:user_id).uniq - [comment.user_id]
+    else
+      comment.recipe.comments.map(&:user_id).uniq - [comment.user_id] | [comment.recipe.user_id]
+    end
+  end
 end
