@@ -4,6 +4,54 @@ RSpec.describe Notification, type: :model do
   let(:alice) { create :user }
   let(:bob) { create :user }
 
+  describe 'comment notification' do
+    let(:alice_recipe) { create :recipe, user: alice }
+    let!(:bob_comment) { create :comment, user: bob, recipe: alice_recipe }
+    let(:carol) { create :user }
+    let!(:carol_comment) { create :comment, user: carol, recipe: alice_recipe }
+
+    context 'comment user != recipe user' do
+      let(:dave) { create :user }
+      let(:dave_comment) { create :comment, user: dave, recipe: alice_recipe }
+
+      it 'creates comment notification for recipe user' do
+        expect{
+          Notification.create_comment_notification(dave_comment)
+        }.to change { alice.notifications.count }.by(1)
+      end
+
+      it 'creates comment notification for other comment user' do
+        expect{
+          Notification.create_comment_notification(dave_comment)
+        }.to change { bob.notifications.count }.by(1)
+        .and change { carol.notifications.count }.by(1)
+      end
+
+      it 'does not create comment notification for comment user' do
+        expect{
+          Notification.create_comment_notification(dave_comment)
+        }.to change { dave.notifications.count }.by(0)
+      end
+    end
+
+    context 'comment user == recipe user' do
+      let(:alice_comment) { create :comment, user: alice, recipe: alice_recipe }
+
+      it 'does not create comment notification for recipe user' do
+        expect{
+          Notification.create_comment_notification(alice_comment)
+        }.to change { alice.notifications.count }.by(0)
+      end
+
+      it 'creates comment notification for other comment user' do
+        expect{
+          Notification.create_comment_notification(alice_comment)
+        }.to change { bob.notifications.count }.by(1)
+        .and change { carol.notifications.count }.by(1)
+      end
+    end
+  end
+
   describe 'self.create_favorite_notification(favorite)' do
     let(:alice_recipe) { create :recipe, user: alice }
 
