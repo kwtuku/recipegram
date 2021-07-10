@@ -21,4 +21,14 @@ class Notification < ApplicationRecord
       comment.recipe.comments.map(&:user_id).uniq - [comment.user_id] | [comment.recipe.user_id]
     end
   end
+
+  def self.create_favorite_notification(favorite)
+    return if favorite.recipe.user_id == favorite.user_id
+
+    Notification.create(
+      notifiable_id: favorite.id,
+      receiver_id: favorite.recipe.user_id,
+      notifiable_type: favorite.class.name
+    )
+  end
 end
