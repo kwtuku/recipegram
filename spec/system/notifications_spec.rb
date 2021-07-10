@@ -47,22 +47,36 @@ RSpec.describe 'Notifications', type: :system do
       expect(notification.reload.checked?).to eq true
     end
   end
-  it 'create favorite notification', js: true do
-    sign_in alice
-    expect(page).to have_no_css '.has-unchecked-notification'
-    alice_recipe.create_favorite_notification!(bob)
-    notification = alice.passive_notifications[0]
-    expect(notification.checked?).to eq false
-    visit current_path
-    expect(page).to have_css '.has-unchecked-notification'
-    click_link href: notifications_path
-    expect(current_path).to eq notifications_path
-    expect(page).to  have_link "#{notification.visitor.username}"
-    expect(page).to  have_content 'さんが'
-    expect(page).to  have_link "あなたの投稿「#{notification.recipe.title}」"
-    expect(page).to  have_content 'にいいねしました。'
-    expect(notification.reload.checked?).to eq true
+
+  describe 'favorite notification' do
+    it 'creates favorite notification when user makes a favorite on the recipe other user created', js: true do
+      sign_in bob
+      visit recipe_path(alice_recipe)
+      click_link href: recipe_favorites_path(alice_recipe)
+      expect(page).to have_selector '.rspec_destroy_favorite'
+      expect(alice_recipe.favorites.count).to eq 1
+      expect(alice.notifications.count).to eq 1
+      sign_out bob
+
+      sign_in alice
+      click_link href: notifications_path
+      favorite = Favorite.find_by(user_id: bob.id, recipe_id: alice_recipe.id)
+      expect(page).to  have_link "#{favorite.user.username}"
+      expect(page).to  have_content 'さんが'
+      expect(page).to  have_link "あなたの投稿「#{favorite.recipe.title}」"
+      expect(page).to  have_content 'にいいねしました。'
+    end
+
+    it 'does not create favorite notification when user makes a favorite on own recipe', js: true do
+      sign_in alice
+      visit recipe_path(alice_recipe)
+      click_link href: recipe_favorites_path(alice_recipe)
+      expect(page).to have_selector '.rspec_destroy_favorite'
+      expect(alice_recipe.favorites.count).to eq 1
+      expect(alice.notifications.count).to eq 0
+    end
   end
+
   it 'create follow notification', js: true do
     sign_in alice
     expect(page).to have_no_css '.has-unchecked-notification'
