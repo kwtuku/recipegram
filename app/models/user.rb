@@ -64,17 +64,6 @@ class User < ApplicationRecord
     end
   end
 
-  def create_follow_notification!(current_user)
-    temp = Notification.where(["visitor_id = ? and visited_id = ? and action = ? ",current_user.id, id, 'follow'])
-    if temp.blank?
-      notification = current_user.active_notifications.new(
-        visited_id: id,
-        action: 'follow'
-      )
-      notification.save if notification.valid?
-    end
-  end
-
   def feed
     Recipe.where("user_id IN (?) OR user_id = ?", following_ids, id)
   end

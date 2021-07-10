@@ -22,6 +22,14 @@ class Notification < ApplicationRecord
     end
   end
 
+  def self.create_relationship_notification(relationship)
+    Notification.create(
+      notifiable_id: relationship.id,
+      receiver_id: relationship.follow_id,
+      notifiable_type: relationship.class.name
+    )
+  end
+
   def self.create_favorite_notification(favorite)
     return if favorite.recipe.user_id == favorite.user_id
 
