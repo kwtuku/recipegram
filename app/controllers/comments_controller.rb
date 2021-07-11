@@ -3,8 +3,8 @@ class CommentsController < ApplicationController
     @comment = current_user.comments.new(comment_params)
     @comment.recipe_id = params[:recipe_id]
     if @comment.save
-      @comment.create_comment_notification!(current_user, @comment.id, @comment.recipe.id)
       redirect_to "/recipes/#{params[:recipe_id]}", notice: 'レシピにコメントしました。'
+      Notification.create_comment_notification(@comment)
     else
       @recipe = Recipe.find(params[:recipe_id])
       render "recipes/show"
