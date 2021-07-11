@@ -24,7 +24,7 @@
       <% end %>
 
       <%= link_to notifications_path, class: "navbar-item is-hidden-desktop", title: "通知一覧へ" do %>
-        <span class="icon is-medium <%= 'has-unchecked-notification' if current_user.passive_notifications.where(checked: false).exists? %>">
+        <span class="icon is-medium <%= 'has-unchecked-notification' if current_user.notifications.where(read: false).exists? %>">
           <i class="fas fa-lg fa-bell"></i>
         </span>
       <% end %>
@@ -98,7 +98,7 @@
         <% end %>
 
         <%= link_to notifications_path, class: "navbar-item ml-2 is-hidden-touch", title: "通知一覧へ" do %>
-          <span class="icon is-medium <%= 'has-unchecked-notification' if current_user.passive_notifications.where(checked: false).exists? %>">
+          <span class="icon is-medium <%= 'has-unchecked-notification' if current_user.notifications.where(read: false).exists? %>">
             <i class="fas fa-lg fa-bell"></i>
           </span>
         <% end %>

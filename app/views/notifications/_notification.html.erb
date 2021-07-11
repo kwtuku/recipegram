@@ -1,31 +1,23 @@
-<% visitor = notification.visitor %>
-<% visited = notification.visited %>
-
 <div class="media">
   <figure class="media-left">
-    <p class="image is-32x32 is-hidden-mobile">
-      <%= link_to user_path(visitor) do %>
-        <%= image_tag visitor.user_image.url(:icon), class: 'is-rounded' %>
-      <% end %>
-    </p>
-    <p class="image is-32x32 is-hidden-tablet">
-      <%= link_to user_path(visitor) do %>
-        <%= image_tag visitor.user_image.url(:icon), class: 'is-rounded' %>
+    <p class="image is-32x32">
+      <%= link_to user_path(notification.notifiable.user) do %>
+        <%= image_tag notification.notifiable.user.user_image.url(:icon), class: 'is-rounded' %>
       <% end %>
     </p>
   </figure>
   <div class="media-content">
     <p>
-      <%= link_to visitor.username, user_path(visitor), class: 'has-text-black-bis has-text-weight-bold text-break hover-underline' %>さんが
-      <% if notification.action == 'favorite' %>
-        <%= link_to "あなたの投稿「#{notification.recipe.title}」", recipe_path(notification.recipe), class: 'has-text-black-bis has-text-weight-bold text-break hover-underline' %>にいいねしました。
-      <% elsif notification.action == 'comment' %>
-        <% if notification.recipe.user_id == visited.id %>
-          <%= link_to "あなたの投稿「#{notification.comment.recipe.title}」", recipe_path(notification.comment.recipe), class: 'has-text-black-bis has-text-weight-bold text-break hover-underline' %>にコメントしました。
+      <%= link_to notification.notifiable.user.username, user_path(notification.notifiable.user), class: 'has-text-black-bis has-text-weight-bold text-break hover-underline' %>さんが
+      <% if notification.notifiable_type.downcase == 'favorite' %>
+        <%= link_to "あなたの投稿「#{notification.notifiable.recipe.title}」", recipe_path(notification.notifiable.recipe), class: 'has-text-black-bis has-text-weight-bold text-break hover-underline' %>にいいねしました。
+      <% elsif notification.notifiable_type.downcase == 'comment' %>
+        <% if notification.notifiable.recipe.user_id == notification.receiver_id %>
+          <%= link_to "あなたの投稿「#{notification.notifiable.recipe.title}」", recipe_path(notification.notifiable.recipe), class: 'has-text-black-bis has-text-weight-bold text-break hover-underline' %>にコメントしました。
         <% else %>
-          <%= link_to "あなたがコメントした投稿「#{notification.comment.recipe.title}」", recipe_path(notification.comment.recipe), class: 'has-text-black-bis has-text-weight-bold text-break hover-underline' %>にコメントしました。
+          <%= link_to "あなたがコメントした投稿「#{notification.notifiable.recipe.title}」", recipe_path(notification.notifiable.recipe), class: 'has-text-black-bis has-text-weight-bold text-break hover-underline' %>にコメントしました。
         <% end %>
-      <% else notification.action == 'follow' %>
+      <% else notification.notifiable_type.downcase == 'relationship' %>
         あなたをフォローしました。
       <% end %>
     </p>

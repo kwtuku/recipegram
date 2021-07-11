@@ -2,14 +2,13 @@ class RelationshipsController < ApplicationController
   before_action :set_user
 
   def create
-    following = current_user.follow(@user)
-    following.save
-    @user.create_follow_notification!(current_user)
+    if relationship = current_user.follow(@user)
+      Notification.create_relationship_notification(relationship)
+    end
   end
 
   def destroy
-    following = current_user.unfollow(@user)
-    following.destroy
+    current_user.unfollow(@user)
   end
 
   private

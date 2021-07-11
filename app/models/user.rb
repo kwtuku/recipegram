@@ -9,6 +9,7 @@ class User < ApplicationRecord
 
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
+  has_many :notifications, foreign_key: :receiver_id, dependent: :destroy
   has_many :recipes, dependent: :destroy
 
   has_many :relationships
@@ -19,9 +20,6 @@ class User < ApplicationRecord
 
   has_many :commented_recipes, through: :comments, source: :recipe
   has_many :favored_recipes, through: :favorites, source: :recipe
-
-  has_many :active_notifications, class_name: 'Notification', foreign_key: 'visitor_id', dependent: :destroy
-  has_many :passive_notifications, class_name: 'Notification', foreign_key: 'visited_id', dependent: :destroy
 
   mount_uploader :user_image, UserImageUploader
 
@@ -63,17 +61,6 @@ class User < ApplicationRecord
     find_or_create_by!(email: 'guest@example.com') do |user|
       user.password = SecureRandom.urlsafe_base64
       user.username = "ゲスト"
-    end
-  end
-
-  def create_follow_notification!(current_user)
-    temp = Notification.where(["visitor_id = ? and visited_id = ? and action = ? ",current_user.id, id, 'follow'])
-    if temp.blank?
-      notification = current_user.active_notifications.new(
-        visited_id: id,
-        action: 'follow'
-      )
-      notification.save if notification.valid?
     end
   end
 
