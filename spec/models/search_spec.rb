@@ -1,22 +1,67 @@
 require 'rails_helper'
 
 RSpec.describe Recipe, type: :model do
-  describe 'title' do
-    let!(:miso_ramen) { create :recipe, title: '味噌ラーメンの作り方', body: '味噌ラーメンの作り方です。', updated_at: 6.years.ago }
-    let!(:miso_soup) { create :recipe, title: '味噌汁', body: '味噌汁の作り方です。', updated_at: 5.months.ago }
+  describe 'search title' do
+    let!(:miso_ramen) { create :recipe, title: '味噌ラーメンの作り方', body: '味噌ラーメンの作り方です。', updated_at: 2.hours.ago }
+    let!(:miso_soup) { create :recipe, title: '味噌汁', body: '味噌汁の作り方です。', updated_at: 6.years.ago }
     let!(:miso_katsudon) { create :recipe, title: '味噌カツ丼', body: '味噌カツ丼の作り方です。', updated_at: 4.weeks.ago }
     let!(:miso_udon) { create :recipe, title: '味噌煮込みうどん', body: '味噌煮込みうどんの作り方です。', updated_at: 3.days.ago }
-    let!(:miso) { create :recipe, title: '味噌', body: 'みその作り方です。', updated_at: 2.hours.ago }
-    let!(:tonkotsu_ramen) { create :recipe, title: '豚骨ラーメン', body: '豚骨ラーメンの作り方です。', updated_at: 1.minutes.ago }
+    let!(:miso) { create :recipe, title: '味噌', body: 'みその作り方です。', updated_at: 5.months.ago }
+    let!(:tonkotsu_ramen) { create :recipe, title: '豚骨ラーメン', body: '豚骨ラーメンの作り方です。' }
+
+    let!(:alice) { create :user, username: 'アリス', profile: '味噌ラーメンの作り方知ってます。' }
+    let!(:bob) { create :user, username: 'ボブ', profile: '味噌カツ丼の作り方知りたい！' }
+    let!(:carol) { create :user, username: '味噌好きキャロル', profile: 'みそ汁が作れます。' }
+    let!(:dave) { create :user, username: 'dave', profile: 'I am dave.' }
+    let!(:ellen) { create :user }
+    let!(:frank) { create :user }
+    before do
+      users = [alice, bob, carol, dave, ellen, frank]
+      users.sample(6).each { |user| user.favorites.create(recipe_id: miso_ramen.id) }
+      users.sample(4).each { |user| user.favorites.create(recipe_id: miso_katsudon.id) }
+      users.sample(3).each { |user| user.favorites.create(recipe_id: miso_udon.id) }
+      users.sample(1).each { |user| user.favorites.create(recipe_id: miso.id) }
+
+      users.sample(5).each { |user| user.comments.create(recipe_id: miso_udon.id, body: 'コメントです。') }
+      users.sample(4).each { |user| user.comments.create(recipe_id: miso.id, body: 'コメントです。' ) }
+      users.sample(2).each { |user| user.comments.create(recipe_id: miso_ramen.id, body: 'コメントです。' ) }
+      users.sample(1).each { |user| user.comments.create(recipe_id: miso_soup.id, body: 'コメントです。' ) }
+    end
+
+    it 'is in ascending order of comments count' do
+      title_q = { title_has_every_term: '味噌', s: { '0' => { name: 'comments_count', dir: 'asc' } } }
+      recipe_title_results = Recipe.ransack(title_q).result
+      expect(recipe_title_results.map(&:id)).to eq [miso_udon.id, miso.id, miso_ramen.id, miso_soup.id, miso_katsudon.id]
+    end
+
+    it 'is in descending order of comments count' do
+      title_q = { title_has_every_term: '味噌', s: { '0' => { name: 'comments_count', dir: 'desc' } } }
+      recipe_title_results = Recipe.ransack(title_q).result
+      expect(recipe_title_results.map(&:id)).to eq [miso_udon.id, miso.id, miso_ramen.id, miso_soup.id, miso_katsudon.id].reverse
+    end
+
+    it 'is in ascending order of favorites count' do
+      title_q = { title_has_every_term: '味噌', s: { '0' => { name: 'favorites_count', dir: 'asc' } } }
+      recipe_title_results = Recipe.ransack(title_q).result
+      expect(recipe_title_results.map(&:id)).to eq [miso_soup.id, miso.id, miso_udon.id, miso_katsudon.id, miso_ramen.id]
+    end
+
+    it 'is in descending order of favorites count' do
+      title_q = { title_has_every_term: '味噌', s: { '0' => { name: 'favorites_count', dir: 'desc' } } }
+      recipe_title_results = Recipe.ransack(title_q).result
+      expect(recipe_title_results.map(&:id)).to eq [miso_soup.id, miso.id, miso_udon.id, miso_katsudon.id, miso_ramen.id].reverse
+    end
 
     it 'is in ascending order of updated_at' do
       title_q = { title_has_every_term: '味噌', s: { '0' => { name: 'updated_at', dir: 'asc' } } }
-      expect(Recipe.ransack(title_q).result.map(&:id)).to eq [miso_ramen.id, miso_soup.id, miso_katsudon.id, miso_udon.id, miso.id]
+      recipe_title_results = Recipe.ransack(title_q).result
+      expect(recipe_title_results.map(&:id)).to eq [miso_soup.id, miso.id, miso_katsudon.id, miso_udon.id, miso_ramen.id]
     end
 
     it 'is in descending order of updated_at' do
       title_q = { title_has_every_term: '味噌', s: { '0' => { name: 'updated_at', dir: 'desc' } } }
-      expect(Recipe.ransack(title_q).result.map(&:id)).to eq [miso.id, miso_udon.id, miso_katsudon.id, miso_soup.id, miso_ramen.id]
+      recipe_title_results = Recipe.ransack(title_q).result
+      expect(recipe_title_results.map(&:id)).to eq [miso_soup.id, miso.id, miso_katsudon.id, miso_udon.id, miso_ramen.id].reverse
     end
   end
 end
