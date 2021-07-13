@@ -118,6 +118,10 @@ RSpec.describe Recipe, type: :model do
   end
 
   describe 'search username' do
+    let!(:dave_recipes) { create_list(:recipe, 1, user: dave) }
+    let!(:bob_recipes) { create_list(:recipe, 2, user: bob) }
+    let!(:alice_recipes) { create_list(:recipe, 4, user: alice) }
+    let!(:ellen_recipes) { create_list(:recipe, 5, user: ellen) }
     before do
       [alice].each { |user| user.relationships.create(follow_id: carol.id) }
       [alice, carol, frank].each { |user| user.relationships.create(follow_id: ellen.id) }
@@ -147,6 +151,18 @@ RSpec.describe Recipe, type: :model do
       username_q = { username_has_every_term: 'ユーザー', s: { '0' => { name: 'followings_count', dir: 'desc' } } }
       user_username_results = User.ransack(username_q).result
       expect(user_username_results.map(&:id)).to eq [dave.id, bob.id, ellen.id, carol.id, alice.id].reverse
+    end
+
+    it 'is in ascending order of recipes count' do
+      username_q = { username_has_every_term: 'ユーザー', s: { '0' => { name: 'recipes_count', dir: 'asc' } } }
+      user_username_results = User.ransack(username_q).result
+      expect(user_username_results.map(&:id)).to eq [carol.id, dave.id, bob.id, alice.id, ellen.id]
+    end
+
+    it 'is in descending order of recipes count' do
+      username_q = { username_has_every_term: 'ユーザー', s: { '0' => { name: 'recipes_count', dir: 'desc' } } }
+      user_username_results = User.ransack(username_q).result
+      expect(user_username_results.map(&:id)).to eq [carol.id, dave.id, bob.id, alice.id, ellen.id].reverse
     end
   end
 end
