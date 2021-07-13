@@ -119,9 +119,9 @@ RSpec.describe Recipe, type: :model do
 
   describe 'search username' do
     before do
-      [frank].each { |user| user.relationships.create(follow_id: carol.id) }
-      [carol, dave, frank].each { |user| user.relationships.create(follow_id: ellen.id) }
-      [carol, dave, ellen, frank].each { |user| user.relationships.create(follow_id: bob.id) }
+      [alice].each { |user| user.relationships.create(follow_id: carol.id) }
+      [alice, carol, frank].each { |user| user.relationships.create(follow_id: ellen.id) }
+      [alice, carol, ellen, frank].each { |user| user.relationships.create(follow_id: bob.id) }
       [alice, bob, carol, ellen, frank].each { |user| user.relationships.create(follow_id: dave.id) }
     end
 
@@ -135,6 +135,18 @@ RSpec.describe Recipe, type: :model do
       username_q = { username_has_every_term: 'ユーザー', s: { '0' => { name: 'followers_count', dir: 'desc' } } }
       user_username_results = User.ransack(username_q).result
       expect(user_username_results.map(&:id)).to eq [alice.id, carol.id, ellen.id, bob.id, dave.id].reverse
+    end
+
+    it 'is in ascending order of followings count' do
+      username_q = { username_has_every_term: 'ユーザー', s: { '0' => { name: 'followings_count', dir: 'asc' } } }
+      user_username_results = User.ransack(username_q).result
+      expect(user_username_results.map(&:id)).to eq [dave.id, bob.id, ellen.id, carol.id, alice.id]
+    end
+
+    it 'is in descending order of followings count' do
+      username_q = { username_has_every_term: 'ユーザー', s: { '0' => { name: 'followings_count', dir: 'desc' } } }
+      user_username_results = User.ransack(username_q).result
+      expect(user_username_results.map(&:id)).to eq [dave.id, bob.id, ellen.id, carol.id, alice.id].reverse
     end
   end
 end
