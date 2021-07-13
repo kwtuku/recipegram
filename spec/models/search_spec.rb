@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Recipe, type: :model do
+RSpec.describe 'Search', type: :model do
   let!(:miso_ramen) { create :recipe, title: '味噌ラーメンの作り方', body: '味噌ラーメンの作り方です。', updated_at: 2.hours.ago }
   let!(:miso_soup) { create :recipe, title: '味噌汁', body: '味噌汁の作り方です。', updated_at: 6.years.ago }
   let!(:miso_katsudon) { create :recipe, title: '味噌カツ丼', body: '味噌カツ丼の作り方です。', updated_at: 4.weeks.ago }
@@ -8,12 +8,12 @@ RSpec.describe Recipe, type: :model do
   let!(:miso) { create :recipe, title: '味噌', body: 'みその作り方です。', updated_at: 5.months.ago }
   let!(:tonkotsu_ramen) { create :recipe, title: '豚骨ラーメン', body: '豚骨ラーメンの作り方です。' }
 
-  let!(:alice) { create :user, username: 'ユーザー1', profile: '味噌ラーメンの作り方知ってます。' }
-  let!(:bob) { create :user, username: 'ユーザー2', profile: '味噌カツ丼の作り方知りたい！' }
-  let!(:carol) { create :user, username: 'ユーザー3', profile: 'みそ汁が作れます。' }
-  let!(:dave) { create :user, username: 'ユーザー4', profile: 'I am dave.' }
-  let!(:ellen) { create :user, username: 'ユーザー5' }
-  let!(:frank) { create :user, username: 'frank' }
+  let!(:alice) { create :user, username: 'ユーザー1', profile: 'プロフィールです。' }
+  let!(:bob) { create :user, username: 'ユーザー2', profile: 'Hi!' }
+  let!(:carol) { create :user, username: 'ユーザー3', profile: 'プロフィールです。' }
+  let!(:dave) { create :user, username: 'ユーザー4', profile: 'プロフィールです。' }
+  let!(:ellen) { create :user, username: 'ユーザー5', profile: 'Yey!' }
+  let!(:frank) { create :user, username: 'frank', profile: 'プロフィールです。' }
 
   describe 'search title' do
     before do
@@ -163,6 +163,53 @@ RSpec.describe Recipe, type: :model do
       username_q = { username_has_every_term: 'ユーザー', s: { '0' => { name: 'recipes_count', dir: 'desc' } } }
       user_username_results = User.ransack(username_q).result
       expect(user_username_results.map(&:id)).to eq [carol.id, dave.id, bob.id, alice.id, ellen.id].reverse
+    end
+  end
+
+  describe 'search profile' do
+    let!(:carol_recipes) { create_list(:recipe, 1, user: carol) }
+    let!(:dave_recipes) { create_list(:recipe, 2, user: dave) }
+    let!(:frank_recipes) { create_list(:recipe, 4, user: frank) }
+    before do
+      [dave, alice].each { |user| user.relationships.create(follow_id: frank.id) }
+      [bob, carol, dave].each { |user| user.relationships.create(follow_id: alice.id) }
+      [alice, bob, dave, ellen].each { |user| user.relationships.create(follow_id: carol.id) }
+    end
+
+    it 'is in ascending order of followers count' do
+      profile_q = { profile_has_every_term: 'プロフィール', s: { '0' => { name: 'followers_count', dir: 'asc' } } }
+      user_profile_q = User.ransack(profile_q).result
+      expect(user_profile_q.map(&:id)).to eq [dave.id, frank.id, alice.id, carol.id]
+    end
+
+    it 'is in descending order of followers count' do
+      profile_q = { profile_has_every_term: 'プロフィール', s: { '0' => { name: 'followers_count', dir: 'desc' } } }
+      user_profile_q = User.ransack(profile_q).result
+      expect(user_profile_q.map(&:id)).to eq [dave.id, frank.id, alice.id, carol.id].reverse
+    end
+
+    it 'is in ascending order of followings count' do
+      profile_q = { profile_has_every_term: 'プロフィール', s: { '0' => { name: 'followings_count', dir: 'asc' } } }
+      user_profile_q = User.ransack(profile_q).result
+      expect(user_profile_q.map(&:id)).to eq [frank.id, carol.id, alice.id, dave.id]
+    end
+
+    it 'is in descending order of followings count' do
+      profile_q = { profile_has_every_term: 'プロフィール', s: { '0' => { name: 'followings_count', dir: 'desc' } } }
+      user_profile_q = User.ransack(profile_q).result
+      expect(user_profile_q.map(&:id)).to eq [frank.id, carol.id, alice.id, dave.id].reverse
+    end
+
+    it 'is in ascending order of recipes count' do
+      profile_q = { profile_has_every_term: 'プロフィール', s: { '0' => { name: 'recipes_count', dir: 'asc' } } }
+      user_profile_q = User.ransack(profile_q).result
+      expect(user_profile_q.map(&:id)).to eq [alice.id, carol.id, dave.id, frank.id]
+    end
+
+    it 'is in descending order of recipes count' do
+      profile_q = { profile_has_every_term: 'プロフィール', s: { '0' => { name: 'recipes_count', dir: 'desc' } } }
+      user_profile_q = User.ransack(profile_q).result
+      expect(user_profile_q.map(&:id)).to eq [alice.id, carol.id, dave.id, frank.id].reverse
     end
   end
 end
