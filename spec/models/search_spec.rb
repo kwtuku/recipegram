@@ -8,12 +8,12 @@ RSpec.describe Recipe, type: :model do
   let!(:miso) { create :recipe, title: '味噌', body: 'みその作り方です。', updated_at: 5.months.ago }
   let!(:tonkotsu_ramen) { create :recipe, title: '豚骨ラーメン', body: '豚骨ラーメンの作り方です。' }
 
-  let!(:alice) { create :user, username: 'アリス', profile: '味噌ラーメンの作り方知ってます。' }
-  let!(:bob) { create :user, username: 'ボブ', profile: '味噌カツ丼の作り方知りたい！' }
-  let!(:carol) { create :user, username: '味噌好きキャロル', profile: 'みそ汁が作れます。' }
-  let!(:dave) { create :user, username: 'dave', profile: 'I am dave.' }
-  let!(:ellen) { create :user }
-  let!(:frank) { create :user }
+  let!(:alice) { create :user, username: 'ユーザー1', profile: '味噌ラーメンの作り方知ってます。' }
+  let!(:bob) { create :user, username: 'ユーザー2', profile: '味噌カツ丼の作り方知りたい！' }
+  let!(:carol) { create :user, username: 'ユーザー3', profile: 'みそ汁が作れます。' }
+  let!(:dave) { create :user, username: 'ユーザー4', profile: 'I am dave.' }
+  let!(:ellen) { create :user, username: 'ユーザー5' }
+  let!(:frank) { create :user, username: 'frank' }
 
   describe 'search title' do
     before do
@@ -114,6 +114,27 @@ RSpec.describe Recipe, type: :model do
       body_q = { body_has_every_term: '味噌', s: { '0' => { name: 'updated_at', dir: 'desc' } } }
       recipe_body_results = Recipe.ransack(body_q).result
       expect(recipe_body_results.map(&:id)).to eq [miso_soup.id, miso_katsudon.id, miso_udon.id, miso_ramen.id].reverse
+    end
+  end
+
+  describe 'search username' do
+    before do
+      [frank].each { |user| user.relationships.create(follow_id: carol.id) }
+      [carol, dave, frank].each { |user| user.relationships.create(follow_id: ellen.id) }
+      [carol, dave, ellen, frank].each { |user| user.relationships.create(follow_id: bob.id) }
+      [alice, bob, carol, ellen, frank].each { |user| user.relationships.create(follow_id: dave.id) }
+    end
+
+    it 'is in ascending order of followers count' do
+      username_q = { username_has_every_term: 'ユーザー', s: { '0' => { name: 'followers_count', dir: 'asc' } } }
+      user_username_results = User.ransack(username_q).result
+      expect(user_username_results.map(&:id)).to eq [alice.id, carol.id, ellen.id, bob.id, dave.id]
+    end
+
+    it 'is in descending order of followers count' do
+      username_q = { username_has_every_term: 'ユーザー', s: { '0' => { name: 'followers_count', dir: 'desc' } } }
+      user_username_results = User.ransack(username_q).result
+      expect(user_username_results.map(&:id)).to eq [alice.id, carol.id, ellen.id, bob.id, dave.id].reverse
     end
   end
 end
