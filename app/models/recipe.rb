@@ -1,6 +1,4 @@
 class Recipe < ApplicationRecord
-  attachment :image
-
   before_destroy :remove_image
 
   belongs_to :user
