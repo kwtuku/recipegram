@@ -130,6 +130,16 @@ html {
   }
 }
 
+.tenline {
+  overflow: hidden;
+  width: 100%;
+  span {
+		display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 10;
+  }
+}
+
 .bottom-item {
   position: sticky;
   bottom: 0;

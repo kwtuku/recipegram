@@ -21,7 +21,7 @@
       </div>
     <% end %>
     <div class="content">
-      <p class="text-break fiveline"><span><%= user.profile %></span></p>
+      <p class="text-break <%= @other_recipes.blank? ? 'tenline' : 'threeline' %>"><span><%= user.profile %></span></p>
     </div>
   </div>
 </div>
