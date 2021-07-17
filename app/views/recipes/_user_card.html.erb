@@ -21,7 +21,7 @@
       </div>
     <% end %>
     <div class="content">
-      <p class="text-break <%= @other_recipes.blank? ? 'tenline' : 'threeline' %>"><span><%= user.profile %></span></p>
+      <p class="text-break <%= show_some_lines_depends_on(@other_recipes) %>"><span><%= user.profile %></span></p>
     </div>
   </div>
 </div>

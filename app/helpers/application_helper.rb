@@ -88,4 +88,14 @@ module ApplicationHelper
       'デフォルト'
     end
   end
+
+  def show_some_lines_depends_on(other_recipes)
+    if other_recipes.blank?
+      'is-14-lines'
+    elsif other_recipes.size >= 4
+      'is-3-lines'
+    else
+      'is-7-lines'
+    end
+  end
 end
