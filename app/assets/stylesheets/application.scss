@@ -122,16 +122,6 @@ html {
   }
 }
 
-.oneline {
-  overflow: hidden;
-  width: 100%;
-  span {
-		display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-  }
-}
-
 .threeline {
   overflow: hidden;
   width: 100%;
