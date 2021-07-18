@@ -1,4 +1,6 @@
-document.getElementById('remove-after-loading').remove()
+if (document.getElementById('remove-after-loading')) {
+  document.getElementById('remove-after-loading').remove();
+}
 infiniteScrollContainer.insertAdjacentHTML('beforeend', '<%= j(render partial: @file_path, collection: @items, as: @local_value) %>')
 <% if @items.present? %>
   infiniteScrollContainer.dataset.infiniteScroll = 'true';
