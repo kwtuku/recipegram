@@ -100,7 +100,7 @@ html {
 	}
 }
 
-.oneline {
+.is-1-line {
   overflow: hidden;
   width: 100%;
   span {
@@ -110,23 +110,15 @@ html {
   }
 }
 
-.threeline {
-  overflow: hidden;
-  width: 100%;
-  span {
-		display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-  }
-}
-
-.fiveline {
-  overflow: hidden;
-  width: 100%;
-  span {
-		display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 5;
+@for $i from 2 through 15 {
+  .is-#{$i}-lines {
+    overflow: hidden;
+    width: 100%;
+    span {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: $i;
+    }
   }
 }
 

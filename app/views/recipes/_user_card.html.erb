@@ -9,7 +9,7 @@
         </p>
       </figure>
       <div class="media-content">
-        <p class="is-size-5 oneline">
+        <p class="is-size-5 is-1-line">
           <span><%= link_to user.username, user_path(user), class: 'has-text-black-bis text-break hover-underline' %></span>
         </p>
         <%= render 'shared/follow_button', user: user, size: 'is-small' %>
@@ -21,7 +21,7 @@
       </div>
     <% end %>
     <div class="content">
-      <p class="text-break fiveline"><span><%= user.profile %></span></p>
+      <p class="text-break <%= show_some_lines_depends_on(@other_recipes) %>"><span><%= user.profile %></span></p>
     </div>
   </div>
 </div>

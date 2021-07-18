@@ -56,7 +56,7 @@
                   <%= image_tag @recipe.user.user_image.url(:icon), class: 'is-rounded' %>
                 </p>
               </figure>
-              <div class="media-content oneline">
+              <div class="media-content is-1-line">
                 <span><%= link_to @recipe.user.username, user_path(@recipe.user),class: 'has-text-black-bis text-break hover-underline' %></span>
               </div>
               <% if user_signed_in? && @recipe.user == current_user %>
@@ -125,6 +125,16 @@
       <div class="column is-3 is-hidden-mobile">
         <div class="sticky">
           <%= render 'user_card', user: @recipe.user %>
+          <% unless @other_recipes.blank? %>
+            <div class="card mt-4">
+              <div class="card-content px-5 py-3">
+                <p>他の投稿</p>
+              </div>
+              <div class="columns is-multiline is-gapless">
+                <%= render partial: 'other_recipe', collection: @other_recipes, as: 'recipe' %>
+              </div>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
