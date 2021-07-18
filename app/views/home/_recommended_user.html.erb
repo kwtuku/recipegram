@@ -10,7 +10,7 @@
     <p class="is-size-6 is-1-line">
       <span><%= link_to user.username, user_path(user), class: 'has-text-black-bis text-break hover-underline' %></span>
     </p>
-    <p class="is-size-7 has-text-grey-light">おすすめ</p>
+    <p class="is-size-7 has-text-grey-light"><%= recommended_description(user) %></p>
   </div>
   <div class="media-right vertical-center">
     <%= render 'shared/follow_button', user: user, size: 'is-small' %>

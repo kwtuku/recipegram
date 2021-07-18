@@ -98,4 +98,14 @@ module ApplicationHelper
       'is-7-lines'
     end
   end
+
+  def recommended_description(user)
+    if user.followers_you_follow(current_user).present?
+      "#{user.followers_you_follow(current_user).sample.username.truncate(18)}さん、他#{user.followers_you_follow(current_user).size - 1}人がフォローしています"
+    elsif user.following?(current_user)
+      'あなたをフォローしています'
+    else
+      'おすすめ'
+    end
+  end
 end
