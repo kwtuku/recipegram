@@ -3,6 +3,7 @@ class HomeController < ApplicationController
 
   def home
     @feed_items = current_user.feed.order(updated_at: :DESC).first(20) if user_signed_in?
+    @recommended_users = current_user.recommended_users.first(5) if user_signed_in?
   end
 
   def search
