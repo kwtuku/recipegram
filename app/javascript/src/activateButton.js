@@ -12,7 +12,7 @@ export default () => {
     const recipeBody = document.getElementById('recipe_body');
     const recipeImage = document.getElementById('recipe_recipe_image');
     const commentBody = document.getElementById('comment_body');
-    const searchQuery = document.getElementById('search_query');
+    const searchQueries = Array.prototype.slice.call(document.querySelectorAll('#search_query'), 0);
 
     const signup = document.getElementById('signup');
     const signin = document.getElementById('signin');
@@ -22,7 +22,7 @@ export default () => {
     const createRecipe = document.getElementById('create_recipe');
     const updateRecipe = document.getElementById('update_recipe');
     const createComment =document.getElementById('create_comment');
-    const search =document.getElementById('search');
+    const searchButtons = Array.prototype.slice.call(document.querySelectorAll('#search'), 0);
 
     if (signup) {
       inputs.forEach(input => {
@@ -139,14 +139,16 @@ export default () => {
       });
     }
 
-    if (search) {
-      searchQuery.addEventListener('input', () => {
-        if (searchQuery.value.trim()) {
-          search.disabled = false;
-        } else {
-          search.disabled = true;
-        }
-      });
+    if (searchButtons) {
+      for (let i = 0; i < searchButtons.length; i++) {
+        searchQueries[i].addEventListener('input', () => {
+          if (searchQueries[i].value.trim()) {
+            searchButtons[i].disabled = false;
+          } else {
+            searchButtons[i].disabled = true;
+          }
+        });
+      }
     }
   });
 }
