@@ -6,7 +6,7 @@
   </div>
 
   <div class="navbar-menu is-justify-content-center is-flex-grow-1" style="width: 33%">
-    <div class="navbar-item is-justify-content-center" style="width: 100%;">
+    <div class="navbar-item is-justify-content-center p-0" style="width: 100%;">
       <%= form_with url: search_path, method: :get, html: { style: 'width: 100%;' } do |f| %>
         <div class="field has-addons">
           <div class="control is-expanded">
@@ -23,7 +23,7 @@
     </div>
   </div>
 
-  <div class="navbar-item is-flex-touch is-justify-content-center is-flex-grow-1">
+  <div class="navbar-item is-flex-touch is-justify-content-center is-flex-grow-1 p-0">
     <% if user_signed_in? %>
       <%= link_to root_path, class: 'navbar-item has-text-grey-darker', title: 'ホームへ' do %>
         <span class="icon is-medium">
