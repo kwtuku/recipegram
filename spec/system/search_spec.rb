@@ -16,7 +16,6 @@ RSpec.describe 'Search', type: :system do
 
   it 'returns no result', js: true do
     visit root_path
-    click_link href: search_path
     expect(page).to have_button 'search', disabled: true
     fill_in 'search_query', with: 'ごはん'
     click_button 'search'
@@ -31,7 +30,6 @@ RSpec.describe 'Search', type: :system do
 
   it 'returns correct results size', js: true do
     visit root_path
-    click_link href: search_path
     expect(page).to have_button 'search', disabled: true
     fill_in 'search_query', with: '味噌'
     click_button 'search'
@@ -43,7 +41,6 @@ RSpec.describe 'Search', type: :system do
 
   it 'keeps search keyword', js: true do
     visit root_path
-    click_link href: search_path
     expect(page).to have_button 'search', disabled: true
     fill_in 'search_query', with: '味噌'
     click_button 'search'
@@ -53,8 +50,7 @@ RSpec.describe 'Search', type: :system do
   describe 'AND search' do
     it 'using space', js: true do
       visit root_path
-      click_link href: search_path
-      expect(page).to have_button 'search', disabled: true
+        expect(page).to have_button 'search', disabled: true
       fill_in 'search_query', with: '味噌 作り方'
       click_button 'search'
       expect(page).to have_selector '.rspec_recipe_title_results_size', text: '1'
@@ -65,8 +61,7 @@ RSpec.describe 'Search', type: :system do
 
     it 'using zenkaku spece', js: true do
       visit root_path
-      click_link href: search_path
-      expect(page).to have_button 'search', disabled: true
+        expect(page).to have_button 'search', disabled: true
       fill_in 'search_query', with: '味噌　作り方'
       click_button 'search'
       expect(page).to have_selector '.rspec_recipe_title_results_size', text: '1'
@@ -79,8 +74,7 @@ RSpec.describe 'Search', type: :system do
   describe 'show correct condition results' do
     it 'recipe title', js: true do
       visit root_path
-      click_link href: search_path
-      expect(page).to have_button 'search', disabled: true
+        expect(page).to have_button 'search', disabled: true
       fill_in 'search_query', with: '味噌'
       click_button 'search'
       expect(page).to have_css '.rspec_recipe_title_results'
@@ -91,8 +85,7 @@ RSpec.describe 'Search', type: :system do
 
     it 'recipe body', js: true do
       visit root_path
-      click_link href: search_path
-      expect(page).to have_button 'search', disabled: true
+        expect(page).to have_button 'search', disabled: true
       fill_in 'search_query', with: '味噌'
       click_button 'search'
       within '.menu' do
@@ -106,8 +99,7 @@ RSpec.describe 'Search', type: :system do
 
     it 'user username', js: true do
       visit root_path
-      click_link href: search_path
-      expect(page).to have_button 'search', disabled: true
+        expect(page).to have_button 'search', disabled: true
       fill_in 'search_query', with: '味噌'
       click_button 'search'
       within '.menu' do
@@ -121,8 +113,7 @@ RSpec.describe 'Search', type: :system do
 
     it 'user username', js: true do
       visit root_path
-      click_link href: search_path
-      expect(page).to have_button 'search', disabled: true
+        expect(page).to have_button 'search', disabled: true
       fill_in 'search_query', with: '味噌'
       click_button 'search'
       within '.menu' do
@@ -138,8 +129,7 @@ RSpec.describe 'Search', type: :system do
   describe 'keep condition' do
     it 'recipe title', js: true do
       visit root_path
-      click_link href: search_path
-      expect(page).to have_button 'search', disabled: true
+        expect(page).to have_button 'search', disabled: true
       fill_in 'search_query', with: '味噌'
       click_button 'search'
       within '.menu' do
@@ -159,8 +149,7 @@ RSpec.describe 'Search', type: :system do
 
     it 'recipe body', js: true do
       visit root_path
-      click_link href: search_path
-      expect(page).to have_button 'search', disabled: true
+        expect(page).to have_button 'search', disabled: true
       fill_in 'search_query', with: '味噌'
       click_button 'search'
       within '.menu' do
@@ -180,8 +169,7 @@ RSpec.describe 'Search', type: :system do
 
     it 'user username', js: true do
       visit root_path
-      click_link href: search_path
-      expect(page).to have_button 'search', disabled: true
+        expect(page).to have_button 'search', disabled: true
       fill_in 'search_query', with: '味噌'
       click_button 'search'
       within '.menu' do
@@ -201,8 +189,7 @@ RSpec.describe 'Search', type: :system do
 
     it 'user profile', js: true do
       visit root_path
-      click_link href: search_path
-      expect(page).to have_button 'search', disabled: true
+        expect(page).to have_button 'search', disabled: true
       fill_in 'search_query', with: '味噌'
       click_button 'search'
       within '.menu' do
