@@ -8,7 +8,7 @@
   <div class="container">
     <%= form_with model: @recipe do |f| %>
       <div class="columns is-centered">
-        <div class="column is-6 vertical-center">
+        <div class="column is-6 margin-auto-0">
           <div class="file is-boxed is-centered">
             <%= f.label :recipe_image do %>
               <%= f.file_field :recipe_image, class: 'is-hidden', required: true, accept: 'image/jpg, image/jpeg, image/png, image/webp' %>

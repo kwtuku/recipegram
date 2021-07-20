@@ -6,13 +6,13 @@
       <% end %>
     </p>
   </figure>
-  <div class="media-content vertical-center">
+  <div class="media-content">
     <p class="is-size-6 is-1-line">
       <span><%= link_to user.username, user_path(user), class: 'has-text-black-bis text-break hover-underline' %></span>
     </p>
     <p class="is-size-7 has-text-grey-light"><%= recommended_description(user) %></p>
   </div>
-  <div class="media-right vertical-center">
+  <div class="media-right margin-auto-0">
     <%= render 'shared/follow_button', user: user, size: 'is-small' %>
   </div>
 </div>
