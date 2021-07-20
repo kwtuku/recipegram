@@ -1,13 +1,13 @@
-<nav class="navbar is-fixed-top is-white is-inline-flex is-justify-content-space-around" style="border-bottom: 1px solid lightgray;" role="navigation" aria-label="main navigation">
+<nav class="navbar is-fixed-top is-white is-inline-flex is-justify-content-space-around navbar-border" role="navigation" aria-label="main navigation">
   <div class="navbar-brand is-justify-content-center is-flex-grow-2">
     <%= link_to root_path, class: 'navbar-item' do %>
       <h1 class="title is-4 is-size-5-mobile recipegram">Recipegram</h1>
     <% end %>
   </div>
 
-  <div class="navbar-menu is-justify-content-center is-flex-grow-1" style="width: 33%">
-    <div class="navbar-item is-justify-content-center p-0" style="width: 100%;">
-      <%= form_with url: search_path, method: :get, html: { style: 'width: 100%;' } do |f| %>
+  <div class="navbar-menu is-justify-content-center is-flex-grow-1 w-one-thirds">
+    <div class="navbar-item is-justify-content-center w-full p-0">
+      <%= form_with url: search_path, method: :get, html: { class: 'w-full' } do |f| %>
         <div class="field has-addons">
           <div class="control is-expanded">
             <%= f.text_field :q, value: @q_value, placeholder: 'レシピまたはユーザーを検索', required: true, class: 'input', id: 'search_query' %>
@@ -51,7 +51,7 @@
 
       <div class="navbar-item dropdown is-right">
         <div class="dropdown-trigger">
-          <button class="button is-white is-small is-rounded p-0" style="background-color: transparent;" aria-haspopup="true" aria-controls="dropdown-menu">
+          <button class="button is-white is-small is-rounded bg-color-transparent p-0" aria-haspopup="true" aria-controls="dropdown-menu">
             <figure class="image is-24x24">
               <%= image_tag current_user.user_image.url(:icon), class: 'is-rounded' %>
             </figure>

@@ -243,3 +243,19 @@ html {
     transform: rotate(360deg);
   }
 }
+
+.bg-color-transparent {
+  background-color: transparent !important;
+}
+
+.navbar-border {
+  border-bottom: 1px solid lightgray;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.w-one-thirds {
+  width: 33.333333%;
+}
