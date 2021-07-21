@@ -1,19 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe 'Search', type: :model do
-  let!(:miso_ramen) { create :recipe, title: '味噌ラーメンの作り方', body: '味噌ラーメンの作り方です。', updated_at: 2.hours.ago }
-  let!(:miso_soup) { create :recipe, title: '味噌汁', body: '味噌汁の作り方です。', updated_at: 6.years.ago }
-  let!(:miso_katsudon) { create :recipe, title: '味噌カツ丼', body: '味噌カツ丼の作り方です。', updated_at: 4.weeks.ago }
-  let!(:miso_udon) { create :recipe, title: '味噌煮込みうどん', body: '味噌煮込みうどんの作り方です。', updated_at: 3.days.ago }
-  let!(:miso) { create :recipe, title: '味噌', body: 'みその作り方です。', updated_at: 5.months.ago }
-  let!(:tonkotsu_ramen) { create :recipe, title: '豚骨ラーメン', body: '豚骨ラーメンの作り方です。' }
+  let!(:miso_ramen) { create :recipe, :no_image, title: '味噌ラーメンの作り方', body: '味噌ラーメンの作り方です。', updated_at: 2.hours.ago }
+  let!(:miso_soup) { create :recipe, :no_image, title: '味噌汁', body: '味噌汁の作り方です。', updated_at: 6.years.ago }
+  let!(:miso_katsudon) { create :recipe, :no_image, title: '味噌カツ丼', body: '味噌カツ丼の作り方です。', updated_at: 4.weeks.ago }
+  let!(:miso_udon) { create :recipe, :no_image, title: '味噌煮込みうどん', body: '味噌煮込みうどんの作り方です。', updated_at: 3.days.ago }
+  let!(:miso) { create :recipe, :no_image, title: '味噌', body: 'みその作り方です。', updated_at: 5.months.ago }
+  let!(:tonkotsu_ramen) { create :recipe, :no_image, title: '豚骨ラーメン', body: '豚骨ラーメンの作り方です。' }
 
-  let!(:alice) { create :user, username: 'ユーザー1', profile: 'プロフィールです。' }
-  let!(:bob) { create :user, username: 'ユーザー2', profile: 'Hi!' }
-  let!(:carol) { create :user, username: 'ユーザー3', profile: 'プロフィールです。' }
-  let!(:dave) { create :user, username: 'ユーザー4', profile: 'プロフィールです。' }
-  let!(:ellen) { create :user, username: 'ユーザー5', profile: 'Yey!' }
-  let!(:frank) { create :user, username: 'frank', profile: 'プロフィールです。' }
+  let!(:alice) { create :user, :no_image, username: 'ユーザー1', profile: 'プロフィールです。' }
+  let!(:bob) { create :user, :no_image, username: 'ユーザー2', profile: 'Hi!' }
+  let!(:carol) { create :user, :no_image, username: 'ユーザー3', profile: 'プロフィールです。' }
+  let!(:dave) { create :user, :no_image, username: 'ユーザー4', profile: 'プロフィールです。' }
+  let!(:ellen) { create :user, :no_image, username: 'ユーザー5', profile: 'Yey!' }
+  let!(:frank) { create :user, :no_image, username: 'frank', profile: 'プロフィールです。' }
 
   describe 'search title' do
     before do
@@ -118,10 +118,10 @@ RSpec.describe 'Search', type: :model do
   end
 
   describe 'search username' do
-    let!(:dave_recipes) { create_list(:recipe, 1, user: dave) }
-    let!(:bob_recipes) { create_list(:recipe, 2, user: bob) }
-    let!(:alice_recipes) { create_list(:recipe, 4, user: alice) }
-    let!(:ellen_recipes) { create_list(:recipe, 5, user: ellen) }
+    let!(:dave_recipes) { create_list(:recipe, 1, :no_image, user: dave) }
+    let!(:bob_recipes) { create_list(:recipe, 2, :no_image, user: bob) }
+    let!(:alice_recipes) { create_list(:recipe, 4, :no_image, user: alice) }
+    let!(:ellen_recipes) { create_list(:recipe, 5, :no_image, user: ellen) }
     before do
       [alice].each { |user| user.relationships.create(follow_id: carol.id) }
       [alice, carol, frank].each { |user| user.relationships.create(follow_id: ellen.id) }
@@ -167,9 +167,9 @@ RSpec.describe 'Search', type: :model do
   end
 
   describe 'search profile' do
-    let!(:carol_recipes) { create_list(:recipe, 1, user: carol) }
-    let!(:dave_recipes) { create_list(:recipe, 2, user: dave) }
-    let!(:frank_recipes) { create_list(:recipe, 4, user: frank) }
+    let!(:carol_recipes) { create_list(:recipe, 1, :no_image, user: carol) }
+    let!(:dave_recipes) { create_list(:recipe, 2, :no_image, user: dave) }
+    let!(:frank_recipes) { create_list(:recipe, 4, :no_image, user: frank) }
     before do
       [dave, alice].each { |user| user.relationships.create(follow_id: frank.id) }
       [bob, carol, dave].each { |user| user.relationships.create(follow_id: alice.id) }

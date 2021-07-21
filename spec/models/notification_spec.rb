@@ -1,17 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe Notification, type: :model do
-  let(:alice) { create :user }
-  let(:bob) { create :user }
+  let(:alice) { create :user, :no_image }
+  let(:bob) { create :user, :no_image }
 
   describe 'comment notification' do
-    let(:alice_recipe) { create :recipe, user: alice }
+    let(:alice_recipe) { create :recipe, :no_image, user: alice }
     let!(:bob_comment) { create :comment, user: bob, recipe: alice_recipe }
-    let(:carol) { create :user }
+    let(:carol) { create :user, :no_image }
     let!(:carol_comment) { create :comment, user: carol, recipe: alice_recipe }
 
     context 'comment user != recipe user' do
-      let(:dave) { create :user }
+      let(:dave) { create :user, :no_image }
       let(:dave_comment) { create :comment, user: dave, recipe: alice_recipe }
 
       it 'creates comment notification for recipe user' do
@@ -53,13 +53,13 @@ RSpec.describe Notification, type: :model do
   end
 
   describe 'self.comment_notification_receiver_ids(comment)' do
-    let(:alice_recipe) { create :recipe, user: alice }
+    let(:alice_recipe) { create :recipe, :no_image, user: alice }
     let!(:bob_comment) { create :comment, user: bob, recipe: alice_recipe }
-    let(:carol) { create :user }
+    let(:carol) { create :user, :no_image }
     let!(:carol_comment) { create :comment, user: carol, recipe: alice_recipe }
 
     context 'comment user != recipe user' do
-      let(:dave) { create :user }
+      let(:dave) { create :user, :no_image }
       let(:dave_comment) { create :comment, user: dave, recipe: alice_recipe }
 
       it 'has recipe user id' do
@@ -89,7 +89,7 @@ RSpec.describe Notification, type: :model do
   end
 
   describe 'self.create_favorite_notification(favorite)' do
-    let(:alice_recipe) { create :recipe, user: alice }
+    let(:alice_recipe) { create :recipe, :no_image, user: alice }
 
     it 'creates favorite notification when user makes a favorite on the recipe other user created' do
       favorite = bob.favorites.create(recipe_id: alice_recipe.id)
