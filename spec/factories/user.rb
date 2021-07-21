@@ -8,6 +8,10 @@ FactoryBot.define do
     user_image { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/user_image_sample.jpg')) }
     trait :with_recipes do
       after(:create) { |user| create_list(:recipe, 5, user: user)}
+
+    trait :no_image do
+      user_image { '' }
+      to_create { |instance| instance.save(validate: false) }
     end
   end
 end
