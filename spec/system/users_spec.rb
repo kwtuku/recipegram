@@ -46,7 +46,7 @@ RSpec.describe 'Users', type: :system do
 
     it 'edit email', js: true do
       sign_in alice
-      find('.is-hoverable').hover
+      find('.rspec_header_dropdown_trigger').click
       click_link 'アカウント編集'
       expect(current_path).to eq edit_user_registration_path
       expect(page).to have_button 'update_account', disabled: true
@@ -76,7 +76,7 @@ RSpec.describe 'Users', type: :system do
 
       it 'edit username', js: true do
         sign_in alice
-        find('.is-hoverable').hover
+        find('.rspec_header_dropdown_trigger').click
         click_link 'マイページ'
         expect(current_path).to eq user_path(alice)
         click_link 'プロフィールを編集'
@@ -89,7 +89,7 @@ RSpec.describe 'Users', type: :system do
 
       it 'edit profile', js: true do
         sign_in alice
-        find('.is-hoverable').hover
+        find('.rspec_header_dropdown_trigger').click
         click_link 'マイページ'
         expect(current_path).to eq user_path(alice)
         click_link 'プロフィールを編集'
@@ -103,7 +103,7 @@ RSpec.describe 'Users', type: :system do
       it 'edit user_image', js: true do
         sign_in alice
         before_image_public_id = alice.user_image.public_id
-        find('.is-hoverable').hover
+        find('.rspec_header_dropdown_trigger').click
         click_link 'マイページ'
         expect(current_path).to eq user_path(alice)
         click_link 'プロフィールを編集'

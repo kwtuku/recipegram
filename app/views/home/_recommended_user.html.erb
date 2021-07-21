@@ -1,0 +1,18 @@
+<div class="media border-0 p-0 m-3">
+  <figure class="media-left margin-auto-0 mr-4">
+    <p class="image is-32x32">
+      <%= link_to user_path(user) do %>
+        <%= image_tag user.user_image.url(:icon), class: 'is-rounded' %>
+      <% end %>
+    </p>
+  </figure>
+  <div class="media-content">
+    <p class="is-size-6 is-1-line">
+      <span><%= link_to user.username, user_path(user), class: 'has-text-black-bis text-break hover-underline' %></span>
+    </p>
+    <p class="is-size-7 has-text-grey-light"><%= recommended_description(user) %></p>
+  </div>
+  <div class="media-right margin-auto-0">
+    <%= render 'shared/follow_button', user: user, size: 'is-small' %>
+  </div>
+</div>

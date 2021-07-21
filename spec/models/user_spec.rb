@@ -16,9 +16,9 @@ RSpec.describe User, type: :model do
   end
 
   describe 'feed' do
-    let(:alice) { create(:user,  :with_recipes) }
-    let(:bob) { create(:user,  :with_recipes) }
-    let(:carol) { create(:user,  :with_recipes) }
+    let(:alice) { create(:user, :has_5_recipes, :no_image) }
+    let(:bob) { create(:user, :has_5_recipes, :no_image) }
+    let(:carol) { create(:user, :has_5_recipes, :no_image) }
     before { alice.relationships.create!(follow_id: bob.id) }
 
     it 'has self recipes' do
@@ -41,12 +41,12 @@ RSpec.describe User, type: :model do
   end
 
   describe 'followers_you_follow' do
-    let(:alice) { create :user }
-    let(:bob) { create :user }
-    let(:carol) { create :user }
-    let(:dave) { create :user }
-    let(:ellen) { create :user }
-    let(:frank) { create :user }
+    let(:alice) { create :user, :no_image }
+    let(:bob) { create :user, :no_image }
+    let(:carol) { create :user, :no_image }
+    let(:dave) { create :user, :no_image }
+    let(:ellen) { create :user, :no_image }
+    let(:frank) { create :user, :no_image }
     before do
       alice.relationships.create!(follow_id: carol.id)
       alice.relationships.create!(follow_id: dave.id)
@@ -56,11 +56,11 @@ RSpec.describe User, type: :model do
       frank.relationships.create!(follow_id: bob.id)
     end
 
-    it 'has following user' do
+    it 'has following users' do
       expect(bob.followers_you_follow(alice)).to include carol, dave
     end
 
-    it 'does not have unfollowing user' do
+    it 'does not have unfollowing users' do
       expect(bob.followers_you_follow(alice)).to_not include ellen, frank
     end
   end
