@@ -30,9 +30,12 @@ def create_user(user_creation_time)
   creation_time = 0
   common_password = 'fffffr'
 
+  user_example_emails = User.all.pluck(:email).grep(/example(.+)@example.com/)
+  last_email_number = user_example_emails.blank? ? 0 : user_example_emails.map{ |email| email.gsub(/example(.+)@example.com/, '\+').to_i }.max
+
   user_creation_time.times do |n|
     username  = Faker::Lorem.words(number: rand(1..10)).join(' ')
-    email = "example#{n+1}@example.com"
+    email = "example#{last_email_number + n + 1}@example.com"
     profile = <<~TEXT
       #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
       #{Faker::Lorem.paragraphs(number: rand(3..5)).join(' ')}
