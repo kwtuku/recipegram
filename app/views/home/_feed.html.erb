@@ -7,7 +7,7 @@
         </p>
       </figure>
       <div class="media-content is-1-line">
-        <span><%= link_to feed.user.username, user_path(feed.user),class: 'has-text-black-bis text-break hover-underline' %></span>
+        <span><%= link_to feed.user.nickname, user_path(feed.user),class: 'has-text-black-bis text-break hover-underline' %></span>
       </div>
       <% if user_signed_in? && feed.user.id == current_user.id %>
         <div class="media-right">

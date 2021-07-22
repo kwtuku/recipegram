@@ -34,7 +34,7 @@ class User < ApplicationRecord
     Arel.sql(query)
   end
 
-  validates :username, presence: true
+  validates :nickname, presence: true
 
   def already_favored?(recipe)
     self.favorites.exists?(recipe_id: recipe.id)
@@ -58,7 +58,7 @@ class User < ApplicationRecord
   def self.guest
     find_or_create_by!(email: 'guest@example.com') do |user|
       user.password = SecureRandom.urlsafe_base64
-      user.username = "ゲスト"
+      user.nickname = "ゲスト"
     end
   end
 
@@ -84,7 +84,7 @@ class User < ApplicationRecord
 
   private
     def self.ransackable_attributes(auth_object = nil)
-      %w(username profile followers_count followings_count recipes_count)
+      %w(nickname profile followers_count followings_count recipes_count)
     end
 
     def remove_image

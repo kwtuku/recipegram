@@ -1,5 +1,5 @@
 <% controller.action_name == 'followings' ? followings_or_followers = 'がフォロー中' : followings_or_followers = 'のフォロワー' %>
-<% provide(:title, "#{@user.username}さん#{followings_or_followers}") %>
+<% provide(:title, "#{@user.nickname}さん#{followings_or_followers}") %>
 
 <section class="hero is-small">
   <div class="hero-body">
@@ -10,7 +10,7 @@
             <span class="icon">
               <i class="fas fa-arrow-left"></i>
             </span>
-            <span><%= @user.username %>さん</span>
+            <span><%= @user.nickname %>さん</span>
           <% end %>
           <span><%= followings_or_followers %></span>
         </span>

@@ -6,11 +6,11 @@ RSpec.describe User, type: :model do
       @alice = build(:user)
     end
 
-    it 'is valid with a username, email and password' do
+    it 'is valid with a nickname, email and password' do
       expect(@alice).to be_valid
     end
 
-    it { is_expected.to validate_presence_of(:username) }
+    it { is_expected.to validate_presence_of(:nickname) }
     it { is_expected.to validate_presence_of(:email) }
     it { is_expected.to validate_presence_of(:password) }
   end

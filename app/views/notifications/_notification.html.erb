@@ -8,7 +8,7 @@
   </figure>
   <div class="media-content">
     <p>
-      <%= link_to notification.notifiable.user.username, user_path(notification.notifiable.user), class: 'has-text-black-bis has-text-weight-bold text-break hover-underline' %>さんが
+      <%= link_to notification.notifiable.user.nickname, user_path(notification.notifiable.user), class: 'has-text-black-bis has-text-weight-bold text-break hover-underline' %>さんが
       <% if notification.notifiable_type.downcase == 'favorite' %>
         <%= link_to "あなたの投稿「#{notification.notifiable.recipe.title}」", recipe_path(notification.notifiable.recipe), class: 'has-text-black-bis has-text-weight-bold text-break hover-underline' %>にいいねしました。
       <% elsif notification.notifiable_type.downcase == 'comment' %>

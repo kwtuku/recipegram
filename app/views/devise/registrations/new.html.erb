@@ -11,14 +11,14 @@
           <%= render "devise/shared/error_messages", resource: resource %>
 
           <div class="field">
-            <%= f.label :username, class: "label" %>
+            <%= f.label :nickname, class: "label" %>
             <div class="control has-icons-left">
-              <%= f.text_field :username, autofocus: true, autocomplete: "email", :placeholder => "username", required: true, class: "input" %>
+              <%= f.text_field :nickname, autofocus: true, autocomplete: "email", :placeholder => "nickname", required: true, class: "input" %>
               <span class="icon is-small is-left">
                 <i class="fas fa-user"></i>
               </span>
             </div>
-            <%= render "devise/shared/full_error_messages", model: resource, attribute: :username %>
+            <%= render "devise/shared/full_error_messages", model: resource, attribute: :nickname %>
           </div>
 
           <div class="field">

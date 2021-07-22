@@ -57,7 +57,7 @@
                 </p>
               </figure>
               <div class="media-content is-1-line">
-                <span><%= link_to @recipe.user.username, user_path(@recipe.user),class: 'has-text-black-bis text-break hover-underline' %></span>
+                <span><%= link_to @recipe.user.nickname, user_path(@recipe.user),class: 'has-text-black-bis text-break hover-underline' %></span>
               </div>
               <% if user_signed_in? && @recipe.user == current_user %>
                 <div class="media-right">

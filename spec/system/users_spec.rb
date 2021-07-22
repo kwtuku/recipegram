@@ -9,7 +9,7 @@ RSpec.describe 'Users', type: :system do
       click_link '新規登録'
       expect(current_path).to eq new_user_registration_path
       expect(page).to have_button 'signup', disabled: true
-      fill_in 'user[username]', with: alice.username
+      fill_in 'user[nickname]', with: alice.nickname
       fill_in 'user[email]', with: alice.email
       fill_in 'user[password]', with: alice.password
       fill_in 'user[password_confirmation]', with: alice.password_confirmation
@@ -60,8 +60,8 @@ RSpec.describe 'Users', type: :system do
 
   describe 'edit user' do
     context 'signed in as wrong user' do
-      let(:alice) { create :user, username: 'alice' }
-      let(:bob) { create :user, username: 'bob' }
+      let(:alice) { create :user, nickname: 'alice' }
+      let(:bob) { create :user, nickname: 'bob' }
 
       it 'can not edit', js: true do
         sign_in bob
@@ -72,18 +72,18 @@ RSpec.describe 'Users', type: :system do
     end
 
     context 'signed in as correct user' do
-      let(:alice) { create :user, username: 'alice', profile: "I'm alice." }
+      let(:alice) { create :user, nickname: 'alice', profile: "I'm alice." }
 
-      it 'edit username', js: true do
+      it 'edit nickname', js: true do
         sign_in alice
         find('.rspec_header_dropdown_trigger').click
         click_link 'マイページ'
         expect(current_path).to eq user_path(alice)
         click_link 'プロフィールを編集'
         expect(page).to have_button 'update_user', disabled: true
-        fill_in 'user[username]', with: 'アリス'
+        fill_in 'user[nickname]', with: 'アリス'
         click_button 'update_user'
-        expect(alice.reload.username).to eq 'アリス'
+        expect(alice.reload.nickname).to eq 'アリス'
         expect(page).to have_content 'プロフィールを変更しました。'
       end
 

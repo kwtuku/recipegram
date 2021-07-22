@@ -24,11 +24,11 @@ module ApplicationHelper
                   elsif user == current_user && controller.action_name == 'favorites'
                     'まだレシピにいいねをしていません'
                   elsif user != current_user && controller.action_name == 'show'
-                    "#{user.username}さんはまだレシピを投稿していません"
+                    "#{user.nickname}さんはまだレシピを投稿していません"
                   elsif user != current_user && controller.action_name == 'comments'
-                    "#{user.username}さんはまだレシピにコメントをしていません"
+                    "#{user.nickname}さんはまだレシピにコメントをしていません"
                   else
-                    "#{user.username}さんはまだレシピにいいねをしていません"
+                    "#{user.nickname}さんはまだレシピにいいねをしていません"
                   end
     tag.div tag.p(description, class: 'has-text-centered'), class: 'column'
   end
@@ -47,9 +47,9 @@ module ApplicationHelper
     elsif user == current_user && controller.action_name == 'followers'
       tag.p 'まだフォロワーがいません'
     elsif user != current_user && controller.action_name == 'followings'
-      tag.p "#{user.username}さんはまだ誰もフォローしていません"
+      tag.p "#{user.nickname}さんはまだ誰もフォローしていません"
     else
-      tag.p "#{user.username}さんはまだ誰もフォローしていません"
+      tag.p "#{user.nickname}さんはまだ誰もフォローしていません"
     end
   end
 
@@ -101,9 +101,9 @@ module ApplicationHelper
 
   def recommended_description(user)
     if user.followers_you_follow(current_user).size >= 2
-      "#{user.followers_you_follow(current_user).sample.username.truncate(17)}さん、他#{user.followers_you_follow(current_user).size - 1}人がフォロー中"
+      "#{user.followers_you_follow(current_user).sample.nickname.truncate(17)}さん、他#{user.followers_you_follow(current_user).size - 1}人がフォロー中"
     elsif user.followers_you_follow(current_user).size == 1
-      "#{user.followers_you_follow(current_user).sample.username.truncate(17)}さんがフォロー中"
+      "#{user.followers_you_follow(current_user).sample.nickname.truncate(17)}さんがフォロー中"
     elsif user.following?(current_user)
       'あなたをフォローしています'
     else

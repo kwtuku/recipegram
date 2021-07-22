@@ -31,7 +31,7 @@ RSpec.describe 'Notifications', type: :system do
         expect(page).to have_css '.has-unchecked-notification'
         click_link href: notifications_path
         comment = Comment.find_by(user_id: dave.id, recipe_id: alice_recipe.id)
-        expect(page).to  have_link "#{comment.user.username}"
+        expect(page).to  have_link "#{comment.user.nickname}"
         expect(page).to  have_content 'さんが'
         expect(page).to  have_link "あなたの投稿「#{alice_recipe.title}」"
         expect(page).to  have_content 'にコメントしました。'
@@ -42,7 +42,7 @@ RSpec.describe 'Notifications', type: :system do
         expect(page).to have_css '.has-unchecked-notification'
         click_link href: notifications_path
         comment = Comment.find_by(user_id: dave.id, recipe_id: alice_recipe.id)
-        expect(page).to  have_link "#{comment.user.username}"
+        expect(page).to  have_link "#{comment.user.nickname}"
         expect(page).to  have_content 'さんが'
         expect(page).to  have_link "あなたがコメントした投稿「#{alice_recipe.title}」"
         expect(page).to  have_content 'にコメントしました。'
@@ -78,7 +78,7 @@ RSpec.describe 'Notifications', type: :system do
         expect(page).to have_css '.has-unchecked-notification'
         click_link href: notifications_path
         comment = Comment.find_by(user_id: alice.id, recipe_id: alice_recipe.id)
-        expect(page).to  have_link "#{comment.user.username}"
+        expect(page).to  have_link "#{comment.user.nickname}"
         expect(page).to  have_content 'さんが'
         expect(page).to  have_link "あなたがコメントした投稿「#{alice_recipe.title}」"
         expect(page).to  have_content 'にコメントしました。'
@@ -99,7 +99,7 @@ RSpec.describe 'Notifications', type: :system do
       sign_in alice
       click_link href: notifications_path
       favorite = Favorite.find_by(user_id: bob.id, recipe_id: alice_recipe.id)
-      expect(page).to  have_link "#{favorite.user.username}"
+      expect(page).to  have_link "#{favorite.user.nickname}"
       expect(page).to  have_content 'さんが'
       expect(page).to  have_link "あなたの投稿「#{favorite.recipe.title}」"
       expect(page).to  have_content 'にいいねしました。'
@@ -128,7 +128,7 @@ RSpec.describe 'Notifications', type: :system do
       sign_in alice
       click_link href: notifications_path
       relationship = Relationship.find_by(user_id: bob.id, follow_id: alice.id)
-      expect(page).to  have_link "#{relationship.user.username}"
+      expect(page).to  have_link "#{relationship.user.nickname}"
       expect(page).to  have_content 'さんが'
       expect(page).to  have_content 'あなたをフォローしました。'
     end
