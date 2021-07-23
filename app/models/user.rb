@@ -35,6 +35,8 @@ class User < ApplicationRecord
   end
 
   validates :nickname, presence: true
+  VALID_USERNAME_REGEX = /\A[a-zA-Z0-9[-][_]]+\z/
+  validates :username, presence: true, length: { in: 1..15 }, format: { with: VALID_USERNAME_REGEX }, uniqueness: { case_sensitive: false }
 
   def already_favored?(recipe)
     self.favorites.exists?(recipe_id: recipe.id)
