@@ -1,18 +1,81 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  describe 'validation' do
-    before do
-      @alice = build(:user)
-    end
-
-    it 'is valid with a nickname, email and password' do
-      expect(@alice).to be_valid
-    end
-
+  describe 'validations' do
     it { is_expected.to validate_presence_of(:nickname) }
     it { is_expected.to validate_presence_of(:email) }
     it { is_expected.to validate_presence_of(:password) }
+    it { is_expected.to validate_length_of(:password).is_at_least(6) }
+
+    describe 'username' do
+      it { is_expected.to validate_presence_of(:username) }
+      it { is_expected.to validate_length_of(:username).is_at_most(15) }
+
+      it 'excludes reserved words' do
+        RESERVED_WORDS = %w(
+          sign_in
+          sign_out
+          password
+          cancel
+          sign_up
+          edit
+          guest_sign_in
+        )
+        is_expected.to validate_exclusion_of(:username).in_array(RESERVED_WORDS)
+      end
+
+      it "is invalid with invalid formats" do
+        INVALID_USERNAMES = %W(
+          i_am_alice!
+          i_am_alice.
+          i/am/alice
+          1_am_alice.
+          ありす
+          アリス
+          愛凜翠
+          #{'i am alice'}
+          #{' alice'}
+          #{'alice '}
+        )
+        alice = build(:user, :no_image)
+        INVALID_USERNAMES.each do |invalid_username|
+          alice.username = invalid_username
+          expect(alice.invalid?).to eq true
+        end
+      end
+
+      it "is valid with valid formats" do
+        VALID_USERNAMES = %w(
+          i_am_alice
+          1_am_alice
+          i-am-alice
+          a1-_B2
+          aaa
+          AAA
+          111
+          ---
+          ___
+          -_-
+        )
+        alice = build(:user, :no_image)
+        VALID_USERNAMES.each do |valid_username|
+          alice.username = valid_username
+          expect(alice.valid?).to eq true
+        end
+      end
+
+      it 'does not recognize if a letter is a capital or a small letter' do
+        alice = create(:user, :no_image, username: 'alice')
+        bob = build(:user, :no_image, username: 'ALICE')
+        expect(bob.invalid?).to eq true
+      end
+
+      it 'is invalid when username is already taken' do
+        alice = create(:user, :no_image, username: 'alice')
+        bob = build(:user, :no_image, username: 'alice')
+        expect(bob.invalid?).to eq true
+      end
+    end
   end
 
   describe 'feed' do
@@ -66,18 +129,18 @@ RSpec.describe User, type: :model do
   end
 
   describe 'self.generate_username' do
-    let!(:alice) { create :user, username: 'alice' }
+    let!(:alice) { create :user, :no_image, username: 'alice' }
 
-    it 'works' do
+    it 'generates username different from existing usernames' do
       username = User.generate_username
       expect(User.all.pluck(:username)).to_not include username
     end
   end
 
   describe 'self.vary_from_usernames!(tmp_username)' do
-    let!(:alice) { create :user, username: 'alice' }
+    let!(:alice) { create :user, :no_image, username: 'alice' }
 
-    it 'works' do
+    it 'makes tmp_username different from existing usernames' do
       tmp_username = 'alice'
       username = User.vary_from_usernames!(tmp_username)
       expect(username).to_not eq 'alice'
