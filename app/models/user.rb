@@ -113,6 +113,10 @@ class User < ApplicationRecord
     username
   end
 
+  def to_param
+    username
+  end
+
   private
     def self.ransackable_attributes(auth_object = nil)
       %w(nickname profile followers_count followings_count recipes_count)
