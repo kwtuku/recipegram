@@ -34,8 +34,8 @@ RSpec.describe User, type: :model do
     end
 
     it 'does not have unfollowing user recipes' do
-      carol.recipes.each do |recipe_unfollowed|
-        expect(alice.feed.include?(recipe_unfollowed)).to eq false
+      carol.recipes.each do |recipe_unfollowing|
+        expect(alice.feed.include?(recipe_unfollowing)).to eq false
       end
     end
   end
@@ -62,6 +62,26 @@ RSpec.describe User, type: :model do
 
     it 'does not have unfollowing users' do
       expect(bob.followers_you_follow(alice)).to_not include ellen, frank
+    end
+  end
+
+  describe 'self.generate_username' do
+    let!(:alice) { create :user, username: 'alice' }
+
+    it 'works' do
+      username = User.generate_username
+      expect(User.all.pluck(:username)).to_not include username
+    end
+  end
+
+  describe 'self.vary_from_usernames!(tmp_username)' do
+    let!(:alice) { create :user, username: 'alice' }
+
+    it 'works' do
+      tmp_username = 'alice'
+      username = User.vary_from_usernames!(tmp_username)
+      expect(username).to_not eq 'alice'
+      expect(User.all.pluck(:username)).to_not include username
     end
   end
 end

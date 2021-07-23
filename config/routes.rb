@@ -21,4 +21,5 @@ Rails.application.routes.draw do
   resources :users, only: %i(index show edit update) do
     get :followings, :followers, :comments, :favorites
   end
+  get '/generate_username', to: 'users#generate_username'
 end

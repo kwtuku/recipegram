@@ -84,6 +84,19 @@ class User < ApplicationRecord
     User.all - [self] - self.followings
   end
 
+  def self.generate_username
+    tmp_username = SecureRandom.urlsafe_base64(11)
+    username = User.vary_from_usernames!(tmp_username)
+  end
+
+  def self.vary_from_usernames!(tmp_username)
+    username = tmp_username
+    while User.exists?(username: username)
+      username = SecureRandom.urlsafe_base64(11)
+    end
+    username
+  end
+
   private
     def self.ransackable_attributes(auth_object = nil)
       %w(nickname profile followers_count followings_count recipes_count)

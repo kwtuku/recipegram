@@ -12,12 +12,25 @@
 
           <div class="field">
             <%= f.label :username, class: "label" %>
-            <div class="control has-icons-left">
+          </div>
+          <div class="field has-addons">
+            <div class="control has-icons-left is-expanded">
               <%= f.text_field :username, autofocus: true, autocomplete: "username", :placeholder => "username", required: true, maxlength: "15", class: "input" %>
               <span class="icon is-small is-left">
                 <i class="fas fa-user"></i>
               </span>
             </div>
+            <p class="control">
+              <%= link_to generate_username_path, remote: true do %>
+                <button class="button">
+                  <span class="icon is-small">
+                    <i class="fas fa-redo-alt"></i>
+                  </span>
+                </button>
+              <% end %>
+            </p>
+          </div>
+          <div class="field">
             <%= render "devise/shared/full_error_messages", model: resource, attribute: :username %>
           </div>
 
