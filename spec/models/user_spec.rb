@@ -128,6 +128,18 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'self.guest' do
+    it 'is valid' do
+      guest = User.guest
+      expect(guest.valid?).to eq true
+    end
+
+    it 'exists guest user' do
+      User.guest
+      expect(User.exists?(email: 'guest@example.com')).to eq true
+    end
+  end
+
   describe 'self.generate_username' do
     let!(:alice) { create :user, :no_image, username: 'alice' }
 
