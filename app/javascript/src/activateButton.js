@@ -76,7 +76,7 @@ export default () => {
     if (updateUser) {
       inputs.forEach(input => {
         input.addEventListener('input', () => {
-          if (nickname.value.trim()) {
+          if (username.value.trim() && nickname.value.trim()) {
             updateUser.disabled = false;
           } else {
             updateUser.disabled = true;
@@ -84,7 +84,7 @@ export default () => {
         });
       });
       textarea.addEventListener('input', () => {
-        if (nickname.value.trim() && textarea.value.trim()) {
+        if (username.value.trim() && nickname.value.trim() && textarea.value.trim()) {
           updateUser.disabled = false;
         }
       });
