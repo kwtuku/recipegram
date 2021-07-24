@@ -101,4 +101,134 @@ RSpec.describe 'Users', type: :request do
       end
     end
   end
+
+  describe '#followings' do
+    let(:alice) { create :user, nickname: 'alice' }
+    let!(:bob) { create :user, nickname: 'bob' }
+    let!(:carol) { create :user, nickname: 'carol' }
+    before do
+      alice.relationships.create(follow_id: bob.id)
+      alice.relationships.create(follow_id: carol.id)
+    end
+
+    context 'when not signed in' do
+      it 'redirects to new_user_session_path when not signed in' do
+        get user_followings_path(alice)
+        expect(response).to have_http_status(302)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context 'when signed in' do
+      it 'returns a 200 response when signed in' do
+        sign_in alice
+        get user_followings_path(alice)
+        expect(response).to have_http_status(200)
+      end
+
+      it 'renders following nicknames when signed in' do
+        sign_in alice
+        get user_followings_path(alice)
+        expect(response.body).to include 'bob', 'carol'
+      end
+    end
+  end
+
+  describe '#followers' do
+    let!(:alice) { create :user, nickname: 'alice' }
+    let(:bob) { create :user, nickname: 'bob' }
+    let(:carol) { create :user, nickname: 'carol' }
+    before do
+      bob.relationships.create(follow_id: alice.id)
+      carol.relationships.create(follow_id: alice.id)
+    end
+
+    context 'when not signed in' do
+      it 'redirects to new_user_session_path when not signed in' do
+        get user_followers_path(alice)
+        expect(response).to have_http_status(302)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context 'when signed in' do
+      it 'returns a 200 response when signed in' do
+        sign_in bob
+        get user_followers_path(alice)
+        expect(response).to have_http_status(200)
+      end
+
+      it 'renders follower nicknames when signed in' do
+        sign_in bob
+        get user_followers_path(alice)
+        expect(response.body).to include 'bob', 'carol'
+      end
+    end
+  end
+
+  describe '#comments' do
+    let(:alice) { create :user }
+    let(:bob) { create :user }
+    let(:carol) { create :user }
+    let(:bob_recipe) { create :recipe, user: bob }
+    let(:carol_recipe) { create :recipe, user: carol }
+    let!(:alice_comment_on_bob_recipe) { create :comment, user: alice, recipe: bob_recipe }
+    let!(:alice_comment_on_carol_recipe) { create :comment, user: alice, recipe: carol_recipe }
+
+    context 'when not signed in' do
+      it 'redirects to new_user_session_path' do
+        get user_comments_path(alice)
+        expect(response).to have_http_status(302)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context 'when signed in' do
+      it 'returns a 200 response' do
+        sign_in bob
+        get user_comments_path(alice)
+        expect(response).to have_http_status(200)
+      end
+
+      it 'renders commented recipe links' do
+        sign_in bob
+        get user_comments_path(alice)
+        expect(response.body).to include "/recipes/#{bob_recipe.id}", "/recipes/#{carol_recipe.id}"
+      end
+    end
+  end
+
+  describe '#favorites' do
+    let(:alice) { create :user }
+    let(:bob) { create :user }
+    let(:carol) { create :user }
+    let(:bob_recipe) { create :recipe, user: bob }
+    let(:carol_recipe) { create :recipe, user: carol }
+    before do
+      alice.favorites.create(recipe_id: bob_recipe.id)
+      alice.favorites.create(recipe_id: carol_recipe.id)
+    end
+
+    context 'when not signed in' do
+      it 'redirects to new_user_session_path' do
+        get user_favorites_path(alice)
+        expect(response).to have_http_status(302)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context 'when signed in' do
+      it 'returns a 200 response' do
+        sign_in bob
+        get user_favorites_path(alice)
+        expect(response).to have_http_status(200)
+      end
+
+      it 'renders favored recipe links' do
+        sign_in bob
+        get user_favorites_path(alice)
+        expect(response.body).to include "/recipes/#{bob_recipe.id}", "/recipes/#{carol_recipe.id}"
+      end
+    end
+  end
 end
