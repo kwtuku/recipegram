@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe 'Users', type: :request do
+  describe 'users/sessions#guest_sign_in' do
+    it 'redirects to root_path' do
+      post users_guest_sign_in_path
+      expect(response).to have_http_status(302)
+      expect(response).to redirect_to root_path
+    end
+  end
+
   describe '#index' do
     let(:alice) { create :user }
 
@@ -229,6 +237,13 @@ RSpec.describe 'Users', type: :request do
         get user_favorites_path(alice)
         expect(response.body).to include "/recipes/#{bob_recipe.id}", "/recipes/#{carol_recipe.id}"
       end
+    end
+  end
+
+  describe '#generate_username' do
+    it 'returns a 200 response' do
+      get generate_username_path, xhr: true
+      expect(response).to have_http_status(200)
     end
   end
 end
