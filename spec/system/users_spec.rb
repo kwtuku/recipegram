@@ -17,6 +17,19 @@ RSpec.describe 'Users', type: :system do
       expect{ click_button 'signup' }.to change { User.count }.by(1)
       expect(page).to have_content 'アカウント登録が完了しました。'
     end
+
+    it 'can generate username', js: true do
+      visit root_path
+      click_link '新規登録'
+      expect(page).to have_field 'user[username]', with: ''
+      click_link href: generate_username_path
+      expect(page).to have_selector '.rspec_has_generated_username'
+      VALID_USERNAME_REGEX = /\A[a-zA-Z0-9[-][_]]+\z/
+      expect(page).to have_field 'user[username]', with: VALID_USERNAME_REGEX
+      GENERATED_USERNAME = find_field('user[username]').value
+      expect(GENERATED_USERNAME).to_not eq ''
+      expect(User.exists?(username: GENERATED_USERNAME)).to eq false
+    end
   end
 
   describe 'sign in' do
