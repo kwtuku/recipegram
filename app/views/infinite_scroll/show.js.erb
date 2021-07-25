@@ -1,8 +1,8 @@
 if (document.getElementById('remove-after-loading')) {
   document.getElementById('remove-after-loading').remove();
 }
-infiniteScrollContainer.insertAdjacentHTML('beforeend', '<%= j(render partial: @file_path, collection: @items, as: @local_value) %>')
-<% if @items.present? %>
+infiniteScrollContainer.insertAdjacentHTML('beforeend', '<%= j(render partial: @file_path, collection: @added_items, as: @local_value) %>')
+<% if @added_items.size == @max_added_item_size %>
   infiniteScrollContainer.dataset.infiniteScroll = 'true';
   var insertItem = '<div class="column is-12" id="remove-after-loading"><div class="loading-animation"></div></div>'
   infiniteScrollContainer.insertAdjacentHTML('beforeend', insertItem)
