@@ -64,6 +64,14 @@ RSpec.describe User, type: :model do
         end
       end
 
+      it 'is saved as lower-case' do
+        alice = create(:user, :no_image, username: 'ALICE')
+        expect(alice.username).to eq 'alice'
+        alice.username = 'I_aM-AliCe'
+        alice.save
+        expect(alice.username).to eq 'i_am-alice'
+      end
+
       it 'does not recognize if a letter is a capital or a small letter' do
         alice = create(:user, :no_image, username: 'alice')
         bob = build(:user, :no_image, username: 'ALICE')
