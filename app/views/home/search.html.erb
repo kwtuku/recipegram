@@ -49,7 +49,7 @@
               </li>
               <li class="<%= 'is-active' if @source == 'user_nickname' %>">
                 <%= link_to search_path(q: @q_value, source: 'user_nickname'), class: 'has-text-weight-bold' do %>
-                  <span>ユーザー名</span>
+                  <span>ニックネーム</span>
                   <span class="tag is-rounded ml-2 rspec_user_nickname_results_size <%= 'is-grey' if @user_nickname_results_size != 0 %>">
                     <%= @user_nickname_results_size %>
                   </span>
@@ -90,7 +90,7 @@
               </li>
               <li class="<%= 'is-active' if @source == 'user_nickname' %>">
                 <%= link_to search_path(q: @q_value, source: 'user_nickname'), class: 'has-text-weight-bold px-4 py-3' do %>
-                  <span>ユーザー名</span>
+                  <span>ニックネーム</span>
                   <span class="tag is-rounded float-right menu-tag rspec_user_nickname_results_size <%= 'is-grey' if @user_nickname_results_size != 0 %>">
                     <%= @user_nickname_results_size %>
                   </span>
