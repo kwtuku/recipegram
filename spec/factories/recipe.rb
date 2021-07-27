@@ -7,6 +7,7 @@ FactoryBot.define do
 
     trait :no_image do
       recipe_image { '' }
+      association :user, :no_image
       to_create { |instance| instance.save(validate: false) }
     end
   end

@@ -2,55 +2,47 @@ class InfiniteScrollController < ApplicationController
   skip_before_action :authenticate_user!, only: %i(show)
 
   def show
-    first = params[:itemsSize].to_i
-    if params[:type].to_s == 'home_home'
-      file_path = 'home/feed'
-      last = first + 19
-      items = current_user.feed.order(updated_at: :DESC)[first..last]
-      local_value = 'feed'
-    elsif params[:type].to_s == 'recipes_index'
-      file_path = 'recipes/recipe'
-      last = first + 39
-      items = Recipe.eager_load(:favorites, :comments).order(updated_at: :DESC)[first..last]
-      local_value = 'recipe'
-    elsif params[:type].to_s == 'users_index'
+    first = params[:displayed_item_count].to_i
+    path_components = params[:path].split('/')
+    controller_name = path_components[0]
+    username = path_components[1]
+    action_name = path_components[2]
+
+    file_path = 'recipes/recipe'
+    local_value = 'recipe'
+    @max_added_item_size = controller_name.nil? ? 20 : 40
+    last = first + @max_added_item_size -1
+    user = User.find_by(username: username) if username
+
+    if controller_name == 'recipes'
+      added_items = Recipe.eager_load(:favorites, :comments).order(updated_at: :DESC)[first..last]
+    elsif controller_name == 'users' && action_name == 'comments'
+      added_items = user.commented_recipes.eager_load(:favorites, :comments).order('comments.created_at desc')[first..last]
+    elsif controller_name == 'users' && action_name == 'favorites'
+      added_items = user.favored_recipes.eager_load(:favorites, :comments).order('favorites.created_at desc')[first..last]
+    elsif controller_name == 'users' && username && action_name.nil?
+      added_items = user.recipes.eager_load(:favorites, :comments).order(id: :DESC)[first..last]
+    elsif controller_name == 'users' && username.nil?
       file_path = 'users/user'
-      last = first + 39
-      items = User.order(id: :DESC)[first..last]
       local_value = 'user'
-    elsif params[:type].to_s == 'followings'
+      added_items = User.order(id: :DESC)[first..last]
+    elsif controller_name == 'users' && username && action_name == 'followers'
       file_path = 'users/follow'
-      user = User.find(params[:paramsId].to_i)
-      last = first + 39
-      items = user.followings.preload(:followings).order('relationships.created_at desc')[first..last]
       local_value = 'user'
-    elsif params[:type].to_s == 'followers'
+      added_items = user.followers.preload(:followings).order('relationships.created_at desc')[first..last]
+    elsif controller_name == 'users' && username && action_name == 'followings'
       file_path = 'users/follow'
-      user = User.find(params[:paramsId].to_i)
-      last = first + 39
-      items = user.followers.preload(:followings).order('relationships.created_at desc')[first..last]
       local_value = 'user'
-    elsif params[:type].to_s == 'comments'
-      file_path = 'recipes/recipe'
-      user = User.find(params[:paramsId].to_i)
-      last = first + 39
-      items = user.commented_recipes.eager_load(:favorites, :comments).order('comments.created_at desc')[first..last]
-      local_value = 'recipe'
-    elsif params[:type].to_s == 'favorites'
-      file_path = 'recipes/recipe'
-      user = User.find(params[:paramsId].to_i)
-      last = first + 39
-      items = user.favored_recipes.eager_load(:favorites, :comments).order('favorites.created_at desc')[first..last]
-      local_value = 'recipe'
-    elsif params[:type].to_s == 'users_show'
-      file_path = 'recipes/recipe'
-      user = User.find(params[:paramsId].to_i)
-      last = first + 39
-      items = user.recipes.eager_load(:favorites, :comments).order(id: :DESC)[first..last]
-      local_value = 'recipe'
+      added_items = user.followings.preload(:followings).order('relationships.created_at desc')[first..last]
+    else
+      last = first + 19
+      file_path = 'home/feed'
+      local_value = 'feed'
+      added_items = current_user.feed.order(updated_at: :DESC)[first..last]
     end
+
     @file_path = file_path
-    @items = items
+    @added_items = added_items
     @local_value = local_value
   end
 end

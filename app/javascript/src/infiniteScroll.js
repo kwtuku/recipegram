@@ -19,40 +19,14 @@ export default () => {
         infiniteScrollContainer.dataset.infiniteScroll = 'false';
 
         const items = Array.prototype.slice.call(document.querySelectorAll('[data-infinite-scroll-item]'), 0);
-        const itemsSize = items.length;
-
-        let type;
-        let paramsId;
-        const regexp = /users\/\d/;
-
-        if (location.pathname === '/') {
-          type = 'home_home';
-        } else if (location.pathname === '/recipes') {
-          type = 'recipes_index';
-        } else if (location.pathname === '/users') {
-          type = 'users_index';
-        } else if (location.pathname.indexOf('followings') !== -1) {
-          type = 'followings';
-          paramsId = location.pathname.replace(/\D/g, '');
-        } else if (location.pathname.indexOf('followers') !== -1) {
-          type = 'followers';
-          paramsId = location.pathname.replace(/\D/g, '');
-        } else if (location.pathname.indexOf('comments') !== -1) {
-          type = 'comments';
-          paramsId = location.pathname.replace(/\D/g, '');
-        } else if (location.pathname.indexOf('favorites') !== -1) {
-          type = 'favorites';
-          paramsId = location.pathname.replace(/\D/g, '');
-        } else if (regexp.test(location.pathname)) {
-          type = 'users_show';
-          paramsId = location.pathname.replace(/\D/g, '');
-        }
+        const displayedItemCount = items.length;
+        const path = location.pathname.slice(1)
 
         $.ajax({
           type: 'GET',
           url: '/infinite_scroll',
           cache: false,
-          data: {itemsSize: itemsSize, type: type, remote: true, paramsId: paramsId}
+          data: {displayed_item_count: displayedItemCount, path: path, remote: true}
         });
       }
     }, {passive: true});

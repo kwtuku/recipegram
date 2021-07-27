@@ -10,11 +10,25 @@ RSpec.describe 'Users', type: :system do
       expect(current_path).to eq new_user_registration_path
       expect(page).to have_button 'signup', disabled: true
       fill_in 'user[username]', with: alice.username
+      fill_in 'user[nickname]', with: alice.nickname
       fill_in 'user[email]', with: alice.email
       fill_in 'user[password]', with: alice.password
       fill_in 'user[password_confirmation]', with: alice.password_confirmation
       expect{ click_button 'signup' }.to change { User.count }.by(1)
       expect(page).to have_content 'アカウント登録が完了しました。'
+    end
+
+    it 'can generate username', js: true do
+      visit root_path
+      click_link '新規登録'
+      expect(page).to have_field 'user[username]', with: ''
+      click_link href: generate_username_path
+      expect(page).to have_selector '.rspec_has_generated_username'
+      VALID_USERNAME_REGEX = /\A[a-zA-Z0-9[-][_]]+\z/
+      expect(page).to have_field 'user[username]', with: VALID_USERNAME_REGEX
+      GENERATED_USERNAME = find_field('user[username]').value
+      expect(GENERATED_USERNAME).to_not eq ''
+      expect(User.exists?(username: GENERATED_USERNAME)).to eq false
     end
   end
 
@@ -59,61 +73,47 @@ RSpec.describe 'Users', type: :system do
   end
 
   describe 'edit user' do
-    context 'signed in as wrong user' do
-      let(:alice) { create :user, username: 'alice' }
-      let(:bob) { create :user, username: 'bob' }
+    let(:alice) { create :user, nickname: 'alice', profile: "I'm alice." }
 
-      it 'can not edit', js: true do
-        sign_in bob
-        visit edit_user_path(alice)
-        expect(current_path).to eq user_path(alice)
-        expect(page).to have_content '権限がありません。'
-      end
+    it 'edit nickname', js: true do
+      sign_in alice
+      find('.rspec_header_dropdown_trigger').click
+      click_link 'マイページ'
+      expect(current_path).to eq user_path(alice)
+      click_link 'プロフィールを編集'
+      expect(page).to have_button 'update_user', disabled: true
+      fill_in 'user[nickname]', with: 'アリス'
+      click_button 'update_user'
+      expect(alice.reload.nickname).to eq 'アリス'
+      expect(page).to have_content 'プロフィールを変更しました。'
     end
 
-    context 'signed in as correct user' do
-      let(:alice) { create :user, username: 'alice', profile: "I'm alice." }
+    it 'edit profile', js: true do
+      sign_in alice
+      find('.rspec_header_dropdown_trigger').click
+      click_link 'マイページ'
+      expect(current_path).to eq user_path(alice)
+      click_link 'プロフィールを編集'
+      expect(page).to have_button 'update_user', disabled: true
+      fill_in 'user[profile]', with: 'アリスです。'
+      click_button 'update_user'
+      expect(alice.reload.profile).to eq 'アリスです。'
+      expect(page).to have_content 'プロフィールを変更しました。'
+    end
 
-      it 'edit username', js: true do
-        sign_in alice
-        find('.rspec_header_dropdown_trigger').click
-        click_link 'マイページ'
-        expect(current_path).to eq user_path(alice)
-        click_link 'プロフィールを編集'
-        expect(page).to have_button 'update_user', disabled: true
-        fill_in 'user[username]', with: 'アリス'
-        click_button 'update_user'
-        expect(alice.reload.username).to eq 'アリス'
-        expect(page).to have_content 'プロフィールを変更しました。'
-      end
-
-      it 'edit profile', js: true do
-        sign_in alice
-        find('.rspec_header_dropdown_trigger').click
-        click_link 'マイページ'
-        expect(current_path).to eq user_path(alice)
-        click_link 'プロフィールを編集'
-        expect(page).to have_button 'update_user', disabled: true
-        fill_in 'user[profile]', with: 'アリスです。'
-        click_button 'update_user'
-        expect(alice.reload.profile).to eq 'アリスです。'
-        expect(page).to have_content 'プロフィールを変更しました。'
-      end
-
-      it 'edit user_image', js: true do
-        sign_in alice
-        before_image_public_id = alice.user_image.public_id
-        find('.rspec_header_dropdown_trigger').click
-        click_link 'マイページ'
-        expect(current_path).to eq user_path(alice)
-        click_link 'プロフィールを編集'
-        expect(page).to have_button 'update_user', disabled: true
-        attach_file 'user[user_image]', "#{Rails.root}/spec/fixtures/user_image_sample_after.jpg", visible: false
-        click_button 'update_user'
-        after_image_public_id = alice.reload.user_image.public_id
-        expect(before_image_public_id).to_not eq after_image_public_id
-        expect(page).to have_content 'プロフィールを変更しました。'
-      end
+    it 'edit user_image', js: true do
+      sign_in alice
+      before_image_public_id = alice.user_image.public_id
+      find('.rspec_header_dropdown_trigger').click
+      click_link 'マイページ'
+      expect(current_path).to eq user_path(alice)
+      click_link 'プロフィールを編集'
+      expect(page).to have_button 'update_user', disabled: true
+      attach_file 'user[user_image]', "#{Rails.root}/spec/fixtures/user_image_sample_after.jpg", visible: false
+      click_button 'update_user'
+      after_image_public_id = alice.reload.user_image.public_id
+      expect(before_image_public_id).to_not eq after_image_public_id
+      expect(page).to have_content 'プロフィールを変更しました。'
     end
   end
 end

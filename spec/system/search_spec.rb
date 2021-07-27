@@ -8,11 +8,11 @@ RSpec.describe 'Search', type: :system do
   let!(:miso) { create :recipe, title: '味噌', body: 'みその作り方です。' }
   let!(:tonkotsu_ramen) { create :recipe, title: '豚骨ラーメン', body: '豚骨ラーメンの作り方です。' }
 
-  let!(:miso_ramen_man) { create :user, username: '味噌ラーメン大好きマン', profile: '味噌ラーメン大好き' }
-  let!(:alice) { create :user, username: 'アリス', profile: '味噌ラーメンの作り方知ってます。' }
-  let!(:bob) { create :user, username: 'ボブ', profile: '味噌カツ丼の作り方知りたい！' }
-  let!(:carol) { create :user, username: '味噌好きキャロル', profile: 'みそ汁が作れます。' }
-  let!(:dave) { create :user, username: 'dave', profile: 'I am dave.' }
+  let!(:miso_ramen_man) { create :user, nickname: '味噌ラーメン大好きマン', profile: '味噌ラーメン大好き' }
+  let!(:alice) { create :user, nickname: 'アリス', profile: '味噌ラーメンの作り方知ってます。' }
+  let!(:bob) { create :user, nickname: 'ボブ', profile: '味噌カツ丼の作り方知りたい！' }
+  let!(:carol) { create :user, nickname: '味噌好きキャロル', profile: 'みそ汁が作れます。' }
+  let!(:dave) { create :user, nickname: 'dave', profile: 'I am dave.' }
 
   it 'returns no result', js: true do
     visit root_path
@@ -24,7 +24,7 @@ RSpec.describe 'Search', type: :system do
     end
     expect(page).to have_selector '.rspec_recipe_title_results_size', text: '0'
     expect(page).to have_selector '.rspec_recipe_body_results_size', text: '0'
-    expect(page).to have_selector '.rspec_user_username_results_size', text: '0'
+    expect(page).to have_selector '.rspec_user_nickname_results_size', text: '0'
     expect(page).to have_selector '.rspec_user_profile_results_size', text: '0'
   end
 
@@ -35,7 +35,7 @@ RSpec.describe 'Search', type: :system do
     click_button 'search'
     expect(page).to have_selector '.rspec_recipe_title_results_size', text: '5'
     expect(page).to have_selector '.rspec_recipe_body_results_size', text: '4'
-    expect(page).to have_selector '.rspec_user_username_results_size', text: '2'
+    expect(page).to have_selector '.rspec_user_nickname_results_size', text: '2'
     expect(page).to have_selector '.rspec_user_profile_results_size', text: '3'
   end
 
@@ -55,7 +55,7 @@ RSpec.describe 'Search', type: :system do
       click_button 'search'
       expect(page).to have_selector '.rspec_recipe_title_results_size', text: '1'
       expect(page).to have_selector '.rspec_recipe_body_results_size', text: '4'
-      expect(page).to have_selector '.rspec_user_username_results_size', text: '0'
+      expect(page).to have_selector '.rspec_user_nickname_results_size', text: '0'
       expect(page).to have_selector '.rspec_user_profile_results_size', text: '2'
     end
 
@@ -66,7 +66,7 @@ RSpec.describe 'Search', type: :system do
       click_button 'search'
       expect(page).to have_selector '.rspec_recipe_title_results_size', text: '1'
       expect(page).to have_selector '.rspec_recipe_body_results_size', text: '4'
-      expect(page).to have_selector '.rspec_user_username_results_size', text: '0'
+      expect(page).to have_selector '.rspec_user_nickname_results_size', text: '0'
       expect(page).to have_selector '.rspec_user_profile_results_size', text: '2'
     end
   end
@@ -79,7 +79,7 @@ RSpec.describe 'Search', type: :system do
       click_button 'search'
       expect(page).to have_css '.rspec_recipe_title_results'
       expect(page).to have_no_css '.rspec_recipe_body_results'
-      expect(page).to have_no_css '.rspec_user_username_results'
+      expect(page).to have_no_css '.rspec_user_nickname_results'
       expect(page).to have_no_css '.rspec_user_profile_results'
     end
 
@@ -93,11 +93,11 @@ RSpec.describe 'Search', type: :system do
       end
       expect(page).to have_no_css '.rspec_recipe_title_results'
       expect(page).to have_css '.rspec_recipe_body_results'
-      expect(page).to have_no_css '.rspec_user_username_results'
+      expect(page).to have_no_css '.rspec_user_nickname_results'
       expect(page).to have_no_css '.rspec_user_profile_results'
     end
 
-    it 'user username', js: true do
+    it 'user nickname', js: true do
       visit root_path
         expect(page).to have_button 'search', disabled: true
       fill_in 'search_query', with: '味噌'
@@ -107,11 +107,11 @@ RSpec.describe 'Search', type: :system do
       end
       expect(page).to have_no_css '.rspec_recipe_title_results'
       expect(page).to have_no_css '.rspec_recipe_body_results'
-      expect(page).to have_css '.rspec_user_username_results'
+      expect(page).to have_css '.rspec_user_nickname_results'
       expect(page).to have_no_css '.rspec_user_profile_results'
     end
 
-    it 'user username', js: true do
+    it 'user nickname', js: true do
       visit root_path
         expect(page).to have_button 'search', disabled: true
       fill_in 'search_query', with: '味噌'
@@ -121,7 +121,7 @@ RSpec.describe 'Search', type: :system do
       end
       expect(page).to have_no_css '.rspec_recipe_title_results'
       expect(page).to have_no_css '.rspec_recipe_body_results'
-      expect(page).to have_no_css '.rspec_user_username_results'
+      expect(page).to have_no_css '.rspec_user_nickname_results'
       expect(page).to have_css '.rspec_user_profile_results'
     end
   end
@@ -137,13 +137,13 @@ RSpec.describe 'Search', type: :system do
       end
       expect(page).to have_css '.rspec_recipe_title_results'
       expect(page).to have_no_css '.rspec_recipe_body_results'
-      expect(page).to have_no_css '.rspec_user_username_results'
+      expect(page).to have_no_css '.rspec_user_nickname_results'
       expect(page).to have_no_css '.rspec_user_profile_results'
       fill_in 'search_query', with: 'ラーメン'
       click_button 'search'
       expect(page).to have_css '.rspec_recipe_title_results'
       expect(page).to have_no_css '.rspec_recipe_body_results'
-      expect(page).to have_no_css '.rspec_user_username_results'
+      expect(page).to have_no_css '.rspec_user_nickname_results'
       expect(page).to have_no_css '.rspec_user_profile_results'
     end
 
@@ -157,17 +157,17 @@ RSpec.describe 'Search', type: :system do
       end
       expect(page).to have_no_css '.rspec_recipe_title_results'
       expect(page).to have_css '.rspec_recipe_body_results'
-      expect(page).to have_no_css '.rspec_user_username_results'
+      expect(page).to have_no_css '.rspec_user_nickname_results'
       expect(page).to have_no_css '.rspec_user_profile_results'
       fill_in 'search_query', with: 'ラーメン'
       click_button 'search'
       expect(page).to have_no_css '.rspec_recipe_title_results'
       expect(page).to have_css '.rspec_recipe_body_results'
-      expect(page).to have_no_css '.rspec_user_username_results'
+      expect(page).to have_no_css '.rspec_user_nickname_results'
       expect(page).to have_no_css '.rspec_user_profile_results'
     end
 
-    it 'user username', js: true do
+    it 'user nickname', js: true do
       visit root_path
         expect(page).to have_button 'search', disabled: true
       fill_in 'search_query', with: '味噌'
@@ -177,13 +177,13 @@ RSpec.describe 'Search', type: :system do
       end
       expect(page).to have_no_css '.rspec_recipe_title_results'
       expect(page).to have_no_css '.rspec_recipe_body_results'
-      expect(page).to have_css '.rspec_user_username_results'
+      expect(page).to have_css '.rspec_user_nickname_results'
       expect(page).to have_no_css '.rspec_user_profile_results'
       fill_in 'search_query', with: 'ラーメン'
       click_button 'search'
       expect(page).to have_no_css '.rspec_recipe_title_results'
       expect(page).to have_no_css '.rspec_recipe_body_results'
-      expect(page).to have_css '.rspec_user_username_results'
+      expect(page).to have_css '.rspec_user_nickname_results'
       expect(page).to have_no_css '.rspec_user_profile_results'
     end
 
@@ -197,13 +197,13 @@ RSpec.describe 'Search', type: :system do
       end
       expect(page).to have_no_css '.rspec_recipe_title_results'
       expect(page).to have_no_css '.rspec_recipe_body_results'
-      expect(page).to have_no_css '.rspec_user_username_results'
+      expect(page).to have_no_css '.rspec_user_nickname_results'
       expect(page).to have_css '.rspec_user_profile_results'
       fill_in 'search_query', with: 'ラーメン'
       click_button 'search'
       expect(page).to have_no_css '.rspec_recipe_title_results'
       expect(page).to have_no_css '.rspec_recipe_body_results'
-      expect(page).to have_no_css '.rspec_user_username_results'
+      expect(page).to have_no_css '.rspec_user_nickname_results'
       expect(page).to have_css '.rspec_user_profile_results'
     end
   end

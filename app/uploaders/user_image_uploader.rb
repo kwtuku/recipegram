@@ -36,7 +36,7 @@ class UserImageUploader < CarrierWave::Uploader::Base
     # For Rails 3.1+ asset pipeline compatibility:
     # ActionController::Base.helpers.asset_path("fallback/" + [version_name, "default.png"].compact.join('_'))
 
-    "/images/" + [version_name, "default.jpg"].compact.join('_')
+    '/images/default_user_image.jpg'
   end
 
   # Process files as they are uploaded:

@@ -47,9 +47,9 @@
         </aside>
       </div>
 
-      <div class="column is-8 p-0-mobile">
+      <div class="column is-10-tablet is-8-desktop p-0-mobile">
         <div class="card">
-          <div class="card-content">
+          <div class="card-content is-hidden-desktop">
             <div class="media">
               <figure class="media-left">
                 <p class="image is-24x24">
@@ -57,7 +57,7 @@
                 </p>
               </figure>
               <div class="media-content is-1-line">
-                <span><%= link_to @recipe.user.username, user_path(@recipe.user),class: 'has-text-black-bis text-break hover-underline' %></span>
+                <span><%= link_to @recipe.user.nickname, user_path(@recipe.user),class: 'has-text-black-bis text-break hover-underline' %></span>
               </div>
               <% if user_signed_in? && @recipe.user == current_user %>
                 <div class="media-right">
@@ -122,7 +122,7 @@
         </div>
       </div>
 
-      <div class="column is-3 is-hidden-mobile">
+      <div class="column is-3 is-hidden-touch">
         <div class="sticky">
           <%= render 'user_card', user: @recipe.user %>
           <% unless @other_recipes.blank? %>
