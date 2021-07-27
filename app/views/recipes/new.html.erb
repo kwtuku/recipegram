@@ -1,14 +1,17 @@
 <% provide(:title, '新規レシピ投稿') %>
 
-<%= render 'layouts/hero', hero_title: '新規レシピ投稿' %>
-
 <%= render 'shared/error_messages', model: @recipe %>
+
+<%= render 'layouts/hero', hero_title: '新規レシピ投稿' %>
 
 <section class="section">
   <div class="container">
     <%= form_with model: @recipe do |f| %>
       <div class="columns is-centered">
-        <div class="column is-6 margin-auto-0">
+        <div class="column is-6">
+          <div class="mb-5">
+            <p class='help has-text-dark'>2MB以下でjpgまたはjpeg、png、webp形式のファイルをアップロードすることができます。</p>
+          </div>
           <div class="file is-boxed is-centered">
             <%= f.label :recipe_image do %>
               <%= f.file_field :recipe_image, class: 'is-hidden', required: true, accept: 'image/jpg, image/jpeg, image/png, image/webp' %>
@@ -29,10 +32,12 @@
           <div class="field">
             <%= f.label :title, 'タイトル', class: 'label' %>
             <%= f.text_field :title, required: true, class: 'input' %>
+            <%= render 'devise/shared/full_error_messages', model: @recipe, attribute: :title %>
           </div>
           <div class="field">
             <%= f.label :body, '作り方', class: 'label' %>
             <%= f.text_area :body, required: true, class: 'textarea has-fixed-size' %>
+            <%= render 'devise/shared/full_error_messages', model: @recipe, attribute: :body %>
           </div>
           <%= f.submit 'レシピを投稿', class: 'button is-rounded is-success', id: 'create_recipe', disabled: true %>
         </div>
