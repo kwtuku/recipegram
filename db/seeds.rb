@@ -4,8 +4,9 @@ def create_characteristic_user_recipe_comment
   common_password = 'fffffr'
 
   User.create!(
+    username:              "l#{'o'*12}ng",
     nickname:              "very_l#{'o'*100}ng_word",
-    email:                 'long@example.com',
+    email:                 'long1@example.com',
     password:              common_password,
     password_confirmation: common_password,
     profile:               "very_l#{'o'*500}ng_word",
@@ -50,6 +51,7 @@ def create_user(user_creation_time)
     user_image = File.open("./db/fixtures/user/user_sample_#{rand(1..15)}.jpg")
 
     User.create!(
+      username:              User.generate_username,
       nickname:              nickname,
       email:                 email,
       password:              common_password,
