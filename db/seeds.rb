@@ -6,7 +6,7 @@ def create_characteristic_user_recipe_comment
   User.create!(
     username:              "l#{'o'*12}ng",
     nickname:              "very_l#{'o'*100}ng_word",
-    email:                 'long1@example.com',
+    email:                 'long@example.com',
     password:              common_password,
     password_confirmation: common_password,
     profile:               "very_l#{'o'*500}ng_word",
