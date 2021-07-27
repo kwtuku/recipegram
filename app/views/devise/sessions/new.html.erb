@@ -1,4 +1,4 @@
-<% provide(:title, "#{t(".sign_in")}") %>
+<% provide(:title, t('.sign_in')) %>
 
 <section class="section">
   <div class="container">
@@ -8,11 +8,10 @@
           <p class="title is-1 has-text-centered mb-6 recipegram">Recipegram</p>
         <% end %>
         <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-
           <div class="field">
-            <%= f.label :email, class: "label" %>
+            <%= f.label :email, class: 'label' %>
             <div class="control has-icons-left">
-              <%= f.email_field :email, autofocus: true, autocomplete: "email", :placeholder => "email", required: true, class: "input" %>
+              <%= f.email_field :email, autofocus: true, autocomplete: 'email', placeholder: 'email', required: true, class: 'input' %>
               <span class="icon is-small is-left">
                 <i class="fas fa-envelope"></i>
               </span>
@@ -20,11 +19,11 @@
           </div>
 
           <div class="field">
-            <%= f.label :password, class: "label" %>
+            <%= f.label :password, class: 'label' %>
           </div>
-          <div class="field has-addons password-area">
+          <div class="field is-grouped password-area">
             <div class="control has-icons-left is-expanded">
-              <%= f.password_field :password, autocomplete: "new-password", :placeholder => "password", required: true, class: "input" %>
+              <%= f.password_field :password, autocomplete: 'new-password', placeholder: 'password', required: true, minlength: @minimum_password_length, maxlength: '30', class: 'input' %>
               <span class="icon is-small is-left">
                 <i class="fas fa-lock"></i>
               </span>
@@ -48,11 +47,11 @@
           <% end %>
 
           <div class="field">
-            <%= f.submit t('.sign_in'), class: "button is-fullwidth is-rounded is-primary", id: "signin", disabled: true %>
+            <%= f.submit t('.sign_in'), class: 'button is-fullwidth is-rounded is-primary', id: 'signin', disabled: true %>
           </div>
         <% end %>
 
-        <%= render "devise/shared/links" %>
+        <%= render 'devise/shared/links' %>
       </div>
     </div>
   </div>

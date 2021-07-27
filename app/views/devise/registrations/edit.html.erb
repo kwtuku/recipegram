@@ -1,5 +1,7 @@
 <% provide(:title, 'アカウント編集') %>
 
+<%= render 'devise/shared/error_messages', resource: resource %>
+
 <%= render 'layouts/hero', hero_title: 'アカウント編集' %>
 
 <section class="section">
@@ -7,8 +9,6 @@
     <div class="columns is-centered">
       <div class="column is-5">
         <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-          <%= render 'devise/shared/error_messages', resource: resource %>
-
           <div class="field">
             <%= f.label :email, class: 'label' %>
             <div class="control has-icons-left">
@@ -25,9 +25,13 @@
           <% end %>
 
           <div class="field">
-            <%= f.label :password, class: 'label' %>
+            <%= f.label :password, class: 'label mb-0' %>
+            <% if @minimum_password_length %>
+              <p class='help has-text-dark'><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></p>
+            <% end %>
+            <p class='help has-text-dark'><%= t('.leave_blank_if_you_don_t_want_to_change_it') %></p>
           </div>
-          <div class="field has-addons password-area">
+          <div class="field is-grouped password-area">
             <div class="control has-icons-left is-expanded">
               <%= f.password_field :password, autocomplete: 'new-password', placeholder: 'password', minlength: @minimum_password_length, maxlength: '30', class: 'input' %>
               <span class="icon is-small is-left">
@@ -43,19 +47,13 @@
             </p>
           </div>
           <div class="field">
-            <p class='help has-text-dark'>
-              <% if @minimum_password_length %>
-                <%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %>
-              <% end %>
-              <%= t('.leave_blank_if_you_don_t_want_to_change_it') %>
-            </p>
             <%= render 'devise/shared/full_error_messages', model: resource, attribute: :password %>
           </div>
 
           <div class="field">
             <%= f.label :password_confirmation, class: 'label' %>
           </div>
-          <div class="field has-addons password-area">
+          <div class="field is-grouped password-area">
             <div class="control has-icons-left is-expanded">
               <%= f.password_field :password_confirmation, autocomplete: 'new-password', placeholder: 'password confirmation', minlength: @minimum_password_length, maxlength: '30', class: 'input' %>
               <span class="icon is-small is-left">
@@ -77,7 +75,7 @@
           <div class="field">
             <%= f.label :current_password, class: 'label' %>
           </div>
-          <div class="field has-addons password-area">
+          <div class="field is-grouped password-area">
             <div class="control has-icons-left is-expanded">
               <%= f.password_field :current_password, autocomplete: 'current-password', placeholder: 'current-password', required: true, minlength: @minimum_password_length, maxlength: '30', class: 'input' %>
               <span class="icon is-small is-left">

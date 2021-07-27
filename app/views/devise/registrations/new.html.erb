@@ -1,4 +1,6 @@
-<% provide(:title, "#{t(".sign_up")}") %>
+<% provide(:title, t('.sign_up')) %>
+
+<%= render 'devise/shared/error_messages', resource: resource %>
 
 <section class="section">
   <div class="container">
@@ -8,14 +10,12 @@
           <p class="title is-1 has-text-centered mb-6 recipegram">Recipegram</p>
         <% end %>
         <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-          <%= render "devise/shared/error_messages", resource: resource %>
-
           <div class="field">
-            <%= f.label :username, class: "label" %>
+            <%= f.label :username, class: 'label' %>
           </div>
-          <div class="field has-addons">
+          <div class="field is-grouped mb-0">
             <div class="control has-icons-left is-expanded">
-              <%= f.text_field :username, autofocus: true, autocomplete: "username", :placeholder => "username", required: true, maxlength: "15", class: "input" %>
+              <%= f.text_field :username, autofocus: true, autocomplete: 'username', placeholder: 'username', required: true, maxlength: '15', class: 'input' %>
               <span class="icon is-small is-left">
                 <i class="fas fa-user"></i>
               </span>
@@ -31,37 +31,40 @@
             </p>
           </div>
           <div class="field">
-            <%= render "devise/shared/full_error_messages", model: resource, attribute: :username %>
+            <%= render 'devise/shared/full_error_messages', model: resource, attribute: :username %>
           </div>
 
           <div class="field">
-            <%= f.label :nickname, class: "label" %>
+            <%= f.label :nickname, class: 'label' %>
             <div class="control has-icons-left">
-              <%= f.text_field :nickname, autocomplete: "nickname", :placeholder => "nickname", required: true, class: "input" %>
+              <%= f.text_field :nickname, autocomplete: 'nickname', placeholder: 'nickname', required: true, class: 'input' %>
               <span class="icon is-small is-left">
                 <i class="fas fa-user"></i>
               </span>
             </div>
-            <%= render "devise/shared/full_error_messages", model: resource, attribute: :nickname %>
+            <%= render 'devise/shared/full_error_messages', model: resource, attribute: :nickname %>
           </div>
 
           <div class="field">
-            <%= f.label :email, class: "label" %>
+            <%= f.label :email, class: 'label' %>
             <div class="control has-icons-left">
-              <%= f.email_field :email, autocomplete: "email", :placeholder => "email", required: true, class: "input" %>
+              <%= f.email_field :email, autocomplete: 'email', placeholder: 'email', required: true, class: 'input' %>
               <span class="icon is-small is-left">
                 <i class="fas fa-envelope"></i>
               </span>
             </div>
-            <%= render "devise/shared/full_error_messages", model: resource, attribute: :email %>
+            <%= render 'devise/shared/full_error_messages', model: resource, attribute: :email %>
           </div>
 
           <div class="field">
-            <%= f.label :password, class: "label" %>
+            <%= f.label :password, class: 'label mb-0' %>
+            <% if @minimum_password_length %>
+              <p class='help has-text-dark'><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></p>
+            <% end %>
           </div>
-          <div class="field has-addons password-area">
+          <div class="field is-grouped mb-0 password-area">
             <div class="control has-icons-left is-expanded">
-              <%= f.password_field :password, autocomplete: "new-password", :placeholder => "password", required: true, minlength: @minimum_password_length, maxlength: "30", class: "input" %>
+              <%= f.password_field :password, autocomplete: 'new-password', placeholder: 'password', required: true, minlength: @minimum_password_length, maxlength: '30', class: 'input' %>
               <span class="icon is-small is-left">
                 <i class="fas fa-lock"></i>
               </span>
@@ -75,18 +78,15 @@
             </p>
           </div>
           <div class="field">
-            <% if @minimum_password_length %>
-              <p class='help has-text-dark'><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></p>
-            <% end %>
-            <%= render "devise/shared/full_error_messages", model: resource, attribute: :password %>
+            <%= render 'devise/shared/full_error_messages', model: resource, attribute: :password %>
           </div>
 
           <div class="field">
-            <%= f.label :password_confirmation, class: "label" %>
+            <%= f.label :password_confirmation, class: 'label' %>
           </div>
-          <div class="field has-addons password-area">
+          <div class="field is-grouped mb-0 password-area">
             <div class="control has-icons-left is-expanded">
-              <%= f.password_field :password_confirmation, autocomplete: "new-password", :placeholder => "password confirmation", required: true, minlength: @minimum_password_length, maxlength: "30", class: "input" %>
+              <%= f.password_field :password_confirmation, autocomplete: 'new-password', placeholder: 'password confirmation', required: true, minlength: @minimum_password_length, maxlength: '30', class: 'input' %>
               <span class="icon is-small is-left">
                 <i class="fas fa-lock"></i>
               </span>
@@ -100,15 +100,15 @@
             </p>
           </div>
           <div class="field">
-            <%= render "devise/shared/full_error_messages", model: resource, attribute: :password_confirmation %>
+            <%= render 'devise/shared/full_error_messages', model: resource, attribute: :password_confirmation %>
           </div>
 
           <div class="field">
-            <%= f.submit t('.sign_up'), class: "button is-fullwidth is-rounded is-success", id: "signup", disabled: true %>
+            <%= f.submit t('.sign_up'), class: 'button is-fullwidth is-rounded is-success', id: 'signup', disabled: true %>
           </div>
         <% end %>
 
-        <%= render "devise/shared/links" %>
+        <%= render 'devise/shared/links' %>
       </div>
     </div>
   </div>
