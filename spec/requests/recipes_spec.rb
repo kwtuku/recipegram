@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Recipes', type: :request do
   describe 'public pages' do
-    let(:recipe) { create :recipe }
+    let(:recipe) { create :recipe, :no_image }
 
     it 'recipes#index returns a 200 response' do
       get recipes_path
@@ -16,7 +16,7 @@ RSpec.describe 'Recipes', type: :request do
   end
 
   describe 'POST /recipes' do
-    let(:alice) { create :user }
+    let(:alice) { create :user, :no_image }
 
     context 'not signed in' do
       it 'redirect_to new_user_session_path' do
@@ -41,9 +41,9 @@ RSpec.describe 'Recipes', type: :request do
   end
 
   describe 'GET /recipes/:id/edit' do
-    let(:alice) { create :user }
-    let(:bob) { create :user }
-    let(:alice_recipe) { create :recipe, user: alice }
+    let(:alice) { create :user, :no_image }
+    let(:bob) { create :user, :no_image }
+    let(:alice_recipe) { create :recipe, :no_image, user: alice }
 
     context 'not signed in' do
       it 'redirect_to new_user_session_path' do
@@ -70,9 +70,9 @@ RSpec.describe 'Recipes', type: :request do
   end
 
   describe 'PATCH /recipes/:id' do
-    let(:alice) { create :user }
-    let(:bob) { create :user }
-    let(:alice_recipe) { create :recipe, title: 'カレー', user: alice }
+    let(:alice) { create :user, :no_image }
+    let(:bob) { create :user, :no_image }
+    let(:alice_recipe) { create :recipe, :no_image, title: 'カレー', user: alice }
 
     context 'not signed in' do
       it 'redirect_to new_user_session_path' do
@@ -103,9 +103,9 @@ RSpec.describe 'Recipes', type: :request do
   end
 
   describe 'DELETE /recipes/:id' do
-    let(:alice) { create :user }
-    let(:bob) { create :user }
-    let!(:alice_recipe) { create :recipe, user: alice }
+    let(:alice) { create :user, :no_image }
+    let(:bob) { create :user, :no_image }
+    let!(:alice_recipe) { create :recipe, :no_image, user: alice }
 
     context 'not signed in' do
       it 'redirect_to new_user_session_path' do

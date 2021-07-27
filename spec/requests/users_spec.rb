@@ -10,7 +10,7 @@ RSpec.describe 'Users', type: :request do
   end
 
   describe '#index' do
-    let(:alice) { create :user }
+    let(:alice) { create :user, :no_image }
 
     it 'returns a 200 response when not signed in' do
       get users_path
@@ -25,7 +25,7 @@ RSpec.describe 'Users', type: :request do
   end
 
   describe '#show' do
-    let(:alice) { create :user }
+    let(:alice) { create :user, :no_image }
 
     it 'returns a 200 response when not signed in' do
       get user_path(alice)
@@ -40,7 +40,7 @@ RSpec.describe 'Users', type: :request do
   end
 
   describe '#edit' do
-    let(:alice) { create :user }
+    let(:alice) { create :user, :no_image }
 
     it 'redirects to new_user_session_path when not signed in' do
       get edit_users_path
@@ -56,8 +56,8 @@ RSpec.describe 'Users', type: :request do
   end
 
   describe '#update' do
-    let(:alice) { create :user, nickname: 'アリス', profile: 'アリスです。' }
-    let(:bob) { create :user, nickname: 'ボブ', profile: 'ボブだよ。' }
+    let(:alice) { create :user, :no_image, nickname: 'アリス', profile: 'アリスです。' }
+    let(:bob) { create :user, :no_image, nickname: 'ボブ', profile: 'ボブだよ。' }
 
     context 'when not signed in' do
       it 'does not update user' do
@@ -111,9 +111,9 @@ RSpec.describe 'Users', type: :request do
   end
 
   describe '#followings' do
-    let(:alice) { create :user, nickname: 'alice' }
-    let!(:bob) { create :user, nickname: 'bob' }
-    let!(:carol) { create :user, nickname: 'carol' }
+    let(:alice) { create :user, :no_image, nickname: 'alice' }
+    let!(:bob) { create :user, :no_image, nickname: 'bob' }
+    let!(:carol) { create :user, :no_image, nickname: 'carol' }
     before do
       alice.relationships.create(follow_id: bob.id)
       alice.relationships.create(follow_id: carol.id)
@@ -143,9 +143,9 @@ RSpec.describe 'Users', type: :request do
   end
 
   describe '#followers' do
-    let!(:alice) { create :user, nickname: 'alice' }
-    let(:bob) { create :user, nickname: 'bob' }
-    let(:carol) { create :user, nickname: 'carol' }
+    let!(:alice) { create :user, :no_image, nickname: 'alice' }
+    let(:bob) { create :user, :no_image, nickname: 'bob' }
+    let(:carol) { create :user, :no_image, nickname: 'carol' }
     before do
       bob.relationships.create(follow_id: alice.id)
       carol.relationships.create(follow_id: alice.id)
@@ -175,11 +175,11 @@ RSpec.describe 'Users', type: :request do
   end
 
   describe '#comments' do
-    let(:alice) { create :user }
-    let(:bob) { create :user }
-    let(:carol) { create :user }
-    let(:bob_recipe) { create :recipe, user: bob }
-    let(:carol_recipe) { create :recipe, user: carol }
+    let(:alice) { create :user, :no_image }
+    let(:bob) { create :user, :no_image }
+    let(:carol) { create :user, :no_image }
+    let(:bob_recipe) { create :recipe, :no_image, user: bob }
+    let(:carol_recipe) { create :recipe, :no_image, user: carol }
     let!(:alice_comment_on_bob_recipe) { create :comment, user: alice, recipe: bob_recipe }
     let!(:alice_comment_on_carol_recipe) { create :comment, user: alice, recipe: carol_recipe }
 
@@ -207,11 +207,11 @@ RSpec.describe 'Users', type: :request do
   end
 
   describe '#favorites' do
-    let(:alice) { create :user }
-    let(:bob) { create :user }
-    let(:carol) { create :user }
-    let(:bob_recipe) { create :recipe, user: bob }
-    let(:carol_recipe) { create :recipe, user: carol }
+    let(:alice) { create :user, :no_image }
+    let(:bob) { create :user, :no_image }
+    let(:carol) { create :user, :no_image }
+    let(:bob_recipe) { create :recipe, :no_image, user: bob }
+    let(:carol_recipe) { create :recipe, :no_image, user: carol }
     before do
       alice.favorites.create(recipe_id: bob_recipe.id)
       alice.favorites.create(recipe_id: carol_recipe.id)

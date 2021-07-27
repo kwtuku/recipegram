@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'Relationships', type: :request do
   describe '#create' do
-    let(:alice) { create :user }
-    let(:bob) { create :user }
+    let(:alice) { create :user, :no_image }
+    let(:bob) { create :user, :no_image }
 
     context 'when not signed in' do
       it 'does not create relationship' do
@@ -62,8 +62,8 @@ RSpec.describe 'Relationships', type: :request do
   end
 
   describe '#destroy' do
-    let(:alice) { create :user }
-    let(:bob) { create :user }
+    let(:alice) { create :user, :no_image }
+    let(:bob) { create :user, :no_image }
     before do
       @relationship = alice.relationships.create(follow_id: bob.id)
     end
