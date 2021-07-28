@@ -149,7 +149,16 @@ RSpec.describe User, type: :model do
   end
 
   describe 'self.generate_username' do
-    let!(:alice) { create :user, :no_image, username: 'alice' }
+    before do
+      10.times do
+        create :user, :no_image, username: User.generate_username
+      end
+    end
+
+    it 'is saved as lower-case' do
+      username = User.generate_username
+      expect(username).to eq username.downcase
+    end
 
     it 'generates username different from existing usernames' do
       username = User.generate_username
@@ -158,12 +167,22 @@ RSpec.describe User, type: :model do
   end
 
   describe 'self.vary_from_usernames!(tmp_username)' do
-    let!(:alice) { create :user, :no_image, username: 'alice' }
+    before do
+      10.times do
+        create :user, :no_image, username: User.generate_username
+      end
+    end
+
+    it 'is saved as lower-case' do
+      tmp_username = User.all.sample.username
+      username = User.vary_from_usernames!(tmp_username)
+      expect(username).to eq username.downcase
+    end
 
     it 'makes tmp_username different from existing usernames' do
-      tmp_username = 'alice'
+      tmp_username = User.all.sample.username
       username = User.vary_from_usernames!(tmp_username)
-      expect(username).to_not eq 'alice'
+      expect(username).to_not eq tmp_username
       expect(User.all.pluck(:username)).to_not include username
     end
   end
