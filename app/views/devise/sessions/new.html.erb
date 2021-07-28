@@ -10,11 +10,8 @@
         <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
           <div class="field">
             <%= f.label :email, class: 'label' %>
-            <div class="control has-icons-left">
-              <%= f.email_field :email, autofocus: true, autocomplete: 'email', placeholder: 'email', required: true, class: 'input' %>
-              <span class="icon is-small is-left">
-                <i class="fas fa-envelope"></i>
-              </span>
+            <div class="control">
+              <%= f.email_field :email, autofocus: true, autocomplete: 'email', required: true, class: 'input' %>
             </div>
           </div>
 
@@ -22,11 +19,8 @@
             <%= f.label :password, class: 'label' %>
           </div>
           <div class="field is-grouped password-area">
-            <div class="control has-icons-left is-expanded">
-              <%= f.password_field :password, autocomplete: 'new-password', placeholder: 'password', required: true, minlength: @minimum_password_length, maxlength: '30', class: 'input' %>
-              <span class="icon is-small is-left">
-                <i class="fas fa-lock"></i>
-              </span>
+            <div class="control is-expanded">
+              <%= f.password_field :password, autocomplete: 'current-password', required: true, minlength: @minimum_password_length, maxlength: '30', class: 'input' %>
             </div>
             <p class="control password-mask">
               <button class="button" title="パスワードを表示する" onclick="return false;">

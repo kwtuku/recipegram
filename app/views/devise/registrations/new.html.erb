@@ -11,17 +11,15 @@
         <% end %>
         <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
           <div class="field">
-            <%= f.label :username, class: 'label' %>
+            <%= f.label :username, class: 'label mb-0' %>
+            <p class='help has-text-dark'>15字以内の半角英数-（ハイフン）_（アンダースコア）</p>
           </div>
           <div class="field is-grouped mb-0">
-            <div class="control has-icons-left is-expanded">
-              <%= f.text_field :username, autofocus: true, autocomplete: 'username', placeholder: 'username', required: true, maxlength: '15', class: 'input' %>
-              <span class="icon is-small is-left">
-                <i class="fas fa-user"></i>
-              </span>
+            <div class="control is-expanded">
+              <%= f.text_field :username, autofocus: true, autocomplete: 'username', required: true, maxlength: '15', class: 'input' %>
             </div>
             <p class="control">
-              <%= link_to generate_username_path, remote: true do %>
+              <%= link_to generate_username_path, title: 'ユーザー名を自動生成する', remote: true do %>
                 <button class="button">
                   <span class="icon is-small">
                     <i class="fas fa-redo-alt"></i>
@@ -36,38 +34,27 @@
 
           <div class="field">
             <%= f.label :nickname, class: 'label' %>
-            <div class="control has-icons-left">
-              <%= f.text_field :nickname, autocomplete: 'nickname', placeholder: 'nickname', required: true, class: 'input' %>
-              <span class="icon is-small is-left">
-                <i class="fas fa-user"></i>
-              </span>
+            <div class="control">
+              <%= f.text_field :nickname, autocomplete: 'nickname', required: true, class: 'input' %>
             </div>
             <%= render 'devise/shared/full_error_messages', model: resource, attribute: :nickname %>
           </div>
 
           <div class="field">
             <%= f.label :email, class: 'label' %>
-            <div class="control has-icons-left">
-              <%= f.email_field :email, autocomplete: 'email', placeholder: 'email', required: true, class: 'input' %>
-              <span class="icon is-small is-left">
-                <i class="fas fa-envelope"></i>
-              </span>
+            <div class="control">
+              <%= f.email_field :email, autocomplete: 'email', required: true, class: 'input' %>
             </div>
             <%= render 'devise/shared/full_error_messages', model: resource, attribute: :email %>
           </div>
 
           <div class="field">
             <%= f.label :password, class: 'label mb-0' %>
-            <% if @minimum_password_length %>
-              <p class='help has-text-dark'><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></p>
-            <% end %>
+            <p class='help has-text-dark'><%= "#{t('devise.shared.minimum_password_length', count: @minimum_password_length)}の" if @minimum_password_length %>半角英数記号</p>
           </div>
           <div class="field is-grouped mb-0 password-area">
-            <div class="control has-icons-left is-expanded">
-              <%= f.password_field :password, autocomplete: 'new-password', placeholder: 'password', required: true, minlength: @minimum_password_length, maxlength: '30', class: 'input' %>
-              <span class="icon is-small is-left">
-                <i class="fas fa-lock"></i>
-              </span>
+            <div class="control is-expanded">
+              <%= f.password_field :password, autocomplete: 'new-password', required: true, minlength: @minimum_password_length, maxlength: '30', class: 'input' %>
             </div>
             <p class="control password-mask password-mask1">
               <button class="button" title="パスワードを表示する" onclick="return false;">
@@ -85,11 +72,8 @@
             <%= f.label :password_confirmation, class: 'label' %>
           </div>
           <div class="field is-grouped mb-0 password-area">
-            <div class="control has-icons-left is-expanded">
-              <%= f.password_field :password_confirmation, autocomplete: 'new-password', placeholder: 'password confirmation', required: true, minlength: @minimum_password_length, maxlength: '30', class: 'input' %>
-              <span class="icon is-small is-left">
-                <i class="fas fa-lock"></i>
-              </span>
+            <div class="control is-expanded">
+              <%= f.password_field :password_confirmation, autocomplete: 'new-password', required: true, minlength: @minimum_password_length, maxlength: '30', class: 'input' %>
             </div>
             <p class="control password-mask password-confirmation-mask">
               <button class="button" title="パスワードを表示する" onclick="return false;">

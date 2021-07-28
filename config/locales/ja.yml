@@ -28,4 +28,5 @@ ja:
         body: 作り方
         recipe_image: レシピ画像
       user:
+        profile: プロフィール
         user_image: プロフィール画像

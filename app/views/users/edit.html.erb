@@ -23,22 +23,35 @@
           </div>
           <%= render 'devise/shared/full_error_messages', model: @user, attribute: :user_image %>
         </div>
+
         <div class="column is-6">
           <div class="field">
-            <%= f.label :username, 'ユーザー名', class: 'label' %>
-            <%= f.text_field :username, required: true, maxlength: '15', class: 'input' %>
+            <%= f.label :username, class: 'label mb-0' %>
+            <p class='help has-text-dark'>15字以内の半角英数-（ハイフン）_（アンダースコア）</p>
+          </div>
+          <div class="field">
+            <div class="control">
+              <%= f.text_field :username, required: true, maxlength: '15', class: 'input' %>
+            </div>
             <%= render "devise/shared/full_error_messages", model: @user, attribute: :username %>
           </div>
+
           <div class="field">
-            <%= f.label :nickname, 'ニックネーム', class: 'label' %>
-            <%= f.text_field :nickname, required: true, class: 'input' %>
+            <%= f.label :nickname, class: 'label' %>
+            <div class="control">
+              <%= f.text_field :nickname, required: true, class: 'input' %>
+            </div>
             <%= render "devise/shared/full_error_messages", model: @user, attribute: :nickname %>
           </div>
+
           <div class="field">
-            <%= f.label :profile, 'プロフィール', class: 'label' %>
-            <%= f.text_area :profile, class: 'textarea has-fixed-size' %>
+            <%= f.label :profile, class: 'label' %>
+            <div class="control">
+              <%= f.text_area :profile, class: 'textarea has-fixed-size' %>
+            </div>
             <%= render "devise/shared/full_error_messages", model: @user, attribute: :profile %>
           </div>
+
           <%= f.submit 'プロフィールを更新', class: 'button is-rounded is-success', id: 'update_user', disabled: true %>
         </div>
       </div>
