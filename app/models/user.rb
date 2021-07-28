@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
 
-  before_validation { self.username = username.downcase }
+  before_save { self.username = username.downcase }
   before_destroy :remove_image
 
   has_many :comments, dependent: :destroy
