@@ -103,7 +103,7 @@ RSpec.describe 'Search', type: :system do
       fill_in 'search_query', with: '味噌'
       click_button 'search'
       within '.menu' do
-        click_link 'ユーザー名'
+        click_link 'ニックネーム'
       end
       expect(page).to have_no_css '.rspec_recipe_title_results'
       expect(page).to have_no_css '.rspec_recipe_body_results'
@@ -173,7 +173,7 @@ RSpec.describe 'Search', type: :system do
       fill_in 'search_query', with: '味噌'
       click_button 'search'
       within '.menu' do
-        click_link 'ユーザー名'
+        click_link 'ニックネーム'
       end
       expect(page).to have_no_css '.rspec_recipe_title_results'
       expect(page).to have_no_css '.rspec_recipe_body_results'
