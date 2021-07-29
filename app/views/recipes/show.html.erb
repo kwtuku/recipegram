@@ -47,7 +47,7 @@
         </aside>
       </div>
 
-      <div class="column is-10-tablet is-8-desktop p-0-mobile">
+      <div class="column is-9-tablet is-7-desktop p-0-mobile">
         <div class="card">
           <div class="card-content is-hidden-desktop">
             <div class="media">
@@ -81,8 +81,8 @@
             </div>
           </div>
           <div class="card-image">
-            <figure class="image is-4by3 cursor-pointer" id="open-modal">
-              <%= image_tag @recipe.recipe_image.url %>
+            <figure class="image is-1by1 cursor-pointer" id="open-modal">
+              <%= image_tag @recipe.recipe_image.url(:main) %>
             </figure>
           </div>
           <div class="card-content">
@@ -122,7 +122,7 @@
         </div>
       </div>
 
-      <div class="column is-3 is-hidden-touch">
+      <div class="column is-4 is-hidden-touch">
         <div class="sticky">
           <%= render 'user_card', user: @recipe.user %>
           <% unless @other_recipes.blank? %>
@@ -184,9 +184,13 @@
 <div class="modal">
   <div class="modal-background"></div>
   <div class="modal-content">
-    <p class="image is-4by3">
-      <%= image_tag @recipe.recipe_image.url %>
-    </p>
+    <div class="modal-card">
+      <div class="modal-body">
+        <p class="image is-1by1">
+          <%= image_tag @recipe.recipe_image.url(:main) %>
+        </p>
+      </div>
+    </div>
   </div>
   <button class="modal-close is-large" aria-label="close"></button>
 </div>

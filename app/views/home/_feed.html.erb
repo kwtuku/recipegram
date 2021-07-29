@@ -9,7 +9,7 @@
       <div class="media-content is-1-line">
         <span><%= link_to feed.user.nickname, user_path(feed.user),class: 'has-text-black-bis text-break hover-underline' %></span>
       </div>
-      <% if user_signed_in? && feed.user.id == current_user.id %>
+      <% if user_signed_in? && feed.user == current_user %>
         <div class="media-right">
           <div class="dropdown is-right">
             <div class="dropdown-trigger">
@@ -34,7 +34,7 @@
   <div class="card-image">
     <figure class="image is-1by1 has-mask">
       <%= link_to recipe_path(feed) do %>
-        <%= image_tag feed.recipe_image.url(:thumb) %>
+        <%= image_tag feed.recipe_image.url(:main) %>
         <div class="mask has-text-centered">
           <p class="has-text-white">
             <span class="icon-text mr-3">
