@@ -50,6 +50,9 @@ class RecipeImageUploader < CarrierWave::Uploader::Base
   version :thumb do
     process resize_to_fill: [640, 640]
   end
+  version :main do
+    process resize_to_fill: [1200, 1200]
+  end
 
   # Add an allowlist of extensions which are allowed to be uploaded.
   # For images you might use something like this:
