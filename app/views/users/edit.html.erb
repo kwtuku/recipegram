@@ -15,10 +15,10 @@
           <div class="file is-centered">
             <%= f.label :user_image do %>
               <%= f.file_field :user_image, class: 'is-hidden', accept: 'image/jpg, image/jpeg, image/png, image/webp' %>
-              <figure class="image cursor-pointer" id="file-cta">
+              <figure class="image cursor-pointer border_red_with_errors round" id="file-cta">
                 <%= image_tag @user.user_image.url(:thumb), class: 'is-rounded is-256x256' %>
               </figure>
-              <img class="is-hidden is-256x256 round" id="file-preview">
+              <img class="is-hidden is-256x256 round cursor-pointer" id="file-preview">
             <% end %>
           </div>
           <%= render 'devise/shared/full_error_messages', model: @user, attribute: :user_image %>
@@ -52,7 +52,7 @@
             <%= render "devise/shared/full_error_messages", model: @user, attribute: :profile %>
           </div>
 
-          <%= f.submit 'プロフィールを更新', class: 'button is-rounded is-success', id: 'update_user', disabled: true %>
+          <%= f.submit '更新', class: 'button is-rounded is-success', id: 'update_user', disabled: true %>
         </div>
       </div>
     <% end %>
