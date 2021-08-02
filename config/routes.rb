@@ -18,7 +18,9 @@ Rails.application.routes.draw do
     resources :comments, only: %i(create destroy)
   end
 
-  resources :users, only: %i(index show edit update) do
+  resources :users, param: :username, only: %i(index show update) do
     get :followings, :followers, :comments, :favorites
   end
+  resource :users, only: %i(edit), path_names: { edit: 'edit/profile' }
+  get '/generate_username', to: 'users#generate_username'
 end

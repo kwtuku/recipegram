@@ -1,3 +1,5 @@
 <% if model.errors.include?(attribute) %>
-  <p class="help is-danger"><%= model.errors.full_messages_for(attribute).first %>
+  <% model.errors.full_messages_for(attribute).each do |message| %>
+    <p class="help is-danger"><%= message %></p>
+  <% end %>
 <% end %>

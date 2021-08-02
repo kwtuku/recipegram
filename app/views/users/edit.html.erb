@@ -1,35 +1,58 @@
 <% provide(:title, 'プロフィール編集') %>
 
-<%= render 'layouts/hero', hero_title: 'プロフィール編集' %>
-
 <%= render 'shared/error_messages', model: @user %>
+
+<%= render 'layouts/hero', hero_title: 'プロフィール編集' %>
 
 <section class="section">
   <div class="container">
     <%= form_with model: @user do |f| %>
       <div class="columns is-centered">
         <div class="column is-5">
+          <div class="mb-5">
+            <p class='help has-text-dark'>2MB以下でjpgまたはjpeg、png、webp形式のファイルをアップロードすることができます。</p>
+          </div>
           <div class="file is-centered">
             <%= f.label :user_image do %>
               <%= f.file_field :user_image, class: 'is-hidden', accept: 'image/jpg, image/jpeg, image/png, image/webp' %>
-              <figure class="image cursor-pointer" id="file-cta">
+              <figure class="image cursor-pointer border_red_with_errors round" id="file-cta">
                 <%= image_tag @user.user_image.url(:thumb), class: 'is-rounded is-256x256' %>
               </figure>
-              <img class="is-hidden is-256x256 round" id="file-preview">
+              <img class="is-hidden is-256x256 round cursor-pointer" id="file-preview">
             <% end %>
-            <%= render 'devise/shared/full_error_messages', model: @user, attribute: :user_image %>
           </div>
+          <%= render 'devise/shared/full_error_messages', model: @user, attribute: :user_image %>
         </div>
+
         <div class="column is-6">
           <div class="field">
-            <%= f.label :username, 'ユーザー名', class: 'label' %>
-            <%= f.text_field :username, required: true, class: 'input' %>
+            <%= f.label :username, class: 'label mb-0' %>
+            <p class='help has-text-dark'>15字以内の半角英数-（ハイフン）_（アンダースコア）</p>
           </div>
           <div class="field">
-            <%= f.label :profile, 'プロフィール', class: 'label' %>
-            <%= f.text_area :profile, class: 'textarea has-fixed-size' %>
+            <div class="control">
+              <%= f.text_field :username, required: true, maxlength: '15', class: 'input' %>
+            </div>
+            <%= render "devise/shared/full_error_messages", model: @user, attribute: :username %>
           </div>
-          <%= f.submit 'プロフィールを更新', class: 'button is-rounded is-success', id: 'update_user', disabled: true %>
+
+          <div class="field">
+            <%= f.label :nickname, class: 'label' %>
+            <div class="control">
+              <%= f.text_field :nickname, required: true, class: 'input' %>
+            </div>
+            <%= render "devise/shared/full_error_messages", model: @user, attribute: :nickname %>
+          </div>
+
+          <div class="field">
+            <%= f.label :profile, class: 'label' %>
+            <div class="control">
+              <%= f.text_area :profile, class: 'textarea has-fixed-size' %>
+            </div>
+            <%= render "devise/shared/full_error_messages", model: @user, attribute: :profile %>
+          </div>
+
+          <%= f.submit '更新', class: 'button is-rounded is-success', id: 'update_user', disabled: true %>
         </div>
       </div>
     <% end %>

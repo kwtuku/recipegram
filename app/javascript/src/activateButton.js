@@ -4,6 +4,7 @@ export default () => {
     const textarea = document.querySelector('textarea');
 
     const username = document.getElementById('user_username');
+    const nickname = document.getElementById('user_nickname');
     const email = document.getElementById('user_email');
     const password = document.getElementById('user_password');
     const passwordConfirmation = document.getElementById('user_password_confirmation');
@@ -27,7 +28,7 @@ export default () => {
     if (signup) {
       inputs.forEach(input => {
         input.addEventListener('input', () => {
-          if (username.value.trim() && email.value.trim() && password.value.trim().length >= 6 && passwordConfirmation.value.trim().length >= 6) {
+          if (username.value.trim() && nickname.value.trim() && email.value.trim() && password.value.trim().length >= 6 && passwordConfirmation.value.trim().length >= 6) {
             signup.disabled = false;
           } else {
             signup.disabled = true;
@@ -75,7 +76,7 @@ export default () => {
     if (updateUser) {
       inputs.forEach(input => {
         input.addEventListener('input', () => {
-          if (username.value.trim()) {
+          if (username.value.trim() && nickname.value.trim()) {
             updateUser.disabled = false;
           } else {
             updateUser.disabled = true;
@@ -83,7 +84,7 @@ export default () => {
         });
       });
       textarea.addEventListener('input', () => {
-        if (username.value.trim() && textarea.value.trim()) {
+        if (username.value.trim() && nickname.value.trim() && textarea.value.trim()) {
           updateUser.disabled = false;
         }
       });

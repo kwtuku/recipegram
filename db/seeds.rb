@@ -4,7 +4,8 @@ def create_characteristic_user_recipe_comment
   common_password = 'fffffr'
 
   User.create!(
-    username:              "very_l#{'o'*100}ng_word",
+    username:              "l#{'o'*12}ng",
+    nickname:              "very_l#{'o'*100}ng_word",
     email:                 'long@example.com',
     password:              common_password,
     password_confirmation: common_password,
@@ -30,9 +31,12 @@ def create_user(user_creation_time)
   creation_time = 0
   common_password = 'fffffr'
 
+  user_example_emails = User.all.pluck(:email).grep(/example(.+)@example.com/)
+  last_email_number = user_example_emails.blank? ? 0 : user_example_emails.map{ |email| email.gsub(/example(.+)@example.com/, '\+').to_i }.max
+
   user_creation_time.times do |n|
-    username  = Faker::Lorem.words(number: rand(1..10)).join(' ')
-    email = "example#{n+1}@example.com"
+    nickname  = Faker::Lorem.words(number: rand(1..10)).join(' ')
+    email = "example#{last_email_number + n + 1}@example.com"
     profile = <<~TEXT
       #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
       #{Faker::Lorem.paragraphs(number: rand(3..5)).join(' ')}
@@ -47,7 +51,8 @@ def create_user(user_creation_time)
     user_image = File.open("./db/fixtures/user/user_sample_#{rand(1..15)}.jpg")
 
     User.create!(
-      username:              username,
+      username:              User.generate_username,
+      nickname:              nickname,
       email:                 email,
       password:              common_password,
       password_confirmation: common_password,

@@ -1,5 +1,7 @@
 <% provide(:title, 'アカウント編集') %>
 
+<%= render 'devise/shared/error_messages', resource: resource %>
+
 <%= render 'layouts/hero', hero_title: 'アカウント編集' %>
 
 <section class="section">
@@ -7,15 +9,10 @@
     <div class="columns is-centered">
       <div class="column is-5">
         <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-          <%= render 'devise/shared/error_messages', resource: resource %>
-
           <div class="field">
             <%= f.label :email, class: 'label' %>
-            <div class="control has-icons-left">
-              <%= f.email_field :email, autofocus: true, autocomplete: 'email', placeholder: 'email', required: true, class: 'input' %>
-              <span class="icon is-small is-left">
-                <i class="fas fa-envelope"></i>
-              </span>
+            <div class="control">
+              <%= f.email_field :email, autofocus: true, autocomplete: 'email', required: true, class: 'input' %>
             </div>
             <%= render 'devise/shared/full_error_messages', model: resource, attribute: :email %>
           </div>
@@ -25,17 +22,16 @@
           <% end %>
 
           <div class="field">
-            <%= f.label :password, class: 'label' %>
+            <%= f.label :password, class: 'label mb-0' %>
+            <p class='help has-text-dark'><%= "#{t('devise.shared.minimum_password_length', count: @minimum_password_length)}の" if @minimum_password_length %>半角英数記号</p>
+            <p class='help has-text-dark'><%= t('.leave_blank_if_you_don_t_want_to_change_it') %></p>
           </div>
-          <div class="field has-addons password-area">
-            <div class="control has-icons-left is-expanded">
-              <%= f.password_field :password, autocomplete: 'new-password', placeholder: 'password', minlength: @minimum_password_length, maxlength: '30', class: 'input' %>
-              <span class="icon is-small is-left">
-                <i class="fas fa-lock"></i>
-              </span>
+          <div class="field is-grouped password-area">
+            <div class="control is-expanded">
+              <%= f.password_field :password, autocomplete: 'new-password', minlength: @minimum_password_length, maxlength: '30', class: 'input' %>
             </div>
             <p class="control password-mask">
-              <button class="button" onclick="return false;">
+              <button class="button" title="パスワードを表示する" onclick="return false;">
                 <span class="icon is-small">
                   <i class="far fa-eye-slash"></i>
                 </span>
@@ -43,27 +39,18 @@
             </p>
           </div>
           <div class="field">
-            <p class='help has-text-dark'>
-              <% if @minimum_password_length %>
-                <%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %>
-              <% end %>
-              <%= t('.leave_blank_if_you_don_t_want_to_change_it') %>
-            </p>
             <%= render 'devise/shared/full_error_messages', model: resource, attribute: :password %>
           </div>
 
           <div class="field">
             <%= f.label :password_confirmation, class: 'label' %>
           </div>
-          <div class="field has-addons password-area">
-            <div class="control has-icons-left is-expanded">
-              <%= f.password_field :password_confirmation, autocomplete: 'new-password', placeholder: 'password confirmation', minlength: @minimum_password_length, maxlength: '30', class: 'input' %>
-              <span class="icon is-small is-left">
-                <i class="fas fa-lock"></i>
-              </span>
+          <div class="field is-grouped password-area">
+            <div class="control is-expanded">
+              <%= f.password_field :password_confirmation, autocomplete: 'new-password', minlength: @minimum_password_length, maxlength: '30', class: 'input' %>
             </div>
             <p class="control password-mask">
-              <button class="button" onclick="return false;">
+              <button class="button" title="パスワードを表示する" onclick="return false;">
                 <span class="icon is-small">
                   <i class="far fa-eye-slash"></i>
                 </span>
@@ -75,17 +62,15 @@
           </div>
 
           <div class="field">
-            <%= f.label :current_password, class: 'label' %>
+            <%= f.label :current_password, class: 'label mb-0' %>
+            <p class='help has-text-dark'><%= t('.we_need_your_current_password_to_confirm_your_changes', count: @minimum_password_length) %></p>
           </div>
-          <div class="field has-addons password-area">
-            <div class="control has-icons-left is-expanded">
-              <%= f.password_field :current_password, autocomplete: 'current-password', placeholder: 'current-password', required: true, minlength: @minimum_password_length, maxlength: '30', class: 'input' %>
-              <span class="icon is-small is-left">
-                <i class="fas fa-lock"></i>
-              </span>
+          <div class="field is-grouped password-area">
+            <div class="control is-expanded">
+              <%= f.password_field :current_password, autocomplete: 'current-password', required: true, minlength: @minimum_password_length, maxlength: '30', class: 'input' %>
             </div>
             <p class="control password-mask">
-              <button class="button" onclick="return false;">
+              <button class="button" title="パスワードを表示する" onclick="return false;">
                 <span class="icon is-small">
                   <i class="far fa-eye-slash"></i>
                 </span>
@@ -93,7 +78,6 @@
             </p>
           </div>
           <div class="field">
-            <p class='help has-text-dark'><%= t('.we_need_your_current_password_to_confirm_your_changes', count: @minimum_password_length) %></p>
             <%= render 'devise/shared/full_error_messages', model: resource, attribute: :current_password %>
           </div>
 

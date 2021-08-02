@@ -1,4 +1,4 @@
-<div class="column is-12-mobile is-4-tablet is-3-desktop p-0-mobile">
+<div class="column is-12-mobile is-6-tablet is-4-desktop p-0-mobile">
   <div class="card" data-infinite-scroll-item="">
     <div class="card-content">
       <div class="media">
@@ -10,9 +10,10 @@
           </p>
         </figure>
         <div class="media-content">
-          <p class="is-size-5 is-1-line mb-2">
-            <span><%= link_to user.username, user_path(user), class: 'has-text-black-bis text-break hover-underline' %></span>
+          <p class="is-size-5 is-1-line">
+            <span><%= link_to user.nickname, user_path(user), title: user.nickname, class: 'has-text-black-bis text-break hover-underline' %></span>
           </p>
+          <p class="has-text-grey-light mb-2">@<%= user.username %></p>
           <%= render 'shared/follow_button', user: user, size: 'is-small' %>
         </div>
       </div>

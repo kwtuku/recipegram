@@ -1,18 +1,89 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  describe 'validation' do
-    before do
-      @alice = build(:user)
-    end
-
-    it 'is valid with a username, email and password' do
-      expect(@alice).to be_valid
-    end
-
-    it { is_expected.to validate_presence_of(:username) }
+  describe 'validations' do
+    it { is_expected.to validate_presence_of(:nickname) }
     it { is_expected.to validate_presence_of(:email) }
     it { is_expected.to validate_presence_of(:password) }
+    it { is_expected.to validate_length_of(:password).is_at_least(6) }
+
+    describe 'username' do
+      it { is_expected.to validate_presence_of(:username) }
+      it { is_expected.to validate_length_of(:username).is_at_most(15) }
+
+      it 'excludes reserved words' do
+        RESERVED_WORDS = %w(
+          sign_in
+          sign_out
+          password
+          cancel
+          sign_up
+          edit
+          guest_sign_in
+        )
+        is_expected.to validate_exclusion_of(:username).in_array(RESERVED_WORDS)
+      end
+
+      it "is invalid with invalid formats" do
+        INVALID_USERNAMES = %W(
+          i_am_alice!
+          i_am_alice.
+          i/am/alice
+          1_am_alice.
+          ありす
+          アリス
+          愛凜翠
+          #{'i am alice'}
+          #{' alice'}
+          #{'alice '}
+        )
+        alice = build(:user, :no_image)
+        INVALID_USERNAMES.each do |invalid_username|
+          alice.username = invalid_username
+          expect(alice.invalid?).to eq true
+        end
+      end
+
+      it "is valid with valid formats" do
+        VALID_USERNAMES = %w(
+          i_am_alice
+          1_am_alice
+          i-am-alice
+          a1-_B2
+          aaa
+          AAA
+          111
+          ---
+          ___
+          -_-
+        )
+        alice = build(:user, :no_image)
+        VALID_USERNAMES.each do |valid_username|
+          alice.username = valid_username
+          expect(alice.valid?).to eq true
+        end
+      end
+
+      it 'is saved as lower-case' do
+        alice = create(:user, :no_image, username: 'ALICE')
+        expect(alice.username).to eq 'alice'
+        alice.username = 'I_aM-AliCe'
+        alice.save
+        expect(alice.username).to eq 'i_am-alice'
+      end
+
+      it 'does not recognize if a letter is a capital or a small letter' do
+        alice = create(:user, :no_image, username: 'alice')
+        bob = build(:user, :no_image, username: 'ALICE')
+        expect(bob.invalid?).to eq true
+      end
+
+      it 'is invalid when username is already taken' do
+        alice = create(:user, :no_image, username: 'alice')
+        bob = build(:user, :no_image, username: 'alice')
+        expect(bob.invalid?).to eq true
+      end
+    end
   end
 
   describe 'feed' do
@@ -34,8 +105,8 @@ RSpec.describe User, type: :model do
     end
 
     it 'does not have unfollowing user recipes' do
-      carol.recipes.each do |recipe_unfollowed|
-        expect(alice.feed.include?(recipe_unfollowed)).to eq false
+      carol.recipes.each do |recipe_unfollowing|
+        expect(alice.feed.include?(recipe_unfollowing)).to eq false
       end
     end
   end
@@ -62,6 +133,57 @@ RSpec.describe User, type: :model do
 
     it 'does not have unfollowing users' do
       expect(bob.followers_you_follow(alice)).to_not include ellen, frank
+    end
+  end
+
+  describe 'self.guest' do
+    it 'is valid' do
+      guest = User.guest
+      expect(guest.valid?).to eq true
+    end
+
+    it 'exists guest user' do
+      User.guest
+      expect(User.exists?(email: 'guest@example.com')).to eq true
+    end
+  end
+
+  describe 'self.generate_username' do
+    before do
+      10.times do
+        create :user, :no_image, username: User.generate_username
+      end
+    end
+
+    it 'is saved as lower-case' do
+      username = User.generate_username
+      expect(username).to eq username.downcase
+    end
+
+    it 'generates username different from existing usernames' do
+      username = User.generate_username
+      expect(User.all.pluck(:username)).to_not include username
+    end
+  end
+
+  describe 'self.vary_from_usernames!(tmp_username)' do
+    before do
+      10.times do
+        create :user, :no_image, username: User.generate_username
+      end
+    end
+
+    it 'is saved as lower-case' do
+      tmp_username = User.all.sample.username
+      username = User.vary_from_usernames!(tmp_username)
+      expect(username).to eq username.downcase
+    end
+
+    it 'makes tmp_username different from existing usernames' do
+      tmp_username = User.all.sample.username
+      username = User.vary_from_usernames!(tmp_username)
+      expect(username).to_not eq tmp_username
+      expect(User.all.pluck(:username)).to_not include username
     end
   end
 end

@@ -1,33 +1,40 @@
 <% provide(:title, 'レシピ編集') %>
 
-<%= render 'layouts/hero', hero_title: 'レシピ編集' %>
-
 <%= render 'shared/error_messages', model: @recipe %>
+
+<%= render 'layouts/hero', hero_title: 'レシピ編集' %>
 
 <section class="section">
   <div class="container">
     <%= form_with model: @recipe do |f| %>
       <div class="columns is-centered">
         <div class="column is-6">
-          <%= f.label :recipe_image do %>
-            <%= f.file_field :recipe_image, class: 'is-hidden', required: true, accept: 'image/jpg, image/jpeg, image/png, image/webp' %>
-            <figure class="image is-4by3 cursor-pointer" id="file-cta">
-              <%= image_tag @recipe.recipe_image.url(:thumb) %>
-            </figure>
-            <img class="cursor-pointer" id="file-preview">
-          <% end %>
+          <div class="mb-5">
+            <p class='help has-text-dark'>2MB以下でjpgまたはjpeg、png、webp形式のファイルをアップロードすることができます。</p>
+          </div>
+          <div class="file is-centered">
+            <%= f.label :recipe_image do %>
+              <%= f.file_field :recipe_image, class: 'is-hidden', required: true, accept: 'image/jpg, image/jpeg, image/png, image/webp' %>
+              <figure class="image cursor-pointer border_red_with_errors" id="file-cta">
+                <%= image_tag @recipe.recipe_image.url(:thumb), class: 'is-400x400' %>
+              </figure>
+              <img class="is-hidden is-400x400 cursor-pointer" id="file-preview">
+            <% end %>
+          </div>
           <%= render 'devise/shared/full_error_messages', model: @recipe, attribute: :recipe_image %>
         </div>
         <div class="column is-6">
           <div class="field">
-            <%= f.label :title, 'タイトル', class: 'label' %>
+            <%= f.label :title, class: 'label' %>
             <%= f.text_field :title, required: true, class: 'input' %>
+            <%= render 'devise/shared/full_error_messages', model: @recipe, attribute: :title %>
           </div>
           <div class="field">
-            <%= f.label :body, '作り方', class: 'label' %>
+            <%= f.label :body, class: 'label' %>
             <%= f.text_area :body, required: true, class: 'textarea has-fixed-size' %>
+            <%= render 'devise/shared/full_error_messages', model: @recipe, attribute: :body %>
           </div>
-          <%= f.submit 'レシピを更新', class: 'button is-rounded is-success', id: 'update_recipe', disabled: true %>
+          <%= f.submit '更新', class: 'button is-rounded is-success', id: 'update_recipe', disabled: true %>
         </div>
       </div>
     <% end %>

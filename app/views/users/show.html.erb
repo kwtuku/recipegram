@@ -1,6 +1,6 @@
-<% provide(:title, "#{@user.username}さんの詳細") if controller.action_name == 'show' %>
-<% provide(:title, "#{@user.username}さんがコメントしたレシピ") if controller.action_name == 'comments' %>
-<% provide(:title, "#{@user.username}さんがいいねしたレシピ") if controller.action_name == 'favorites' %>
+<% provide(:title, "#{@user.nickname}さんの詳細") if controller.action_name == 'show' %>
+<% provide(:title, "#{@user.nickname}さんがコメントしたレシピ") if controller.action_name == 'comments' %>
+<% provide(:title, "#{@user.nickname}さんがいいねしたレシピ") if controller.action_name == 'favorites' %>
 
 <section class="section">
   <div class="container">
@@ -17,11 +17,12 @@
               <p class="image is-128x128"><%= image_tag @user.user_image.url(:thumb), class: 'is-rounded' %></p>
             </div>
             <div class="content">
-              <p class="title"><%= @user.username %></p>
+              <p class="title mb-0"><%= @user.nickname %></p>
+              <p class="has-text-grey-light">@<%= @user.username %></p>
             </div>
             <div class="content">
               <% if @user == current_user %>
-                <%= link_to 'プロフィールを編集', edit_user_path(@user), class: 'button is-rounded' %>
+                <%= link_to 'プロフィールを編集', edit_users_path, class: 'button is-rounded' %>
               <% else %>
                 <%= render 'shared/follow_button', user: @user, size: 'is-normal' %>
               <% end %>
@@ -78,11 +79,11 @@
                 <div class="media-content text-break">
                   <% if @followers_you_follow.size >= 3 %>
                     <p class="has-text-grey-light">
-                      <%= "#{@followers_you_follow.map(&:username).first(2).join('さん、')}さん、他#{@followers_you_follow.size - 2}人にフォローされています" %>
+                      <%= "#{@followers_you_follow.map(&:nickname).first(2).join('さん、')}さん、他#{@followers_you_follow.size - 2}人にフォローされています" %>
                     </p>
                   <% else %>
                     <p class="has-text-grey-light">
-                      <%= "#{@followers_you_follow.map(&:username).join('さん、')}さんにフォローされています" %>
+                      <%= "#{@followers_you_follow.map(&:nickname).join('さん、')}さんにフォローされています" %>
                     </p>
                   <% end %>
                 </div>

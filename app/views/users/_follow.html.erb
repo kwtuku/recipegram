@@ -12,9 +12,10 @@
     </p>
   </figure>
   <div class="media-content">
-    <p class="is-size-4 mb-3 is-1-line"><span><%= link_to user.username, user_path(user), class: 'has-text-black-bis text-break hover-underline' %></span></p>
+    <p class="is-size-4 is-1-line"><span><%= link_to user.nickname, user_path(user), title: user.nickname, class: 'has-text-black-bis text-break hover-underline' %></span></p>
+    <p class="has-text-grey-light">@<%= user.username %></p>
     <% if user.following?(current_user) %>
-      <span class="tag is-info is-light mb-3">フォローされています</span>
+      <span class="tag is-info is-light">フォローされています</span>
     <% end %>
     <p class="text-break is-3-lines"><span><%= user.profile %></span></p>
   </div>

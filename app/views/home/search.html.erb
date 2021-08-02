@@ -47,11 +47,11 @@
                   </span>
                 <% end %>
               </li>
-              <li class="<%= 'is-active' if @source == 'user_username' %>">
-                <%= link_to search_path(q: @q_value, source: 'user_username'), class: 'has-text-weight-bold' do %>
-                  <span>ユーザー名</span>
-                  <span class="tag is-rounded ml-2 rspec_user_username_results_size <%= 'is-grey' if @user_username_results_size != 0 %>">
-                    <%= @user_username_results_size %>
+              <li class="<%= 'is-active' if @source == 'user_nickname' %>">
+                <%= link_to search_path(q: @q_value, source: 'user_nickname'), class: 'has-text-weight-bold' do %>
+                  <span>ニックネーム</span>
+                  <span class="tag is-rounded ml-2 rspec_user_nickname_results_size <%= 'is-grey' if @user_nickname_results_size != 0 %>">
+                    <%= @user_nickname_results_size %>
                   </span>
                 <% end %>
               </li>
@@ -88,11 +88,11 @@
                   </span>
                 <% end %>
               </li>
-              <li class="<%= 'is-active' if @source == 'user_username' %>">
-                <%= link_to search_path(q: @q_value, source: 'user_username'), class: 'has-text-weight-bold px-4 py-3' do %>
-                  <span>ユーザー名</span>
-                  <span class="tag is-rounded float-right menu-tag rspec_user_username_results_size <%= 'is-grey' if @user_username_results_size != 0 %>">
-                    <%= @user_username_results_size %>
+              <li class="<%= 'is-active' if @source == 'user_nickname' %>">
+                <%= link_to search_path(q: @q_value, source: 'user_nickname'), class: 'has-text-weight-bold px-4 py-3' do %>
+                  <span>ニックネーム</span>
+                  <span class="tag is-rounded float-right menu-tag rspec_user_nickname_results_size <%= 'is-grey' if @user_nickname_results_size != 0 %>">
+                    <%= @user_nickname_results_size %>
                   </span>
                 <% end %>
               </li>
@@ -158,9 +158,9 @@
           </div>
         <% end %>
 
-        <% if @source == 'user_username' || @source == 'user_profile' %>
+        <% if @source == 'user_nickname' || @source == 'user_profile' %>
           <div class="column is-9">
-            <% if @user_username_results.exists? || @user_profile_results.exists? %>
+            <% if @user_nickname_results.exists? || @user_profile_results.exists? %>
               <nav class="level is-mobile">
                 <div class="level-left">
                   <div class="level-item">「<%= @q_value %>」の検索結果</div>
@@ -190,10 +190,10 @@
                 </div>
               </nav>
             <% end %>
-            <% if @source == 'user_username' && @user_username_results.exists? %>
-              <div class="rspec_user_username_results">
-                <%= render partial: 'user_result', collection: @user_username_results, as: 'user' %>
-                <%= paginate @user_username_results, window: 2, outer_window: 1 %>
+            <% if @source == 'user_nickname' && @user_nickname_results.exists? %>
+              <div class="rspec_user_nickname_results">
+                <%= render partial: 'user_result', collection: @user_nickname_results, as: 'user' %>
+                <%= paginate @user_nickname_results, window: 2, outer_window: 1 %>
               </div>
             <% elsif @source == 'user_profile' && @user_profile_results.exists? %>
               <div class="rspec_user_profile_results">
@@ -201,7 +201,7 @@
                 <%= paginate @user_profile_results, window: 2, outer_window: 1 %>
               </div>
             <% else %>
-              <div class="<%= 'rspec_user_username_results' if @source == 'user_username' %> <%= 'rspec_user_profile_results' if @source == 'user_profile' %>">
+              <div class="<%= 'rspec_user_nickname_results' if @source == 'user_nickname' %> <%= 'rspec_user_profile_results' if @source == 'user_profile' %>">
                 <p class="has-text-centered-touch text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
               </div>
             <% end %>

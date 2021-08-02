@@ -3,6 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
 
+  before_save { self.username = username.downcase }
   before_destroy :remove_image
 
   has_many :comments, dependent: :destroy
@@ -10,8 +11,8 @@ class User < ApplicationRecord
   has_many :notifications, foreign_key: :receiver_id, dependent: :destroy
   has_many :recipes, dependent: :destroy
 
-  has_many :relationships
-  has_many :reverse_of_relationships, class_name: 'Relationship', foreign_key: 'follow_id'
+  has_many :relationships, dependent: :destroy
+  has_many :reverse_of_relationships, class_name: 'Relationship', foreign_key: 'follow_id', dependent: :destroy
 
   has_many :followings, through: :relationships, source: :follow
   has_many :followers, through: :reverse_of_relationships, source: :user
@@ -34,7 +35,24 @@ class User < ApplicationRecord
     Arel.sql(query)
   end
 
-  validates :username, presence: true
+  validates :nickname, presence: true
+  RESERVED_WORDS = %w(
+    sign_in
+    sign_out
+    password
+    cancel
+    sign_up
+    edit
+    guest_sign_in
+  )
+  USERNAME_MAX_LENGTH = 15
+  VALID_USERNAME_REGEX = /\A[a-zA-Z0-9[-][_]]+\z/
+  validates :username,
+            exclusion: { in: RESERVED_WORDS },
+            format: { with: VALID_USERNAME_REGEX },
+            length: { in: 1..USERNAME_MAX_LENGTH },
+            presence: true,
+            uniqueness: { case_sensitive: false }
 
   def already_favored?(recipe)
     self.favorites.exists?(recipe_id: recipe.id)
@@ -58,7 +76,8 @@ class User < ApplicationRecord
   def self.guest
     find_or_create_by!(email: 'guest@example.com') do |user|
       user.password = SecureRandom.urlsafe_base64
-      user.username = "ゲスト"
+      user.username = 'guest'
+      user.nickname = 'ゲスト'
     end
   end
 
@@ -82,9 +101,26 @@ class User < ApplicationRecord
     User.all - [self] - self.followings
   end
 
+  def self.generate_username
+    tmp_username = SecureRandom.urlsafe_base64(11).downcase
+    username = User.vary_from_usernames!(tmp_username)
+  end
+
+  def self.vary_from_usernames!(tmp_username)
+    username = tmp_username
+    while User.exists?(username: username)
+      username = SecureRandom.urlsafe_base64(11).downcase
+    end
+    username
+  end
+
+  def to_param
+    username
+  end
+
   private
     def self.ransackable_attributes(auth_object = nil)
-      %w(username profile followers_count followings_count recipes_count)
+      %w(nickname profile followers_count followings_count recipes_count)
     end
 
     def remove_image

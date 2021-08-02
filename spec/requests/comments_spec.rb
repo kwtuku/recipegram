@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'Comments', type: :request do
   describe 'POST /recipes/:recipe_id/comments' do
-    let(:alice) { create :user }
-    let(:alice_recipe) { create :recipe, user: alice }
+    let(:alice) { create :user, :no_image }
+    let(:alice_recipe) { create :recipe, :no_image, user: alice }
 
     context 'not signed in' do
       it 'redirect_to new_user_session_path' do
@@ -28,9 +28,9 @@ RSpec.describe 'Comments', type: :request do
   end
 
   describe 'DELETE /recipes/:recipe_id/comments/:id' do
-    let(:alice) { create :user }
-    let(:bob) { create :user }
-    let(:alice_recipe) { create :recipe, user: alice }
+    let(:alice) { create :user, :no_image }
+    let(:bob) { create :user, :no_image }
+    let(:alice_recipe) { create :recipe, :no_image, user: alice }
     let!(:alice_comment) { create :comment, user: alice, recipe: alice_recipe }
 
     context 'not signed in' do

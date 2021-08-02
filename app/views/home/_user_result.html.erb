@@ -8,9 +8,10 @@
       <% end %>
     </div>
     <div class="media-content text-break">
-      <p class="is-size-4 mb-3 is-1-line">
-        <span><%= link_to user.username, user_path(user), class: 'has-text-black-bis hover-underline' %></span>
+      <p class="is-size-4 is-1-line">
+        <span><%= link_to user.nickname, user_path(user), title: user.nickname, class: 'has-text-black-bis hover-underline' %></span>
       </p>
+      <p class="has-text-grey-light mb-3">@<%= user.username %></p>
       <p class="is-3-lines mb-3">
         <span><%= user.profile %></span>
       </p>
