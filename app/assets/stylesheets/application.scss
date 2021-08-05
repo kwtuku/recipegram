@@ -267,3 +267,10 @@ html {
 .w-one-thirds {
   width: 33.333333%;
 }
+
+@media screen and (min-width: 769px) {
+  .modal-content,
+  .modal-card {
+    width: 530px !important;
+  }
+}
