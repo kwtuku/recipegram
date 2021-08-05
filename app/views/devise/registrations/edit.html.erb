@@ -28,7 +28,7 @@
           </div>
           <div class="field is-grouped password-area">
             <div class="control is-expanded">
-              <%= f.password_field :password, autocomplete: 'new-password', minlength: @minimum_password_length, maxlength: '30', class: 'input' %>
+              <%= f.password_field :password, autocomplete: 'new-password', minlength: @minimum_password_length, maxlength: '128', class: 'input' %>
             </div>
             <p class="control password-mask">
               <button class="button" title="パスワードを表示する" onclick="return false;">
@@ -47,7 +47,7 @@
           </div>
           <div class="field is-grouped password-area">
             <div class="control is-expanded">
-              <%= f.password_field :password_confirmation, autocomplete: 'new-password', minlength: @minimum_password_length, maxlength: '30', class: 'input' %>
+              <%= f.password_field :password_confirmation, autocomplete: 'new-password', minlength: @minimum_password_length, maxlength: '128', class: 'input' %>
             </div>
             <p class="control password-mask">
               <button class="button" title="パスワードを表示する" onclick="return false;">
@@ -67,7 +67,7 @@
           </div>
           <div class="field is-grouped password-area">
             <div class="control is-expanded">
-              <%= f.password_field :current_password, autocomplete: 'current-password', required: true, minlength: @minimum_password_length, maxlength: '30', class: 'input' %>
+              <%= f.password_field :current_password, autocomplete: 'current-password', required: true, minlength: @minimum_password_length, maxlength: '128', class: 'input' %>
             </div>
             <p class="control password-mask">
               <button class="button" title="パスワードを表示する" onclick="return false;">
