@@ -91,11 +91,9 @@ module ApplicationHelper
 
   def show_some_lines_depends_on(other_recipes)
     if other_recipes.blank?
-      'is-13-lines'
-    elsif other_recipes.size >= 4
-      'is-2-lines'
+      'is-12-lines'
     else
-      'is-6-lines'
+      'is-4-lines'
     end
   end
 
