@@ -108,4 +108,10 @@ module ApplicationHelper
       'おすすめ'
     end
   end
+
+  def feed_description(feed)
+    if feed.user != current_user && !current_user.following?(feed.user)
+      'おすすめ'
+    end
+  end
 end

@@ -84,7 +84,15 @@ class User < ApplicationRecord
   end
 
   def feed
-    Recipe.where("user_id IN (?) OR user_id = ?", following_ids, id)
+    Recipe.where("user_id IN (?) OR user_id = ?", following_ids, id).order(updated_at: :DESC)
+  end
+
+  def recommended_recipes
+    Recipe.all.shuffle - feed
+  end
+
+  def home_recipes
+    feed + recommended_recipes
   end
 
   def recipes_favorites_count

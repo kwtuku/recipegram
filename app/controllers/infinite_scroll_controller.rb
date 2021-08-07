@@ -38,7 +38,7 @@ class InfiniteScrollController < ApplicationController
       last = first + 19
       file_path = 'home/feed'
       local_value = 'feed'
-      added_items = current_user.feed.order(updated_at: :DESC)[first..last]
+      added_items = current_user.home_recipes[first..last]
     end
 
     @file_path = file_path
