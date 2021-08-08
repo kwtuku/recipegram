@@ -7,8 +7,9 @@ export default () => {
     const recipeBody = document.getElementById('recipe_body');
 
     const createRecipe = document.getElementById('create_recipe');
+    const updateRecipe = document.getElementById('update_recipe');
 
-    if (createRecipe) {
+    if (createRecipe || updateRecipe) {
       const countRecipeTitleCharacters = document.getElementById('count-recipe-title-characters');
       const countRecipeBodyCharacters = document.getElementById('count-recipe-body-characters');
       inputs.forEach(input => {
