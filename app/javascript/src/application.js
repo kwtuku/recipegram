@@ -27,3 +27,6 @@ removePasswordMask();
 
 import imagePreview from './imagePreview'
 imagePreview();
+
+import countCharacters from './countCharacters'
+countCharacters();
