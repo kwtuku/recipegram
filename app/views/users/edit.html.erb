@@ -39,16 +39,22 @@
           <div class="field">
             <%= f.label :nickname, class: 'label' %>
             <div class="control">
-              <%= f.text_field :nickname, required: true, maxlength: '30', class: 'input' %>
+              <%= f.text_field :nickname, required: true, class: 'input' %>
             </div>
+            <p class="help has-text-right">
+              <span class="<%= 'has-text-danger' if @user.errors[:nickname].any? %>" id="count-nickname-characters"><%= @user.nickname.size.presence || 0 %></span>/30字
+            </p>
             <%= render "devise/shared/full_error_messages", model: @user, attribute: :nickname %>
           </div>
 
           <div class="field">
             <%= f.label :profile, class: 'label' %>
             <div class="control">
-              <%= f.text_area :profile, maxlength: '500', class: 'textarea has-fixed-size' %>
+              <%= f.text_area :profile, class: 'textarea has-fixed-size' %>
             </div>
+            <p class="help has-text-right">
+              <span class="<%= 'has-text-danger' if @user.errors[:profile].any? %>" id="count-profile-characters"><%= @user.profile.size.presence || 0 %></span>/500字
+            </p>
             <%= render "devise/shared/full_error_messages", model: @user, attribute: :profile %>
           </div>
 
