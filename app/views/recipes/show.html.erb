@@ -99,7 +99,7 @@
             <div class="mb-5">
               <div class="oldest-comment">
                 <% if @comments.size > 0 %>
-                  <%= render 'comment', comment: @comments.first %>
+                  <%= render 'recipes/comment', comment: @comments.first %>
                   <% if @comments.size > 1 %>
                     <div class="has-text-centered" id="readmore">
                       <div class="button is-rounded"><%= @comments.size %>件のコメントをすべて見る</div>
@@ -108,13 +108,14 @@
                 <% end %>
               </div>
               <div class="all-comments is-hidden">
-                <%= render partial: 'comment', collection: @comments %>
+                <%= render partial: 'recipes/comment', collection: @comments %>
                 <div class="has-text-centered" id="readless"><div class="button is-rounded">閉じる</div></div>
               </div>
             </div>
             <%= form_with model: [@recipe, @comment] do |f| %>
               <div class="field">
                 <%= f.text_area :body, placeholder: 'コメントする', required: true, maxlength: '500', class: 'textarea has-fixed-size' %>
+                <%= render 'devise/shared/full_error_messages', model: @comment, attribute: :body %>
               </div>
               <%= f.submit 'コメントを投稿', class: 'button is-primary is-rounded', id: 'create_comment', disabled: true %>
             <% end %>
@@ -124,14 +125,14 @@
 
       <div class="column is-4 is-hidden-touch">
         <div class="sticky">
-          <%= render 'user_card', user: @recipe.user %>
+          <%= render 'recipes/user_card', user: @recipe.user %>
           <% unless @other_recipes.blank? %>
             <div class="card mt-4">
               <div class="card-content px-5 py-3">
                 <p>他の投稿</p>
               </div>
               <div class="columns is-multiline is-gapless">
-                <%= render partial: 'other_recipe', collection: @other_recipes, as: 'recipe' %>
+                <%= render partial: 'recipes/other_recipe', collection: @other_recipes, as: 'recipe' %>
               </div>
             </div>
           <% end %>
