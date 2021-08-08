@@ -114,7 +114,10 @@
             </div>
             <%= form_with model: [@recipe, @comment] do |f| %>
               <div class="field">
-                <%= f.text_area :body, placeholder: 'コメントする', required: true, maxlength: '500', class: 'textarea has-fixed-size' %>
+                <%= f.text_area :body, placeholder: 'コメントする', required: true, class: 'textarea has-fixed-size' %>
+                <p class="help has-text-right">
+                  <span class="<%= 'has-text-danger' if @comment.errors[:body].any? %>" id="count-comment-body-characters"><%= @comment.body&.size.presence || 0 %></span>/500字
+                </p>
                 <%= render 'devise/shared/full_error_messages', model: @comment, attribute: :body %>
               </div>
               <%= f.submit 'コメントを投稿', class: 'button is-primary is-rounded', id: 'create_comment', disabled: true %>
