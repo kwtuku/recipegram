@@ -84,7 +84,7 @@ export default () => {
         });
       });
       textarea.addEventListener('input', () => {
-        if (username.value.trim() && nickname.value.trim() && textarea.value.trim()) {
+        if (username.value.trim() && nickname.value.trim()) {
           updateUser.disabled = false;
         }
       });
