@@ -26,17 +26,6 @@
 
         <div class="column is-6">
           <div class="field">
-            <%= f.label :username, class: 'label mb-0' %>
-            <p class='help has-text-dark'>15字以内の半角英数-（ハイフン）_（アンダースコア）</p>
-          </div>
-          <div class="field">
-            <div class="control">
-              <%= f.text_field :username, required: true, maxlength: '15', class: 'input' %>
-            </div>
-            <%= render "devise/shared/full_error_messages", model: @user, attribute: :username %>
-          </div>
-
-          <div class="field">
             <%= f.label :nickname, class: 'label' %>
             <div class="control">
               <%= f.text_field :nickname, required: true, class: 'input' %>
