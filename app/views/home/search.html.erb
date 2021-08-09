@@ -116,7 +116,7 @@
                   <div class="level-item">「<%= @q_value %>」の検索結果</div>
                 </div>
                 <div class="level-right">
-                  <div class="level-item dropdown">
+                  <div class="level-item dropdown is-right">
                     <div class="dropdown-trigger">
                       <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
                         <span><%= selected_recipe_sort_order %></span>
@@ -127,13 +127,12 @@
                     </div>
                     <div class="dropdown-menu" id="dropdown-menu" role="menu">
                       <div class="dropdown-content">
-                        <%= link_to 'デフォルト', search_path(q: @q_value, source: @source), class: "dropdown-item #{'is-active' if request.query_parameters[:sort].nil? && request.query_parameters[:order].nil?}" %>
-                        <%= link_to '更新日が古い順', search_path(q: @q_value, source: @source, sort: 'updated_at', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'updated_at' && request.query_parameters[:order] == 'asc'}" %>
                         <%= link_to '更新日が新しい順', search_path(q: @q_value, source: @source, sort: 'updated_at', order: 'desc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'updated_at' && request.query_parameters[:order] == 'desc'}" %>
-                        <%= link_to 'いいねが少ない順', search_path(q: @q_value, source: @source, sort: 'favorites_count', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'favorites_count' && request.query_parameters[:order] == 'asc'}" %>
+                        <%= link_to '更新日が古い順', search_path(q: @q_value, source: @source, sort: 'updated_at', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'updated_at' && request.query_parameters[:order] == 'asc'}" %>
                         <%= link_to 'いいねが多い順', search_path(q: @q_value, source: @source, sort: 'favorites_count', order: 'desc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'favorites_count' && request.query_parameters[:order] == 'desc'}" %>
-                        <%= link_to 'コメントが少ない順', search_path(q: @q_value, source: @source, sort: 'comments_count', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'comments_count' && request.query_parameters[:order] == 'asc'}" %>
+                        <%= link_to 'いいねが少ない順', search_path(q: @q_value, source: @source, sort: 'favorites_count', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'favorites_count' && request.query_parameters[:order] == 'asc'}" %>
                         <%= link_to 'コメントが多い順', search_path(q: @q_value, source: @source, sort: 'comments_count', order: 'desc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'comments_count' && request.query_parameters[:order] == 'desc'}" %>
+                        <%= link_to 'コメントが少ない順', search_path(q: @q_value, source: @source, sort: 'comments_count', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'comments_count' && request.query_parameters[:order] == 'asc'}" %>
                       </div>
                     </div>
                   </div>
@@ -166,7 +165,7 @@
                   <div class="level-item">「<%= @q_value %>」の検索結果</div>
                 </div>
                 <div class="level-right">
-                  <div class="level-item dropdown">
+                  <div class="level-item dropdown is-right">
                     <div class="dropdown-trigger">
                       <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
                         <span><%= selected_user_sort_order %></span>
@@ -177,13 +176,12 @@
                     </div>
                     <div class="dropdown-menu" id="dropdown-menu" role="menu">
                       <div class="dropdown-content">
-                        <%= link_to 'デフォルト', search_path(q: @q_value, source: @source), class: "dropdown-item #{'is-active' if request.query_parameters[:sort].nil? && request.query_parameters[:order].nil?}" %>
-                        <%= link_to '投稿が少ない順', search_path(q: @q_value, source: @source, sort: 'recipes_count', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'recipes_count' && request.query_parameters[:order] == 'asc'}" %>
                         <%= link_to '投稿が多い順', search_path(q: @q_value, source: @source, sort: 'recipes_count', order: 'desc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'recipes_count' && request.query_parameters[:order] == 'desc'}" %>
-                        <%= link_to 'フォロワーが少ない順', search_path(q: @q_value, source: @source, sort: 'followers_count', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'followers_count' && request.query_parameters[:order] == 'asc'}" %>
+                        <%= link_to '投稿が少ない順', search_path(q: @q_value, source: @source, sort: 'recipes_count', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'recipes_count' && request.query_parameters[:order] == 'asc'}" %>
                         <%= link_to 'フォロワーが多い順', search_path(q: @q_value, source: @source, sort: 'followers_count', order: 'desc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'followers_count' && request.query_parameters[:order] == 'desc'}" %>
-                        <%= link_to 'フォロー中が少ない順', search_path(q: @q_value, source: @source, sort: 'followings_count', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'followings_count' && request.query_parameters[:order] == 'asc'}" %>
+                        <%= link_to 'フォロワーが少ない順', search_path(q: @q_value, source: @source, sort: 'followers_count', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'followers_count' && request.query_parameters[:order] == 'asc'}" %>
                         <%= link_to 'フォロー中が多い順', search_path(q: @q_value, source: @source, sort: 'followings_count', order: 'desc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'followings_count' && request.query_parameters[:order] == 'desc'}" %>
+                        <%= link_to 'フォロー中が少ない順', search_path(q: @q_value, source: @source, sort: 'followings_count', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'followings_count' && request.query_parameters[:order] == 'asc'}" %>
                       </div>
                     </div>
                   </div>
