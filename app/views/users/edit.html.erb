@@ -26,21 +26,13 @@
 
         <div class="column is-6">
           <div class="field">
-            <%= f.label :username, class: 'label mb-0' %>
-            <p class='help has-text-dark'>15字以内の半角英数-（ハイフン）_（アンダースコア）</p>
-          </div>
-          <div class="field">
-            <div class="control">
-              <%= f.text_field :username, required: true, maxlength: '15', class: 'input' %>
-            </div>
-            <%= render "devise/shared/full_error_messages", model: @user, attribute: :username %>
-          </div>
-
-          <div class="field">
             <%= f.label :nickname, class: 'label' %>
             <div class="control">
               <%= f.text_field :nickname, required: true, class: 'input' %>
             </div>
+            <p class="help has-text-right">
+              <span class="<%= 'has-text-danger' if @user.errors[:nickname].any? %>" id="count-nickname-characters"><%= @user.nickname.size.presence || 0 %></span>/30字
+            </p>
             <%= render "devise/shared/full_error_messages", model: @user, attribute: :nickname %>
           </div>
 
@@ -49,6 +41,9 @@
             <div class="control">
               <%= f.text_area :profile, class: 'textarea has-fixed-size' %>
             </div>
+            <p class="help has-text-right">
+              <span class="<%= 'has-text-danger' if @user.errors[:profile].any? %>" id="count-profile-characters"><%= @user.profile.size.presence || 0 %></span>/500字
+            </p>
             <%= render "devise/shared/full_error_messages", model: @user, attribute: :profile %>
           </div>
 

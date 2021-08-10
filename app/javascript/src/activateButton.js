@@ -52,7 +52,7 @@ export default () => {
     if (updateAccount) {
       inputs.forEach(input => {
         input.addEventListener('input', () => {
-          if (email.value.trim() && currentPassword.value.trim().length >= 6) {
+          if (username.value.trim() && email.value.trim() && currentPassword.value.trim().length >= 6) {
             updateAccount.disabled = false;
           } else {
             updateAccount.disabled = true;
@@ -76,7 +76,7 @@ export default () => {
     if (updateUser) {
       inputs.forEach(input => {
         input.addEventListener('input', () => {
-          if (username.value.trim() && nickname.value.trim()) {
+          if (nickname.value.trim()) {
             updateUser.disabled = false;
           } else {
             updateUser.disabled = true;
@@ -84,7 +84,7 @@ export default () => {
         });
       });
       textarea.addEventListener('input', () => {
-        if (username.value.trim() && nickname.value.trim() && textarea.value.trim()) {
+        if (nickname.value.trim()) {
           updateUser.disabled = false;
         }
       });

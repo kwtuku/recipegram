@@ -17,11 +17,9 @@ class Recipe < ApplicationRecord
     Arel.sql(query)
   end
 
-  with_options presence: true do
-    validates :title
-    validates :body
-    validates :recipe_image
-  end
+  validates :title, length: { maximum: 30 }, presence: true
+  validates :body, length: { maximum: 2000 }, presence: true
+  validates :recipe_image, presence: true
 
   def others(count)
     others = Recipe.eager_load(:favorites, :comments).where(user_id: self.user_id).order(id: :DESC) - [self]

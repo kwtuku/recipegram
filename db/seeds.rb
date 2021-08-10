@@ -3,32 +3,34 @@ Faker::Config.locale = :en
 def create_characteristic_user_recipe_comment
   common_password = 'fffffr'
 
-  User.create!(
-    username:              "l#{'o'*12}ng",
-    nickname:              "very_l#{'o'*100}ng_word",
+  user = User.create!(
+    username:              "l#{'o'*9}ng",
+    nickname:              "very_l#{'o'*17}ng_word",
     email:                 'long@example.com',
     password:              common_password,
     password_confirmation: common_password,
-    profile:               "very_l#{'o'*500}ng_word",
+    profile:               "very_l#{'o'*487}ng_word",
     user_image:            File.open("./db/fixtures/user/user_sample_#{rand(1..15)}.jpg"),
   )
+  puts 'ユーザーを作成完了'
 
-  user = User.find_by(email: 'long@example.com')
-  user.recipes.create!(
-    title:        "very_l#{'o'*100}ng_word",
-    body:         "very_l#{'o'*900}ng_word",
-    recipe_image: File.open("./db/fixtures/recipe/recipe_sample_#{rand(1..15)}.jpg")
+  recipe = user.recipes.create!(
+    title:        "very_l#{'o'*17}ng_word",
+    body:         "very_l#{'o'*1987}ng_word",
+    recipe_image: File.open("./db/fixtures/recipe/recipe_sample_#{rand(1..15)}.jpg"),
   )
+  puts 'レシピを作成完了'
 
-  recipe = Recipe.last
   user.comments.create!(
     recipe_id: recipe.id,
-    body:      "very_l#{'o'*500}ng_word",
+    body:      "very_l#{'o'*487}ng_word",
   )
+  puts 'コメントを作成完了'
 end
 
 def create_user(user_creation_time)
-  creation_time = 0
+  puts "ユーザーを#{user_creation_time}回作成"
+
   common_password = 'fffffr'
 
   user_example_emails = User.all.pluck(:email).grep(/example(.+)@example.com/)
@@ -37,31 +39,21 @@ def create_user(user_creation_time)
   user_creation_time.times do |n|
     nickname  = Faker::Lorem.words(number: rand(1..10)).join(' ')
     email = "example#{last_email_number + n + 1}@example.com"
-    profile = <<~TEXT
-      #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(3..5)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..10)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(5..8)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..10)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(5..10)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(3..8)).join(' ')}
-    TEXT
+    profile = Faker::Lorem.paragraphs(number: rand(1..10)).join(' ')
     user_image = File.open("./db/fixtures/user/user_sample_#{rand(1..15)}.jpg")
 
     User.create!(
       username:              User.generate_username,
-      nickname:              nickname,
+      nickname:              nickname[0..29],
       email:                 email,
       password:              common_password,
       password_confirmation: common_password,
-      profile:               profile,
+      profile:               profile[0..499],
       user_image:            user_image,
     )
 
-    creation_time += 1
-    puts creation_time
+    user_creation_time -= 1
+    puts user_creation_time == 0 ? 'ユーザー作成完了' : "あと#{user_creation_time}回"
   end
 end
 
@@ -78,74 +70,89 @@ def create_relationship(create_relationship_time)
 end
 
 def create_recipe(recipe_creation_time)
-  creation_time = 0
+  puts "レシピを#{recipe_creation_time}回作成"
+
   recipe_creation_time.times do
     recipe_title = Faker::Lorem.words(number: rand(1..10)).join(' ')
     recipe_body = <<~TEXT
       #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(3..5)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
       #{Faker::Lorem.paragraphs(number: rand(1..10)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(5..8)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(1..8)).join(' ')}
       #{Faker::Lorem.paragraphs(number: rand(1..10)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(5..10)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(3..8)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(1..8)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(1..3)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(1..8)).join(' ')}
     TEXT
     recipe_image = File.open("./db/fixtures/recipe/recipe_sample_#{rand(1..15)}.jpg")
 
-    User.all.sample.recipes.create!(title: recipe_title, body: recipe_body, recipe_image: recipe_image)
-    creation_time += 1
-    puts creation_time
+    User.all.sample.recipes.create!(
+      title: recipe_title[0..29],
+      body: recipe_body[0..1999],
+      recipe_image: recipe_image,
+    )
+
+    recipe_creation_time -= 1
+    puts recipe_creation_time == 0 ? 'レシピ作成完了' : "あと#{recipe_creation_time}回"
   end
 end
 
 def create_comment(comment_creation_time)
-  creation_time = 0
+  puts "コメントを#{comment_creation_time}回作成"
+
   comment_creation_time.times do
     comment_body = <<~TEXT
       #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
       #{Faker::Lorem.paragraphs(number: rand(1..10)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(5..8)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(1..3)).join(' ')}
     TEXT
 
-    User.all.sample.comments.create!(body: comment_body, recipe_id: Recipe.all.sample.id)
-    creation_time += 1
-    puts creation_time
+    User.all.sample.comments.create!(
+      recipe_id: Recipe.all.sample.id,
+      body: comment_body[0..499],
+    )
+    comment_creation_time -= 1
+    puts comment_creation_time == 0 ? 'コメント作成完了' : "あと#{comment_creation_time}回"
   end
 end
 
 def create_favorite(favorite_creation_time)
-  creation_time = 0
   favorite_creation_time.times do
     User.all.sample.favorites.find_or_create_by(recipe_id: Recipe.all.sample.id)
-    creation_time += 1
-    puts creation_time
+
+    favorite_creation_time -= 1
+    puts favorite_creation_time == 0 ? 'いいね作成完了' : "あと#{favorite_creation_time}回"
   end
 end
 
 def update_recipe(recipe_updating_time)
+  puts "レシピを#{recipe_updating_time}回更新"
+
   recipe_updating_time.times do
     recipe_title = Faker::Lorem.words(number: rand(1..10)).join(' ')
     recipe_body = <<~TEXT
       #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(3..5)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
       #{Faker::Lorem.paragraphs(number: rand(1..10)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(5..8)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(1..8)).join(' ')}
       #{Faker::Lorem.paragraphs(number: rand(1..10)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(5..10)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(3..8)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(1..8)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(1..3)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(1..8)).join(' ')}
     TEXT
 
-    Recipe.all.sample.update!(title: recipe_title, body: recipe_body)
+    target_recipe = Recipe.all.sample
+    target_recipe.update!(
+      title: recipe_title[0..29],
+      body: recipe_body[0..1999],
+    )
+
+    recipe_updating_time -= 1
+    puts "#{target_recipe.id}を更新"
+    puts recipe_updating_time == 0 ? 'レシピ更新完了' : "あと#{recipe_updating_time}回"
   end
 end
 
-def create_notification_for_one_user(notification_creation_time, user_id)
-  creation_time = 0
+def create_notification_of_one_user(notification_creation_time, user_id)
+  puts "#{user_id}の通知を#{notification_creation_time}回作成"
 
   user = User.find(user_id)
   other_user_ids = User.ids - [user.id]
@@ -157,66 +164,89 @@ def create_notification_for_one_user(notification_creation_time, user_id)
 
   notification_creation_time.times do
     other_user = User.find(other_user_ids.sample)
-    user_recipe = user.recipes.sample
-    other_user_recipes = Recipe.all - user.recipes
-    other_user_comments = Comment.all - user.comments
-    other_user_comment = other_user_comments.sample
 
-    other_user_comment.create_comment_notification!(other_user, other_user_comment.id, user_recipe.id)
-    other_user_comment.create_comment_notification!(other_user, other_user_comment.id, other_user_recipes.sample.id)
-    user_recipe.create_favorite_notification!(other_user)
-    user.create_follow_notification!(other_user)
+    comment_body = <<~TEXT
+      #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(1..10)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(1..3)).join(' ')}
+    TEXT
 
-    creation_time += 1
-    puts creation_time
+    other_user_comment = other_user.comments.create(
+      recipe_id: user.recipes.sample.id,
+      body: comment_body,
+    )
+    Notification.create_comment_notification(other_user_comment)
+
+    other_user_favorite = other_user.favorites.find_or_create_by(
+      recipe_id: user.recipes.sample.id,
+    )
+    Notification.create_favorite_notification(other_user_favorite)
+
+    other_user_relationship = other_user.relationships.find_or_create_by(
+      follow_id: user.id,
+    )
+    Notification.create_relationship_notification(other_user_relationship)
+
+    notification_creation_time -= 1
+    puts notification_creation_time == 0 ? '通知作成完了' : "あと#{notification_creation_time}回"
   end
 end
 
-def create_recipe_for_one_user(recipe_creation_time, user_id)
-  creation_time = 0
+def create_recipe_of_one_user(recipe_creation_time, user_id)
+  puts "#{user_id}のレシピを#{recipe_creation_time}回作成"
+
   recipe_creation_time.times do
     recipe_title = Faker::Lorem.words(number: rand(1..10)).join(' ')
     recipe_body = <<~TEXT
       #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(3..5)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
       #{Faker::Lorem.paragraphs(number: rand(1..10)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(5..8)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(1..8)).join(' ')}
       #{Faker::Lorem.paragraphs(number: rand(1..10)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(5..10)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(3..8)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(1..8)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(1..3)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(1..8)).join(' ')}
     TEXT
     recipe_image = File.open("./db/fixtures/recipe/recipe_sample_#{rand(1..15)}.jpg")
 
-    User.find(user_id).recipes.create!(title: recipe_title, body: recipe_body, recipe_image: recipe_image)
-    creation_time += 1
-    puts creation_time
+    User.find(user_id).recipes.create!(
+      title: recipe_title[0..29],
+      body: recipe_body[0..1999],
+      recipe_image: recipe_image,
+    )
+
+    recipe_creation_time -= 1
+    puts recipe_creation_time == 0 ? "#{user_id}のレシピ作成完了" : "あと#{recipe_creation_time}回"
   end
 end
 
-def create_comment_for_one_user(comment_creation_time, user_id)
-  creation_time = 0
+def create_comment_of_one_user(comment_creation_time, user_id)
+  puts "#{user_id}のコメントを#{comment_creation_time}回作成"
+
   comment_creation_time.times do
     comment_body = <<~TEXT
       #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
       #{Faker::Lorem.paragraphs(number: rand(1..10)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(5..8)).join(' ')}
+      #{Faker::Lorem.paragraphs(number: rand(1..3)).join(' ')}
     TEXT
 
-    User.find(user_id).comments.create!(body: comment_body, recipe_id: Recipe.all.sample.id)
-    creation_time += 1
-    puts creation_time
+    User.find(user_id).comments.create!(
+      body: comment_body[0..499],
+      recipe_id: Recipe.all.sample.id,
+    )
+
+    comment_creation_time -= 1
+    puts comment_creation_time == 0 ? "#{user_id}のコメント作成完了" : "あと#{comment_creation_time}回"
   end
 end
 
-def create_favorite_for_one_user(favorite_creation_time, user_id)
-  creation_time = 0
+def create_favorite_of_one_user(favorite_creation_time, user_id)
+  puts "#{user_id}のいいねを#{favorite_creation_time}回作成"
+
   favorite_creation_time.times do
     User.find(user_id).favorites.find_or_create_by(recipe_id: Recipe.all.sample.id)
-    creation_time += 1
-    puts creation_time
+
+    favorite_creation_time -= 1
+    puts favorite_creation_time == 0 ? "#{user_id}のいいね作成完了" : "あと#{favorite_creation_time}回"
   end
 end
 
@@ -227,7 +257,7 @@ create_recipe(time)
 create_comment(time)
 create_favorite(time)
 update_recipe(time)
-create_notification_for_one_user(time, user_id)
-create_recipe_for_one_user(time, user_id)
-create_comment_for_one_user(time, user_id)
-create_favorite_for_one_user(time, user_id)
+create_notification_of_one_user(time, user_id)
+create_recipe_of_one_user(time, user_id)
+create_comment_of_one_user(time, user_id)
+create_favorite_of_one_user(time, user_id)

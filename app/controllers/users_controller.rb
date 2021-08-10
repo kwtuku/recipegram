@@ -14,16 +14,11 @@ class UsersController < ApplicationController
 
   def edit
     @user = current_user
-    if @user != current_user
-      redirect_to user_url(@user), alert: '権限がありません。'
-    end
   end
 
   def update
     @user = current_user
-    if @user != current_user
-      redirect_to user_url(@user), alert: '権限がありません。'
-    elsif user_params[:user_image]
+    if user_params[:user_image]
       tmp_image = @user.user_image
       if @user.update(user_params)
         tmp_image.remove!

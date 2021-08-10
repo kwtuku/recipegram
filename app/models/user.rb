@@ -35,7 +35,6 @@ class User < ApplicationRecord
     Arel.sql(query)
   end
 
-  validates :nickname, presence: true
   RESERVED_WORDS = %w(
     sign_in
     sign_out
@@ -47,6 +46,9 @@ class User < ApplicationRecord
   )
   USERNAME_MAX_LENGTH = 15
   VALID_USERNAME_REGEX = /\A[a-zA-Z0-9[-][_]]+\z/
+
+  validates :nickname, length: { maximum: 30 }, presence: true
+  validates :profile, length: { maximum: 500 }
   validates :username,
             exclusion: { in: RESERVED_WORDS },
             format: { with: VALID_USERNAME_REGEX },
@@ -82,7 +84,15 @@ class User < ApplicationRecord
   end
 
   def feed
-    Recipe.where("user_id IN (?) OR user_id = ?", following_ids, id)
+    Recipe.where("user_id IN (?) OR user_id = ?", following_ids, id).order(updated_at: :DESC)
+  end
+
+  def recommended_recipes
+    Recipe.all.shuffle - feed
+  end
+
+  def home_recipes
+    feed + recommended_recipes
   end
 
   def recipes_favorites_count

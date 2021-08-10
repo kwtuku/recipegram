@@ -20,9 +20,12 @@ ja:
       max_size_error: "を%{max_size}以下のサイズにしてください。"
   activerecord:
     models:
+      comment: コメント
       recipe: レシピ
       user: ユーザー
     attributes:
+      comment:
+        body: コメント
       recipe:
         title: レシピ名
         body: 作り方

@@ -54,48 +54,46 @@ module ApplicationHelper
   end
 
   def selected_recipe_sort_order
-    if request.query_parameters[:sort] == 'updated_at' && request.query_parameters[:order] == 'asc'
+    if request.query_parameters[:sort] == 'updated_at' && request.query_parameters[:order] == 'desc'
+    '更新日が新しい順'
+    elsif request.query_parameters[:sort] == 'updated_at' && request.query_parameters[:order] == 'asc'
       '更新日が古い順'
-    elsif request.query_parameters[:sort] == 'updated_at' && request.query_parameters[:order] == 'desc'
-      '更新日が新しい順'
-    elsif request.query_parameters[:sort] == 'favorites_count' && request.query_parameters[:order] == 'asc'
-      'いいねが少ない順'
     elsif request.query_parameters[:sort] == 'favorites_count' && request.query_parameters[:order] == 'desc'
       'いいねが多い順'
-    elsif request.query_parameters[:sort] == 'comments_count' && request.query_parameters[:order] == 'asc'
-      'コメントが少ない順'
+    elsif request.query_parameters[:sort] == 'favorites_count' && request.query_parameters[:order] == 'asc'
+      'いいねが少ない順'
     elsif request.query_parameters[:sort] == 'comments_count' && request.query_parameters[:order] == 'desc'
       'コメントが多い順'
+    elsif request.query_parameters[:sort] == 'comments_count' && request.query_parameters[:order] == 'asc'
+      'コメントが少ない順'
     else
-      'デフォルト'
+      '並び替え'
     end
   end
 
   def selected_user_sort_order
-    if request.query_parameters[:sort] == 'recipes_count' && request.query_parameters[:order] == 'asc'
+    if request.query_parameters[:sort] == 'recipes_count' && request.query_parameters[:order] == 'desc'
+    '投稿が多い順'
+    elsif request.query_parameters[:sort] == 'recipes_count' && request.query_parameters[:order] == 'asc'
       '投稿が少ない順'
-    elsif request.query_parameters[:sort] == 'recipes_count' && request.query_parameters[:order] == 'desc'
-      '投稿が多い順'
-    elsif request.query_parameters[:sort] == 'followers_count' && request.query_parameters[:order] == 'asc'
-      'フォロワーが少ない順'
     elsif request.query_parameters[:sort] == 'followers_count' && request.query_parameters[:order] == 'desc'
       'フォロワーが多い順'
-    elsif request.query_parameters[:sort] == 'followings_count' && request.query_parameters[:order] == 'asc'
-      'フォロー中が少ない順'
+    elsif request.query_parameters[:sort] == 'followers_count' && request.query_parameters[:order] == 'asc'
+      'フォロワーが少ない順'
     elsif request.query_parameters[:sort] == 'followings_count' && request.query_parameters[:order] == 'desc'
       'フォロー中が多い順'
+    elsif request.query_parameters[:sort] == 'followings_count' && request.query_parameters[:order] == 'asc'
+      'フォロー中が少ない順'
     else
-      'デフォルト'
+      '並び替え'
     end
   end
 
   def show_some_lines_depends_on(other_recipes)
     if other_recipes.blank?
-      'is-13-lines'
-    elsif other_recipes.size >= 4
-      'is-2-lines'
+      'is-12-lines'
     else
-      'is-6-lines'
+      'is-4-lines'
     end
   end
 
@@ -107,6 +105,12 @@ module ApplicationHelper
     elsif user.following?(current_user)
       'あなたをフォローしています'
     else
+      'おすすめ'
+    end
+  end
+
+  def feed_description(feed)
+    if feed.user != current_user && !current_user.following?(feed.user)
       'おすすめ'
     end
   end

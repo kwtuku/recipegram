@@ -4,7 +4,7 @@ RSpec.describe 'Users', type: :system do
   describe 'sign up' do
     let(:alice) { build :user }
 
-    it 'valid sign up', js: true do
+    it 'signs up with valid information', js: true do
       visit root_path
       click_link '新規登録'
       expect(current_path).to eq new_user_registration_path
@@ -18,7 +18,7 @@ RSpec.describe 'Users', type: :system do
       expect(page).to have_content 'アカウント登録が完了しました。'
     end
 
-    it 'can generate username', js: true do
+    it 'generates valid username', js: true do
       visit root_path
       click_link '新規登録'
       expect(page).to have_field 'user[username]', with: ''
@@ -35,7 +35,7 @@ RSpec.describe 'Users', type: :system do
   describe 'sign in' do
     let(:alice) { create :user }
 
-    it 'valid sign in', js: true do
+    it 'signs in with valid information', js: true do
       visit root_path
       within '.container' do
         click_link 'ログイン'
@@ -47,18 +47,31 @@ RSpec.describe 'Users', type: :system do
       click_button 'signin'
       expect(page).to have_content 'ログインしました。'
     end
+
+    it 'signs in as guest' do
+      visit root_path
+      click_link 'ゲストユーザーとしてログイン'
+      expect(page).to have_content 'ゲストユーザーとしてログインしました。'
+    end
   end
 
-  it 'guest sign in' do
-    visit root_path
-    click_link 'ゲストユーザーとしてログイン'
-    expect(page).to have_content 'ゲストユーザーとしてログインしました。'
-  end
+  describe 'updates account' do
+    let(:alice) { create :user, username: 'before', email: 'before@example.com' }
 
-  describe 'edit account' do
-    let(:alice) { create :user, email: 'before@example.com' }
+    it 'updates username', js: true do
+      sign_in alice
+      find('.rspec_header_dropdown_trigger').click
+      click_link 'アカウント編集'
+      expect(current_path).to eq edit_user_registration_path
+      expect(page).to have_button 'update_account', disabled: true
+      fill_in 'user[username]', with: 'after'
+      fill_in 'user[current_password]', with: alice.password
+      click_button 'update_account'
+      expect(alice.reload.username).to eq 'after'
+      expect(page).to have_content 'アカウント情報を変更しました。'
+    end
 
-    it 'edit email', js: true do
+    it 'updates email', js: true do
       sign_in alice
       find('.rspec_header_dropdown_trigger').click
       click_link 'アカウント編集'
@@ -72,10 +85,10 @@ RSpec.describe 'Users', type: :system do
     end
   end
 
-  describe 'edit user' do
+  describe 'updates user' do
     let(:alice) { create :user, nickname: 'alice', profile: "I'm alice." }
 
-    it 'edit nickname', js: true do
+    it 'updates nickname', js: true do
       sign_in alice
       find('.rspec_header_dropdown_trigger').click
       click_link 'マイページ'
@@ -88,7 +101,7 @@ RSpec.describe 'Users', type: :system do
       expect(page).to have_content 'プロフィールを変更しました。'
     end
 
-    it 'edit profile', js: true do
+    it 'updates profile', js: true do
       sign_in alice
       find('.rspec_header_dropdown_trigger').click
       click_link 'マイページ'
@@ -101,7 +114,7 @@ RSpec.describe 'Users', type: :system do
       expect(page).to have_content 'プロフィールを変更しました。'
     end
 
-    it 'edit user_image', js: true do
+    it 'updates user_image', js: true do
       sign_in alice
       before_image_public_id = alice.user_image.public_id
       find('.rspec_header_dropdown_trigger').click
