@@ -3,17 +3,7 @@ class UserImageUploader < CarrierWave::Uploader::Base
   # include CarrierWave::RMagick
   include CarrierWave::MiniMagick
 
-  # Choose what kind of storage to use for this uploader:
-  # storage :file
-  # storage :fog
-  if Rails.env.test?
-    storage :file
-  else
-    include Cloudinary::CarrierWave
-    CarrierWave.configure do |config|
-      config.cache_storage = :file
-    end
-  end
+  include Cloudinary::CarrierWave unless Rails.env.test?
 
   def public_id
     environment = if Rails.env.development?
