@@ -16,6 +16,26 @@ describe UserImageUploader do
     uploader.remove!
   end
 
+  describe 'public_id' do
+    context 'development' do
+      it 'has correct public_id' do
+        allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new('development'))
+        public_id = uploader.public_id
+        expect(public_id.split('/')[0]).to eq 'development'
+        expect(public_id.split('/')[1]).to eq 'user'
+      end
+    end
+
+    context 'production' do
+      it 'has correct public_id' do
+        allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new('production'))
+        public_id = uploader.public_id
+        expect(public_id.split('/')[0]).to eq 'production'
+        expect(public_id.split('/')[1]).to eq 'user'
+      end
+    end
+  end
+
   describe 'store_dir' do
     it 'stores files in the correct directory' do
       expect(uploader.store_dir).to eq("uploads/user/user_image/#{user.id}")

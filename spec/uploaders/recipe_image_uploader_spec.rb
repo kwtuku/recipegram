@@ -9,7 +9,6 @@ describe RecipeImageUploader do
 
   before do
     RecipeImageUploader.enable_processing = true
-    File.open(File.join(Rails.root, 'spec/fixtures/recipe_image_sample.jpg')) { |f| uploader.store!(f) }
   end
 
   after do
@@ -17,16 +16,52 @@ describe RecipeImageUploader do
     uploader.remove!
   end
 
-  it 'stores files in the correct directory' do
-    expect(uploader.store_dir).to eq("uploads/recipe/recipe_image/#{recipe.id}")
+  describe 'public_id' do
+    context 'development' do
+      it 'has correct public_id' do
+        allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new('development'))
+        public_id = uploader.public_id
+        expect(public_id.split('/')[0]).to eq 'development'
+        expect(public_id.split('/')[1]).to eq 'recipe'
+      end
+    end
+
+    context 'production' do
+      it 'has correct public_id' do
+        allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new('production'))
+        public_id = uploader.public_id
+        expect(public_id.split('/')[0]).to eq 'production'
+        expect(public_id.split('/')[1]).to eq 'recipe'
+      end
+    end
   end
 
-  it 'rejects images over 2MB' do
-    image_over_2mb = File.open(File.join(Rails.root, 'spec/fixtures/over_2mb.jpg'))
-    expect { uploader.store!(image_over_2mb) }.to raise_error(CarrierWave::IntegrityError)
+  describe 'store_dir' do
+    it 'stores files in the correct directory' do
+      expect(uploader.store_dir).to eq("uploads/recipe/recipe_image/#{recipe.id}")
+    end
   end
 
-  describe 'formats' do
+  describe 'versions' do
+    before do
+      image = File.open(File.join(Rails.root, 'spec/fixtures/recipe_image_sample.jpg'))
+      uploader.store!(image)
+    end
+
+    context 'the thumb version' do
+      it 'scales down a image to be exactly 640 by 640 pixels' do
+        expect(uploader.thumb).to have_dimensions(640, 640)
+      end
+    end
+
+    context 'the main version' do
+      it 'scales down a image to fit within 1200 by 1200 pixels' do
+        expect(uploader.main).to be_no_larger_than(1200, 1200)
+      end
+    end
+  end
+
+  describe 'extension_allowlist' do
     it 'permits a set of extensions' do
       extensions = %w(jpeg jpg png webp)
       expect(uploader.extension_allowlist).to eq(extensions)
@@ -62,17 +97,10 @@ describe RecipeImageUploader do
     end
   end
 
-  describe 'versions' do
-    context 'the thumb version' do
-      it 'scales down a image to be exactly 640 by 640 pixels' do
-        expect(uploader.thumb).to have_dimensions(640, 640)
-      end
-    end
-
-    context 'the main version' do
-      it 'scales down a image to fit within 1200 by 1200 pixels' do
-        expect(uploader.main).to be_no_larger_than(1200, 1200)
-      end
+  describe 'size_range' do
+    it 'rejects images over 2MB' do
+      image_over_2mb = File.open(File.join(Rails.root, 'spec/fixtures/over_2mb.jpg'))
+      expect { uploader.store!(image_over_2mb) }.to raise_error(CarrierWave::IntegrityError)
     end
   end
 end
