@@ -9,7 +9,6 @@ describe UserImageUploader do
 
   before do
     UserImageUploader.enable_processing = true
-    File.open(File.join(Rails.root, 'spec/fixtures/user_image_sample.jpg')) { |f| uploader.store!(f) }
   end
 
   after do
@@ -17,16 +16,39 @@ describe UserImageUploader do
     uploader.remove!
   end
 
-  it 'stores files in the correct directory' do
-    expect(uploader.store_dir).to eq("uploads/user/user_image/#{user.id}")
+  describe 'store_dir' do
+    it 'stores files in the correct directory' do
+      expect(uploader.store_dir).to eq("uploads/user/user_image/#{user.id}")
+    end
   end
 
-  it 'rejects images over 2MB' do
-    image_over_2mb = File.open(File.join(Rails.root, 'spec/fixtures/over_2mb.jpg'))
-    expect { uploader.store!(image_over_2mb) }.to raise_error(CarrierWave::IntegrityError)
+  describe 'default_url' do
+    it 'has a default image' do
+      user = create(:user, user_image: '')
+      expect(user.user_image.url).to eq '/images/default_user_image.jpg'
+    end
   end
 
-  describe 'formats' do
+  describe 'versions' do
+    before do
+      image = File.open(File.join(Rails.root, 'spec/fixtures/user_image_sample.jpg'))
+      uploader.store!(image)
+    end
+
+    context 'the icon version' do
+      it 'scales down a image to fit within 150 by 150 pixels' do
+        expect(uploader.icon).to be_no_larger_than(150, 150)
+      end
+    end
+
+    context 'the thumb version' do
+      it 'scales down a image to be exactly 320 by 320 pixels' do
+        expect(uploader.thumb).to have_dimensions(320, 320)
+      end
+    end
+  end
+
+  describe 'extension_allowlist' do
     it 'permits a set of extensions' do
       extensions = %w(jpeg jpg png webp)
       expect(uploader.extension_allowlist).to eq(extensions)
@@ -62,17 +84,10 @@ describe UserImageUploader do
     end
   end
 
-  describe 'versions' do
-    context 'the icon version' do
-      it 'scales down a image to fit within 150 by 150 pixels' do
-        expect(uploader.icon).to be_no_larger_than(150, 150)
-      end
-    end
-
-    context 'the thumb version' do
-      it 'scales down a image to be exactly 320 by 320 pixels' do
-        expect(uploader.thumb).to have_dimensions(320, 320)
-      end
+  describe 'size_range' do
+    it 'rejects images over 2MB' do
+      image_over_2mb = File.open(File.join(Rails.root, 'spec/fixtures/over_2mb.jpg'))
+      expect { uploader.store!(image_over_2mb) }.to raise_error(CarrierWave::IntegrityError)
     end
   end
 end
