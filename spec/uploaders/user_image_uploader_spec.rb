@@ -6,7 +6,6 @@ describe UserImageUploader do
 
   let(:user) { create :user }
   let(:uploader) { UserImageUploader.new(user, :user_image) }
-  let(:image_over_2mb) { File.open(File.join(Rails.root, 'spec/fixtures/over_2mb.jpg')) }
 
   before do
     UserImageUploader.enable_processing = true
@@ -23,42 +22,42 @@ describe UserImageUploader do
   end
 
   it 'rejects images over 2MB' do
+    image_over_2mb = File.open(File.join(Rails.root, 'spec/fixtures/over_2mb.jpg'))
     expect { uploader.store!(image_over_2mb) }.to raise_error(CarrierWave::IntegrityError)
   end
 
   describe 'formats' do
-    let(:image_jpeg) { File.open(File.join(Rails.root, 'spec/fixtures/jpeg_sample.jpeg')) }
-    let(:image_jpg) { File.open(File.join(Rails.root, 'spec/fixtures/jpg_sample.jpg')) }
-    let(:image_png) { File.open(File.join(Rails.root, 'spec/fixtures/png_sample.png')) }
-    let(:image_webp) { File.open(File.join(Rails.root, 'spec/fixtures/webp_sample.webp')) }
-    let(:image_gif) { File.open(File.join(Rails.root, 'spec/fixtures/gif_sample.gif')) }
-
     it 'permits a set of extensions' do
       extensions = %w(jpeg jpg png webp)
       expect(uploader.extension_allowlist).to eq(extensions)
     end
 
     it 'permits jpegs' do
-      uploader.store!(image_jpg)
+      image_jpeg = File.open(File.join(Rails.root, 'spec/fixtures/jpeg_sample.jpeg'))
+      uploader.store!(image_jpeg)
       expect(uploader).to be_format('jpeg')
     end
 
     it 'permits jpgs' do
+      image_jpg = File.open(File.join(Rails.root, 'spec/fixtures/jpg_sample.jpg'))
       uploader.store!(image_jpg)
       expect(uploader).to be_format('jpeg')
     end
 
     it 'permits pngs' do
+      image_png = File.open(File.join(Rails.root, 'spec/fixtures/png_sample.png'))
       uploader.store!(image_png)
       expect(uploader).to be_format('png')
     end
 
     it 'permits webps' do
+      image_webp = File.open(File.join(Rails.root, 'spec/fixtures/webp_sample.webp'))
       uploader.store!(image_webp)
       expect(uploader).to be_format('webp')
     end
 
     it 'rejects unsupported formats like gif' do
+      image_gif = File.open(File.join(Rails.root, 'spec/fixtures/gif_sample.gif'))
       expect { uploader.store!(image_gif) }.to raise_error(CarrierWave::IntegrityError)
     end
   end
