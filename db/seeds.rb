@@ -58,6 +58,8 @@ def create_user(user_creation_time)
 end
 
 def create_relationship(create_relationship_time)
+  puts "フォローを#{create_relationship_time}回作成"
+
   users = User.all
 
   users.sample(create_relationship_time).each do |user|
@@ -116,6 +118,8 @@ def create_comment(comment_creation_time)
 end
 
 def create_favorite(favorite_creation_time)
+  puts "いいねを#{favorite_creation_time}回作成"
+
   favorite_creation_time.times do
     User.all.sample.favorites.find_or_create_by(recipe_id: Recipe.all.sample.id)
 
