@@ -1,36 +1,57 @@
 # [Recipegram](https://recipegram-kwtuku.herokuapp.com/)
 
+<img alt="ruby version" src="https://img.shields.io/badge/Ruby-v2.7.3-green">
+<img alt="rails version" src="https://img.shields.io/badge/Rails-v6.1.3.1-brightgreen">
+<img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/kwtuku/recipegram">
+<img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/kwtuku/recipegram">
+<img alt="GitHub deployments" src="https://img.shields.io/github/deployments/kwtuku/recipegram/recipegram-kwtuku">
+
+<br>
+<br>
+
+# 概要
+
 Instagramのクローンアプリです。TwitterやZenn、GitHub、DEV、Qiitaも参考にしています。
 
 <br>
 
-ユーザー登録、レシピ投稿、コメント投稿、いいね、フォロー、検索、通知機能があります。
+ユーザー登録、レシピ投稿、コメント投稿、いいね、フォロー、**検索**、**通知**機能があります。
 
-検索機能はZennやGitHub、DEVのように**一度に複数のテーブルのカラムから検索、関連付け先のレコード数でソート**をすることができます。
+検索機能はZennやGitHub、DEVのように**一度に複数のテーブルのカラムから検索、関連付け先のレコード数でソート**をすることなどができます。
 
-通知機能はポリモーフィック関連付けを用いて実装しています。
+通知機能は**ポリモーフィック関連付け**を用いて実装しています。
 
-各ページでN+1問題に配慮しています。
-
-idではなく一意な**usernameというカラムをUserのURLに使用**しています。既存のURLと一致しないように、usernameには使用できない**予約語を設定**しています。**AJAXで**既存のusernameと一致しないように**自動生成**することもできます。
+ユーザーのURLのパラメーターにはidではなく**一意なusernameというカラムを使用**しています。既存のURLと一致しないように、usernameには使用できない**予約語を設定**してあり、**AJAXで**既存のusernameと一致しないように**自動生成**することもできます。
 
 <br>
 
+JavaScriptによる機能もあります。
+
 各機能の一覧ページでは**無限スクロール**することができます。読み込み時にはアニメーションが表示されます。
+
+入力中のパスワードを表示させたり、文字数をカウントしたり、アップロードする画像のプレビューを見ることなどもできます。
+
+<br>
+
+各ページでN+1問題に配慮しています。
 
 全てのページがレスポンシブ対応しています。
 
 <br>
 
-各機能の**E2Eテストのコード**もあります。Model specが60件、Request specが110件、System specが39件の合計209件のexampleがあります。
+RSpecでテストコードが書いてあり、Model specが73件、Request specが110件、System specが40件、その他25件の合計**248**件のexampleがあります。
 
 <br>
 
-各機能とテストコードの詳細は後述の[各機能の詳細](#各機能の詳細)と[テストコードの詳細](#テストコードの詳細)を御覧ください。
+上記の機能とその他の機能とテストコードの詳細は後述の[各機能の詳細](#各機能の詳細)と[テストコードの詳細](#テストコードの詳細)を御覧ください。
 
 <br>
 
-アプリのURLはこちらになります。ゲストログインというボタンから**簡単にログイン**することが可能です。GASで定期的にアクセスをしているので起動も早いです。
+開発環境にはDockerを使用しています。
+
+Herokuにデプロイしていますが、GASで定期的にアクセスをしているので、起動は早いです。
+
+アプリのURLはこちらです。ゲストログインというボタンから**簡単にログイン**することができます。
 
 https://recipegram-kwtuku.herokuapp.com/
 
