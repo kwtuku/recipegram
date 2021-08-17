@@ -18,8 +18,8 @@
       gtag('js', new Date());
       gtag('config', 'G-G8RJDS6YNS');
 
-      if ('<%= raw current_user.to_json(only: [:id]) %>') {
-        gtag('set', {'user_id': '<%= raw current_user.to_json(only: [:id]) %>'.id});
+      if (<%= raw current_user.to_json(only: [:id]) %>) {
+        gtag('set', {'user_id': <%= raw current_user.to_json(only: [:id]) %>.id});
       }
     </script>
   </head>
