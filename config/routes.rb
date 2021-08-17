@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   root to: 'home#home'
 
   get '/infinite_scroll', to: 'infinite_scroll#show'
+  get '/privacy', to: 'home#privacy'
   get '/search', to: 'home#search'
 
   resources :notifications, only: %i(index)

@@ -8,6 +8,9 @@ class HomeController < ApplicationController
     end
   end
 
+  def privacy
+  end
+
   def search
     @source = 'recipe_title'
     if params[:source].present?
