@@ -39,7 +39,9 @@
     <% end %>
 
     <%= render 'layouts/header' %>
-    <%= yield %>
+    <main>
+      <%= yield %>
+    </main>
     <%= render 'layouts/footer' unless controller.action_name == 'home' && user_signed_in? %>
   </body>
 </html>

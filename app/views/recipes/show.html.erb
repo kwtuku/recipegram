@@ -90,8 +90,8 @@
             <p class="subtitle">作り方</p>
             <%= simple_format h(@recipe.body), class: 'text-break' %>
             <p class="has-text-right has-text-grey-light">
-              <span>投稿日：<%= l @recipe.created_at, format: :ymd %></span>
-              <span class="ml-2">更新日：<%= l @recipe.updated_at, format: :ymd %></span>
+              <time datetime="<%= @recipe.created_at %>">投稿日：<%= l @recipe.created_at, format: :ymd %></time>
+              <time class="ml-2" datetime="<%= @recipe.updated_at %>">更新日：<%= l @recipe.updated_at, format: :ymd %></time>
             </p>
           </div>
           <div class="card-content" id="comments">
