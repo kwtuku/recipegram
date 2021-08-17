@@ -42,7 +42,7 @@
               <%= f.text_area :profile, class: 'textarea has-fixed-size' %>
             </div>
             <p class="help has-text-right">
-              <span class="<%= 'has-text-danger' if @user.errors[:profile].any? %>" id="count-profile-characters"><%= @user.profile.size.presence || 0 %></span>/500字
+              <span class="<%= 'has-text-danger' if @user.errors[:profile].any? %>" id="count-profile-characters"><%= @user.profile&.size.presence || 0 %></span>/500字
             </p>
             <%= render "devise/shared/full_error_messages", model: @user, attribute: :profile %>
           </div>
