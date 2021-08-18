@@ -27,7 +27,7 @@
             <li>
               <% if user_signed_in? && @recipe.user == current_user %>
                 <div class="dropdown has-text-left">
-                  <div class="dropdown-trigger">
+                  <div class="dropdown-trigger rspec_recipe_dropdown_trigger">
                     <button class="button is-white is-fafafa" aria-haspopup="true" aria-controls="dropdown-menu">
                       <span class="icon">
                         <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
@@ -177,7 +177,7 @@
             <div class="dropdown-menu" id="dropdown-menu" role="menu">
               <div class="dropdown-content">
                 <%= link_to '編集する', edit_recipe_path(@recipe), class: 'dropdown-item' %>
-                <%= link_to '削除する', recipe_path(@recipe), method: :delete, data: {confirm: '本当に投稿を削除しますか？'}, class: 'dropdown-item' %>
+                <%= link_to '削除する', recipe_path(@recipe), method: :delete, data: {confirm: '本当にレシピを削除しますか？'}, class: 'dropdown-item' %>
               </div>
             </div>
           </div>

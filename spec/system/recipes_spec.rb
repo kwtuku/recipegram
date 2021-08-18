@@ -62,4 +62,18 @@ RSpec.describe 'Recipes', type: :system do
       end
     end
   end
+
+  let!(:bob_recipe) { create :recipe, :no_image, user: bob }
+
+  it 'destroys a recipe', js: true do
+    expect(bob.recipes.count).to eq 1
+
+    sign_in bob
+    visit recipe_path(bob_recipe)
+    find('.rspec_recipe_dropdown_trigger').click
+    click_link '削除する'
+    page.accept_confirm
+    expect(page).to have_content 'レシピを削除しました。'
+    expect(bob.recipes.count).to eq 0
+  end
 end
