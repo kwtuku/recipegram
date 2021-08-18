@@ -17,4 +17,21 @@ RSpec.describe 'Comments', type: :system do
     .and change { alice.commented_recipes.count }.by(1)
     expect(page).to have_content 'レシピにコメントしました。'
   end
+
+  it 'destroys a comment', js: true do
+    bob_recipe.comments.create!(user_id: alice.id, body: 'いいレシピですね！')
+    expect(bob_recipe.comments.count).to eq 1
+    expect(alice.comments.count).to eq 1
+    expect(alice.commented_recipes.count).to eq 1
+
+    sign_in alice
+    visit recipe_path(bob_recipe)
+    find('.rspec_comment_dropdown_trigger').click
+    click_link '削除する'
+    page.accept_confirm
+    expect(page).to have_content 'コメントを削除しました。'
+    expect(bob_recipe.comments.count).to eq 0
+    expect(alice.comments.count).to eq 0
+    expect(alice.commented_recipes.count).to eq 0
+  end
 end
