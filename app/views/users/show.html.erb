@@ -6,67 +6,60 @@
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-10">
-        <div class="media">
+        <div class="media is-hidden-tablet">
+          <figure class="media-content">
+            <p class="image is-96x96"><%= image_tag @user.user_image.url(:thumb), class: 'is-rounded' %></p>
+          </figure>
+          <div class="media-right margin-auto-0">
+            <% if @user == current_user %>
+              <%= link_to 'プロフィールを編集', edit_users_path, class: 'button is-rounded' %>
+            <% else %>
+              <%= render 'shared/follow_button', user: @user, size: 'is-normal' %>
+            <% end %>
+          </div>
+        </div>
+        <div class="media border-0 mt-0 pt-0">
           <figure class="media-left is-hidden-mobile mr-6">
             <p class="image is-128x128">
               <%= image_tag @user.user_image.url(:thumb), class: 'is-rounded' %>
             </p>
           </figure>
           <div class="media-content">
-            <div class="content is-hidden-tablet">
-              <p class="image is-128x128"><%= image_tag @user.user_image.url(:thumb), class: 'is-rounded' %></p>
-            </div>
-            <div class="content">
-              <p class="title mb-0"><%= @user.nickname %></p>
-              <p class="has-text-grey-light">@<%= @user.username %></p>
-            </div>
-            <div class="content">
-              <% if @user == current_user %>
-                <%= link_to 'プロフィールを編集', edit_users_path, class: 'button is-rounded' %>
-              <% else %>
-                <%= render 'shared/follow_button', user: @user, size: 'is-normal' %>
-              <% end %>
+            <div class="media border-0 pt-0">
+              <div class="media-content">
+                <p class="title mb-0"><%= @user.nickname %></p>
+                <p class="has-text-grey-light">@<%= @user.username %></p>
+              </div>
+              <div class="media-right margin-auto-0 is-hidden-mobile">
+                <% if @user == current_user %>
+                  <%= link_to 'プロフィールを編集', edit_users_path, class: 'button is-rounded' %>
+                <% else %>
+                  <%= render 'shared/follow_button', user: @user, size: 'is-normal' %>
+                <% end %>
+              </div>
             </div>
             <% if @user.following?(current_user) %>
               <div class="content">
                 <span class="tag is-info is-light">フォローされています</span>
               </div>
             <% end %>
-            <div class="content">
-              <div class="level is-mobile">
-                <div class="level-item has-text-centered">
-                  <div>
-                    <p class="heading">投稿</p>
-                    <p class="title"><%= @user.recipes.size %></p>
-                  </div>
-                </div>
-                <div class="level-item has-text-centered">
-                  <div>
-                    <p class="heading">いいねされた</p>
-                    <p class="title"><%= @recipes_favorites_count %></p>
-                  </div>
-                </div>
-                <div class="level-item has-text-centered">
-                  <%= link_to user_followings_path(@user), class: 'has-text-black-bis hover-underline' do %>
-                    <div>
-                      <p class="heading">フォロー中</p>
-                      <p class="title"><%= @user.followings.size %></p>
-                    </div>
-                  <% end %>
-                </div>
-                <div class="level-item has-text-centered">
-                  <%= link_to user_followers_path(@user), class: 'has-text-black-bis hover-underline' do %>
-                    <div>
-                      <p class="heading">フォロワー</p>
-                      <p class="title" id='recount-followers'><%= @user.followers.size %></p>
-                    </div>
-                  <% end %>
-                </div>
-              </div>
+            <div class="content text-break">
+              <p class="mb-3">
+                <%= @user.profile %>
+              </p>
+              <p class="is-size-7-mobile">
+                <span class="mr-5">投稿<span class="has-text-weight-bold"><%= @user.recipes.size %></span>件</span>
+                <%= link_to user_followers_path(@user), class: 'has-text-grey-dark hover-underline mr-5' do %>
+                  フォロワー<span class="has-text-weight-bold" id="recount-followers"><%= @user.followers.size %></span>人
+                <% end %>
+                <%= link_to user_followings_path(@user), class: 'has-text-grey-dark hover-underline mr-5' do %>
+                  フォロー中<span class="has-text-weight-bold"><%= @user.followings.size %></span>人
+                <% end %>
+              </p>
             </div>
             <% if @user != current_user && @followers_you_follow.present? %>
               <div class="media border-0">
-                <div class="media-left display-flex">
+                <div class="media-left is-flex">
                   <figure class="image is-24x24">
                     <%= image_tag @followers_you_follow.map(&:user_image).first.url(:icon), class: 'is-rounded' %>
                   </figure>
@@ -76,7 +69,7 @@
                     </figure>
                   <% end %>
                 </div>
-                <div class="media-content text-break">
+                <div class="media-content text-break is-size-7-mobile">
                   <% if @followers_you_follow.size >= 3 %>
                     <p class="has-text-grey-light">
                       <%= "#{@followers_you_follow.map(&:nickname).first(2).join('さん、')}さん、他#{@followers_you_follow.size - 2}人にフォローされています" %>
@@ -89,9 +82,6 @@
                 </div>
               </div>
             <% end %>
-            <div class="content text-break">
-              <%= @user.profile %>
-            </div>
           </div>
         </div>
       </div>
