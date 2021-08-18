@@ -13,6 +13,8 @@
     <p class="is-size-7 has-text-grey-light"><%= recommended_description(user) %></p>
   </div>
   <div class="media-right margin-auto-0">
-    <%= render 'shared/follow_button', user: user, size: 'is-small' %>
+    <div class="js-follow-button-<%= user.id %>">
+      <%= render 'shared/follow_button', user: user, size: 'is-small' %>
+    </div>
   </div>
 </div>

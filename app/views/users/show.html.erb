@@ -14,7 +14,9 @@
             <% if @user == current_user %>
               <%= link_to 'プロフィールを編集', edit_users_path, class: 'button is-rounded' %>
             <% else %>
-              <%= render 'shared/follow_button', user: @user, size: 'is-normal' %>
+              <div class="js-follow-button-<%= @user.id %>">
+                <%= render 'shared/follow_button', user: @user, size: 'is-normal' %>
+              </div>
             <% end %>
           </div>
         </div>
@@ -34,7 +36,9 @@
                 <% if @user == current_user %>
                   <%= link_to 'プロフィールを編集', edit_users_path, class: 'button is-rounded' %>
                 <% else %>
-                  <%= render 'shared/follow_button', user: @user, size: 'is-normal' %>
+                  <div class="js-follow-button-<%= @user.id %>">
+                    <%= render 'shared/follow_button', user: @user, size: 'is-normal' %>
+                  </div>
                 <% end %>
               </div>
             </div>

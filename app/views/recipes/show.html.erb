@@ -8,10 +8,10 @@
       <div class="column is-1 is-hidden-mobile">
         <aside class="menu sticky z-index-1">
           <ul class="menu-list has-text-centered">
-            <li id="favorite_button-<%= @recipe.id %>">
+            <li class="js-favorite-button-<%= @recipe.id %>">
               <%= render 'shared/favorite_button', recipe: @recipe, icon_size: 'is-medium', fa_size: 'fa-lg' %>
             </li>
-            <li id="recount-favorites">
+            <li class="js-recount-favorites">
               <%= @recipe.favorites.size %>
             </li>
             <li>
@@ -151,10 +151,10 @@
   <div class="content py-3">
     <div class="level is-mobile">
       <div class="level-item">
-        <div id="favorite_button-<%= @recipe.id %>">
+        <div class="js-favorite-button-<%= @recipe.id %>">
           <%= render 'shared/favorite_button', recipe: @recipe, icon_size: '', fa_size: '' %>
         </div>
-        <div class="ml-3" id="recount-favorites"><%= @recipe.favorites.size %></div>
+        <div class="ml-3 js-recount-favorites"><%= @recipe.favorites.size %></div>
       </div>
       <div class="level-item">
         <a href="#comments" title="コメント一覧へ">
