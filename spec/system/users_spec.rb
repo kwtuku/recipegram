@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe 'Users', type: :system do
   describe 'sign up' do
-    let(:alice) { build :user }
+    let(:alice) { build :user, :no_image }
 
-    it 'signs up with valid information', js: true do
+    it 'signs up', js: true do
       visit root_path
       click_link '新規登録'
       expect(current_path).to eq new_user_registration_path
@@ -33,7 +33,7 @@ RSpec.describe 'Users', type: :system do
   end
 
   describe 'sign in' do
-    let(:alice) { create :user }
+    let(:alice) { create :user, :no_image }
 
     it 'signs in with valid information', js: true do
       visit root_path
@@ -56,7 +56,7 @@ RSpec.describe 'Users', type: :system do
   end
 
   describe 'updates account' do
-    let(:alice) { create :user, username: 'before', email: 'before@example.com' }
+    let(:alice) { create :user, :no_image, username: 'before', email: 'before@example.com' }
 
     it 'updates username', js: true do
       sign_in alice

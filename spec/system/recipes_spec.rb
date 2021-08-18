@@ -1,11 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'Recipes', type: :system do
-  let(:alice) { create :user }
-  let(:bob) { create :user }
-  let(:alice_recipe) { create :recipe, user: alice }
+  let(:alice) { create :user, :no_image }
+  let(:bob) { create :user, :no_image }
 
-  it 'create recipe', js: true do
+  it 'creates a recipe', js: true do
     sign_in alice
     click_link href: new_recipe_path
     expect(current_path).to eq new_recipe_path
@@ -18,6 +17,8 @@ RSpec.describe 'Recipes', type: :system do
   end
 
   describe 'edit recipe' do
+    let(:alice_recipe) { create :recipe, user: alice }
+
     context 'signed in as wrong user' do
       it 'can not edit', js: true do
         sign_in bob

@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Relationships', type: :system do
-  let(:alice) { create :user }
-  let(:bob) { create :user }
+  let(:alice) { create :user, :no_image }
+  let(:bob) { create :user, :no_image }
 
   it 'follow', js: true do
     sign_in alice
@@ -13,6 +13,7 @@ RSpec.describe 'Relationships', type: :system do
     expect(page).to have_button 'フォロー中'
     expect(bob.followers.count).to eq 1
   end
+
   it 'unfollow', js: true do
     alice.relationships.create!(follow_id: bob.id)
     expect(bob.followers.count).to eq 1

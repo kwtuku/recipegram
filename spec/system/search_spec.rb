@@ -1,18 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe 'Search', type: :system do
-  let!(:miso_ramen) { create :recipe, title: '味噌ラーメンの作り方', body: '味噌ラーメンの作り方です。' }
-  let!(:miso_soup) { create :recipe, title: '味噌汁', body: '味噌汁の作り方です。' }
-  let!(:miso_katsudon) { create :recipe, title: '味噌カツ丼', body: '味噌カツ丼の作り方です。' }
-  let!(:miso_udon) { create :recipe, title: '味噌煮込みうどん', body: '味噌煮込みうどんの作り方です。' }
-  let!(:miso) { create :recipe, title: '味噌', body: 'みその作り方です。' }
-  let!(:tonkotsu_ramen) { create :recipe, title: '豚骨ラーメン', body: '豚骨ラーメンの作り方です。' }
+  let!(:miso_ramen) { create :recipe, :no_image, title: '味噌ラーメンの作り方', body: '味噌ラーメンの作り方です。' }
+  let!(:miso_soup) { create :recipe, :no_image, title: '味噌汁', body: '味噌汁の作り方です。' }
+  let!(:miso_katsudon) { create :recipe, :no_image, title: '味噌カツ丼', body: '味噌カツ丼の作り方です。' }
+  let!(:miso_udon) { create :recipe, :no_image, title: '味噌煮込みうどん', body: '味噌煮込みうどんの作り方です。' }
+  let!(:miso) { create :recipe, :no_image, title: '味噌', body: 'みその作り方です。' }
+  let!(:tonkotsu_ramen) { create :recipe, :no_image, title: '豚骨ラーメン', body: '豚骨ラーメンの作り方です。' }
 
-  let!(:miso_ramen_man) { create :user, nickname: '味噌ラーメン大好きマン', profile: '味噌ラーメン大好き' }
-  let!(:alice) { create :user, nickname: 'アリス', profile: '味噌ラーメンの作り方知ってます。' }
-  let!(:bob) { create :user, nickname: 'ボブ', profile: '味噌カツ丼の作り方知りたい！' }
-  let!(:carol) { create :user, nickname: '味噌好きキャロル', profile: 'みそ汁が作れます。' }
-  let!(:dave) { create :user, nickname: 'dave', profile: 'I am dave.' }
+  let!(:miso_ramen_man) { create :user, :no_image, nickname: '味噌ラーメン大好きマン', profile: '味噌ラーメン大好き' }
+  let!(:alice) { create :user, :no_image, nickname: 'アリス', profile: '味噌ラーメンの作り方知ってます。' }
+  let!(:bob) { create :user, :no_image, nickname: 'ボブ', profile: '味噌カツ丼の作り方知りたい！' }
+  let!(:carol) { create :user, :no_image, nickname: '味噌好きキャロル', profile: 'みそ汁が作れます。' }
+  let!(:dave) { create :user, :no_image, nickname: 'dave', profile: 'I am dave.' }
 
   it 'returns no result', js: true do
     visit root_path

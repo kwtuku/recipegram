@@ -1,17 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe 'Notifications', type: :system do
-  let(:alice) { create :user }
-  let(:bob) { create :user }
-  let(:alice_recipe) { create :recipe, user: alice }
+  let(:alice) { create :user, :no_image }
+  let(:bob) { create :user, :no_image }
+  let(:alice_recipe) { create :recipe, :no_image, user: alice }
 
   describe 'comment notification' do
     let!(:bob_comment) { create :comment, user: bob, recipe: alice_recipe }
-    let(:carol) { create :user }
+    let(:carol) { create :user, :no_image }
     let!(:carol_comment) { create :comment, user: carol, recipe: alice_recipe }
 
     context 'comment user != recipe user' do
-      let(:dave) { create :user }
+      let(:dave) { create :user, :no_image }
       before do
         sign_in dave
         visit recipe_path(alice_recipe)
