@@ -116,7 +116,7 @@ RSpec.describe 'Users', type: :system do
 
     it 'updates user_image', js: true do
       sign_in alice
-      before_image_public_id = alice.user_image.public_id
+      before_image_url = alice.user_image.url
       find('.rspec_header_dropdown_trigger').click
       click_link 'マイページ'
       expect(current_path).to eq user_path(alice)
@@ -124,8 +124,8 @@ RSpec.describe 'Users', type: :system do
       expect(page).to have_button 'update_user', disabled: true
       attach_file 'user[user_image]', "#{Rails.root}/spec/fixtures/user_image_sample_after.jpg", visible: false
       click_button 'update_user'
-      after_image_public_id = alice.reload.user_image.public_id
-      expect(before_image_public_id).to_not eq after_image_public_id
+      after_image_url = alice.reload.user_image.url
+      expect(before_image_url).to_not eq after_image_url
       expect(page).to have_content 'プロフィールを変更しました。'
     end
   end
