@@ -99,13 +99,7 @@
 
         <p class="has-text-centered my-4">または</p>
 
-        <div class="field">
-          <%= link_to t('devise.shared.links.back'), :back, class: 'button is-fullwidth is-rounded is-link' %>
-        </div>
-
-        <div class="field">
-          <%= link_to t('.cancel_my_account'), registration_path(resource_name), data: { confirm: '本当にアカウントを削除しますか？' }, method: :delete, class: 'button is-fullwidth is-rounded is-light' %>
-        </div>
+        <%= link_to 'アカウント削除手続きへ', users_confirm_destroy_path, class: 'has-text-black-bis hover-underline' %>
       </div>
     </div>
   </div>
