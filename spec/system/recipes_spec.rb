@@ -1,11 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'Recipes', type: :system do
-  let(:alice) { create :user }
-  let(:bob) { create :user }
-  let(:alice_recipe) { create :recipe, user: alice }
+  let(:alice) { create :user, :no_image }
+  let(:bob) { create :user, :no_image }
 
-  it 'create recipe', js: true do
+  it 'creates a recipe', js: true do
     sign_in alice
     click_link href: new_recipe_path
     expect(current_path).to eq new_recipe_path
@@ -17,9 +16,11 @@ RSpec.describe 'Recipes', type: :system do
     expect(page).to have_content 'レシピを投稿しました。'
   end
 
-  describe 'edit recipe' do
+  describe 'updates recipe' do
+    let(:alice_recipe) { create :recipe, user: alice }
+
     context 'signed in as wrong user' do
-      it 'can not edit', js: true do
+      it 'redirects to recipe_path', js: true do
         sign_in bob
         visit edit_recipe_path(alice_recipe)
         expect(current_path).to eq recipe_path(alice_recipe)
@@ -28,7 +29,7 @@ RSpec.describe 'Recipes', type: :system do
     end
 
     context 'signed in as correct user' do
-      it 'edit title', js: true do
+      it 'updates title', js: true do
         sign_in alice
         visit edit_recipe_path(alice_recipe)
         expect(page).to have_button 'update_recipe', disabled: true
@@ -38,7 +39,7 @@ RSpec.describe 'Recipes', type: :system do
         expect(alice_recipe.reload.title).to eq 'クリームシチュー'
       end
 
-      it 'edit body', js: true do
+      it 'updates body', js: true do
         sign_in alice
         visit edit_recipe_path(alice_recipe)
         expect(page).to have_button 'update_recipe', disabled: true
@@ -48,17 +49,31 @@ RSpec.describe 'Recipes', type: :system do
         expect(alice_recipe.reload.body).to eq '切ったにんじん、玉ねぎ、じゃがいも、肉とクリームシチューのルーと水を鍋に入れて煮込む。'
       end
 
-      it 'edit recipe_image', js: true do
+      it 'updates recipe_image', js: true do
         sign_in alice
-        before_image_public_id = alice_recipe.recipe_image.public_id
+        before_image_url = alice_recipe.recipe_image.url
         visit edit_recipe_path(alice_recipe)
         expect(page).to have_button 'update_recipe', disabled: true
         attach_file 'recipe[recipe_image]', "#{Rails.root}/spec/fixtures/recipe_image_sample_after.jpg", visible: false
         click_button 'update_recipe'
-        after_image_public_id = alice_recipe.reload.recipe_image.public_id
-        expect(before_image_public_id).to_not eq after_image_public_id
+        after_image_url = alice_recipe.reload.recipe_image.url
+        expect(before_image_url).to_not eq after_image_url
         expect(page).to have_content 'レシピを編集しました。'
       end
     end
+  end
+
+  let!(:bob_recipe) { create :recipe, :no_image, user: bob }
+
+  it 'destroys a recipe', js: true do
+    expect(bob.recipes.count).to eq 1
+
+    sign_in bob
+    visit recipe_path(bob_recipe)
+    find('.rspec_recipe_dropdown_trigger').click
+    click_link '削除する'
+    page.accept_confirm
+    expect(page).to have_content 'レシピを削除しました。'
+    expect(bob.recipes.count).to eq 0
   end
 end

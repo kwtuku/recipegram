@@ -18,6 +18,7 @@ export default () => {
     const signup = document.getElementById('signup');
     const signin = document.getElementById('signin');
     const updateAccount = document.getElementById('update_account');
+    const destroyAccount = document.getElementById('destroy_account');
     const resetPassword = document.getElementById('reset_password');
     const updateUser = document.getElementById('update_user');
     const createRecipe = document.getElementById('create_recipe');
@@ -56,6 +57,18 @@ export default () => {
             updateAccount.disabled = false;
           } else {
             updateAccount.disabled = true;
+          }
+        });
+      });
+    }
+
+    if (destroyAccount) {
+      inputs.forEach(input => {
+        input.addEventListener('input', () => {
+          if (currentPassword.value.trim().length >= 6) {
+            destroyAccount.disabled = false;
+          } else {
+            destroyAccount.disabled = true;
           }
         });
       });

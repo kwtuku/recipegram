@@ -18,10 +18,6 @@ export default () => {
           dropdown.classList.remove('is-active');
         }
       });
-
-      window.addEventListener('scroll', () => {
-        dropdown.classList.remove('is-active');
-      });
     });
   });
 }

@@ -1,13 +1,12 @@
 # [Recipegram](https://recipegram-kwtuku.herokuapp.com/)
 
-<img alt="ruby version" src="https://img.shields.io/badge/Ruby-v2.7.3-green">
-<img alt="rails version" src="https://img.shields.io/badge/Rails-v6.1.3.1-brightgreen">
-<img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/kwtuku/recipegram">
-<img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/kwtuku/recipegram">
-<img alt="GitHub deployments" src="https://img.shields.io/github/deployments/kwtuku/recipegram/recipegram-kwtuku">
-
-<br>
-<br>
+<p>
+  <img alt="ruby version" src="https://img.shields.io/badge/Ruby-v2.7.3-green">
+  <img alt="rails version" src="https://img.shields.io/badge/Rails-v6.1.3.1-brightgreen">
+  <img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/kwtuku/recipegram">
+  <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/kwtuku/recipegram">
+  <img alt="GitHub deployments" src="https://img.shields.io/github/deployments/kwtuku/recipegram/recipegram-kwtuku">
+</p>
 
 # 概要
 
@@ -55,9 +54,6 @@ Herokuにデプロイしていますが、GASで定期的にアクセスをし�
 
 https://recipegram-kwtuku.herokuapp.com/
 
-<br>
-<br>
-
 # 使用技術
 
 ## 開発環境
@@ -67,8 +63,6 @@ https://recipegram-kwtuku.herokuapp.com/
 * Docker
 
 * Docker Compose
-
-<br>
 
 ## フロントエンド
 
@@ -82,15 +76,11 @@ https://recipegram-kwtuku.herokuapp.com/
 
 * jQuery($.ajaxメソッドでのみ使用)
 
-<br>
-
 ## バックエンド
 
 * Ruby 2.7.3
 
 * Ruby on Rails 6.1.3.1
-
-<br>
 
 ## テスト
 
@@ -100,13 +90,9 @@ https://recipegram-kwtuku.herokuapp.com/
 
 * Capybara 3.35.3
 
-<br>
-
 ## データベース
 
 * PostgreSQL 13.3
-
-<br>
 
 ## インフラストラクチャ
 
@@ -116,15 +102,9 @@ https://recipegram-kwtuku.herokuapp.com/
 
 * Cloudinary
 
-<br>
-<br>
-
 # ER図
 
 ![ER図](er_diagram.drawio.svg)
-
-<br>
-<br>
 
 # 各機能の詳細
 
@@ -136,7 +116,7 @@ https://recipegram-kwtuku.herokuapp.com/
 
 * パスワードの入力フォームでは目のアイコンをクリックすることでパスワードを表示することができます。
 
-  目のアイコンまたはパスワードフォーム外をクリック、あるいは画面をスクロールするとマスクされた表示に戻ります。
+  目のアイコンまたはパスワードフォーム外をクリックするとマスクされた表示に戻ります。
 
 * ワンクリックでログインができるゲストログイン機能があります。
 
@@ -151,8 +131,6 @@ https://recipegram-kwtuku.herokuapp.com/
   既存のURLと一致しないように、usernameには使用できない予約語を設定しています。
 
   新規登録ページでは円弧の矢印ボタンをクリックすると、AJAXで既存のものと一致しないようなusernameがフォームに入力されます。
-
-<br>
 
 ## レシピ
 
@@ -170,13 +148,9 @@ https://recipegram-kwtuku.herokuapp.com/
 
 * レシピが複数表示されているページでは、Instagramのように画像の上にマウスカーソルを重ねるといいねとコメント数が表示されます。
 
-<br>
-
 ## コメント
 
 * 投稿、削除ができます。
-
-<br>
 
 ## いいね
 
@@ -185,8 +159,6 @@ https://recipegram-kwtuku.herokuapp.com/
 * いいねを取り消すこともできます。
 
 * Ajaxを使用しています。
-
-<br>
 
 ## フォロー
 
@@ -197,8 +169,6 @@ https://recipegram-kwtuku.herokuapp.com/
 * Ajaxを使用しています。
 
 * フォロー中の場合はマウスオーバーでフォローボタンの色とテキストが変化します。
-
-<br>
 
 ## 検索
 
@@ -216,8 +186,6 @@ https://recipegram-kwtuku.herokuapp.com/
 
 * kaminariによりページを分割して検索結果を表示しています。
 
-<br>
-
 ## 通知
 
 * ポリモーフィック関連付けを使用しています。
@@ -230,15 +198,11 @@ https://recipegram-kwtuku.herokuapp.com/
 
 * 未読の通知がある場合はヘッダーのベルアイコンの右上にバッジが表示されます。
 
-<br>
-
 ## 無限スクロール
 
 * ユーザー一覧、レシピ一覧、フィード、ユーザーが投稿、コメント、いいねしたレシピ一覧、フォロー中一覧、フォロワー一覧ページでAjaxにより無限スクロールができます。
 
 * 読込中はアニメーションが表示されます。
-
-<br>
 
 ## js
 
@@ -252,9 +216,7 @@ https://recipegram-kwtuku.herokuapp.com/
 
 * ミートボールメニューをクリックするとドロップダウンリストが表示されます。
 
-  ミートボールメニューまたはドロップダウンリスト外をクリック、あるいは画面をスクロールするとドロップダウンリストが非表示になります。
-
-<br>
+  ミートボールメニューまたはドロップダウンリスト外をクリックするとドロップダウンリストが非表示になります。
 
 ## マークアップ
 
@@ -262,16 +224,11 @@ https://recipegram-kwtuku.herokuapp.com/
 
 * 要素の横幅に収まりきらない長い文字列は改行され、レイアウトが崩れないようにしています。
 
-<br>
-
 ## その他
 
 * プロフィール画像もしくはレシピ画像が更新されるときは更新前の画像をCloudinaryから削除してから新しい画像をアップロードするようにしています。
 
 * seeds.rbでユーザーやレシピ、コメント、いいね、フォロー関係、通知のデモデータを作成できます。
-
-<br>
-<br>
 
 # テストコードの詳細
 
@@ -317,8 +274,6 @@ https://recipegram-kwtuku.herokuapp.com/
 
 * プロフィールの検索結果を投稿数でソートしたときに正しく並び替えられていること
 
-<br>
-
 ## Request specs
 
 * ユーザー一覧と詳細ページはログインしていなくてもアクセスできること
@@ -344,8 +299,6 @@ https://recipegram-kwtuku.herokuapp.com/
 * ログイン時のみコメントを投稿できること
 
 * コメントの削除は本人しか実行できない、正常に削除できること
-
-<br>
 
 ## System specs
 
@@ -410,8 +363,6 @@ https://recipegram-kwtuku.herokuapp.com/
 * レシピの作成者といいねをした人が同じ時は通知が作成されないこと
 
 * フォローされたときに通知が作成されること
-
-<br>
 
 ## その他
 

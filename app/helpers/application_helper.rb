@@ -99,9 +99,9 @@ module ApplicationHelper
 
   def recommended_description(user)
     if user.followers_you_follow(current_user).size >= 2
-      "#{user.followers_you_follow(current_user).sample.nickname.truncate(17)}さん、他#{user.followers_you_follow(current_user).size - 1}人がフォロー中"
+      "#{user.followers_you_follow(current_user).sample.nickname.truncate(14)}さん、他#{user.followers_you_follow(current_user).size - 1}人がフォロー中"
     elsif user.followers_you_follow(current_user).size == 1
-      "#{user.followers_you_follow(current_user).sample.nickname.truncate(17)}さんがフォロー中"
+      "#{user.followers_you_follow(current_user).sample.nickname.truncate(20)}さんがフォロー中"
     elsif user.following?(current_user)
       'あなたをフォローしています'
     else

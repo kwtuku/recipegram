@@ -42,6 +42,7 @@ class User < ApplicationRecord
     cancel
     sign_up
     edit
+    confirm_destroy
     guest_sign_in
   )
   USERNAME_MAX_LENGTH = 15

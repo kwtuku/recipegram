@@ -27,7 +27,7 @@
           </span>
           <span><%= recipe.comments.size %></span>
         </span>
-        <time datetime="<%= recipe.updated_at %>">更新日：<%= l recipe.updated_at %></time>
+        <time datetime="<%= recipe.updated_at %>">更新日：<%= l recipe.updated_at, format: :ymd %></time>
       </p>
     </div>
   </div>

@@ -1,0 +1,52 @@
+<% provide(:title, 'アカウント削除の確認') %>
+
+<%= render 'devise/shared/error_messages', resource: resource %>
+
+<%= render 'layouts/hero', hero_title: 'アカウント削除の確認' %>
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-10">
+        <h2 class="title is-size-5 has-text-centered">一度アカウントを削除すると、以下のものが完全に削除され、<span class="has-text-danger">復元することはできません。</span></h2>
+        <div class="content">
+          <article class="message">
+            <div class="message-body">
+              <ul class="mt-0">
+                <li>ユーザーの情報</li>
+                <li>投稿したレシピやコメント</li>
+                <li>いいね、フォローの状態</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+        <p class=" has-text-centered">アカウントを削除するには現在のパスワードを入力してください。</p>
+      </div>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-5">
+        <%= form_with model: resource, url: registration_path(resource_name), method: :delete do |f| %>
+          <div class="field">
+            <%= f.label :current_password, class: 'label' %>
+          </div>
+          <div class="field is-grouped password-area">
+            <div class="control is-expanded">
+              <%= f.password_field :current_password, autocomplete: 'current-password', required: true, maxlength: '128', class: 'input' %>
+            </div>
+            <p class="control password-mask">
+              <button class="button" title="パスワードを表示する" onclick="return false;">
+                <span class="icon is-small">
+                  <i class="far fa-eye-slash"></i>
+                </span>
+              </button>
+            </p>
+          </div>
+          <div class="field">
+            <%= render 'devise/shared/full_error_messages', model: resource, attribute: :current_password %>
+          </div>
+          <%= f.submit t('.cancel_my_account'), class: 'button is-rounded is-danger', id: 'destroy_account', disabled: true %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>

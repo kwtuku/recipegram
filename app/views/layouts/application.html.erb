@@ -11,17 +11,19 @@
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-G8RJDS6YNS"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-G8RJDS6YNS');
+    <% if Rails.env.production? %>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-G8RJDS6YNS"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-G8RJDS6YNS');
 
-      if ('<%= raw current_user.to_json(only: [:id]) %>') {
-        gtag('set', {'user_id': '<%= raw current_user.to_json(only: [:id]) %>'.id});
-      }
-    </script>
+        if (<%= raw current_user.to_json(only: [:id]) %>) {
+          gtag('set', {'user_id': <%= raw current_user.to_json(only: [:id]) %>.id});
+        }
+      </script>
+    <% end %>
   </head>
 
   <body class="has-navbar-fixed-top">
@@ -39,7 +41,9 @@
     <% end %>
 
     <%= render 'layouts/header' %>
-    <%= yield %>
+    <main>
+      <%= yield %>
+    </main>
     <%= render 'layouts/footer' unless controller.action_name == 'home' && user_signed_in? %>
   </body>
 </html>

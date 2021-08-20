@@ -8,10 +8,10 @@
       <div class="column is-1 is-hidden-mobile">
         <aside class="menu sticky z-index-1">
           <ul class="menu-list has-text-centered">
-            <li id="favorite_button-<%= @recipe.id %>">
+            <li class="js-favorite-button-<%= @recipe.id %>">
               <%= render 'shared/favorite_button', recipe: @recipe, icon_size: 'is-medium', fa_size: 'fa-lg' %>
             </li>
-            <li id="recount-favorites">
+            <li class="js-recount-favorites">
               <%= @recipe.favorites.size %>
             </li>
             <li>
@@ -27,7 +27,7 @@
             <li>
               <% if user_signed_in? && @recipe.user == current_user %>
                 <div class="dropdown has-text-left">
-                  <div class="dropdown-trigger">
+                  <div class="dropdown-trigger rspec_recipe_dropdown_trigger">
                     <button class="button is-white is-fafafa" aria-haspopup="true" aria-controls="dropdown-menu">
                       <span class="icon">
                         <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
@@ -90,8 +90,8 @@
             <p class="subtitle">作り方</p>
             <%= simple_format h(@recipe.body), class: 'text-break' %>
             <p class="has-text-right has-text-grey-light">
-              <span>投稿日：<%= l @recipe.created_at, format: :ymd %></span>
-              <span class="ml-2">更新日：<%= l @recipe.updated_at, format: :ymd %></span>
+              <time datetime="<%= @recipe.created_at %>">投稿日：<%= l @recipe.created_at, format: :ymd %></time>
+              <time class="ml-2" datetime="<%= @recipe.updated_at %>">更新日：<%= l @recipe.updated_at, format: :ymd %></time>
             </p>
           </div>
           <div class="card-content" id="comments">
@@ -151,10 +151,10 @@
   <div class="content py-3">
     <div class="level is-mobile">
       <div class="level-item">
-        <div id="favorite_button-<%= @recipe.id %>">
+        <div class="js-favorite-button-<%= @recipe.id %>">
           <%= render 'shared/favorite_button', recipe: @recipe, icon_size: '', fa_size: '' %>
         </div>
-        <div class="ml-3" id="recount-favorites"><%= @recipe.favorites.size %></div>
+        <div class="ml-3 js-recount-favorites"><%= @recipe.favorites.size %></div>
       </div>
       <div class="level-item">
         <a href="#comments" title="コメント一覧へ">
@@ -177,7 +177,7 @@
             <div class="dropdown-menu" id="dropdown-menu" role="menu">
               <div class="dropdown-content">
                 <%= link_to '編集する', edit_recipe_path(@recipe), class: 'dropdown-item' %>
-                <%= link_to '削除する', recipe_path(@recipe), method: :delete, data: {confirm: '本当に投稿を削除しますか？'}, class: 'dropdown-item' %>
+                <%= link_to '削除する', recipe_path(@recipe), method: :delete, data: {confirm: '本当にレシピを削除しますか？'}, class: 'dropdown-item' %>
               </div>
             </div>
           </div>

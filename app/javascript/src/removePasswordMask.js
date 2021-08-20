@@ -29,12 +29,6 @@ export default () => {
           button.setAttribute('title','パスワードを非表示にする');
         }
       });
-
-      window.addEventListener('scroll', () => {
-        input.setAttribute('type', 'password');
-        icon.setAttribute('class','far fa-eye-slash');
-        button.setAttribute('title','パスワードを表示する');
-      });
     });
   });
 }

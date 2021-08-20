@@ -1,15 +1,13 @@
-document.querySelectorAll('#follow_button-<%= @user.id %> .button').forEach( button => {
-  var buttonTrigger = document.getElementById('follow_button-<%= @user.id %>');
-
+document.querySelectorAll('.js-follow-button-<%= @user.id %>').forEach(buttonContainer => {
+  var button = buttonContainer.querySelector('.button');
   if (button.classList.contains('is-small')) {
-    buttonTrigger.innerHTML = "<%= j(render 'shared/follow_button', user: @user, size: 'is-small') %>";
+    buttonContainer.innerHTML = "<%= j(render 'shared/follow_button', user: @user, size: 'is-small') %>";
   } else {
-    buttonTrigger.innerHTML = "<%= j(render 'shared/follow_button', user: @user, size: 'is-normal') %>";
+    buttonContainer.innerHTML = "<%= j(render 'shared/follow_button', user: @user, size: 'is-normal') %>";
   }
 });
 
 var recountFollowers = document.getElementById('recount-followers');
-
 if (recountFollowers) {
-  recountFollowers.innerHTML = "<%= @user.followers.size %>";
+  recountFollowers.textContent = "<%= @user.followers.size %>";
 }
