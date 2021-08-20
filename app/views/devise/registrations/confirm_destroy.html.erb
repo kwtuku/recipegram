@@ -31,7 +31,7 @@
           </div>
           <div class="field is-grouped password-area">
             <div class="control is-expanded">
-              <%= f.password_field :current_password, autocomplete: 'current-password', required: false, maxlength: '128', class: 'input' %>
+              <%= f.password_field :current_password, autocomplete: 'current-password', required: true, maxlength: '128', class: 'input' %>
             </div>
             <p class="control password-mask">
               <button class="button" title="パスワードを表示する" onclick="return false;">
@@ -44,7 +44,7 @@
           <div class="field">
             <%= render 'devise/shared/full_error_messages', model: resource, attribute: :current_password %>
           </div>
-          <%= f.submit t('.cancel_my_account'), class: 'button is-rounded is-danger', id: 'destroy_account', disabled: false %>
+          <%= f.submit t('.cancel_my_account'), class: 'button is-rounded is-danger', id: 'destroy_account', disabled: true %>
         <% end %>
       </div>
     </div>

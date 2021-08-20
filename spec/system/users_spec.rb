@@ -32,7 +32,7 @@ RSpec.describe 'Users', type: :system do
     end
   end
 
-  describe 'sign in' do
+  describe 'signs in' do
     let(:alice) { create :user, :no_image }
 
     it 'signs in with valid information', js: true do
@@ -56,77 +56,95 @@ RSpec.describe 'Users', type: :system do
   end
 
   describe 'updates account' do
-    let(:alice) { create :user, :no_image, username: 'before', email: 'before@example.com' }
+    let(:bob) { create :user, :no_image, username: 'before', email: 'before@example.com' }
 
     it 'updates username', js: true do
-      sign_in alice
+      sign_in bob
       find('.rspec_header_dropdown_trigger').click
       click_link 'アカウント編集'
       expect(current_path).to eq edit_user_registration_path
       expect(page).to have_button 'update_account', disabled: true
       fill_in 'user[username]', with: 'after'
-      fill_in 'user[current_password]', with: alice.password
+      fill_in 'user[current_password]', with: bob.password
       click_button 'update_account'
-      expect(alice.reload.username).to eq 'after'
+      expect(bob.reload.username).to eq 'after'
       expect(page).to have_content 'アカウント情報を変更しました。'
     end
 
     it 'updates email', js: true do
-      sign_in alice
+      sign_in bob
       find('.rspec_header_dropdown_trigger').click
       click_link 'アカウント編集'
       expect(current_path).to eq edit_user_registration_path
       expect(page).to have_button 'update_account', disabled: true
       fill_in 'user[email]', with: 'after@example.com'
-      fill_in 'user[current_password]', with: alice.password
+      fill_in 'user[current_password]', with: bob.password
       click_button 'update_account'
-      expect(alice.reload.email).to eq 'after@example.com'
+      expect(bob.reload.email).to eq 'after@example.com'
       expect(page).to have_content 'アカウント情報を変更しました。'
     end
   end
 
   describe 'updates user' do
-    let(:alice) { create :user, nickname: 'alice', profile: "I'm alice." }
+    let(:carol) { create :user, :no_image, nickname: 'carol', profile: "I'm carol." }
 
     it 'updates nickname', js: true do
-      sign_in alice
+      sign_in carol
       find('.rspec_header_dropdown_trigger').click
       click_link 'マイページ'
-      expect(current_path).to eq user_path(alice)
+      expect(current_path).to eq user_path(carol)
       click_link 'プロフィールを編集'
       expect(page).to have_button 'update_user', disabled: true
-      fill_in 'user[nickname]', with: 'アリス'
+      fill_in 'user[nickname]', with: 'キャロル'
       click_button 'update_user'
-      expect(alice.reload.nickname).to eq 'アリス'
+      expect(carol.reload.nickname).to eq 'キャロル'
       expect(page).to have_content 'プロフィールを変更しました。'
     end
 
     it 'updates profile', js: true do
-      sign_in alice
+      sign_in carol
       find('.rspec_header_dropdown_trigger').click
       click_link 'マイページ'
-      expect(current_path).to eq user_path(alice)
+      expect(current_path).to eq user_path(carol)
       click_link 'プロフィールを編集'
       expect(page).to have_button 'update_user', disabled: true
-      fill_in 'user[profile]', with: 'アリスです。'
+      fill_in 'user[profile]', with: 'キャロルです。'
       click_button 'update_user'
-      expect(alice.reload.profile).to eq 'アリスです。'
+      expect(carol.reload.profile).to eq 'キャロルです。'
       expect(page).to have_content 'プロフィールを変更しました。'
     end
 
+    let(:dave) { create :user, :no_image }
+
     it 'updates user_image', js: true do
-      sign_in alice
-      before_image_url = alice.user_image.url
+      sign_in dave
+      before_image_url = dave.user_image.url
       find('.rspec_header_dropdown_trigger').click
       click_link 'マイページ'
-      expect(current_path).to eq user_path(alice)
+      expect(current_path).to eq user_path(dave)
       click_link 'プロフィールを編集'
       expect(page).to have_button 'update_user', disabled: true
       attach_file 'user[user_image]', "#{Rails.root}/spec/fixtures/user_image_sample_after.jpg", visible: false
       click_button 'update_user'
-      after_image_url = alice.reload.user_image.url
+      after_image_url = dave.reload.user_image.url
       expect(before_image_url).to_not eq after_image_url
       expect(page).to have_content 'プロフィールを変更しました。'
     end
+  end
+
+  let(:ellen) { create :user, :no_image }
+
+  it 'destroys account', js: true do
+    sign_in ellen
+    find('.rspec_header_dropdown_trigger').click
+    click_link 'アカウント編集'
+    click_link 'アカウント削除手続きへ'
+    expect(current_path).to eq users_confirm_destroy_path
+    expect(page).to have_button 'destroy_account', disabled: true
+    fill_in 'user[current_password]', with: ellen.password
+    expect{
+      click_button 'destroy_account'
+    }.to change { User.count }.by(-1)
+    expect(page).to have_content 'アカウントを削除しました。またのご利用をお待ちしております。'
   end
 end
