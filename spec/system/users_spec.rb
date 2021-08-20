@@ -83,6 +83,56 @@ RSpec.describe 'Users', type: :system do
       expect(bob.reload.email).to eq 'after@example.com'
       expect(page).to have_content 'アカウント情報を変更しました。'
     end
+
+    describe 'updates password' do
+      let(:bob) { create :user, :no_image, password: 'password' }
+
+      it 'signs in with new password after a password updated', js: true do
+        sign_in bob
+        find('.rspec_header_dropdown_trigger').click
+        click_link 'アカウント編集'
+        expect(current_path).to eq edit_user_registration_path
+        expect(page).to have_button 'update_account', disabled: true
+        fill_in 'user[password]', with: 'newpassword'
+        fill_in 'user[password_confirmation]', with: 'newpassword'
+        fill_in 'user[current_password]', with: bob.password
+        click_button 'update_account'
+        expect(page).to have_content 'アカウント情報を変更しました。'
+        sign_out bob
+
+        visit root_path
+        within '.container' do
+          click_link 'ログイン'
+        end
+        fill_in 'user[email]', with: bob.email
+        fill_in 'user[password]', with: 'newpassword'
+        click_button 'signin'
+        expect(page).to have_content 'ログインしました。'
+      end
+
+      it 'does not sign in with old password after a password updated', js: true do
+        sign_in bob
+        find('.rspec_header_dropdown_trigger').click
+        click_link 'アカウント編集'
+        expect(current_path).to eq edit_user_registration_path
+        expect(page).to have_button 'update_account', disabled: true
+        fill_in 'user[password]', with: 'newpassword'
+        fill_in 'user[password_confirmation]', with: 'newpassword'
+        fill_in 'user[current_password]', with: bob.password
+        click_button 'update_account'
+        expect(page).to have_content 'アカウント情報を変更しました。'
+        sign_out bob
+
+        visit root_path
+        within '.container' do
+          click_link 'ログイン'
+        end
+        fill_in 'user[email]', with: bob.email
+        fill_in 'user[password]', with: 'password'
+        click_button 'signin'
+        expect(page).to have_content 'メールアドレスまたはパスワードが違います。'
+      end
+    end
   end
 
   describe 'updates user' do
