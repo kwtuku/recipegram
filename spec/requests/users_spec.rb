@@ -1,14 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Users', type: :request do
-  describe 'users/sessions#guest_sign_in' do
-    it 'redirects to root_path' do
-      post users_guest_sign_in_path
-      expect(response).to have_http_status(302)
-      expect(response).to redirect_to root_path
-    end
-  end
-
   describe '#index' do
     let(:alice) { create :user, :no_image }
 
