@@ -81,12 +81,13 @@ RSpec.describe 'Users', type: :request do
         sign_in bob
         user_params = { nickname: 'ありす', profile: 'ありすです。' }
         patch user_path(alice), params: { user: user_params }
+        expect(response).to have_http_status(302)
         expect(response).to redirect_to user_path(bob)
       end
     end
 
-    context 'when signed in as correct user' do
-      it 'updates user' do
+    context 'when signed in as correct user and user_params[:user_image] is not present' do
+      it 'updates a user' do
         sign_in alice
         user_params = { nickname: 'ありす', profile: 'ありすです。' }
         patch user_path(alice), params: { user: user_params }
@@ -98,6 +99,30 @@ RSpec.describe 'Users', type: :request do
         sign_in alice
         user_params = { nickname: 'ありす', profile: 'ありすです。' }
         patch user_path(alice), params: { user: user_params }
+        expect(response).to have_http_status(302)
+        expect(response).to redirect_to user_path(alice)
+      end
+    end
+
+    context 'when signed in as correct user and user_params[:user_image] is present' do
+      let(:alice) { create :user }
+
+      it 'updates a user_image' do
+        sign_in alice
+        old_image_url = alice.user_image.url
+        user_image = Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/user_image_sample_after.jpg'))
+        user_params = attributes_for(:user, user_image: user_image)
+        patch user_path(alice), params: { user: user_params }
+        new_image_url = alice.reload.user_image.url
+        expect(new_image_url).to_not eq old_image_url
+      end
+
+      it 'redirects to user_path(correct user)' do
+        sign_in alice
+        user_image = Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/user_image_sample_after.jpg'))
+        user_params = attributes_for(:user, user_image: user_image)
+        patch user_path(alice), params: { user: user_params }
+        expect(response).to have_http_status(302)
         expect(response).to redirect_to user_path(alice)
       end
     end

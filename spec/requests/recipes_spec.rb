@@ -171,15 +171,16 @@ RSpec.describe 'Recipes', type: :request do
       end
 
       it 'does not update a recipe' do
+        sign_in bob
         recipe_params = attributes_for(:recipe, title: 'ラーメン')
         patch recipe_path(alice_recipe), params: { recipe: recipe_params }
         expect(alice_recipe.reload.title).to eq 'カレー'
       end
     end
 
-    context 'signed in as correct user' do
+    context 'signed in as correct user and recipe_params[:recipe_image] is not present' do
       it 'redirects to recipe_path(alice_recipe)' do
-        sign_in bob
+        sign_in alice
         recipe_params = attributes_for(:recipe, title: 'ラーメン')
         patch recipe_path(alice_recipe), params: { recipe: recipe_params }
         expect(response).to have_http_status(302)
@@ -191,6 +192,29 @@ RSpec.describe 'Recipes', type: :request do
         recipe_params = attributes_for(:recipe, title: 'ラーメン')
         patch recipe_path(alice_recipe), params: { recipe: recipe_params }
         expect(alice_recipe.reload.title).to eq 'ラーメン'
+      end
+    end
+
+    context 'signed in as correct user and recipe_params[:recipe_image] is present' do
+      let(:alice_recipe) { create :recipe, user: alice }
+
+      it 'redirects to recipe_path(alice_recipe)' do
+        sign_in alice
+        recipe_image = Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/recipe_image_sample_after.jpg'))
+        recipe_params = attributes_for(:recipe, recipe_image: recipe_image)
+        patch recipe_path(alice_recipe), params: { recipe: recipe_params }
+        expect(response).to have_http_status(302)
+        expect(response).to redirect_to recipe_path(alice_recipe)
+      end
+
+      it 'updates a recipe_image' do
+        sign_in alice
+        old_image_url = alice_recipe.recipe_image.url
+        recipe_image = Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/recipe_image_sample_after.jpg'))
+        recipe_params = attributes_for(:recipe, recipe_image: recipe_image)
+        patch recipe_path(alice_recipe), params: { recipe: recipe_params }
+        new_image_url = alice_recipe.reload.recipe_image.url
+        expect(new_image_url).to_not eq old_image_url
       end
     end
   end
