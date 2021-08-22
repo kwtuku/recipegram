@@ -6,20 +6,32 @@ RSpec.describe 'Notifications', type: :request do
   let(:bob) { create :user, :no_image }
 
   describe 'comments#create' do
-    it 'increases Notification count' do
-      sign_in bob
-      comment_params = attributes_for(:comment)
-      expect {
-        post recipe_comments_path(alice_recipe), params: { comment: comment_params }
-      }.to change { Notification.count }.by(1)
+    context 'when a comment is saved' do
+      it 'increases Notification count' do
+        sign_in bob
+        comment_params = attributes_for(:comment)
+        expect {
+          post recipe_comments_path(alice_recipe), params: { comment: comment_params }
+        }.to change { Notification.count }.by(1)
+      end
+
+      it 'increases User.notifications count' do
+        sign_in bob
+        comment_params = attributes_for(:comment)
+        expect {
+          post recipe_comments_path(alice_recipe), params: { comment: comment_params }
+        }.to change { alice.notifications.count }.by(1)
+      end
     end
 
-    it 'increases User.notifications count' do
-      sign_in bob
-      comment_params = attributes_for(:comment)
-      expect {
-        post recipe_comments_path(alice_recipe), params: { comment: comment_params }
-      }.to change { alice.notifications.count }.by(1)
+    context 'when a comment is not saved' do
+      it 'does not increase Notification count' do
+        sign_in bob
+        invalid_comment_params = { body: '' }
+        expect {
+          post recipe_comments_path(alice_recipe), params: { comment: invalid_comment_params }
+        }.to change { Notification.count }.by(0)
+      end
     end
   end
 
