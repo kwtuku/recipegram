@@ -1,16 +1,50 @@
 require 'rails_helper'
 
 RSpec.describe 'Recipes', type: :request do
-  describe 'public pages' do
-    let(:recipe) { create :recipe, :no_image }
+  describe '#index' do
+    before { create_list(:recipe, 5, :no_image) }
+    let(:alice) { create :user, :no_image }
 
-    it 'recipes#index returns a 200 response' do
+    it 'returns a 200 response when not signed in' do
       get recipes_path
       expect(response).to have_http_status(200)
     end
 
-    it 'recipes#show returns a 200 response' do
+    it 'returns a 200 response when signed in' do
+      sign_in alice
+      get recipes_path
+      expect(response).to have_http_status(200)
+    end
+  end
+
+  describe '#show' do
+    let(:alice) { create :user, :no_image }
+    let(:recipe) { create :recipe, :no_image }
+
+    it 'returns a 200 response when not signed in' do
       get recipe_path(recipe)
+      expect(response).to have_http_status(200)
+    end
+
+    it 'returns a 200 response when signed in' do
+      sign_in alice
+      get recipe_path(recipe)
+      expect(response).to have_http_status(200)
+    end
+  end
+
+  describe '#new' do
+    let(:alice) { create :user, :no_image }
+
+    it 'redirects to new_user_session_path when not signed in' do
+      get new_recipe_path
+      expect(response).to have_http_status(302)
+      expect(response).to redirect_to new_user_session_path
+    end
+
+    it 'returns a 200 response when signed in' do
+      sign_in alice
+      get new_recipe_path
       expect(response).to have_http_status(200)
     end
   end
