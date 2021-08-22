@@ -19,17 +19,39 @@ RSpec.describe 'Recipes', type: :request do
 
   describe '#show' do
     let(:alice) { create :user, :no_image }
-    let(:recipe) { create :recipe, :no_image }
+    let(:bob) { create :user, :no_image }
+    let(:bob_recipe) { create :recipe, :no_image }
 
-    it 'returns a 200 response when not signed in' do
-      get recipe_path(recipe)
-      expect(response).to have_http_status(200)
+    context 'when not signed in and other recipes exist' do
+      it 'returns a 200 response' do
+        create_list(:recipe, 5, :no_image, user: bob)
+        get recipe_path(bob_recipe)
+        expect(response).to have_http_status(200)
+      end
     end
 
-    it 'returns a 200 response when signed in' do
-      sign_in alice
-      get recipe_path(recipe)
-      expect(response).to have_http_status(200)
+    context 'when not signed in and other recipes do not exist' do
+      it 'returns a 200 response' do
+        get recipe_path(bob_recipe)
+        expect(response).to have_http_status(200)
+      end
+    end
+
+    context 'when signed in and other recipes exist' do
+      it 'returns a 200 response' do
+        create_list(:recipe, 5, :no_image, user: bob)
+        sign_in alice
+        get recipe_path(bob_recipe)
+        expect(response).to have_http_status(200)
+      end
+    end
+
+    context 'when signed in and other recipes do not exist' do
+      it 'returns a 200 response' do
+        sign_in alice
+        get recipe_path(bob_recipe)
+        expect(response).to have_http_status(200)
+      end
     end
   end
 
