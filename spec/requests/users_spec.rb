@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Users', type: :request do
   describe '#index' do
+    before { create_list(:user, 5, :no_image) }
     let(:alice) { create :user, :no_image }
 
     it 'returns a 200 response when not signed in' do
