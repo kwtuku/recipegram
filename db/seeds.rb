@@ -1,7 +1,8 @@
 Faker::Config.locale = :en
 
 def create_characteristic_user_recipe_comment
-  common_password = 'fffffr'
+  password_for_production = Rails.application.credentials.seed[:user_password]
+  common_password =  Rails.env.production? ? password_for_production : 'fffffr'
 
   user = User.create!(
     username:              "l#{'o'*9}ng",
@@ -10,14 +11,14 @@ def create_characteristic_user_recipe_comment
     password:              common_password,
     password_confirmation: common_password,
     profile:               "very_l#{'o'*487}ng_word",
-    user_image:            File.open("./db/fixtures/user/user_sample_#{rand(1..15)}.jpg"),
+    user_image:            File.open("./db/fixtures/user/user_sample_#{rand(1..20)}.jpg"),
   )
   puts 'ユーザーを作成完了'
 
   recipe = user.recipes.create!(
     title:        "very_l#{'o'*17}ng_word",
     body:         "very_l#{'o'*1987}ng_word",
-    recipe_image: File.open("./db/fixtures/recipe/recipe_sample_#{rand(1..15)}.jpg"),
+    recipe_image: File.open("./db/fixtures/recipe/recipe_sample_#{rand(1..20)}.jpg"),
   )
   puts 'レシピを作成完了'
 
@@ -31,7 +32,8 @@ end
 def create_user(user_creation_time)
   puts "ユーザーを#{user_creation_time}回作成"
 
-  common_password = 'fffffr'
+  password_for_production = Rails.application.credentials.seed[:user_password]
+  common_password =  Rails.env.production? ? password_for_production : 'fffffr'
 
   user_example_emails = User.all.pluck(:email).grep(/example(.+)@example.com/)
   last_email_number = user_example_emails.blank? ? 0 : user_example_emails.map{ |email| email.gsub(/example(.+)@example.com/, '\+').to_i }.max
@@ -40,7 +42,7 @@ def create_user(user_creation_time)
     nickname  = Faker::Lorem.words(number: rand(1..10)).join(' ')
     email = "example#{last_email_number + n + 1}@example.com"
     profile = Faker::Lorem.paragraphs(number: rand(1..10)).join(' ')
-    user_image = File.open("./db/fixtures/user/user_sample_#{rand(1..15)}.jpg")
+    user_image = File.open("./db/fixtures/user/user_sample_#{rand(1..20)}.jpg")
 
     User.create!(
       username:              User.generate_username,
@@ -85,7 +87,7 @@ def create_recipe(recipe_creation_time)
       #{Faker::Lorem.paragraphs(number: rand(1..3)).join(' ')}
       #{Faker::Lorem.paragraphs(number: rand(1..8)).join(' ')}
     TEXT
-    recipe_image = File.open("./db/fixtures/recipe/recipe_sample_#{rand(1..15)}.jpg")
+    recipe_image = File.open("./db/fixtures/recipe/recipe_sample_#{rand(1..20)}.jpg")
 
     User.all.sample.recipes.create!(
       title: recipe_title[0..29],
@@ -210,7 +212,7 @@ def create_recipe_of_one_user(recipe_creation_time, user_id)
       #{Faker::Lorem.paragraphs(number: rand(1..3)).join(' ')}
       #{Faker::Lorem.paragraphs(number: rand(1..8)).join(' ')}
     TEXT
-    recipe_image = File.open("./db/fixtures/recipe/recipe_sample_#{rand(1..15)}.jpg")
+    recipe_image = File.open("./db/fixtures/recipe/recipe_sample_#{rand(1..20)}.jpg")
 
     User.find(user_id).recipes.create!(
       title: recipe_title[0..29],
