@@ -2,13 +2,13 @@
   <div class="card" data-infinite-scroll-item="">
     <div class="card-content">
       <div class="media">
-        <figure class="media-left">
-          <p class="image is-64x64">
-            <%= link_to user_path(user) do %>
-              <%= image_tag user.user_image.url(:icon), class: 'is-rounded' %>
-            <% end %>
-          </p>
-        </figure>
+        <div class="media-left">
+          <%= link_to user_path(user) do %>
+            <figure class="image is-64x64">
+              <%= image_tag user.user_image.icon, type: :upload, quality: 'auto', fetch_format: :auto, class: 'is-rounded' %>
+            </figure>
+          <% end %>
+        </div>
         <div class="media-content">
           <p class="is-size-5 is-1-line">
             <span><%= link_to user.nickname, user_path(user), title: user.nickname, class: 'has-text-black-bis text-break hover-underline' %></span>

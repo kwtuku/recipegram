@@ -7,9 +7,11 @@
     <div class="columns is-centered">
       <div class="column is-10">
         <div class="media is-hidden-tablet">
-          <figure class="media-content">
-            <p class="image is-96x96"><%= image_tag @user.user_image.url(:thumb), class: 'is-rounded' %></p>
-          </figure>
+          <div class="media-content">
+            <figure class="image is-96x96">
+              <%= image_tag @user.user_image.thumb, type: :upload, quality: 'auto', fetch_format: :auto, class: 'is-rounded' %>
+            </figure>
+          </div>
           <div class="media-right margin-auto-0">
             <% if @user == current_user %>
               <%= link_to 'プロフィールを編集', edit_users_path, class: 'button is-rounded' %>
@@ -21,11 +23,11 @@
           </div>
         </div>
         <div class="media border-0 mt-0 pt-0">
-          <figure class="media-left is-hidden-mobile mr-6">
-            <p class="image is-128x128">
-              <%= image_tag @user.user_image.url(:thumb), class: 'is-rounded' %>
-            </p>
-          </figure>
+          <div class="media-left is-hidden-mobile mr-6">
+            <figure class="image is-128x128">
+              <%= image_tag @user.user_image.thumb, type: :upload, quality: 'auto', fetch_format: :auto, class: 'is-rounded' %>
+            </figure>
+          </div>
           <div class="media-content">
             <div class="media border-0 pt-0">
               <div class="media-content">

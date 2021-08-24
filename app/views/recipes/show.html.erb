@@ -51,11 +51,11 @@
         <div class="card">
           <div class="card-content is-hidden-desktop">
             <div class="media">
-              <figure class="media-left">
-                <p class="image is-24x24">
-                  <%= image_tag @recipe.user.user_image.url(:icon), class: 'is-rounded' %>
-                </p>
-              </figure>
+              <div class="media-left">
+                <figure class="image is-24x24">
+                  <%= image_tag @recipe.user.user_image.icon, type: :upload, quality: 'auto', fetch_format: :auto, class: 'is-rounded' %>
+                </figure>
+              </div>
               <div class="media-content is-1-line">
                 <span><%= link_to @recipe.user.nickname, user_path(@recipe.user), title: @recipe.user.nickname, class: 'has-text-black-bis text-break hover-underline' %></span>
               </div>
@@ -82,7 +82,7 @@
           </div>
           <div class="card-image">
             <figure class="image is-1by1 cursor-pointer" id="open-modal">
-              <%= image_tag @recipe.recipe_image.url(:main) %>
+              <%= image_tag @recipe.recipe_image.main, type: :upload, quality: 'auto', fetch_format: :auto %>
             </figure>
           </div>
           <div class="card-content">
@@ -193,7 +193,7 @@
     <div class="modal-card m-0-mobile">
       <div class="modal-body">
         <p class="image is-1by1">
-          <%= image_tag @recipe.recipe_image.url(:main) %>
+          <%= image_tag @recipe.recipe_image.main, type: :upload, quality: 'auto', fetch_format: :auto %>
         </p>
       </div>
     </div>

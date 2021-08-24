@@ -1,16 +1,14 @@
 <div class="media">
-  <figure class="media-left">
-    <p class="image is-64x64 is-hidden-mobile">
-      <%= link_to user_path(comment.user) do %>
-        <%= image_tag comment.user.user_image.url(:icon), class: 'is-rounded' %>
-      <% end %>
-    </p>
-    <p class="image is-32x32 is-hidden-tablet">
-      <%= link_to user_path(comment.user) do %>
-        <%= image_tag comment.user.user_image.url(:icon), class: 'is-rounded' %>
-      <% end %>
-    </p>
-  </figure>
+  <div class="media-left">
+    <%= link_to user_path(comment.user) do %>
+      <figure class="image is-64x64 is-hidden-mobile">
+        <%= image_tag comment.user.user_image.icon, type: :upload, quality: 'auto', fetch_format: :auto, class: 'is-rounded' %>
+      </figure>
+      <figure class="image is-32x32 is-hidden-tablet">
+        <%= image_tag comment.user.user_image.icon, type: :upload, quality: 'auto', fetch_format: :auto, class: 'is-rounded' %>
+      </figure>
+    <% end %>
+  </div>
   <div class="media-content">
     <p class="title is-5 is-1-line mb-0">
       <span><%= link_to comment.user.nickname, user_path(comment.user), title: comment.user.nickname, class: 'has-text-black-bis hover-underline' %></span>

@@ -15,8 +15,8 @@
           <div class="file is-centered">
             <%= f.label :recipe_image do %>
               <%= f.file_field :recipe_image, class: 'is-hidden', required: true, accept: 'image/jpg, image/jpeg, image/png, image/webp' %>
-              <figure class="image cursor-pointer border_red_with_errors" id="file-cta">
-                <%= image_tag @recipe.recipe_image.url(:thumb), class: 'is-400x400' %>
+              <figure class="image is-400x400 cursor-pointer border_red_with_errors" id="file-cta">
+                <%= image_tag @recipe.recipe_image.thumb, type: :upload, quality: 'auto', fetch_format: :auto %>
               </figure>
               <img class="is-hidden is-400x400 cursor-pointer" id="file-preview">
             <% end %>

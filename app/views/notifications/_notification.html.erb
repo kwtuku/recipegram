@@ -1,11 +1,11 @@
 <div class="media">
-  <figure class="media-left">
-    <p class="image is-32x32">
-      <%= link_to user_path(notification.notifiable.user) do %>
-        <%= image_tag notification.notifiable.user.user_image.url(:icon), class: 'is-rounded' %>
-      <% end %>
-    </p>
-  </figure>
+  <div class="media-left">
+    <%= link_to user_path(notification.notifiable.user) do %>
+      <figure class="image is-32x32">
+        <%= image_tag notification.notifiable.user.user_image.icon, type: :upload, quality: 'auto', fetch_format: :auto, class: 'is-rounded' %>
+      </figure>
+    <% end %>
+  </div>
   <div class="media-content">
     <p>
       <%= link_to notification.notifiable.user.nickname, user_path(notification.notifiable.user), class: 'has-text-black-bis has-text-weight-bold text-break hover-underline' %>さんが

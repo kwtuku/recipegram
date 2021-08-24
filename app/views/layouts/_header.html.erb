@@ -54,7 +54,7 @@
           <div class="dropdown-trigger rspec_header_dropdown_trigger">
             <button class="button is-white is-small is-rounded bg-color-transparent p-0" aria-haspopup="true" aria-controls="dropdown-menu">
               <figure class="image is-24x24">
-                <%= image_tag current_user.user_image.url(:icon), class: 'is-rounded' %>
+                <%= image_tag current_user.user_image.icon, type: :upload, quality: 'auto', fetch_format: :auto, class: 'is-rounded' %>
               </figure>
             </button>
           </div>
