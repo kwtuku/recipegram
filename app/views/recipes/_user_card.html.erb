@@ -18,8 +18,10 @@
         </div>
       </div>
     </div>
-    <div class="content">
-      <p class="text-break <%= show_some_lines_depends_on(@other_recipes) %>"><span><%= user.profile %></span></p>
-    </div>
+    <% if user.profile.present? %>
+      <div class="content">
+        <p class="text-break <%= show_some_lines_depends_on(@other_recipes) %>"><span><%= user.profile %></span></p>
+      </div>
+    <% end %>
   </div>
 </div>
