@@ -3,16 +3,10 @@ class RecipeImageUploader < CarrierWave::Uploader::Base
   # include CarrierWave::RMagick
   include CarrierWave::MiniMagick
 
-  include Cloudinary::CarrierWave unless Rails.env.test?
+  include Cloudinary::CarrierWave
 
   def public_id
-    environment = if Rails.env.development?
-                    'development'
-                  elsif Rails.env.production?
-                    'production'
-                  end
-
-    "#{environment}/recipe/#{Cloudinary::Utils.random_public_id}"
+    "#{Rails.env}/recipe/#{Cloudinary::Utils.random_public_id}"
   end
 
   # Override the directory where uploaded files will be stored.
