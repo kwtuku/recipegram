@@ -2,7 +2,7 @@
   <div class="media-left">
     <%= link_to user_path(notification.notifiable.user) do %>
       <figure class="image is-32x32">
-        <%= image_tag notification.notifiable.user.user_image.icon, type: :upload, quality: 'auto', fetch_format: :auto, class: 'is-rounded' %>
+        <%= image_tag notification.notifiable.user.user_image.icon.url, class: 'is-rounded' %>
       </figure>
     <% end %>
   </div>

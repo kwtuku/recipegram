@@ -2,10 +2,10 @@
   <div class="media-left">
     <%= link_to user_path(user) do %>
       <figure class="image is-64x64 is-hidden-mobile">
-        <%= image_tag user.user_image.icon, type: :upload, quality: 'auto', fetch_format: :auto, class: 'is-rounded' %>
+        <%= image_tag user.user_image.icon.url, class: 'is-rounded' %>
       </figure>
       <figure class="image is-48x48 is-hidden-tablet">
-        <%= image_tag user.user_image.icon, type: :upload, quality: 'auto', fetch_format: :auto, class: 'is-rounded' %>
+        <%= image_tag user.user_image.icon.url, class: 'is-rounded' %>
       </figure>
     <% end %>
   </div>

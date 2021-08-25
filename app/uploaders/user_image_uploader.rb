@@ -33,9 +33,11 @@ class UserImageUploader < CarrierWave::Uploader::Base
   # Create different versions of your uploaded files:
   version :icon do
     process resize_to_fill: [150, 150, "Center"]
+    cloudinary_transformation quality: 'auto', fetch_format: :auto
   end
   version :thumb do
     process resize_to_fill: [320, 320, "Center"]
+    cloudinary_transformation quality: 'auto', fetch_format: :auto
   end
 
   # Add an allowlist of extensions which are allowed to be uploaded.

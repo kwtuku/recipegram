@@ -5,7 +5,7 @@
         <div class="media-left">
           <%= link_to user_path(user) do %>
             <figure class="image is-64x64">
-              <%= image_tag user.user_image.icon, type: :upload, quality: 'auto', fetch_format: :auto, class: 'is-rounded' %>
+              <%= image_tag user.user_image.icon.url, class: 'is-rounded' %>
             </figure>
           <% end %>
         </div>

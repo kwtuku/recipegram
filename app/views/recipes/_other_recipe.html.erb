@@ -3,7 +3,7 @@
     <div class="card-image">
       <%= link_to recipe_path(recipe) do %>
         <figure class="image is-1by1 has-mask">
-          <%= image_tag recipe.recipe_image.thumb, type: :upload, quality: 'auto', fetch_format: :auto %>
+          <%= image_tag recipe.recipe_image.thumb.url %>
           <div class="mask has-text-centered">
             <p class="has-text-white">
               <span class="icon-text mr-3">
