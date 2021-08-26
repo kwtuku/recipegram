@@ -40,7 +40,7 @@ JavaScriptによる機能もあります。
 
 <br>
 
-**RSpecでテストコード**が書いてあり、Model specが73件、Request specが120件、System specが45件、その他25件の**合計263件のexample**があります。
+**RSpecでテストコード**が書いてあり、Model specが84件、Request specが148件、System specが45件、その他25件の**合計302件のexample**があります。
 
 テストコードの詳細は後述の[テストコードの詳細](#テストコードの詳細)を御覧ください。
 
@@ -234,7 +234,7 @@ https://recipegram-kwtuku.herokuapp.com/
 
 # テストコードの詳細
 
-**RSpecでテストコード**が書いてあり、Model specが73件、Request specが120件、System specが45件、その他25件の**合計263件のexample**があります。
+**RSpecでテストコード**が書いてあり、Model specが84件、Request specが148件、System specが45件、その他25件の**合計302件のexample**があります。
 
 Model specではバリデーションと定義したメソッドをテストしています。具体的には、UserのURLのパラメーターに使用しているusernameというカラムが一意であり、登録できない単語を設定できているかなどや、通知を作成するメソッドで通知が送られるユーザーが正しいかなどについてです。
 
