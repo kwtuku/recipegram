@@ -3,7 +3,7 @@
     <div class="media-left">
       <%= link_to recipe_path(recipe) do %>
         <figure class="image is-128x128">
-          <%= image_tag recipe.recipe_image.url(:thumb) %>
+          <%= image_tag recipe.recipe_image.thumb.url %>
         </figure>
       <% end %>
     </div>

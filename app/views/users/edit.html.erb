@@ -15,8 +15,8 @@
           <div class="file is-centered">
             <%= f.label :user_image do %>
               <%= f.file_field :user_image, class: 'is-hidden', accept: 'image/jpg, image/jpeg, image/png, image/webp' %>
-              <figure class="image cursor-pointer border_red_with_errors round" id="file-cta">
-                <%= image_tag @user.user_image.url(:thumb), class: 'is-rounded is-256x256' %>
+              <figure class="image is-256x256 cursor-pointer border_red_with_errors round" id="file-cta">
+                <%= image_tag @user.user_image.thumb.url, class: 'is-rounded' %>
               </figure>
               <img class="is-hidden is-256x256 round cursor-pointer" id="file-preview">
             <% end %>

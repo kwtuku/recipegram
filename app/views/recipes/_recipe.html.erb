@@ -1,9 +1,9 @@
 <div class="column is-6-mobile is-4-tablet is-3-desktop">
   <div class="card" id="recipe-<%= recipe.id %>" data-infinite-scroll-item="">
     <div class="card-image">
-      <figure class="image is-1by1 has-mask">
-        <%= link_to recipe_path(recipe) do %>
-          <%= image_tag recipe.recipe_image.url(:thumb) %>
+      <%= link_to recipe_path(recipe) do %>
+        <figure class="image is-1by1 has-mask">
+          <%= image_tag recipe.recipe_image.thumb.url %>
           <div class="mask has-text-centered">
             <p class="has-text-white">
               <span class="icon-text mr-3">
@@ -20,8 +20,8 @@
               </span>
             </p>
           </div>
-        <% end %>
-      </figure>
+        </figure>
+      <% end %>
     </div>
   </div>
 </div>

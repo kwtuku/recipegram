@@ -6,13 +6,7 @@ class RecipeImageUploader < CarrierWave::Uploader::Base
   include Cloudinary::CarrierWave unless Rails.env.test?
 
   def public_id
-    environment = if Rails.env.development?
-                    'development'
-                  elsif Rails.env.production?
-                    'production'
-                  end
-
-    "#{environment}/recipe/#{Cloudinary::Utils.random_public_id}"
+    "#{Rails.env}/recipe/#{Cloudinary::Utils.random_public_id}"
   end
 
   # Override the directory where uploaded files will be stored.
@@ -39,9 +33,11 @@ class RecipeImageUploader < CarrierWave::Uploader::Base
   # Create different versions of your uploaded files:
   version :thumb do
     process resize_to_fill: [640, 640]
+    cloudinary_transformation quality: 'auto', fetch_format: :auto unless Rails.env.test?
   end
   version :main do
     process resize_to_fill: [1200, 1200]
+    cloudinary_transformation quality: 'auto', fetch_format: :auto unless Rails.env.test?
   end
 
   # Add an allowlist of extensions which are allowed to be uploaded.

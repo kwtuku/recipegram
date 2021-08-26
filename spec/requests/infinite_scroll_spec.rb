@@ -33,6 +33,74 @@ RSpec.describe 'InfiniteScroll', type: :request do
     end
   end
 
+  describe 'users#index' do
+    before { create_list(:user, 100, :no_image) }
+    let(:users) { User.order(id: :DESC) }
+
+    context 'when 40 items are already displayed' do
+      it 'returns a 200 response' do
+        get infinite_scroll_path, params: {displayed_item_count: '40', path: 'users' }, xhr: true
+        expect(response).to have_http_status(200)
+      end
+
+      it 'renders correct items' do
+        get infinite_scroll_path, params: {displayed_item_count: '40', path: 'users' }, xhr: true
+        users[0..39].pluck(:nickname).each { |nickname| expect(response.body).to_not include nickname }
+        users[40..79].pluck(:nickname).each { |nickname| expect(response.body).to include nickname }
+        users[80..99].pluck(:nickname).each { |nickname| expect(response.body).to_not include nickname }
+      end
+    end
+
+    context 'when 80 items are already displayed' do
+      it 'returns a 200 response' do
+        get infinite_scroll_path, params: {displayed_item_count: '80', path: 'users' }, xhr: true
+        expect(response).to have_http_status(200)
+      end
+
+      it 'renders correct items' do
+        get infinite_scroll_path, params: {displayed_item_count: '80', path: 'users' }, xhr: true
+        users[0..79].pluck(:nickname).each { |nickname| expect(response.body).to_not include nickname }
+        users[80..99].pluck(:nickname).each { |nickname| expect(response.body).to include nickname }
+      end
+    end
+  end
+
+  describe 'users#show' do
+    let!(:alice) { create :user, :no_image, username: 'alice' }
+    let!(:alice_recipes) { create_list(:recipe, 100, :no_image, user: alice) }
+    let(:posted_recipes) { alice.recipes.eager_load(:favorites, :comments).order(id: :DESC) }
+    let!(:not_posted_recipes) { create_list(:recipe, 10, :no_image) }
+
+    context 'when 40 items are already displayed' do
+      it 'returns a 200 response' do
+        get infinite_scroll_path, params: {displayed_item_count: '40', path: "users/#{alice.username}" }, xhr: true
+        expect(response).to have_http_status(200)
+      end
+
+      it 'renders correct item links' do
+        get infinite_scroll_path, params: {displayed_item_count: '40',  path: "users/#{alice.username}" }, xhr: true
+        posted_recipes[0..39].pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
+        posted_recipes[40..79].pluck(:id).each { |recipe_id| expect(response.body).to include "/recipes/#{recipe_id}" }
+        posted_recipes[80..99].pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
+        not_posted_recipes.pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
+      end
+    end
+
+    context 'when 80 items are already displayed' do
+      it 'returns a 200 response' do
+        get infinite_scroll_path, params: {displayed_item_count: '80', path: "users/#{alice.username}" }, xhr: true
+        expect(response).to have_http_status(200)
+      end
+
+      it 'renders correct item links' do
+        get infinite_scroll_path, params: {displayed_item_count: '80',  path: "users/#{alice.username}" }, xhr: true
+        posted_recipes[0..79].pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
+        posted_recipes[80..99].pluck(:id).each { |recipe_id| expect(response.body).to include "/recipes/#{recipe_id}" }
+        not_posted_recipes.pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
+      end
+    end
+  end
+
   describe 'users#comments' do
     let(:alice) { create :user, :no_image, username: 'alice' }
     before do
@@ -80,7 +148,7 @@ RSpec.describe 'InfiniteScroll', type: :request do
       random_recipes = Recipe.all.sample(100)
       random_recipes.each { |recipe| alice.favorites.create(recipe_id: recipe.id) }
     end
-    let(:favored_recipes) { alice.favored_recipes.eager_load(:favorites, :favorites).order('favorites.created_at desc') }
+    let(:favored_recipes) { alice.favored_recipes.eager_load(:favorites, :comments).order('favorites.created_at desc') }
     let(:not_favored_recipes) { Recipe.all - favored_recipes }
 
     context 'when 40 items are already displayed' do
@@ -109,38 +177,6 @@ RSpec.describe 'InfiniteScroll', type: :request do
         favored_recipes[0..79].pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
         favored_recipes[80..99].pluck(:id).each { |recipe_id| expect(response.body).to include "/recipes/#{recipe_id}" }
         not_favored_recipes.pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
-      end
-    end
-  end
-
-  describe 'users#index' do
-    before { create_list(:user, 100, :no_image) }
-    let(:users) { User.order(id: :DESC) }
-
-    context 'when 40 items are already displayed' do
-      it 'returns a 200 response' do
-        get infinite_scroll_path, params: {displayed_item_count: '40', path: 'users' }, xhr: true
-        expect(response).to have_http_status(200)
-      end
-
-      it 'renders correct items' do
-        get infinite_scroll_path, params: {displayed_item_count: '40', path: 'users' }, xhr: true
-        users[0..39].pluck(:nickname).each { |nickname| expect(response.body).to_not include nickname }
-        users[40..79].pluck(:nickname).each { |nickname| expect(response.body).to include nickname }
-        users[80..99].pluck(:nickname).each { |nickname| expect(response.body).to_not include nickname }
-      end
-    end
-
-    context 'when 80 items are already displayed' do
-      it 'returns a 200 response' do
-        get infinite_scroll_path, params: {displayed_item_count: '80', path: 'users' }, xhr: true
-        expect(response).to have_http_status(200)
-      end
-
-      it 'renders correct items' do
-        get infinite_scroll_path, params: {displayed_item_count: '80', path: 'users' }, xhr: true
-        users[0..79].pluck(:nickname).each { |nickname| expect(response.body).to_not include nickname }
-        users[80..99].pluck(:nickname).each { |nickname| expect(response.body).to include nickname }
       end
     end
   end

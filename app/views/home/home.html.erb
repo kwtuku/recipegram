@@ -12,13 +12,13 @@
           <div class="sticky">
             <div class="block">
               <div class="media">
-                <figure class="media-left">
-                  <p class="image is-48x48">
-                    <%= link_to user_path(current_user) do %>
-                      <%= image_tag current_user.user_image.url(:icon), class: 'is-rounded' %>
-                    <% end %>
-                  </p>
-                </figure>
+                <div class="media-left">
+                  <%= link_to user_path(current_user) do %>
+                    <figure class="image is-48x48">
+                      <%= image_tag current_user.user_image.icon.url, class: 'is-rounded' %>
+                    </figure>
+                  <% end %>
+                </div>
                 <div class="media-content margin-auto-0">
                   <p class="is-size-5 is-1-line">
                     <span><%= link_to current_user.nickname, user_path(current_user), title: current_user.nickname, class: 'has-text-black-bis text-break hover-underline' %></span>

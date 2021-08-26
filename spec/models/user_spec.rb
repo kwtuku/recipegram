@@ -86,6 +86,73 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'already_favored?(recipe)' do
+    let(:alice) { create(:user, :no_image) }
+    let(:favored_recipe) { create(:recipe, :no_image) }
+    let!(:not_favored_recipe) { create(:recipe, :no_image) }
+    before do
+      alice.favorites.create!(recipe_id: favored_recipe.id)
+    end
+
+    context 'alice already favored a recipe' do
+      it 'returns true' do
+        expect(alice.already_favored?(favored_recipe)).to eq true
+      end
+    end
+
+    context 'alice does not favor a recipe' do
+      it 'returns false' do
+        expect(alice.already_favored?(not_favored_recipe)).to eq false
+      end
+    end
+  end
+
+  describe 'follow' do
+    let(:alice) { create(:user, :no_image) }
+    let(:bob) { create(:user, :no_image) }
+
+    it 'increases relationship count' do
+      expect{
+        alice.follow(bob)
+      }.to change { Relationship.count }.by(1)
+      .and change { alice.followings.count }.by(1)
+      .and change { bob.followers.count }.by(1)
+    end
+  end
+
+  describe 'unfollow' do
+    let(:alice) { create(:user, :no_image) }
+    let(:bob) { create(:user, :no_image) }
+    before { alice.relationships.create!(follow_id: bob.id) }
+
+    it 'decreases relationship count' do
+      expect{
+        alice.unfollow(bob)
+      }.to change { Relationship.count }.by(-1)
+      .and change { alice.followings.count }.by(-1)
+      .and change { bob.followers.count }.by(-1)
+    end
+  end
+
+  describe 'following?(user)' do
+    let(:alice) { create(:user, :no_image) }
+    let(:bob) { create(:user, :no_image) }
+    let(:carol) { create(:user, :no_image) }
+    before { alice.relationships.create!(follow_id: bob.id) }
+
+    context 'alice follows a user' do
+      it 'returns true' do
+        expect(alice.following?(bob)).to eq true
+      end
+    end
+
+    context 'alice does not follow a user' do
+      it 'returns false' do
+        expect(alice.following?(carol)).to eq false
+      end
+    end
+  end
+
   describe 'feed' do
     let(:alice) { create(:user, :has_5_recipes, :no_image) }
     let(:bob) { create(:user, :has_5_recipes, :no_image) }
