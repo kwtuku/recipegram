@@ -128,15 +128,17 @@
         </div>
       </div>
 
-      <div class="column is-4 is-hidden-touch">
+      <div class="column is-4 p-0-mobile">
         <div class="sticky">
-          <%= render 'recipes/user_card', user: @recipe.user %>
+          <div class="is-hidden-touch">
+            <%= render 'recipes/user_card', user: @recipe.user %>
+          </div>
           <% unless @other_recipes.blank? %>
             <div class="card mt-4">
               <div class="card-content px-5 py-3">
                 <p>他の投稿</p>
               </div>
-              <div class="columns is-multiline is-gapless">
+              <div class="columns is-multiline is-gapless is-mobile">
                 <%= render partial: 'recipes/other_recipe', collection: @other_recipes, as: 'recipe' %>
               </div>
             </div>
