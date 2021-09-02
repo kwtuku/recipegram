@@ -6,7 +6,7 @@ RSpec.describe 'Users', type: :system do
 
     it 'signs up', js: true do
       visit root_path
-      click_link '新規登録'
+      click_link '登録'
       expect(current_path).to eq new_user_registration_path
       expect(page).to have_button 'signup', disabled: true
       fill_in 'user[username]', with: alice.username
@@ -20,7 +20,7 @@ RSpec.describe 'Users', type: :system do
 
     it 'generates valid username', js: true do
       visit root_path
-      click_link '新規登録'
+      click_link '登録'
       expect(page).to have_field 'user[username]', with: ''
       click_link href: generate_username_path
       expect(page).to have_selector '.rspec_has_generated_username'
@@ -35,11 +35,9 @@ RSpec.describe 'Users', type: :system do
   describe 'signs in' do
     let(:alice) { create :user, :no_image }
 
-    it 'signs in with valid information', js: true do
+    it 'signs in', js: true do
       visit root_path
-      within '.container' do
-        click_link 'ログイン'
-      end
+      click_link 'ログイン'
       expect(current_path).to eq new_user_session_path
       expect(page).to have_button 'signin', disabled: true
       fill_in 'user[email]', with: alice.email
@@ -50,7 +48,7 @@ RSpec.describe 'Users', type: :system do
 
     it 'signs in as guest' do
       visit root_path
-      click_link 'ゲストユーザーとしてログイン'
+      click_link 'ゲストログイン'
       expect(page).to have_content 'ゲストユーザーとしてログインしました。'
     end
   end
@@ -101,9 +99,7 @@ RSpec.describe 'Users', type: :system do
         sign_out bob
 
         visit root_path
-        within '.container' do
-          click_link 'ログイン'
-        end
+        click_link 'ログイン'
         fill_in 'user[email]', with: bob.email
         fill_in 'user[password]', with: 'newpassword'
         click_button 'signin'
@@ -124,9 +120,7 @@ RSpec.describe 'Users', type: :system do
         sign_out bob
 
         visit root_path
-        within '.container' do
-          click_link 'ログイン'
-        end
+        click_link 'ログイン'
         fill_in 'user[email]', with: bob.email
         fill_in 'user[password]', with: 'password'
         click_button 'signin'
