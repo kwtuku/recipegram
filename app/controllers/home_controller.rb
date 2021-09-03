@@ -6,7 +6,7 @@ class HomeController < ApplicationController
       @feed_items = current_user.home_recipes.first(20)
       @recommended_users = current_user.recommended_users.sample(5)
     else
-      @feed_items = Recipe.all.shuffle.first(20)
+      @feed_items = Recipe.all.eager_load(:user, :comments, :favorites).shuffle.first(20)
       @recommended_users = User.all.sample(7)
     end
   end
