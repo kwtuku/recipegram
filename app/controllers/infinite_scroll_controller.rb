@@ -38,7 +38,7 @@ class InfiniteScrollController < ApplicationController
       last = first + 19
       file_path = 'home/feed'
       local_value = 'feed'
-      added_items = current_user.home_recipes[first..last]
+      added_items = user_signed_in? ? current_user.home_recipes[first..last] : Recipe.all.shuffle.first(20)
     end
 
     @file_path = file_path
