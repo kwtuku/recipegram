@@ -58,30 +58,34 @@ class User < ApplicationRecord
             uniqueness: { case_sensitive: false }
 
   def already_favored?(recipe)
-    self.favorites.exists?(recipe_id: recipe.id)
+    favorites.exists?(recipe_id: recipe.id)
+  end
+
+  def recipes_favorites_count
+    recipes_favorites_count = 0
+    recipes.eager_load(:favorites).each do |recipe|
+      recipes_favorites_count += recipe.favorites.size
+    end
+    recipes_favorites_count
   end
 
   def follow(other_user)
     if self != other_user
-      self.relationships.find_or_create_by(follow_id: other_user.id)
+      relationships.find_or_create_by(follow_id: other_user.id)
     end
   end
 
   def unfollow(other_user)
-    relationship = self.relationships.find_by(follow_id: other_user.id)
+    relationship = relationships.find_by(follow_id: other_user.id)
     relationship.destroy if relationship
   end
 
   def following?(other_user)
-    self.followings.include?(other_user)
+    followings.include?(other_user)
   end
 
-  def self.guest
-    find_or_create_by!(email: 'guest@example.com') do |user|
-      user.password = SecureRandom.urlsafe_base64
-      user.username = 'guest'
-      user.nickname = 'ゲスト'
-    end
+  def followers_you_follow(you)
+    followers & you.followings
   end
 
   def feed
@@ -96,20 +100,16 @@ class User < ApplicationRecord
     feed + recommended_recipes
   end
 
-  def recipes_favorites_count
-    recipes_favorites_count = 0
-    recipes.eager_load(:favorites).each do |recipe|
-      recipes_favorites_count += recipe.favorites.size
-    end
-    recipes_favorites_count
-  end
-
-  def followers_you_follow(current_user)
-    followers & current_user.followings
-  end
-
   def recommended_users
-    User.all - [self] - self.followings
+    User.all - [self] - followings
+  end
+
+  def self.guest
+    find_or_create_by!(email: 'guest@example.com') do |user|
+      user.password = SecureRandom.urlsafe_base64
+      user.username = 'guest'
+      user.nickname = 'ゲスト'
+    end
   end
 
   def self.generate_username

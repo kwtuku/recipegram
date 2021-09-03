@@ -107,7 +107,7 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe 'follow' do
+  describe 'follow(other_user)' do
     let(:alice) { create(:user, :no_image) }
     let(:bob) { create(:user, :no_image) }
 
@@ -120,7 +120,7 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe 'unfollow' do
+  describe 'unfollow(other_user)' do
     let(:alice) { create(:user, :no_image) }
     let(:bob) { create(:user, :no_image) }
     before { alice.relationships.create!(follow_id: bob.id) }
@@ -134,7 +134,7 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe 'following?(user)' do
+  describe 'following?(other_user)' do
     let(:alice) { create(:user, :no_image) }
     let(:bob) { create(:user, :no_image) }
     let(:carol) { create(:user, :no_image) }
@@ -150,6 +150,31 @@ RSpec.describe User, type: :model do
       it 'returns false' do
         expect(alice.following?(carol)).to eq false
       end
+    end
+  end
+
+  describe 'followers_you_follow(you)' do
+    let(:alice) { create :user, :no_image }
+    let(:bob) { create :user, :no_image }
+    let(:carol) { create :user, :no_image }
+    let(:dave) { create :user, :no_image }
+    let(:ellen) { create :user, :no_image }
+    let(:frank) { create :user, :no_image }
+    before do
+      alice.relationships.create!(follow_id: carol.id)
+      alice.relationships.create!(follow_id: dave.id)
+      carol.relationships.create!(follow_id: bob.id)
+      dave.relationships.create!(follow_id: bob.id)
+      ellen.relationships.create!(follow_id: bob.id)
+      frank.relationships.create!(follow_id: bob.id)
+    end
+
+    it 'has following users' do
+      expect(bob.followers_you_follow(alice)).to include carol, dave
+    end
+
+    it 'does not have unfollowing users' do
+      expect(bob.followers_you_follow(alice)).to_not include ellen, frank
     end
   end
 
@@ -248,31 +273,6 @@ RSpec.describe User, type: :model do
           end
         end
       end
-    end
-  end
-
-  describe 'followers_you_follow' do
-    let(:alice) { create :user, :no_image }
-    let(:bob) { create :user, :no_image }
-    let(:carol) { create :user, :no_image }
-    let(:dave) { create :user, :no_image }
-    let(:ellen) { create :user, :no_image }
-    let(:frank) { create :user, :no_image }
-    before do
-      alice.relationships.create!(follow_id: carol.id)
-      alice.relationships.create!(follow_id: dave.id)
-      carol.relationships.create!(follow_id: bob.id)
-      dave.relationships.create!(follow_id: bob.id)
-      ellen.relationships.create!(follow_id: bob.id)
-      frank.relationships.create!(follow_id: bob.id)
-    end
-
-    it 'has following users' do
-      expect(bob.followers_you_follow(alice)).to include carol, dave
-    end
-
-    it 'does not have unfollowing users' do
-      expect(bob.followers_you_follow(alice)).to_not include ellen, frank
     end
   end
 
