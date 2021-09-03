@@ -89,11 +89,11 @@ class User < ApplicationRecord
   end
 
   def feed
-    Recipe.where("user_id IN (?) OR user_id = ?", following_ids, id).order(updated_at: :DESC)
+    Recipe.includes(:user, :comments, :favorites).where("user_id IN (?) OR user_id = ?", following_ids, id).order(updated_at: :DESC)
   end
 
   def recommended_recipes
-    Recipe.all.shuffle - feed
+    Recipe.all.eager_load(:user, :comments, :favorites).shuffle - feed
   end
 
   def home_recipes
