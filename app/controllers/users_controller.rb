@@ -8,7 +8,6 @@ class UsersController < ApplicationController
   def show
     @user = User.find_by(username: params[:username])
     @recipes = @user.recipes.eager_load(:favorites, :comments).order(id: :DESC).limit(40)
-    @recipes_favorites_count = @user.recipes_favorites_count
     @followers_you_follow = @user.followers_you_follow(current_user) if user_signed_in?
   end
 
@@ -50,14 +49,12 @@ class UsersController < ApplicationController
   def comments
     @user = User.find_by(username: params[:user_username])
     @recipes = @user.commented_recipes.eager_load(:favorites, :comments).order('comments.created_at desc').limit(40)
-    @recipes_favorites_count = @user.recipes_favorites_count
     render 'show'
   end
 
   def favorites
     @user = User.find_by(username: params[:user_username])
     @recipes = @user.favored_recipes.eager_load(:favorites, :comments).order('favorites.created_at desc').limit(40)
-    @recipes_favorites_count = @user.recipes_favorites_count
     render 'show'
   end
 

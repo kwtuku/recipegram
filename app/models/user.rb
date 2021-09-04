@@ -61,14 +61,6 @@ class User < ApplicationRecord
     favorites.exists?(recipe_id: recipe.id)
   end
 
-  def recipes_favorites_count
-    recipes_favorites_count = 0
-    recipes.eager_load(:favorites).each do |recipe|
-      recipes_favorites_count += recipe.favorites.size
-    end
-    recipes_favorites_count
-  end
-
   def follow(other_user)
     if self != other_user
       relationships.find_or_create_by(follow_id: other_user.id)
