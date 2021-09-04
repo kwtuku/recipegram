@@ -81,7 +81,7 @@
             </div>
           </div>
           <div class="card-image">
-            <figure class="image is-1by1 cursor-pointer" id="open-modal">
+            <figure class="image is-1by1 cursor-pointer" id="show-image-modal">
               <%= image_tag @recipe.recipe_image.main.url %>
             </figure>
           </div>
@@ -115,7 +115,7 @@
             <%= form_with model: [@recipe, @comment] do |f| %>
               <div class="field">
                 <div class="control">
-                  <%= f.text_area :body, placeholder: 'コメントする', required: true, class: 'textarea has-fixed-size' %>
+                  <%= f.text_area :body, placeholder: 'コメントする', required: true, class: 'textarea has-fixed-size js-show-sign-in-modal' %>
                 </div>
                 <p class="help has-text-right">
                   <span class="<%= 'has-text-danger' if @comment.errors[:body].any? %>" id="count-comment-body-characters"><%= @comment.body&.size.presence || 0 %></span>/500字
@@ -189,7 +189,7 @@
   </div>
 </div>
 
-<div class="modal">
+<div class="modal" id="image-modal">
   <div class="modal-background"></div>
   <div class="modal-content">
     <div class="modal-card m-0-mobile">
