@@ -1,9 +1,6 @@
 import dropdown from './dropdown'
 dropdown();
 
-import header from './header'
-header();
-
 import modal from './modal'
 modal();
 
