@@ -4,7 +4,7 @@
 
 <section class="section p-0-mobile">
   <div class="container">
-    <div class="columns is-centered m-0-mobile">
+    <div class="columns is-centered is-multiline m-0-mobile">
       <div class="column is-1 is-hidden-mobile">
         <aside class="menu sticky z-index-1">
           <ul class="menu-list has-text-centered">
@@ -81,7 +81,7 @@
             </div>
           </div>
           <div class="card-image">
-            <figure class="image is-1by1 cursor-pointer" id="open-modal">
+            <figure class="image is-1by1 cursor-pointer" id="show-image-modal">
               <%= image_tag @recipe.recipe_image.main.url %>
             </figure>
           </div>
@@ -115,7 +115,7 @@
             <%= form_with model: [@recipe, @comment] do |f| %>
               <div class="field">
                 <div class="control">
-                  <%= f.text_area :body, placeholder: 'コメントする', required: true, class: 'textarea has-fixed-size' %>
+                  <%= f.text_area :body, placeholder: 'コメントする', required: true, class: 'textarea has-fixed-size js-show-sign-in-modal' %>
                 </div>
                 <p class="help has-text-right">
                   <span class="<%= 'has-text-danger' if @comment.errors[:body].any? %>" id="count-comment-body-characters"><%= @comment.body&.size.presence || 0 %></span>/500字
@@ -128,15 +128,17 @@
         </div>
       </div>
 
-      <div class="column is-4 is-hidden-touch">
+      <div class="column is-10-tablet is-4-desktop p-0-mobile">
         <div class="sticky">
-          <%= render 'recipes/user_card', user: @recipe.user %>
+          <div class="is-hidden-touch">
+            <%= render 'recipes/user_card', user: @recipe.user %>
+          </div>
           <% unless @other_recipes.blank? %>
             <div class="card mt-4">
               <div class="card-content px-5 py-3">
                 <p>他の投稿</p>
               </div>
-              <div class="columns is-multiline is-gapless">
+              <div class="columns is-multiline is-gapless is-mobile">
                 <%= render partial: 'recipes/other_recipe', collection: @other_recipes, as: 'recipe' %>
               </div>
             </div>
@@ -187,7 +189,7 @@
   </div>
 </div>
 
-<div class="modal">
+<div class="modal" id="image-modal">
   <div class="modal-background"></div>
   <div class="modal-content">
     <div class="modal-card m-0-mobile">

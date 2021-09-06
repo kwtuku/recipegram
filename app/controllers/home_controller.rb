@@ -5,6 +5,9 @@ class HomeController < ApplicationController
     if user_signed_in?
       @feed_items = current_user.home_recipes.first(20)
       @recommended_users = current_user.recommended_users.sample(5)
+    else
+      @feed_items = Recipe.all.eager_load(:user, :comments, :favorites).shuffle.first(20)
+      @recommended_users = User.all.sample(7)
     end
   end
 

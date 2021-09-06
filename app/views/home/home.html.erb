@@ -1,15 +1,15 @@
-<% if user_signed_in? %>
-  <section class="section p-0-mobile">
-    <div class="container">
-      <div class="columns is-centered m-0-mobile is-multiline">
-        <div class="column is-10-tablet is-6-desktop p-0-mobile" id="infinite-scroll-container" data-infinite-scroll="true">
-          <%= render partial: 'home/feed', collection: @feed_items %>
-          <% if @feed_items.size >= 20 %>
-            <div class="column is-12" id="remove-after-loading"><div class="loading-animation"></div></div>
-          <% end %>
-        </div>
-        <div class="column is-4 is-hidden-touch">
-          <div class="sticky">
+<section class="section p-0-mobile">
+  <div class="container">
+    <div class="columns is-centered m-0-mobile is-multiline">
+      <div class="column is-10-tablet is-6-desktop p-0-mobile" id="infinite-scroll-container" data-infinite-scroll="true">
+        <%= render partial: 'home/feed', collection: @feed_items %>
+        <% if @feed_items.size >= 20 %>
+          <div class="column is-12" id="remove-after-loading"><div class="loading-animation"></div></div>
+        <% end %>
+      </div>
+      <div class="column is-4 is-hidden-touch">
+        <div class="sticky">
+          <% if user_signed_in? %>
             <div class="block">
               <div class="media">
                 <div class="media-left">
@@ -29,30 +29,17 @@
                 </div>
               </div>
             </div>
+          <% end %>
 
-            <div class="block">
-              <p class="block has-text-grey-light p-0 m-3">おすすめ</p>
-              <%= render partial: 'recommended_user', collection: @recommended_users, as: 'user' %>
-            </div>
-            <div class="block">
-              <%= render 'layouts/footer' %>
-            </div>
+          <div class="block">
+            <p class="has-text-grey-light">おすすめ</p>
+            <%= render partial: 'recommended_user', collection: @recommended_users, as: 'user' %>
+          </div>
+          <div class="block">
+            <%= render 'layouts/footer' %>
           </div>
         </div>
       </div>
     </div>
-  </section>
-<% else %>
-  <section class="section">
-    <div class="container">
-      <div class="columns is-centered">
-        <div class="column is-5">
-          <p class="title is-1 has-text-centered mb-6 recipegram">Recipegram</p>
-          <%= link_to 'ゲストユーザーとしてログイン', users_guest_sign_in_path, method: :post, class: 'button is-fullwidth is-rounded is-primary is-light mb-5' %>
-          <%= link_to 'ログイン', new_user_session_path, class: 'button is-fullwidth is-rounded is-primary mb-5' %>
-          <%= link_to '新規登録', new_user_registration_path, class: 'button is-fullwidth is-rounded is-success' %>
-        </div>
-      </div>
-    </div>
-  </section>
-<% end %>
+  </div>
+</section>

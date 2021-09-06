@@ -29,16 +29,16 @@ class InfiniteScrollController < ApplicationController
     elsif controller_name == 'users' && username && action_name == 'followers'
       file_path = 'users/follow'
       local_value = 'user'
-      added_items = user.followers.preload(:followings).order('relationships.created_at desc')[first..last]
+      added_items = user.followers.eager_load(:followings).order('relationships.created_at desc')[first..last]
     elsif controller_name == 'users' && username && action_name == 'followings'
       file_path = 'users/follow'
       local_value = 'user'
-      added_items = user.followings.preload(:followings).order('relationships.created_at desc')[first..last]
+      added_items = user.followings.eager_load(:followings).order('relationships.created_at desc')[first..last]
     else
       last = first + 19
       file_path = 'home/feed'
       local_value = 'feed'
-      added_items = current_user.home_recipes[first..last]
+      added_items = user_signed_in? ? current_user.home_recipes[first..last] : Recipe.all.eager_load(:user, :comments, :favorites).shuffle.first(20)
     end
 
     @file_path = file_path

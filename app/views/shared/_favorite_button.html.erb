@@ -13,7 +13,9 @@
     <% end %>
   <% end %>
 <% else %>
-  <span class="icon has-text-danger">
-    <i class="far fa-heart"></i>
-  </span>
+  <div class="cursor-pointer js-show-sign-in-modal">
+    <span class="icon <%= icon_size %> has-text-danger">
+      <i class="far <%= fa_size %> fa-heart"></i>
+    </span>
+  </div>
 <% end %>

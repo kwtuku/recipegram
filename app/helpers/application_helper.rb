@@ -55,7 +55,7 @@ module ApplicationHelper
 
   def selected_recipe_sort_order
     if request.query_parameters[:sort] == 'updated_at' && request.query_parameters[:order] == 'desc'
-    '更新日が新しい順'
+      '更新日が新しい順'
     elsif request.query_parameters[:sort] == 'updated_at' && request.query_parameters[:order] == 'asc'
       '更新日が古い順'
     elsif request.query_parameters[:sort] == 'favorites_count' && request.query_parameters[:order] == 'desc'
@@ -73,7 +73,7 @@ module ApplicationHelper
 
   def selected_user_sort_order
     if request.query_parameters[:sort] == 'recipes_count' && request.query_parameters[:order] == 'desc'
-    '投稿が多い順'
+      '投稿が多い順'
     elsif request.query_parameters[:sort] == 'recipes_count' && request.query_parameters[:order] == 'asc'
       '投稿が少ない順'
     elsif request.query_parameters[:sort] == 'followers_count' && request.query_parameters[:order] == 'desc'
@@ -98,6 +98,7 @@ module ApplicationHelper
   end
 
   def recommended_description(user)
+    return unless user_signed_in?
     if user.followers_you_follow(current_user).size >= 2
       "#{user.followers_you_follow(current_user).sample.nickname.truncate(14)}さん、他#{user.followers_you_follow(current_user).size - 1}人がフォロー中"
     elsif user.followers_you_follow(current_user).size == 1
@@ -110,6 +111,7 @@ module ApplicationHelper
   end
 
   def feed_description(feed)
+    return 'おすすめ' unless user_signed_in?
     if feed.user != current_user && !current_user.following?(feed.user)
       'おすすめ'
     end
