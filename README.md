@@ -12,9 +12,13 @@
 
 Instagramのクローンアプリです。TwitterやZenn、GitHub、DEV、Qiitaも参考にしています。
 
+[【プログラミング入門】Ruby on Rails でウェブアプリを作ってみよう](https://youtube.com/playlist?list=PL7dhNz439lnRzd3hEZLrwCGe9gO6Y4oMG)で作成した、ローカル環境で動くユーザーとレシピに関してのCRUD機能があるアプリを拡張しました。
+
+拡張前のアプリの[デモ](https://youtu.be/auLih2TFwio?t=65)と[GitHubリポジトリ](https://github.com/Farstep/recipegram_demo)
+
 <br>
 
-ユーザー登録、レシピ投稿、コメント投稿、いいね、フォロー、**検索**、**通知**機能があります。
+拡張後のアプリには、ユーザー登録、レシピ投稿、コメント投稿、いいね、フォロー、**検索**、**通知**機能があります。
 
 検索機能はZennやGitHub、DEVのように**一度に複数のテーブルのカラムから検索、関連付け先のレコード数でソート**をすることなどができます。
 
@@ -40,7 +44,7 @@ JavaScriptによる機能もあります。
 
 <br>
 
-**RSpecでテストコード**が書いてあり、Model specが84件、Request specが148件、System specが45件、その他25件の**合計302件のexample**があります。
+**RSpecでテストコード**が書いてあり、Model specが84件、Request specが160件、System specが45件、その他25件の**合計314件のexample**があります。
 
 テストコードの詳細は後述の[テストコードの詳細](#テストコードの詳細)を御覧ください。
 
@@ -53,6 +57,8 @@ Herokuにデプロイしていますが、GASで定期的にアクセスをし�
 アプリのURLはこちらです。ゲストログインというボタンから**簡単にログイン**することができます。
 
 https://recipegram-kwtuku.herokuapp.com/
+
+各ページのスクリーンショットは後述の[各ページのスクリーンショット](#各ページのスクリーンショット)を御覧ください。
 
 # 使用技術
 
@@ -208,6 +214,8 @@ https://recipegram-kwtuku.herokuapp.com/
 
 ## js
 
+* ログインしていないときにフォローボタンやいいねボタンをクリックすると、ログインと新規登録するためのリンクがあるモーダルが表示されます。
+
 * 各フォームで空欄、空文字の場合はボタンが動作しません。
 
 * 各フォームで入力した文字数がカウントされます。
@@ -228,13 +236,19 @@ https://recipegram-kwtuku.herokuapp.com/
 
 ## その他
 
-* プロフィール画像もしくはレシピ画像が更新されるときは更新前の画像をCloudinaryから削除してから新しい画像をアップロードするようにしています。
+* プロフィール画像もしくはレシピ画像が更新されるときは、更新前の画像をCloudinaryから削除後に新しい画像がアップロードされます。
+
+* ブラウザによって最適なフォーマットの画像が表示されます。
 
 * seeds.rbでユーザーやレシピ、コメント、いいね、フォロー関係、通知のデモデータを作成できます。
 
+* Googleフォームでお問い合わせフォームを作成しています。
+
+* Googleアナリティクスを使用しています。
+
 # テストコードの詳細
 
-**RSpecでテストコード**が書いてあり、Model specが84件、Request specが148件、System specが45件、その他25件の**合計302件のexample**があります。
+**RSpecでテストコード**が書いてあり、Model specが84件、Request specが160件、System specが45件、その他25件の**合計314件のexample**があります。
 
 Model specではバリデーションと定義したメソッドをテストしています。具体的には、UserのURLのパラメーターに使用しているusernameというカラムが一意であり、登録できない単語を設定できているかなどや、通知を作成するメソッドで通知が送られるユーザーが正しいかなどについてです。
 
@@ -243,3 +257,45 @@ Request specではHTTPレスポンスステータスやボディ、レコード�
 System specでは一連の操作の正常系のテストをしています。具体的には、妥当な情報を入力するとレコードの作成、更新、削除ができるかなどについてです。
 
 他にはcarrierwaveのuploaderのテストもしています。具体的には、画像の保存先のフォルダを環境変数によって分けることができているかやデフォルトの画像が設定できているか、拡張子と容量の制限ができているかなどについてです。
+
+# 各ページのスクリーンショット
+
+|トップページ（ログイン前）|トップページ（ログイン後）|
+|:-----------|:------------|
+|![root](https://user-images.githubusercontent.com/76758720/130969347-7e4fe48d-7d07-4187-9470-e72fa3a5d3a9.png)|![root_after_signed_in](https://user-images.githubusercontent.com/76758720/132127767-5d43e44a-c370-4dd2-a08a-d0206ac85ad2.png)|
+
+|ユーザーの詳細ページ|ユーザー一覧ページ|
+|:-----------|:------------|
+|![users_show](https://user-images.githubusercontent.com/76758720/132127790-48b6e6ef-7af0-4e72-b6f3-1b9ba663fdae.png)|![users_index](https://user-images.githubusercontent.com/76758720/132127802-97b043a5-2bb3-4083-b833-5f8ca5edc85d.png)|
+
+|ユーザーのフォロワー一覧ページ|ユーザーのフォロー中一覧ページ|
+|:-----------|:------------|
+|![users_followers](https://user-images.githubusercontent.com/76758720/132127850-c3cd6b83-5129-4080-829b-b5def85e78f7.png)|![users_followings](https://user-images.githubusercontent.com/76758720/132127857-ecdc6e7a-b7aa-4c0a-b17c-5d4fa335e33f.png)|
+
+|プロフィール編集ページ|アカウント編集ページ|
+|:-----------|:------------|
+|![users_edit](https://user-images.githubusercontent.com/76758720/132127807-a4378b4f-1fc3-4e1d-8890-c717deda50d6.png)|![registrations_edit](https://user-images.githubusercontent.com/76758720/132127818-71980b89-db0f-4edb-9819-e09c9ba2df8f.png)|
+
+|アカウント削除確認ページ|通知一覧ページ|
+|:-----------|:------------|
+|![registrations_confirm_destroy](https://user-images.githubusercontent.com/76758720/132127828-9aa63f18-e2c7-452a-95a6-8b8af297a4b0.png)|![notifications_index](https://user-images.githubusercontent.com/76758720/130972634-ff86041e-1a77-4ef2-a244-d7d5fd650c22.png)|
+
+|レシピの詳細ページ|レシピの詳細ページのモーダル|
+|:-----------|:------------|
+|![recipes_show](https://user-images.githubusercontent.com/76758720/130990301-33bea0b1-73c0-4cd0-b35c-58298fabdce9.png)|![recipes_show_modal](https://user-images.githubusercontent.com/76758720/132127916-bcede7e7-9df1-4a5b-9571-26fa68750bba.png)|
+
+|レシピの詳細ページのコメント一覧|レシピ一覧ページ|
+|:-----------|:------------|
+|![recipes_show_comments](https://user-images.githubusercontent.com/76758720/132128141-264d288e-188a-47f1-a386-214d73e83da0.png)|![recipes_index](https://user-images.githubusercontent.com/76758720/132127929-0ecd08ae-eecd-452e-a683-4643bee95c82.png)|
+
+|レシピ投稿ページ|レシピ編集ページ|
+|:-----------|:------------|
+|![recipes_new](https://user-images.githubusercontent.com/76758720/132127935-4abb9eb7-f6cd-4169-a0d4-052e469f395d.png)|![recipes_edit](https://user-images.githubusercontent.com/76758720/132127942-b0e96548-6f30-4a3b-a07a-81fb5a151847.png)|
+
+|レシピ名の検索結果ページ|レシピ名の検索結果をいいねが多い順でソートしたときのページ|
+|:-----------|:------------|
+|![search_recipe_title](https://user-images.githubusercontent.com/76758720/130969389-6a68b760-68fe-4b87-ad5f-62c0d22a7529.png)|![search_recipe_title_sorted_by_favorite_count](https://user-images.githubusercontent.com/76758720/132127885-de722123-39b2-416d-b876-b8a78154fa2f.png)|
+
+|ニックネームの検索結果ページ|ニックネームの検索結果をフォロワーが多い順でソートしたときのページ|
+|:-----------|:------------|
+|![search_user_nickname](https://user-images.githubusercontent.com/76758720/130969395-79d3e4ef-6513-4331-98f9-9d529125e52e.png)|![search_user_nickname_sorted_by_follower_count](https://user-images.githubusercontent.com/76758720/132127890-f7e45bcf-650b-4b57-a242-b1a3b0728e31.png)|
