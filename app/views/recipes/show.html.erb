@@ -192,13 +192,9 @@
 <div class="modal" id="image-modal">
   <div class="modal-background"></div>
   <div class="modal-content">
-    <div class="modal-card m-0-mobile">
-      <div class="modal-body">
-        <p class="image is-1by1">
-          <%= image_tag @recipe.recipe_image.main.url %>
-        </p>
-      </div>
-    </div>
+    <figure class="image is-1by1">
+      <%= image_tag @recipe.recipe_image.main.url %>
+    </figure>
   </div>
   <button class="modal-close is-large" aria-label="close"></button>
 </div>

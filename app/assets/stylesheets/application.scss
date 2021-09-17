@@ -25,7 +25,7 @@ html {
 }
 
 .notification:not(:last-child){
-	margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .hover-underline:hover {
@@ -33,7 +33,7 @@ html {
 }
 
 .cursor-pointer {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .has-mask {
@@ -41,26 +41,26 @@ html {
 }
 
 .has-mask .mask {
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	top: 0;
-	left: 0;
-	opacity: 0;
-	background-color:	rgba(0,0,0,0.4);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  background-color:	rgba(0,0,0,0.4);
 }
 
 .has-mask:hover .mask {
-	position: absolute;
-	top: 0;
-	left: 0;
-	opacity: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 1;
 }
 
 .mask p {
-	position: relative;
-	top: 50%;
-	transform: translateY(-50%);
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .field_with_errors {
@@ -77,17 +77,17 @@ html {
 }
 
 .text-break {
-	word-break: break-word;
+  word-break: break-word;
 }
 
 .sticky {
-	position: sticky;
+  position: sticky;
   top: 100px;
 }
 
 .has-unchecked-notification {
-	position: relative;
-	&::before {
+  position: relative;
+  &::before {
     position: absolute;
     top: 0;
     right: 0;
@@ -98,14 +98,14 @@ html {
     background-color: #ef5350;
     border: 1px solid #fff;
     content: attr(data-num);
-	}
+  }
 }
 
 .is-1-line {
   overflow: hidden;
   width: 100%;
   span {
-		display: -webkit-box;
+    display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
   }
@@ -266,8 +266,7 @@ html {
 }
 
 @media screen and (min-width: 769px) {
-  .modal-content,
-  .modal-card {
-    width: 530px !important;
+  .modal-content {
+    width: 90vh !important;
   }
 }
