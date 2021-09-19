@@ -37,7 +37,7 @@
           <div class="field">
             <%= f.label :body, class: 'label' %>
             <div class="control">
-              <%= f.text_area :body, required: true, class: 'textarea has-fixed-size' %>
+              <%= f.text_area :body, required: true, class: 'textarea has-fixed-size resize-textarea js-resize-textarea' %>
             </div>
             <p class="help has-text-right">
               <span class="<%= 'has-text-danger' if @recipe.errors[:body].any? %>" id="count-recipe-body-characters"><%= @recipe.body.size.presence || 0 %></span>/2000字

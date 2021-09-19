@@ -24,7 +24,7 @@ html {
   background: #fafafa;
 }
 
-.notification:not(:last-child){
+.notification:not(:last-child) {
   margin-bottom: 0;
 }
 
@@ -47,7 +47,7 @@ html {
   top: 0;
   left: 0;
   opacity: 0;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .has-mask:hover .mask {
@@ -127,7 +127,7 @@ html {
   width: 100%;
   position: fixed;
   bottom: 0;
-  overflow :visible;
+  overflow: visible;
   border-top: 1px solid lightgray;
   background-color: white;
 }
@@ -194,7 +194,7 @@ html {
   display: inline-block !important;
 }
 
-@media (max-width:767px) {
+@media (max-width: 767px) {
   .m-0-mobile {
     margin: 0 !important;
   }
@@ -269,4 +269,18 @@ html {
   .modal-content {
     width: 90vh !important;
   }
+}
+
+.resize-textarea {
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.resize-textarea::-webkit-scrollbar {
+  display: none;
+}
+
+.resize-textarea:not([rows]) {
+  max-height: unset !important;
 }

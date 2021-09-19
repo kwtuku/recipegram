@@ -1,24 +1,24 @@
 export default () => {
-  document.addEventListener('turbolinks:load', function() {
-    const textarea = document.querySelector("textarea");
+  document.addEventListener('turbolinks:load', () => {
+    const textarea = document.querySelector('.js-resize-textarea');
     if (textarea === null) {
       return false;
     }
 
-    window.addEventListener('turbolinks:load', () => {
-      const PADDING_Y = 24;
-      let lineHeight = getComputedStyle(textarea).lineHeight;
-      lineHeight = lineHeight.replace(/[^-\d\.]/g, '');
-      const lines = (textarea.value + '\n').match(/\n/g).length;
-      textarea.style.height = lineHeight * lines + PADDING_Y + 'px';
-    });
+    let textareaClientHeight = textarea.clientHeight;
 
     textarea.addEventListener('input', () => {
-      const PADDING_Y = 24;
-      let lineHeight = getComputedStyle(textarea).lineHeight;
-      lineHeight = lineHeight.replace(/[^-\d\.]/g, '');
-      const lines = (textarea.value + '\n').match(/\n/g).length;
-      textarea.style.height = lineHeight * lines + PADDING_Y + 'px';
+      textarea.style.height = textareaClientHeight + 2 + 'px';
+
+      let textareaScrollHeight = textarea.scrollHeight;
+      textarea.style.height = textareaScrollHeight + 2 + 'px';
+    });
+
+    window.addEventListener('turbolinks:load', () => {
+      textarea.style.height = textareaClientHeight + 2 + 'px';
+
+      let textareaScrollHeight = textarea.scrollHeight;
+      textarea.style.height = textareaScrollHeight + 2 + 'px';
     });
   });
 }
