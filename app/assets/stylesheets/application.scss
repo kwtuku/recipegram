@@ -20,10 +20,6 @@
   font-family: Monotype Corsiva;
 }
 
-html {
-  background: #fafafa;
-}
-
 .notification:not(:last-child) {
   margin-bottom: 0;
 }
@@ -156,10 +152,6 @@ html {
   border-radius: 50%;
 }
 
-.is-fafafa {
-  background-color: #fafafa !important;
-}
-
 .tabs li.is-active a {
   border-bottom-color: #363636;
   color: #363636;
@@ -183,10 +175,6 @@ html {
     height: 100%;
     background-color: #f9826c;
   }
-}
-
-.float-right {
-  float: right;
 }
 
 .menu-tag {

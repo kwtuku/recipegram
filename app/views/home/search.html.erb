@@ -75,7 +75,7 @@
               <li class="<%= 'is-active' if @source == 'recipe_title' %>">
                 <%= link_to search_path(q: @q_value, source: 'recipe_title'), class: 'has-text-weight-bold px-4 py-3' do %>
                   <span>レシピ名</span>
-                  <span class="tag is-rounded float-right menu-tag rspec_recipe_title_results_size <%= 'is-grey' if @recipe_title_results_size != 0 %>">
+                  <span class="tag is-rounded is-pulled-right menu-tag rspec_recipe_title_results_size <%= 'is-grey' if @recipe_title_results_size != 0 %>">
                     <%= @recipe_title_results_size %>
                   </span>
                 <% end %>
@@ -83,7 +83,7 @@
               <li class="<%= 'is-active' if @source == 'recipe_body' %>">
                 <%= link_to search_path(q: @q_value, source: 'recipe_body'), class: 'has-text-weight-bold px-4 py-3' do %>
                   <span>作り方</span>
-                  <span class="tag is-rounded float-right menu-tag rspec_recipe_body_results_size <%= 'is-grey' if @recipe_body_results_size != 0 %>">
+                  <span class="tag is-rounded is-pulled-right menu-tag rspec_recipe_body_results_size <%= 'is-grey' if @recipe_body_results_size != 0 %>">
                     <%= @recipe_body_results_size %>
                   </span>
                 <% end %>
@@ -91,7 +91,7 @@
               <li class="<%= 'is-active' if @source == 'user_nickname' %>">
                 <%= link_to search_path(q: @q_value, source: 'user_nickname'), class: 'has-text-weight-bold px-4 py-3' do %>
                   <span>ニックネーム</span>
-                  <span class="tag is-rounded float-right menu-tag rspec_user_nickname_results_size <%= 'is-grey' if @user_nickname_results_size != 0 %>">
+                  <span class="tag is-rounded is-pulled-right menu-tag rspec_user_nickname_results_size <%= 'is-grey' if @user_nickname_results_size != 0 %>">
                     <%= @user_nickname_results_size %>
                   </span>
                 <% end %>
@@ -99,7 +99,7 @@
               <li class="<%= 'is-active' if @source == 'user_profile' %>">
                 <%= link_to search_path(q: @q_value, source: 'user_profile'), class: 'has-text-weight-bold px-4 py-3' do %>
                   <span>プロフィール</span>
-                  <span class="tag is-rounded float-right menu-tag rspec_user_profile_results_size <%= 'is-grey' if @user_profile_results_size != 0 %>">
+                  <span class="tag is-rounded is-pulled-right menu-tag rspec_user_profile_results_size <%= 'is-grey' if @user_profile_results_size != 0 %>">
                     <%= @user_profile_results_size %>
                   </span>
                 <% end %>
