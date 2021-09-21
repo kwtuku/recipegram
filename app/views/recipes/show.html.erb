@@ -28,7 +28,7 @@
               <% if user_signed_in? && @recipe.user == current_user %>
                 <div class="dropdown has-text-left">
                   <div class="dropdown-trigger rspec_recipe_dropdown_trigger">
-                    <button class="button is-white is-fafafa" aria-haspopup="true" aria-controls="dropdown-menu">
+                    <button class="button is-white has-background-white-bis" aria-haspopup="true" aria-controls="dropdown-menu">
                       <span class="icon">
                         <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
                       </span>
@@ -115,7 +115,7 @@
             <%= form_with model: [@recipe, @comment] do |f| %>
               <div class="field">
                 <div class="control">
-                  <%= f.text_area :body, placeholder: 'コメントする', required: true, class: 'textarea has-fixed-size js-show-sign-in-modal' %>
+                  <%= f.text_area :body, placeholder: 'コメントする', required: true, class: 'textarea has-fixed-size resize-textarea js-resize-textarea js-show-sign-in-modal' %>
                 </div>
                 <p class="help has-text-right">
                   <span class="<%= 'has-text-danger' if @comment.errors[:body].any? %>" id="count-comment-body-characters"><%= @comment.body&.size.presence || 0 %></span>/500字
@@ -192,13 +192,9 @@
 <div class="modal" id="image-modal">
   <div class="modal-background"></div>
   <div class="modal-content">
-    <div class="modal-card m-0-mobile">
-      <div class="modal-body">
-        <p class="image is-1by1">
-          <%= image_tag @recipe.recipe_image.main.url %>
-        </p>
-      </div>
-    </div>
+    <figure class="image is-1by1">
+      <%= image_tag @recipe.recipe_image.main.url %>
+    </figure>
   </div>
   <button class="modal-close is-large" aria-label="close"></button>
 </div>

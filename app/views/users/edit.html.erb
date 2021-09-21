@@ -39,7 +39,7 @@
           <div class="field">
             <%= f.label :profile, class: 'label' %>
             <div class="control">
-              <%= f.text_area :profile, class: 'textarea has-fixed-size' %>
+              <%= f.text_area :profile, class: 'textarea has-fixed-size resize-textarea js-resize-textarea' %>
             </div>
             <p class="help has-text-right">
               <span class="<%= 'has-text-danger' if @user.errors[:profile].any? %>" id="count-profile-characters"><%= @user.profile&.size.presence || 0 %></span>/500字

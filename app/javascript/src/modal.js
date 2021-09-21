@@ -1,17 +1,17 @@
 export default () => {
   document.addEventListener('turbolinks:load', () => {
-    const imageModalTrigger = document.getElementById('show-image-modal')
-    const signInModalTriggers = Array.prototype.slice.call(document.querySelectorAll('.js-show-sign-in-modal'), 0);
+    const imageModal = document.getElementById('image-modal')
+    const signInModal = document.getElementById('sign-in-modal')
 
-    if (imageModalTrigger === null && signInModalTriggers.length === 0) {
+    if (imageModal === null && signInModal === null) {
       return false;
     }
 
     const html = document.querySelector('html');
     const body = document.querySelector('body');
 
-    if (imageModalTrigger) {
-      const imageModal = document.getElementById('image-modal')
+    if (imageModal) {
+      const imageModalTrigger = document.getElementById('show-image-modal')
 
       imageModalTrigger.addEventListener('click', () => {
         imageModal.classList.add('is-active');
@@ -34,8 +34,8 @@ export default () => {
       });
     }
 
-    if (signInModalTriggers.length) {
-      const signInModal = document.getElementById('sign-in-modal')
+    if (signInModal) {
+      const signInModalTriggers = Array.prototype.slice.call(document.querySelectorAll('.js-show-sign-in-modal'), 0);
 
       signInModalTriggers.forEach(signInModalTrigger => {
         signInModalTrigger.addEventListener('click', () => {

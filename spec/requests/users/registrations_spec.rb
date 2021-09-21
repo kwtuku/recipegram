@@ -25,7 +25,7 @@ RSpec.describe 'Registrations', type: :request do
         expect(response).to redirect_to new_user_session_path
       end
 
-      it 'does not increase User count' do
+      it 'does not decrease User count' do
         expect {
           delete user_registration_path(nil)
         }.to change { User.count }.by(0)
