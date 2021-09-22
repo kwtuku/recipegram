@@ -181,8 +181,7 @@ RSpec.describe 'Users', type: :system do
   it 'destroys account', js: true do
     sign_in ellen
     find('.rspec_header_dropdown_trigger').click
-    click_link 'アカウント編集'
-    click_link 'アカウント削除手続きへ'
+    click_link 'アカウント削除手続き'
     expect(current_path).to eq users_confirm_destroy_path
     expect(page).to have_button 'destroy_account', disabled: true
     fill_in 'user[current_password]', with: ellen.password
