@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe 'Home', type: :request do
   describe '#home' do
     before do
-      users = create_list(:user, 60, :no_image)
+      users = create_list(:user, 15, :no_image)
       users.each do |user|
-        rand(1..5).times do
+        2.times do
           create :recipe, :no_image, user: user, updated_at: rand(1..100).minutes.ago
         end
       end
@@ -34,9 +34,9 @@ RSpec.describe 'Home', type: :request do
 
     context 'when signed in' do
       before do
-        random_users = User.all.sample(40)
+        random_users = User.all.sample(10)
         random_users.each { |user| alice.relationships.create(follow_id: user.id) }
-        create_list(:recipe, rand(1..10), :no_image, user: alice, updated_at: rand(1..100).minutes.ago)
+        create_list(:recipe, 5, :no_image, user: alice, updated_at: rand(1..100).minutes.ago)
       end
 
       it 'returns a 200 response' do
@@ -48,8 +48,10 @@ RSpec.describe 'Home', type: :request do
       it 'renders correct recipe links' do
         sign_in alice
         get root_path
-        feed_items[0..19].pluck(:id).each { |recipe_id| expect(response.body).to include "/recipes/#{recipe_id}" }
-        not_feed_items.pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
+        expect(response.body).to include "/recipes/#{feed_items[0].id}"
+        expect(response.body).to include "/recipes/#{feed_items[19].id}"
+        expect(response.body).to_not include "/recipes/#{feed_items[20].id}"
+        expect(response.body).to_not include "/recipes/#{not_feed_items.sample.id}"
       end
 
       it 'renders 5 recommend users' do
