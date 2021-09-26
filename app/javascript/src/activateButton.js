@@ -1,20 +1,5 @@
 export default () => {
   document.addEventListener('turbolinks:load', () => {
-    const inputs = Array.prototype.slice.call(document.querySelectorAll('input'), 0);
-    const textarea = document.querySelector('textarea');
-
-    const username = document.getElementById('user_username');
-    const nickname = document.getElementById('user_nickname');
-    const email = document.getElementById('user_email');
-    const password = document.getElementById('user_password');
-    const passwordConfirmation = document.getElementById('user_password_confirmation');
-    const currentPassword = document.getElementById('user_current_password');
-    const recipeTitle = document.getElementById('recipe_title');
-    const recipeBody = document.getElementById('recipe_body');
-    const recipeImage = document.getElementById('recipe_recipe_image');
-    const commentBody = document.getElementById('comment_body');
-    const searchQueries = Array.prototype.slice.call(document.querySelectorAll('#search_query'), 0);
-
     const signup = document.getElementById('signup');
     const signin = document.getElementById('signin');
     const updateAccount = document.getElementById('update_account');
@@ -23,8 +8,17 @@ export default () => {
     const updateUser = document.getElementById('update_user');
     const createRecipe = document.getElementById('create_recipe');
     const updateRecipe = document.getElementById('update_recipe');
-    const createComment =document.getElementById('create_comment');
+    const createComment = document.getElementById('create_comment');
     const searchButtons = Array.prototype.slice.call(document.querySelectorAll('#search'), 0);
+
+    const inputs = Array.prototype.slice.call(document.querySelectorAll('input'), 0);
+
+    const username = document.getElementById('user_username');
+    const nickname = document.getElementById('user_nickname');
+    const email = document.getElementById('user_email');
+    const password = document.getElementById('user_password');
+    const passwordConfirmation = document.getElementById('user_password_confirmation');
+    const currentPassword = document.getElementById('user_current_password');
 
     if (signup) {
       inputs.forEach(input => {
@@ -63,30 +57,28 @@ export default () => {
     }
 
     if (destroyAccount) {
-      inputs.forEach(input => {
-        input.addEventListener('input', () => {
-          if (currentPassword.value.trim().length >= 6) {
-            destroyAccount.disabled = false;
-          } else {
-            destroyAccount.disabled = true;
-          }
-        });
+      currentPassword.addEventListener('input', () => {
+        if (currentPassword.value.trim().length >= 6) {
+          destroyAccount.disabled = false;
+        } else {
+          destroyAccount.disabled = true;
+        }
       });
     }
 
     if (resetPassword) {
-      inputs.forEach(input => {
-        input.addEventListener('input', () => {
-          if (email.value.trim()) {
-            resetPassword.disabled = false;
-          } else {
-            resetPassword.disabled = true;
-          }
-        });
+      email.addEventListener('input', () => {
+        if (email.value.trim()) {
+          resetPassword.disabled = false;
+        } else {
+          resetPassword.disabled = true;
+        }
       });
     }
 
     if (updateUser) {
+      const profile = document.getElementById('user_profile');
+
       inputs.forEach(input => {
         input.addEventListener('input', () => {
           if (nickname.value.trim()) {
@@ -96,12 +88,16 @@ export default () => {
           }
         });
       });
-      textarea.addEventListener('input', () => {
+      profile.addEventListener('input', () => {
         if (nickname.value.trim()) {
           updateUser.disabled = false;
         }
       });
     }
+
+    const recipeTitle = document.getElementById('recipe_title');
+    const recipeBody = document.getElementById('recipe_body');
+    const recipeImage = document.getElementById('recipe_recipe_image');
 
     if (createRecipe) {
       inputs.forEach(input => {
@@ -113,7 +109,7 @@ export default () => {
           }
         });
       });
-      textarea.addEventListener('input', () => {
+      recipeBody.addEventListener('input', () => {
         if (recipeTitle.value.trim() && recipeBody.value.trim() && recipeImage.value) {
           createRecipe.disabled = false;
         } else {
@@ -127,16 +123,14 @@ export default () => {
         input.addEventListener('input', () => {
           if (recipeTitle.value.trim() && recipeBody.value.trim()) {
             updateRecipe.disabled = false;
-            recipeImage.required = false;
           } else {
             updateRecipe.disabled = true;
           }
         });
       });
-      textarea.addEventListener('input', () => {
+      recipeBody.addEventListener('input', () => {
         if (recipeTitle.value.trim() && recipeBody.value.trim()) {
           updateRecipe.disabled = false;
-          recipeImage.required = false;
         } else {
           updateRecipe.disabled = true;
         }
@@ -144,7 +138,9 @@ export default () => {
     }
 
     if (createComment) {
-      textarea.addEventListener('input', () => {
+      const commentBody = document.getElementById('comment_body');
+
+      commentBody.addEventListener('input', () => {
         if (commentBody.value.trim()) {
           createComment.disabled = false;
         } else {
@@ -154,6 +150,8 @@ export default () => {
     }
 
     if (searchButtons) {
+      const searchQueries = Array.prototype.slice.call(document.querySelectorAll('#search_query'), 0);
+
       for (let i = 0; i < searchButtons.length; i++) {
         searchQueries[i].addEventListener('input', () => {
           if (searchQueries[i].value.trim()) {
