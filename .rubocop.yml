@@ -2,3 +2,12 @@ require:
   - rubocop-performance
   - rubocop-rails
   - rubocop-rspec
+
+AllCops:
+  Exclude:
+    - bin/**/*
+    - db/migrate/*.rb
+    - db/schema.rb
+    - node_modules/**/*
+    - tmp/**/*
+    - vendor/**/*
