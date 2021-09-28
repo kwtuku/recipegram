@@ -1,5 +1,6 @@
 require 'active_support/core_ext/integer/time'
 
+# rubocop:disable Metrics/BlockLength
 Rails.application.configure do
   config.after_initialize do
     Bullet.enable        = true
@@ -26,7 +27,7 @@ Rails.application.configure do
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
-  if Rails.root.join('tmp', 'caching-dev.txt').exist?
+  if Rails.root.join('tmp/caching-dev.txt').exist?
     config.action_controller.perform_caching = true
     config.action_controller.enable_fragment_cache_logging = true
 
@@ -88,3 +89,4 @@ Rails.application.configure do
 
   config.hosts << 'www.example.com'
 end
+# rubocop:enable Metrics/BlockLength

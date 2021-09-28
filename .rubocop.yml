@@ -11,3 +11,13 @@ AllCops:
     - node_modules/**/*
     - tmp/**/*
     - vendor/**/*
+
+Layout/LineLength:
+  Exclude:
+  - config/initializers/devise.rb
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
