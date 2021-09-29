@@ -23,7 +23,11 @@
   <div class="container">
     <div class="columns is-centered is-multiline">
       <div class="column is-9" id="infinite-scroll-container" data-infinite-scroll="true">
-        <%= follows_or_no_follows_description(@follows, @user) %>
+        <% if @follows.exists? %>
+          <%= render partial: 'users/follow', collection: @follows, as: 'user' %>
+        <% else %>
+          <p class="has-text-centered"><%= no_follows_description(@user) %></p>
+        <% end %>
       </div>
       <% if @follows.size >= 40 %>
         <div class="column is-12" id="remove-after-loading"><div class="loading-animation"></div></div>

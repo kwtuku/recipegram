@@ -8,47 +8,27 @@ module ApplicationHelper
     end
   end
 
-  def recipes_or_no_recipes_description(recipes, user)
-    if recipes.exists?
-      render recipes
-    else
-      no_recipes_description(user)
-    end
-  end
-
   def no_recipes_description(user)
     blank_or_nickname =
       user == current_user ? '' : "#{user.nickname}さんは"
-    description =
-      case controller.action_name
-      when 'comments'
-        "#{blank_or_nickname}まだレシピにコメントをしていません"
-      when 'favorites'
-        "#{blank_or_nickname}まだレシピにいいねをしていません"
-      else
-        "#{blank_or_nickname}まだレシピを投稿していません"
-      end
-    tag.div tag.p(description, class: 'has-text-centered'), class: 'column'
-  end
-
-  def follows_or_no_follows_description(follows, user)
-    if follows.exists?
-      render partial: 'users/follow', collection: follows, as: 'user'
+    case controller.action_name
+    when 'comments'
+      "#{blank_or_nickname}まだレシピにコメントをしていません"
+    when 'favorites'
+      "#{blank_or_nickname}まだレシピにいいねをしていません"
     else
-      no_follows_description(user)
+      "#{blank_or_nickname}まだレシピを投稿していません"
     end
   end
 
   def no_follows_description(user)
     blank_or_nickname =
       user == current_user ? '' : "#{user.nickname}さんは"
-    description =
-      if controller.action_name == 'followers'
-        "#{blank_or_nickname}まだフォロワーがいません"
-      else
-        "#{blank_or_nickname}まだ誰もフォローしていません"
-      end
-    tag.p description, class: 'has-text-centered'
+    if controller.action_name == 'followers'
+      "#{blank_or_nickname}まだフォロワーがいません"
+    else
+      "#{blank_or_nickname}まだ誰もフォローしていません"
+    end
   end
 
   def selected_recipe_sort_order
