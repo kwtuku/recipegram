@@ -4,5 +4,5 @@ class Favorite < ApplicationRecord
 
   has_one :notification, as: :notifiable, dependent: :destroy
 
-  validates_uniqueness_of :recipe_id, scope: :user_id
+  validates :recipe_id, uniqueness: { scope: :user_id }
 end
