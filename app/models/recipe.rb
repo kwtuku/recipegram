@@ -26,11 +26,11 @@ class Recipe < ApplicationRecord
     others.first(count)
   end
 
-  private
-
   def self.ransackable_attributes(_auth_object = nil)
     %w[title body updated_at comments_count favorites_count]
   end
+
+  private
 
   def remove_image
     recipe_image.remove!

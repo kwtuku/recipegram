@@ -15,10 +15,14 @@ class Notification < ApplicationRecord
   end
 
   def self.comment_notification_receiver_ids(comment)
-    if comment.user_id == comment.recipe.user.id
-      comment.recipe.comments.map(&:user_id).uniq - [comment.user_id]
+    comment_user_id = comment.user_id
+    comment_user_ids = comment.recipe.comments.map(&:user_id).uniq
+    recipe_user_id = comment.recipe.user_id
+
+    if comment_user_id == recipe_user_id
+      comment_user_ids - [comment_user_id]
     else
-      comment.recipe.comments.map(&:user_id).uniq - [comment.user_id] | [comment.recipe.user_id]
+      comment_user_ids - [comment_user_id] | [recipe_user_id]
     end
   end
 

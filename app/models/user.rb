@@ -8,12 +8,12 @@ class User < ApplicationRecord
 
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
-  has_many :notifications, foreign_key: :receiver_id, dependent: :destroy
+  has_many :notifications, foreign_key: :receiver_id, inverse_of: 'receiver', dependent: :destroy
   has_many :recipes, dependent: :destroy
 
   has_many :relationships, dependent: :destroy
-  has_many :reverse_of_relationships, class_name: 'Relationship', foreign_key: 'follow_id', dependent: :destroy
-
+  has_many :reverse_of_relationships, class_name: 'Relationship', foreign_key: 'follow_id', inverse_of: 'follow',
+                                      dependent: :destroy
   has_many :followings, through: :relationships, source: :follow
   has_many :followers, through: :reverse_of_relationships, source: :user
 
@@ -105,7 +105,7 @@ class User < ApplicationRecord
 
   def self.generate_username
     tmp_username = SecureRandom.urlsafe_base64(11).downcase
-    username = User.vary_from_usernames!(tmp_username)
+    User.vary_from_usernames!(tmp_username)
   end
 
   def self.vary_from_usernames!(tmp_username)
@@ -118,11 +118,11 @@ class User < ApplicationRecord
     username
   end
 
-  private
-
   def self.ransackable_attributes(_auth_object = nil)
     %w[nickname profile followers_count followings_count recipes_count]
   end
+
+  private
 
   def remove_image
     user_image.remove!
