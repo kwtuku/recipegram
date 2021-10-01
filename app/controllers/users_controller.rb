@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i(index show generate_username)
+  skip_before_action :authenticate_user!, only: %i[index show generate_username]
 
   def index
     @users = User.order(id: :DESC).first(40)
@@ -65,7 +65,8 @@ class UsersController < ApplicationController
   end
 
   private
-    def user_params
-      params.require(:user).permit(:username, :nickname, :profile, :user_image)
-    end
+
+  def user_params
+    params.require(:user).permit(:username, :nickname, :profile, :user_image)
+  end
 end

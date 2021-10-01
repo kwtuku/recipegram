@@ -1,5 +1,5 @@
 class InfiniteScrollController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i(show)
+  skip_before_action :authenticate_user!, only: %i[show]
 
   def show
     first = params[:displayed_item_count].to_i
@@ -11,7 +11,7 @@ class InfiniteScrollController < ApplicationController
     file_path = 'recipes/recipe'
     local_value = 'recipe'
     @max_added_item_size = controller_name.nil? ? 20 : 40
-    last = first + @max_added_item_size -1
+    last = first + @max_added_item_size - 1
     user = User.find_by(username: username) if username
 
     if controller_name == 'recipes'
@@ -38,7 +38,7 @@ class InfiniteScrollController < ApplicationController
       last = first + 19
       file_path = 'home/feed'
       local_value = 'feed'
-      added_items = user_signed_in? ? current_user.home_recipes[first..last] : Recipe.all.eager_load(:user, :comments, :favorites).shuffle.first(20)
+      added_items = user_signed_in? ? current_user.home_recipes[first..last] : Recipe.all.eager_load(:user, :comments, :favorites).sample(20)
     end
 
     @file_path = file_path
