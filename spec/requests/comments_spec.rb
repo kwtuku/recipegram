@@ -49,16 +49,14 @@ RSpec.describe 'Comments', type: :request do
 
     context 'when not signed in' do
       it 'redirects to new_user_session_path' do
-        get recipe_path(alice_recipe)
-        delete recipe_comment_path(alice_comment)
+        delete recipe_comment_path(alice_recipe, alice_comment)
         expect(response).to have_http_status(302)
         expect(response).to redirect_to new_user_session_path
       end
 
       it 'does not decrease Comment count' do
         expect {
-          get recipe_path(alice_recipe)
-          delete recipe_comment_path(alice_comment)
+          delete recipe_comment_path(alice_recipe, alice_comment)
         }.to change { Comment.count }.by(0)
         .and change { alice.comments.count }.by(0)
       end
@@ -67,8 +65,7 @@ RSpec.describe 'Comments', type: :request do
     context 'when signed in as wrong user' do
       it 'redirects to recipe_path(commented recipe)' do
         sign_in bob
-        get recipe_path(alice_recipe)
-        delete recipe_comment_path(alice_comment)
+        delete recipe_comment_path(alice_recipe, alice_comment)
         expect(response).to have_http_status(302)
         expect(response).to redirect_to recipe_path(alice_recipe)
       end
@@ -76,29 +73,28 @@ RSpec.describe 'Comments', type: :request do
       it 'does not decrease Comment count' do
         sign_in bob
         expect {
-          get recipe_path(alice_recipe)
-          delete recipe_comment_path(alice_comment)
+          delete recipe_comment_path(alice_recipe, alice_comment)
         }.to change { Comment.count }.by(0)
         .and change { alice.comments.count }.by(0)
+        .and change { alice_recipe.comments.count }.by(0)
       end
     end
 
     context 'when signed in as correct user' do
       it 'redirects to recipe_path(commented recipe)' do
         sign_in alice
-        get recipe_path(alice_recipe)
-        delete recipe_comment_path(alice_comment)
+        delete recipe_comment_path(alice_recipe, alice_comment)
         expect(response).to have_http_status(302)
         expect(response).to redirect_to recipe_path(alice_recipe)
       end
 
-      it 'does not decrease Comment count' do
+      it 'decreases Comment count' do
         sign_in alice
         expect {
-          get recipe_path(alice_recipe)
-          delete recipe_comment_path(alice_comment)
+          delete recipe_comment_path(alice_recipe, alice_comment)
         }.to change { Comment.count }.by(-1)
         .and change { alice.comments.count }.by(-1)
+        .and change { alice_recipe.comments.count }.by(-1)
       end
     end
   end

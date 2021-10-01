@@ -14,8 +14,8 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @comment = Comment.find(params[:recipe_id])
-    @recipe = Recipe.find(params[:id])
+    @comment = Comment.find(params[:id])
+    @recipe = @comment.recipe
     if @comment.user != current_user
       redirect_to recipe_url(@recipe), alert: '権限がありません。'
     else
