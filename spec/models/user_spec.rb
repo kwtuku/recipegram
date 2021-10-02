@@ -277,14 +277,30 @@ RSpec.describe User, type: :model do
   end
 
   describe 'self.guest' do
-    it 'is valid' do
-      guest = User.guest
-      expect(guest.valid?).to eq true
+    context 'guest exists' do
+      let!(:guest) { create :user, email: 'guest@example.com' }
+
+      it 'is valid' do
+        expect(User.guest.valid?).to eq true
+      end
+
+      it 'does not increase user count' do
+        expect{
+          User.guest
+        }.to change { User.count }.by(0)
+      end
     end
 
-    it 'exists guest user' do
-      User.guest
-      expect(User.exists?(email: 'guest@example.com')).to eq true
+    context 'guest dose not exist' do
+      it 'is valid' do
+        expect(User.guest.valid?).to eq true
+      end
+
+      it 'increases user count' do
+        expect{
+          User.guest
+        }.to change { User.count }.by(1)
+      end
     end
   end
 
