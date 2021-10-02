@@ -6,10 +6,10 @@ FactoryBot.define do
     password { 'password' }
     password_confirmation { 'password' }
     profile { 'This is my profile.' }
-    user_image { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/user_image_sample.jpg')) }
+    user_image { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/user_image_sample.jpg')) }
 
     trait :has_5_recipes do
-      after(:create) { |user| create_list(:recipe, 5, :no_image, user: user)}
+      after(:create) { |user| create_list(:recipe, 5, :no_image, user: user) }
     end
 
     trait :no_image do
