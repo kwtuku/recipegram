@@ -16,6 +16,10 @@ Layout/LineLength:
   Exclude:
     - config/initializers/devise.rb
 
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+
 Metrics/ClassLength:
   Exclude:
     - app/models/user.rb
@@ -25,3 +29,9 @@ Style/Documentation:
 
 Style/FrozenStringLiteralComment:
   Enabled: false
+
+RSpec/ExampleLength:
+  Max: 15
+
+RSpec/MultipleExpectations:
+  Max: 8
