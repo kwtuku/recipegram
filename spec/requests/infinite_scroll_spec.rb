@@ -196,9 +196,11 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       it 'renders correct item links' do
         get infinite_scroll_path, params: {displayed_item_count: '80', path: "users/#{alice.username}" }, xhr: true
-        posted_recipes[0..79].pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
-        posted_recipes[80..99].pluck(:id).each { |recipe_id| expect(response.body).to include "/recipes/#{recipe_id}" }
-        not_posted_recipes.pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
+        expect(response.body).to_not include "/recipes/#{posted_recipes[0].id}"
+        expect(response.body).to_not include "/recipes/#{posted_recipes[79].id}"
+        expect(response.body).to include "/recipes/#{posted_recipes[80].id}"
+        expect(response.body).to include "/recipes/#{posted_recipes[99].id}"
+        expect(response.body).to_not include "/recipes/#{not_posted_recipes.sample.id}"
       end
     end
   end
