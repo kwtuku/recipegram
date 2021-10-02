@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :recipe do
-    title { 'カレー' }
-    body { '切ったにんじん、玉ねぎ、じゃがいも、肉とルーを鍋で煮込む。' }
+    title { Faker::Food.dish }
+    body { Faker::Lorem.paragraphs(number: 3).join(' ') }
     recipe_image { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/recipe_image_sample.jpg')) }
     association :user
 

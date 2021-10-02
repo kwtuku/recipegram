@@ -1,11 +1,12 @@
 FactoryBot.define do
   factory :user do
-    sequence(:username) { |n| "username#{n}" }
-    sequence(:nickname) { |n| "nickname#{n}" }
-    sequence(:email) { |n| "user#{n}@example.com" }
-    password { 'password' }
-    password_confirmation { 'password' }
-    profile { 'This is my profile.' }
+    sequence(:username) { SecureRandom.urlsafe_base64(11) }
+    sequence(:nickname) { Faker::Name.name }
+    sequence(:email) { |n| "#{n}#{Faker::Internet.email(domain: 'example.com')}" }
+    faker_password = Faker::Internet.password(min_length: 6)
+    password { faker_password }
+    password_confirmation { faker_password }
+    profile { Faker::Lorem.paragraphs(number: 3).join(' ') }
     user_image { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/user_image_sample.jpg')) }
 
     trait :has_5_recipes do
