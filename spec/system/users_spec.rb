@@ -83,7 +83,7 @@ RSpec.describe 'Users', type: :system do
     end
 
     describe 'updates password' do
-      let(:bob) { create :user, :no_image, password: 'password' }
+      let(:bob) { create :user, :no_image, password: 'old_password', password_confirmation: 'old_password' }
 
       it 'signs in with new password after a password updated', js: true do
         sign_in bob
@@ -91,8 +91,8 @@ RSpec.describe 'Users', type: :system do
         click_link 'アカウント編集'
         expect(current_path).to eq edit_user_registration_path
         expect(page).to have_button 'update_account', disabled: true
-        fill_in 'user[password]', with: 'newpassword'
-        fill_in 'user[password_confirmation]', with: 'newpassword'
+        fill_in 'user[password]', with: 'new_password'
+        fill_in 'user[password_confirmation]', with: 'new_password'
         fill_in 'user[current_password]', with: bob.password
         click_button 'update_account'
         expect(page).to have_content 'アカウント情報を変更しました。'
@@ -101,7 +101,7 @@ RSpec.describe 'Users', type: :system do
         visit root_path
         click_link 'ログイン'
         fill_in 'user[email]', with: bob.email
-        fill_in 'user[password]', with: 'newpassword'
+        fill_in 'user[password]', with: 'new_password'
         click_button 'signin'
         expect(page).to have_content 'ログインしました。'
       end
@@ -112,8 +112,8 @@ RSpec.describe 'Users', type: :system do
         click_link 'アカウント編集'
         expect(current_path).to eq edit_user_registration_path
         expect(page).to have_button 'update_account', disabled: true
-        fill_in 'user[password]', with: 'newpassword'
-        fill_in 'user[password_confirmation]', with: 'newpassword'
+        fill_in 'user[password]', with: 'new_password'
+        fill_in 'user[password_confirmation]', with: 'new_password'
         fill_in 'user[current_password]', with: bob.password
         click_button 'update_account'
         expect(page).to have_content 'アカウント情報を変更しました。'
@@ -122,7 +122,7 @@ RSpec.describe 'Users', type: :system do
         visit root_path
         click_link 'ログイン'
         fill_in 'user[email]', with: bob.email
-        fill_in 'user[password]', with: 'password'
+        fill_in 'user[password]', with: 'old_password'
         click_button 'signin'
         expect(page).to have_content 'メールアドレスまたはパスワードが違います。'
       end
