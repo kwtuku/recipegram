@@ -3,40 +3,51 @@ require 'rails_helper'
 RSpec.describe 'Comments', type: :request do
   describe '#create' do
     let(:alice) { create :user, :no_image }
-    let(:alice_recipe) { create :recipe, :no_image, user: alice }
+    let(:bob) { create :user, :no_image }
+    let(:bob_recipe) { create :recipe, :no_image, user: bob }
+    let(:comment_params) { attributes_for(:comment) }
 
     context 'when not signed in' do
+      it 'returns a 302 response' do
+        post recipe_comments_path(bob_recipe), params: { comment: comment_params }
+        expect(response.status).to eq 302
+      end
+
       it 'redirects to new_user_session_path' do
-        comment_params = attributes_for(:comment)
-        post recipe_comments_path(alice_recipe), params: { comment: comment_params }
-        expect(response).to have_http_status(302)
+        post recipe_comments_path(bob_recipe), params: { comment: comment_params }
         expect(response).to redirect_to new_user_session_path
       end
 
       it 'does not increase Comment count' do
-        comment_params = attributes_for(:comment)
-        expect {
-          post recipe_comments_path(alice_recipe), params: { comment: comment_params }
-        }.to change { Comment.count }.by(0)
+        expect do
+          post recipe_comments_path(bob_recipe), params: { comment: comment_params }
+        end.to change(Comment, :count).by(0)
+          .and change(bob_recipe.comments, :count).by(0)
+          .and change(alice.comments, :count).by(0)
+          .and change(alice.commented_recipes, :count).by(0)
       end
     end
 
     context 'when signed in' do
+      before { sign_in alice }
+
+      it 'returns a 302 response' do
+        post recipe_comments_path(bob_recipe), params: { comment: comment_params }
+        expect(response.status).to eq 302
+      end
+
       it 'redirects to recipe_path(commented recipe)' do
-        sign_in alice
-        comment_params = attributes_for(:comment)
-        post recipe_comments_path(alice_recipe), params: { comment: comment_params }
-        expect(response).to have_http_status(302)
-        expect(response).to redirect_to recipe_path(alice_recipe)
+        post recipe_comments_path(bob_recipe), params: { comment: comment_params }
+        expect(response).to redirect_to recipe_path(bob_recipe)
       end
 
       it 'increases Comment count' do
-        sign_in alice
-        comment_params = attributes_for(:comment)
-        expect {
-          post recipe_comments_path(alice_recipe), params: { comment: comment_params }
-        }.to change { Comment.count }.by(1)
-        .and change { alice.comments.count }.by(1)
+        expect do
+          post recipe_comments_path(bob_recipe), params: { comment: comment_params }
+        end.to change(Comment, :count).by(1)
+          .and change(bob_recipe.comments, :count).by(1)
+          .and change(alice.comments, :count).by(1)
+          .and change(alice.commented_recipes, :count).by(1)
       end
     end
   end
@@ -44,57 +55,73 @@ RSpec.describe 'Comments', type: :request do
   describe '#destroy' do
     let(:alice) { create :user, :no_image }
     let(:bob) { create :user, :no_image }
-    let(:alice_recipe) { create :recipe, :no_image, user: alice }
-    let!(:alice_comment) { create :comment, user: alice, recipe: alice_recipe }
+    let(:bob_recipe) { create :recipe, :no_image, user: bob }
+    let!(:alice_comment) { create :comment, user: alice, recipe: bob_recipe }
 
     context 'when not signed in' do
+      it 'returns a 302 response' do
+        delete recipe_comment_path(bob_recipe, alice_comment)
+        expect(response.status).to eq 302
+      end
+
       it 'redirects to new_user_session_path' do
-        delete recipe_comment_path(alice_recipe, alice_comment)
-        expect(response).to have_http_status(302)
+        delete recipe_comment_path(bob_recipe, alice_comment)
         expect(response).to redirect_to new_user_session_path
       end
 
       it 'does not decrease Comment count' do
-        expect {
-          delete recipe_comment_path(alice_recipe, alice_comment)
-        }.to change { Comment.count }.by(0)
-        .and change { alice.comments.count }.by(0)
+        expect do
+          delete recipe_comment_path(bob_recipe, alice_comment)
+        end.to change(Comment, :count).by(0)
+          .and change(bob_recipe.comments, :count).by(0)
+          .and change(alice.comments, :count).by(0)
+          .and change(alice.commented_recipes, :count).by(0)
       end
     end
 
     context 'when signed in as wrong user' do
+      before { sign_in bob }
+
+      it 'returns a 302 response' do
+        delete recipe_comment_path(bob_recipe, alice_comment)
+        expect(response.status).to eq 302
+      end
+
       it 'redirects to recipe_path(commented recipe)' do
-        sign_in bob
-        delete recipe_comment_path(alice_recipe, alice_comment)
-        expect(response).to have_http_status(302)
-        expect(response).to redirect_to recipe_path(alice_recipe)
+        delete recipe_comment_path(bob_recipe, alice_comment)
+        expect(response).to redirect_to recipe_path(bob_recipe)
       end
 
       it 'does not decrease Comment count' do
-        sign_in bob
-        expect {
-          delete recipe_comment_path(alice_recipe, alice_comment)
-        }.to change { Comment.count }.by(0)
-        .and change { alice.comments.count }.by(0)
-        .and change { alice_recipe.comments.count }.by(0)
+        expect do
+          delete recipe_comment_path(bob_recipe, alice_comment)
+        end.to change(Comment, :count).by(0)
+          .and change(bob_recipe.comments, :count).by(0)
+          .and change(alice.comments, :count).by(0)
+          .and change(alice.commented_recipes, :count).by(0)
       end
     end
 
     context 'when signed in as correct user' do
+      before { sign_in alice }
+
+      it 'returns a 302 response' do
+        delete recipe_comment_path(bob_recipe, alice_comment)
+        expect(response.status).to eq 302
+      end
+
       it 'redirects to recipe_path(commented recipe)' do
-        sign_in alice
-        delete recipe_comment_path(alice_recipe, alice_comment)
-        expect(response).to have_http_status(302)
-        expect(response).to redirect_to recipe_path(alice_recipe)
+        delete recipe_comment_path(bob_recipe, alice_comment)
+        expect(response).to redirect_to recipe_path(bob_recipe)
       end
 
       it 'decreases Comment count' do
-        sign_in alice
-        expect {
-          delete recipe_comment_path(alice_recipe, alice_comment)
-        }.to change { Comment.count }.by(-1)
-        .and change { alice.comments.count }.by(-1)
-        .and change { alice_recipe.comments.count }.by(-1)
+        expect do
+          delete recipe_comment_path(bob_recipe, alice_comment)
+        end.to change(Comment, :count).by(-1)
+          .and change(bob_recipe.comments, :count).by(-1)
+          .and change(alice.comments, :count).by(-1)
+          .and change(alice.commented_recipes, :count).by(-1)
       end
     end
   end
