@@ -16,29 +16,31 @@ RSpec.describe 'Search', type: :model do
   let!(:frank) { create :user, :no_image, nickname: 'frank', profile: 'プロフィールです。' }
 
   describe 'search title' do
-    context 'sort by comments count' do
+    context 'when sort by comments count' do
       before do
         users = [alice, bob, carol, dave, ellen, frank]
-        users.sample(1).each { |user| user.comments.create(recipe_id: miso_soup.id, body: 'コメントです。' ) }
-        users.sample(2).each { |user| user.comments.create(recipe_id: miso_ramen.id, body: 'コメントです。' ) }
-        users.sample(4).each { |user| user.comments.create(recipe_id: miso.id, body: 'コメントです。' ) }
+        users.sample(1).each { |user| user.comments.create(recipe_id: miso_soup.id, body: 'コメントです。') }
+        users.sample(2).each { |user| user.comments.create(recipe_id: miso_ramen.id, body: 'コメントです。') }
+        users.sample(4).each { |user| user.comments.create(recipe_id: miso.id, body: 'コメントです。') }
         users.sample(5).each { |user| user.comments.create(recipe_id: miso_udon.id, body: 'コメントです。') }
       end
 
       it 'is in ascending order of comments count' do
         title_q = { title_has_every_term: '味噌', s: { '0' => { name: 'comments_count', dir: 'asc' } } }
         recipe_title_results = Recipe.ransack(title_q).result
-        expect(recipe_title_results.map(&:id)).to eq [miso_katsudon.id, miso_soup.id, miso_ramen.id, miso.id, miso_udon.id]
+        expected_results = [miso_katsudon.id, miso_soup.id, miso_ramen.id, miso.id, miso_udon.id]
+        expect(recipe_title_results.map(&:id)).to eq expected_results
       end
 
       it 'is in descending order of comments count' do
         title_q = { title_has_every_term: '味噌', s: { '0' => { name: 'comments_count', dir: 'desc' } } }
         recipe_title_results = Recipe.ransack(title_q).result
-        expect(recipe_title_results.map(&:id)).to eq [miso_katsudon.id, miso_soup.id, miso_ramen.id, miso.id, miso_udon.id].reverse
+        expected_results = [miso_katsudon.id, miso_soup.id, miso_ramen.id, miso.id, miso_udon.id].reverse
+        expect(recipe_title_results.map(&:id)).to eq expected_results
       end
     end
 
-    context 'sort by favorites count' do
+    context 'when sort by favorites count' do
       before do
         users = [alice, bob, carol, dave, ellen, frank]
         users.sample(1).each { |user| user.favorites.create(recipe_id: miso.id) }
@@ -50,55 +52,61 @@ RSpec.describe 'Search', type: :model do
       it 'is in ascending order of favorites count' do
         title_q = { title_has_every_term: '味噌', s: { '0' => { name: 'favorites_count', dir: 'asc' } } }
         recipe_title_results = Recipe.ransack(title_q).result
-        expect(recipe_title_results.map(&:id)).to eq [miso_soup.id, miso.id, miso_udon.id, miso_katsudon.id, miso_ramen.id]
+        expected_results = [miso_soup.id, miso.id, miso_udon.id, miso_katsudon.id, miso_ramen.id]
+        expect(recipe_title_results.map(&:id)).to eq expected_results
       end
 
       it 'is in descending order of favorites count' do
         title_q = { title_has_every_term: '味噌', s: { '0' => { name: 'favorites_count', dir: 'desc' } } }
         recipe_title_results = Recipe.ransack(title_q).result
-        expect(recipe_title_results.map(&:id)).to eq [miso_soup.id, miso.id, miso_udon.id, miso_katsudon.id, miso_ramen.id].reverse
+        expected_results = [miso_soup.id, miso.id, miso_udon.id, miso_katsudon.id, miso_ramen.id].reverse
+        expect(recipe_title_results.map(&:id)).to eq expected_results
       end
     end
 
-    context 'sort by updated_at' do
+    context 'when sort by updated_at' do
       it 'is in ascending order of updated_at' do
         title_q = { title_has_every_term: '味噌', s: { '0' => { name: 'updated_at', dir: 'asc' } } }
         recipe_title_results = Recipe.ransack(title_q).result
-        expect(recipe_title_results.map(&:id)).to eq [miso_soup.id, miso.id, miso_katsudon.id, miso_udon.id, miso_ramen.id]
+        expected_results = [miso_soup.id, miso.id, miso_katsudon.id, miso_udon.id, miso_ramen.id]
+        expect(recipe_title_results.map(&:id)).to eq expected_results
       end
 
       it 'is in descending order of updated_at' do
         title_q = { title_has_every_term: '味噌', s: { '0' => { name: 'updated_at', dir: 'desc' } } }
         recipe_title_results = Recipe.ransack(title_q).result
-        expect(recipe_title_results.map(&:id)).to eq [miso_soup.id, miso.id, miso_katsudon.id, miso_udon.id, miso_ramen.id].reverse
+        expected_results = [miso_soup.id, miso.id, miso_katsudon.id, miso_udon.id, miso_ramen.id].reverse
+        expect(recipe_title_results.map(&:id)).to eq expected_results
       end
     end
   end
 
   describe 'search body' do
-    context 'sort by comments count' do
+    context 'when sort by comments count' do
       before do
         users = [alice, bob, carol, dave, ellen, frank]
         users.sample(1).each { |user| user.comments.create(recipe_id: miso_udon.id, body: 'コメントです。') }
-        users.sample(2).each { |user| user.comments.create(recipe_id: miso_katsudon.id, body: 'コメントです。' ) }
-        users.sample(5).each { |user| user.comments.create(recipe_id: miso_soup.id, body: 'コメントです。' ) }
-        users.sample(6).each { |user| user.comments.create(recipe_id: miso_ramen.id, body: 'コメントです。' ) }
+        users.sample(2).each { |user| user.comments.create(recipe_id: miso_katsudon.id, body: 'コメントです。') }
+        users.sample(5).each { |user| user.comments.create(recipe_id: miso_soup.id, body: 'コメントです。') }
+        users.sample(6).each { |user| user.comments.create(recipe_id: miso_ramen.id, body: 'コメントです。') }
       end
 
       it 'is in ascending order of comments count' do
         body_q = { body_has_every_term: '味噌', s: { '0' => { name: 'comments_count', dir: 'asc' } } }
         recipe_body_results = Recipe.ransack(body_q).result
-        expect(recipe_body_results.map(&:id)).to eq [miso_udon.id, miso_katsudon.id, miso_soup.id, miso_ramen.id]
+        expected_results = [miso_udon.id, miso_katsudon.id, miso_soup.id, miso_ramen.id]
+        expect(recipe_body_results.map(&:id)).to eq expected_results
       end
 
       it 'is in descending order of comments count' do
         body_q = { body_has_every_term: '味噌', s: { '0' => { name: 'comments_count', dir: 'desc' } } }
         recipe_body_results = Recipe.ransack(body_q).result
-        expect(recipe_body_results.map(&:id)).to eq [miso_udon.id, miso_katsudon.id, miso_soup.id, miso_ramen.id].reverse
+        expected_results = [miso_udon.id, miso_katsudon.id, miso_soup.id, miso_ramen.id].reverse
+        expect(recipe_body_results.map(&:id)).to eq expected_results
       end
     end
 
-    context 'sort by favorites count' do
+    context 'when sort by favorites count' do
       before do
         users = [alice, bob, carol, dave, ellen, frank]
         users.sample(1).each { |user| user.favorites.create(recipe_id: miso_udon.id) }
@@ -110,33 +118,37 @@ RSpec.describe 'Search', type: :model do
       it 'is in ascending order of favorites count' do
         body_q = { body_has_every_term: '味噌', s: { '0' => { name: 'favorites_count', dir: 'asc' } } }
         recipe_body_results = Recipe.ransack(body_q).result
-        expect(recipe_body_results.map(&:id)).to eq [miso_udon.id, miso_ramen.id, miso_soup.id, miso_katsudon.id]
+        expected_results = [miso_udon.id, miso_ramen.id, miso_soup.id, miso_katsudon.id]
+        expect(recipe_body_results.map(&:id)).to eq expected_results
       end
 
       it 'is in descending order of favorites count' do
         body_q = { body_has_every_term: '味噌', s: { '0' => { name: 'favorites_count', dir: 'desc' } } }
         recipe_body_results = Recipe.ransack(body_q).result
-        expect(recipe_body_results.map(&:id)).to eq [miso_udon.id, miso_ramen.id, miso_soup.id, miso_katsudon.id].reverse
+        expected_results = [miso_udon.id, miso_ramen.id, miso_soup.id, miso_katsudon.id].reverse
+        expect(recipe_body_results.map(&:id)).to eq expected_results
       end
     end
 
-    context 'sort by updated_at' do
+    context 'when sort by updated_at' do
       it 'is in ascending order of updated_at' do
         body_q = { body_has_every_term: '味噌', s: { '0' => { name: 'updated_at', dir: 'asc' } } }
         recipe_body_results = Recipe.ransack(body_q).result
-        expect(recipe_body_results.map(&:id)).to eq [miso_soup.id, miso_katsudon.id, miso_udon.id, miso_ramen.id]
+        expected_results = [miso_soup.id, miso_katsudon.id, miso_udon.id, miso_ramen.id]
+        expect(recipe_body_results.map(&:id)).to eq expected_results
       end
 
       it 'is in descending order of updated_at' do
         body_q = { body_has_every_term: '味噌', s: { '0' => { name: 'updated_at', dir: 'desc' } } }
         recipe_body_results = Recipe.ransack(body_q).result
-        expect(recipe_body_results.map(&:id)).to eq [miso_soup.id, miso_katsudon.id, miso_udon.id, miso_ramen.id].reverse
+        expected_results = [miso_soup.id, miso_katsudon.id, miso_udon.id, miso_ramen.id].reverse
+        expect(recipe_body_results.map(&:id)).to eq expected_results
       end
     end
   end
 
   describe 'search nickname' do
-    context 'sort by followers count or followings count' do
+    context 'when sort by followers count or followings count' do
       before do
         [alice].each { |user| user.relationships.create(follow_id: carol.id) }
         [alice, carol, frank].each { |user| user.relationships.create(follow_id: ellen.id) }
@@ -147,29 +159,33 @@ RSpec.describe 'Search', type: :model do
       it 'is in ascending order of followers count' do
         nickname_q = { nickname_has_every_term: 'ユーザー', s: { '0' => { name: 'followers_count', dir: 'asc' } } }
         user_nickname_results = User.ransack(nickname_q).result
-        expect(user_nickname_results.map(&:id)).to eq [alice.id, carol.id, ellen.id, bob.id, dave.id]
+        expected_results = [alice.id, carol.id, ellen.id, bob.id, dave.id]
+        expect(user_nickname_results.map(&:id)).to eq expected_results
       end
 
       it 'is in descending order of followers count' do
         nickname_q = { nickname_has_every_term: 'ユーザー', s: { '0' => { name: 'followers_count', dir: 'desc' } } }
         user_nickname_results = User.ransack(nickname_q).result
-        expect(user_nickname_results.map(&:id)).to eq [alice.id, carol.id, ellen.id, bob.id, dave.id].reverse
+        expected_results = [alice.id, carol.id, ellen.id, bob.id, dave.id].reverse
+        expect(user_nickname_results.map(&:id)).to eq expected_results
       end
 
       it 'is in ascending order of followings count' do
         nickname_q = { nickname_has_every_term: 'ユーザー', s: { '0' => { name: 'followings_count', dir: 'asc' } } }
         user_nickname_results = User.ransack(nickname_q).result
-        expect(user_nickname_results.map(&:id)).to eq [dave.id, bob.id, ellen.id, carol.id, alice.id]
+        expected_results = [dave.id, bob.id, ellen.id, carol.id, alice.id]
+        expect(user_nickname_results.map(&:id)).to eq expected_results
       end
 
       it 'is in descending order of followings count' do
         nickname_q = { nickname_has_every_term: 'ユーザー', s: { '0' => { name: 'followings_count', dir: 'desc' } } }
         user_nickname_results = User.ransack(nickname_q).result
-        expect(user_nickname_results.map(&:id)).to eq [dave.id, bob.id, ellen.id, carol.id, alice.id].reverse
+        expected_results = [dave.id, bob.id, ellen.id, carol.id, alice.id].reverse
+        expect(user_nickname_results.map(&:id)).to eq expected_results
       end
     end
 
-    context 'sort by recipes count' do
+    context 'when sort by recipes count' do
       let!(:dave_recipes) { create_list(:recipe, 1, :no_image, user: dave) }
       let!(:bob_recipes) { create_list(:recipe, 2, :no_image, user: bob) }
       let!(:alice_recipes) { create_list(:recipe, 4, :no_image, user: alice) }
@@ -178,19 +194,21 @@ RSpec.describe 'Search', type: :model do
       it 'is in ascending order of recipes count' do
         nickname_q = { nickname_has_every_term: 'ユーザー', s: { '0' => { name: 'recipes_count', dir: 'asc' } } }
         user_nickname_results = User.ransack(nickname_q).result
-        expect(user_nickname_results.map(&:id)).to eq [carol.id, dave.id, bob.id, alice.id, ellen.id]
+        expected_results = [carol.id, dave.id, bob.id, alice.id, ellen.id]
+        expect(user_nickname_results.map(&:id)).to eq expected_results
       end
 
       it 'is in descending order of recipes count' do
         nickname_q = { nickname_has_every_term: 'ユーザー', s: { '0' => { name: 'recipes_count', dir: 'desc' } } }
         user_nickname_results = User.ransack(nickname_q).result
-        expect(user_nickname_results.map(&:id)).to eq [carol.id, dave.id, bob.id, alice.id, ellen.id].reverse
+        expected_results = [carol.id, dave.id, bob.id, alice.id, ellen.id].reverse
+        expect(user_nickname_results.map(&:id)).to eq expected_results
       end
     end
   end
 
   describe 'search profile' do
-    context 'sort by followers count or followings count' do
+    context 'when sort by followers count or followings count' do
       before do
         [dave, alice].each { |user| user.relationships.create(follow_id: frank.id) }
         [bob, carol, dave].each { |user| user.relationships.create(follow_id: alice.id) }
@@ -199,44 +217,50 @@ RSpec.describe 'Search', type: :model do
 
       it 'is in ascending order of followers count' do
         profile_q = { profile_has_every_term: 'プロフィール', s: { '0' => { name: 'followers_count', dir: 'asc' } } }
-        user_profile_q = User.ransack(profile_q).result
-        expect(user_profile_q.map(&:id)).to eq [dave.id, frank.id, alice.id, carol.id]
+        user_profile_results = User.ransack(profile_q).result
+        expected_results = [dave.id, frank.id, alice.id, carol.id]
+        expect(user_profile_results.map(&:id)).to eq expected_results
       end
 
       it 'is in descending order of followers count' do
         profile_q = { profile_has_every_term: 'プロフィール', s: { '0' => { name: 'followers_count', dir: 'desc' } } }
-        user_profile_q = User.ransack(profile_q).result
-        expect(user_profile_q.map(&:id)).to eq [dave.id, frank.id, alice.id, carol.id].reverse
+        user_profile_results = User.ransack(profile_q).result
+        expected_results = [dave.id, frank.id, alice.id, carol.id].reverse
+        expect(user_profile_results.map(&:id)).to eq expected_results
       end
 
       it 'is in ascending order of followings count' do
         profile_q = { profile_has_every_term: 'プロフィール', s: { '0' => { name: 'followings_count', dir: 'asc' } } }
-        user_profile_q = User.ransack(profile_q).result
-        expect(user_profile_q.map(&:id)).to eq [frank.id, carol.id, alice.id, dave.id]
+        user_profile_results = User.ransack(profile_q).result
+        expected_results = [frank.id, carol.id, alice.id, dave.id]
+        expect(user_profile_results.map(&:id)).to eq expected_results
       end
 
       it 'is in descending order of followings count' do
         profile_q = { profile_has_every_term: 'プロフィール', s: { '0' => { name: 'followings_count', dir: 'desc' } } }
-        user_profile_q = User.ransack(profile_q).result
-        expect(user_profile_q.map(&:id)).to eq [frank.id, carol.id, alice.id, dave.id].reverse
+        user_profile_results = User.ransack(profile_q).result
+        expected_results = [frank.id, carol.id, alice.id, dave.id].reverse
+        expect(user_profile_results.map(&:id)).to eq expected_results
       end
     end
 
-    context 'sort by recipes count' do
+    context 'when sort by recipes count' do
       let!(:carol_recipes) { create_list(:recipe, 1, :no_image, user: carol) }
       let!(:dave_recipes) { create_list(:recipe, 2, :no_image, user: dave) }
       let!(:frank_recipes) { create_list(:recipe, 4, :no_image, user: frank) }
 
       it 'is in ascending order of recipes count' do
         profile_q = { profile_has_every_term: 'プロフィール', s: { '0' => { name: 'recipes_count', dir: 'asc' } } }
-        user_profile_q = User.ransack(profile_q).result
-        expect(user_profile_q.map(&:id)).to eq [alice.id, carol.id, dave.id, frank.id]
+        user_profile_results = User.ransack(profile_q).result
+        expected_results = [alice.id, carol.id, dave.id, frank.id]
+        expect(user_profile_results.map(&:id)).to eq expected_results
       end
 
       it 'is in descending order of recipes count' do
         profile_q = { profile_has_every_term: 'プロフィール', s: { '0' => { name: 'recipes_count', dir: 'desc' } } }
-        user_profile_q = User.ransack(profile_q).result
-        expect(user_profile_q.map(&:id)).to eq [alice.id, carol.id, dave.id, frank.id].reverse
+        user_profile_results = User.ransack(profile_q).result
+        expected_results = [alice.id, carol.id, dave.id, frank.id].reverse
+        expect(user_profile_results.map(&:id)).to eq expected_results
       end
     end
   end

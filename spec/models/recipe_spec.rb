@@ -21,34 +21,34 @@ RSpec.describe Recipe, type: :model do
     let!(:salad) { create :recipe, :no_image, user: bob }
 
     it 'does not have irrelevant recipe' do
-      expect(pizza.others(3)).to_not include salad
+      expect(pizza.others(3)).not_to include salad
     end
 
     it 'does not have self' do
-      expect(pizza.others(3)).to_not include pizza
+      expect(pizza.others(3)).not_to include pizza
     end
 
-    context 'second recipe in descending order of id' do
+    context 'when second recipe in descending order of id' do
       it 'has correct recipes' do
         alice_recipe_ids = alice.recipes.ids.sort.reverse
-        third_recipe = Recipe.find(alice_recipe_ids[1])
+        third_recipe = described_class.find(alice_recipe_ids[1])
         expect(third_recipe.others(3)[0].id).to eq alice_recipe_ids[0]
         expect(third_recipe.others(3)[1].id).to eq alice_recipe_ids[2]
         expect(third_recipe.others(3)[2].id).to eq alice_recipe_ids[3]
       end
     end
 
-    context 'fifth recipe in descending order of id' do
+    context 'when fifth recipe in descending order of id' do
       it 'has correct recipes' do
         alice_recipe_ids = alice.recipes.ids.sort.reverse
-        third_recipe = Recipe.find(alice_recipe_ids[4])
+        third_recipe = described_class.find(alice_recipe_ids[4])
         expect(third_recipe.others(3)[0].id).to eq alice_recipe_ids[0]
         expect(third_recipe.others(3)[1].id).to eq alice_recipe_ids[1]
         expect(third_recipe.others(3)[2].id).to eq alice_recipe_ids[2]
       end
     end
 
-    context 'other recipe does not exist' do
+    context 'when other recipe does not exist' do
       it 'has no recipe' do
         expect(salad.others(3)).to eq []
       end
