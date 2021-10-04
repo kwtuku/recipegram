@@ -96,7 +96,7 @@ RSpec.describe 'Users', type: :system do
         fill_in 'user[current_password]', with: bob.password
         click_button 'update_account'
         expect(page).to have_content 'アカウント情報を変更しました。'
-        sign_out bob
+        sign_out
 
         visit root_path
         click_link 'ログイン'
@@ -117,7 +117,7 @@ RSpec.describe 'Users', type: :system do
         fill_in 'user[current_password]', with: bob.password
         click_button 'update_account'
         expect(page).to have_content 'アカウント情報を変更しました。'
-        sign_out bob
+        sign_out
 
         visit root_path
         click_link 'ログイン'

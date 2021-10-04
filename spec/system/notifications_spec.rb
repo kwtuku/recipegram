@@ -23,7 +23,7 @@ RSpec.describe 'Notifications', type: :system do
         .and change { bob.notifications.count }.by(1)
         .and change { carol.notifications.count }.by(1)
         .and change { dave.notifications.count }.by(0)
-        sign_out dave
+        sign_out
       end
 
       it 'creates comment notification for recipe user', js: true do
@@ -65,7 +65,7 @@ RSpec.describe 'Notifications', type: :system do
         .and change { alice.notifications.count }.by(0)
         .and change { bob.notifications.count }.by(1)
         .and change { carol.notifications.count }.by(1)
-        sign_out alice
+        sign_out
       end
 
       it 'does not create comment notification for recipe user', js: true do
@@ -94,7 +94,7 @@ RSpec.describe 'Notifications', type: :system do
       expect(page).to have_selector '.rspec_destroy_favorite'
       expect(alice_recipe.favorites.count).to eq 1
       expect(alice.notifications.count).to eq 1
-      sign_out bob
+      sign_out
 
       sign_in alice
       click_link href: notifications_path
@@ -123,7 +123,7 @@ RSpec.describe 'Notifications', type: :system do
       expect(page).to have_button 'フォロー解除'
       expect(alice.followers.count).to eq 1
       expect(alice.notifications.count).to eq 1
-      sign_out bob
+      sign_out
 
       sign_in alice
       click_link href: notifications_path
