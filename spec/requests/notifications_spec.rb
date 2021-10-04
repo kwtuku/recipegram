@@ -6,31 +6,26 @@ RSpec.describe 'Notifications', type: :request do
   let(:bob) { create :user, :no_image }
 
   describe 'comments#create' do
+    before { sign_in bob }
+
+    let(:comment_params) { attributes_for(:comment) }
+
     context 'when a comment is saved' do
       it 'increases Notification count' do
-        sign_in bob
-        comment_params = attributes_for(:comment)
-        expect {
+        expect do
           post recipe_comments_path(alice_recipe), params: { comment: comment_params }
-        }.to change { Notification.count }.by(1)
-      end
-
-      it 'increases User.notifications count' do
-        sign_in bob
-        comment_params = attributes_for(:comment)
-        expect {
-          post recipe_comments_path(alice_recipe), params: { comment: comment_params }
-        }.to change { alice.notifications.count }.by(1)
+        end.to change(Notification, :count).by(1)
+          .and change(alice.notifications, :count).by(1)
       end
     end
 
     context 'when a comment is not saved' do
       it 'does not increase Notification count' do
-        sign_in bob
         invalid_comment_params = { body: '' }
-        expect {
+        expect do
           post recipe_comments_path(alice_recipe), params: { comment: invalid_comment_params }
-        }.to change { Notification.count }.by(0)
+        end.to change(Notification, :count).by(0)
+          .and change(alice.notifications, :count).by(0)
       end
     end
   end
@@ -38,32 +33,20 @@ RSpec.describe 'Notifications', type: :request do
   describe 'favorites#create' do
     it 'increases Notification count' do
       sign_in bob
-      expect {
+      expect do
         post recipe_favorites_path(alice_recipe), xhr: true
-      }.to change { Notification.count }.by(1)
-    end
-
-    it 'increases User.notifications count' do
-      sign_in bob
-      expect {
-        post recipe_favorites_path(alice_recipe), xhr: true
-      }.to change { alice.notifications.count }.by(1)
+      end.to change(Notification, :count).by(1)
+        .and change(alice.notifications, :count).by(1)
     end
   end
 
   describe 'relationships#create' do
     it 'increases Notification count' do
-      sign_in alice
-      expect {
-        post relationships_path, params: { follow_id: bob.id }, xhr: true
-      }.to change { Notification.count }.by(1)
-    end
-
-    it 'increases User.notifications count' do
-      sign_in alice
-      expect {
-        post relationships_path, params: { follow_id: bob.id }, xhr: true
-      }.to change { bob.notifications.count }.by(1)
+      sign_in bob
+      expect do
+        post relationships_path, params: { follow_id: alice.id }, xhr: true
+      end.to change(Notification, :count).by(1)
+        .and change(alice.notifications, :count).by(1)
     end
   end
 end
