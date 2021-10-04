@@ -29,10 +29,16 @@ RSpec.describe 'Recipes', type: :request do
     let(:bob_recipe) { create :recipe, :no_image, user: bob }
 
     context 'when not signed in and other recipes exist' do
+      before { create_list(:recipe, 4, :no_image, user: bob) }
+
       it 'returns a 200 response' do
-        create_list(:recipe, 4, :no_image, user: bob)
         get recipe_path(bob_recipe)
         expect(response.status).to eq 200
+      end
+
+      it 'renders other recipe link' do
+        get recipe_path(bob_recipe)
+        expect(response.body).to include "/recipes/#{bob_recipe.others(3).sample.id}"
       end
     end
 
@@ -44,11 +50,19 @@ RSpec.describe 'Recipes', type: :request do
     end
 
     context 'when signed in and other recipes exist' do
-      it 'returns a 200 response' do
-        sign_in alice
+      before do
         create_list(:recipe, 4, :no_image, user: bob)
+        sign_in alice
+      end
+
+      it 'returns a 200 response' do
         get recipe_path(bob_recipe)
         expect(response.status).to eq 200
+      end
+
+      it 'renders other recipe link' do
+        get recipe_path(bob_recipe)
+        expect(response.body).to include "/recipes/#{bob_recipe.others(3).sample.id}"
       end
     end
 
