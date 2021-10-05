@@ -61,7 +61,12 @@
           <div class="dropdown-menu" id="dropdown-menu" role="menu">
             <div class="dropdown-content">
               <%= link_to 'マイページ', user_path(current_user), class: 'dropdown-item' %>
+              <%= link_to 'プロフィール編集', edit_users_path, class: 'dropdown-item' %>
+              <%= link_to 'いいねしたレシピ', user_favorites_path(current_user), class: 'dropdown-item' %>
+              <%= link_to 'コメントしたレシピ', user_comments_path(current_user), class: 'dropdown-item' %>
               <%= link_to 'アカウント編集', edit_user_registration_path, class: 'dropdown-item' %>
+              <%= link_to 'アカウント削除手続き', users_confirm_destroy_path, class: 'dropdown-item' %>
+              <hr class="dropdown-divider">
               <%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: 'dropdown-item' %>
             </div>
           </div>

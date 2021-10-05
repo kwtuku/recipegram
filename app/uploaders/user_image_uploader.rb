@@ -16,7 +16,7 @@ class UserImageUploader < CarrierWave::Uploader::Base
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
-  def default_url(*args)
+  def default_url(*_args)
     # For Rails 3.1+ asset pipeline compatibility:
     # ActionController::Base.helpers.asset_path("fallback/" + [version_name, "default.png"].compact.join('_'))
 
@@ -32,18 +32,18 @@ class UserImageUploader < CarrierWave::Uploader::Base
 
   # Create different versions of your uploaded files:
   version :icon do
-    process resize_to_fill: [150, 150, "Center"]
+    process resize_to_fill: [150, 150, 'Center']
     cloudinary_transformation quality: 'auto', fetch_format: :auto unless Rails.env.test?
   end
   version :thumb do
-    process resize_to_fill: [320, 320, "Center"]
+    process resize_to_fill: [320, 320, 'Center']
     cloudinary_transformation quality: 'auto', fetch_format: :auto unless Rails.env.test?
   end
 
   # Add an allowlist of extensions which are allowed to be uploaded.
   # For images you might use something like this:
   def extension_allowlist
-    %w(jpeg jpg png webp)
+    %w[jpeg jpg png webp]
   end
 
   # Override the filename of the uploaded files:

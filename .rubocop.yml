@@ -1,0 +1,44 @@
+require:
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rspec
+
+AllCops:
+  Exclude:
+    - bin/**/*
+    - db/migrate/*.rb
+    - db/schema.rb
+    - node_modules/**/*
+    - tmp/**/*
+    - vendor/**/*
+
+Layout/LineLength:
+  Exclude:
+    - config/initializers/devise.rb
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+
+Metrics/ClassLength:
+  Exclude:
+    - app/models/user.rb
+
+Style/BlockComments:
+  Exclude:
+    - spec/spec_helper.rb
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Max: 15
+
+RSpec/MultipleExpectations:
+  Max: 8

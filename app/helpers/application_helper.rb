@@ -8,82 +8,50 @@ module ApplicationHelper
     end
   end
 
-  def recipes_or_no_recipes_description(recipes, user)
-    if recipes.exists?
-      render recipes
-    else
-      no_recipes_description(user)
-    end
-  end
-
   def no_recipes_description(user)
-    description = if user == current_user && controller.action_name == 'show'
-                    'まだレシピを投稿していません'
-                  elsif user == current_user && controller.action_name == 'comments'
-                    'まだレシピにコメントをしていません'
-                  elsif user == current_user && controller.action_name == 'favorites'
-                    'まだレシピにいいねをしていません'
-                  elsif user != current_user && controller.action_name == 'show'
-                    "#{user.nickname}さんはまだレシピを投稿していません"
-                  elsif user != current_user && controller.action_name == 'comments'
-                    "#{user.nickname}さんはまだレシピにコメントをしていません"
-                  else
-                    "#{user.nickname}さんはまだレシピにいいねをしていません"
-                  end
-    tag.div tag.p(description, class: 'has-text-centered'), class: 'column'
-  end
-
-  def follows_or_no_follows_description(follows, user)
-    if follows.exists?
-      render partial: 'users/follow', collection: follows, as: 'user'
+    blank_or_nickname =
+      user == current_user ? '' : "#{user.nickname}さんは"
+    case controller.action_name
+    when 'comments'
+      "#{blank_or_nickname}まだレシピにコメントをしていません"
+    when 'favorites'
+      "#{blank_or_nickname}まだレシピにいいねをしていません"
     else
-      no_follows_description(user)
+      "#{blank_or_nickname}まだレシピを投稿していません"
     end
   end
 
   def no_follows_description(user)
-    if user == current_user && controller.action_name == 'followings'
-      tag.p 'まだ誰もフォローしていません'
-    elsif user == current_user && controller.action_name == 'followers'
-      tag.p 'まだフォロワーがいません'
-    elsif user != current_user && controller.action_name == 'followings'
-      tag.p "#{user.nickname}さんはまだ誰もフォローしていません"
+    blank_or_nickname =
+      user == current_user ? '' : "#{user.nickname}さんは"
+    if controller.action_name == 'followers'
+      "#{blank_or_nickname}まだフォロワーがいません"
     else
-      tag.p "#{user.nickname}さんはまだ誰もフォローしていません"
+      "#{blank_or_nickname}まだ誰もフォローしていません"
     end
   end
 
   def selected_recipe_sort_order
-    if request.query_parameters[:sort] == 'updated_at' && request.query_parameters[:order] == 'desc'
-      '更新日が新しい順'
-    elsif request.query_parameters[:sort] == 'updated_at' && request.query_parameters[:order] == 'asc'
-      '更新日が古い順'
-    elsif request.query_parameters[:sort] == 'favorites_count' && request.query_parameters[:order] == 'desc'
-      'いいねが多い順'
-    elsif request.query_parameters[:sort] == 'favorites_count' && request.query_parameters[:order] == 'asc'
-      'いいねが少ない順'
-    elsif request.query_parameters[:sort] == 'comments_count' && request.query_parameters[:order] == 'desc'
-      'コメントが多い順'
-    elsif request.query_parameters[:sort] == 'comments_count' && request.query_parameters[:order] == 'asc'
-      'コメントが少ない順'
+    case request.query_parameters[:sort]
+    when 'comments_count'
+      request.query_parameters[:order] == 'asc' ? 'コメントが少ない順' : 'コメントが多い順'
+    when 'favorites_count'
+      request.query_parameters[:order] == 'asc' ? 'いいねが少ない順' : 'いいねが多い順'
+    when 'updated_at'
+      request.query_parameters[:order] == 'asc' ? '更新日が古い順' : '更新日が新しい順'
     else
       '並び替え'
     end
   end
 
   def selected_user_sort_order
-    if request.query_parameters[:sort] == 'recipes_count' && request.query_parameters[:order] == 'desc'
-      '投稿が多い順'
-    elsif request.query_parameters[:sort] == 'recipes_count' && request.query_parameters[:order] == 'asc'
-      '投稿が少ない順'
-    elsif request.query_parameters[:sort] == 'followers_count' && request.query_parameters[:order] == 'desc'
-      'フォロワーが多い順'
-    elsif request.query_parameters[:sort] == 'followers_count' && request.query_parameters[:order] == 'asc'
-      'フォロワーが少ない順'
-    elsif request.query_parameters[:sort] == 'followings_count' && request.query_parameters[:order] == 'desc'
-      'フォロー中が多い順'
-    elsif request.query_parameters[:sort] == 'followings_count' && request.query_parameters[:order] == 'asc'
-      'フォロー中が少ない順'
+    case request.query_parameters[:sort]
+    when 'followers_count'
+      request.query_parameters[:order] == 'asc' ? 'フォロワーが少ない順' : 'フォロワーが多い順'
+    when 'followings_count'
+      request.query_parameters[:order] == 'asc' ? 'フォロー中が少ない順' : 'フォロー中が多い順'
+    when 'recipes_count'
+      request.query_parameters[:order] == 'asc' ? '投稿が少ない順' : '投稿が多い順'
     else
       '並び替え'
     end
@@ -99,21 +67,20 @@ module ApplicationHelper
 
   def recommended_description(user)
     return unless user_signed_in?
-    if user.followers_you_follow(current_user).size >= 2
-      "#{user.followers_you_follow(current_user).sample.nickname.truncate(14)}さん、他#{user.followers_you_follow(current_user).size - 1}人がフォロー中"
-    elsif user.followers_you_follow(current_user).size == 1
-      "#{user.followers_you_follow(current_user).sample.nickname.truncate(20)}さんがフォロー中"
-    elsif user.following?(current_user)
-      'あなたをフォローしています'
+
+    followers_you_follow = user.followers_you_follow(current_user)
+    if followers_you_follow.size >= 2
+      "#{followers_you_follow.sample.nickname.truncate(14)}さん、他#{followers_you_follow.size - 1}人がフォロー中"
+    elsif followers_you_follow.size == 1
+      "#{followers_you_follow.sample.nickname.truncate(20)}さんがフォロー中"
     else
-      'おすすめ'
+      user.following?(current_user) ? 'あなたをフォローしています' : 'おすすめ'
     end
   end
 
   def feed_description(feed)
     return 'おすすめ' unless user_signed_in?
-    if feed.user != current_user && !current_user.following?(feed.user)
-      'おすすめ'
-    end
+
+    'おすすめ' if feed.user != current_user && !current_user.following?(feed.user)
   end
 end

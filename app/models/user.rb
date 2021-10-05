@@ -8,12 +8,12 @@ class User < ApplicationRecord
 
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
-  has_many :notifications, foreign_key: :receiver_id, dependent: :destroy
+  has_many :notifications, foreign_key: :receiver_id, inverse_of: 'receiver', dependent: :destroy
   has_many :recipes, dependent: :destroy
 
   has_many :relationships, dependent: :destroy
-  has_many :reverse_of_relationships, class_name: 'Relationship', foreign_key: 'follow_id', dependent: :destroy
-
+  has_many :reverse_of_relationships, class_name: 'Relationship', foreign_key: 'follow_id', inverse_of: 'follow',
+                                      dependent: :destroy
   has_many :followings, through: :relationships, source: :follow
   has_many :followers, through: :reverse_of_relationships, source: :user
 
@@ -35,7 +35,7 @@ class User < ApplicationRecord
     Arel.sql(query)
   end
 
-  RESERVED_WORDS = %w(
+  RESERVED_WORDS = %w[
     sign_in
     sign_out
     password
@@ -44,9 +44,9 @@ class User < ApplicationRecord
     edit
     confirm_destroy
     guest_sign_in
-  )
+  ].freeze
   USERNAME_MAX_LENGTH = 15
-  VALID_USERNAME_REGEX = /\A[a-zA-Z0-9[-][_]]+\z/
+  VALID_USERNAME_REGEX = /\A[a-zA-Z0-9_-]+\z/.freeze
 
   validates :nickname, length: { maximum: 30 }, presence: true
   validates :profile, length: { maximum: 500 }
@@ -62,14 +62,12 @@ class User < ApplicationRecord
   end
 
   def follow(other_user)
-    if self != other_user
-      relationships.find_or_create_by(follow_id: other_user.id)
-    end
+    relationships.find_or_create_by(follow_id: other_user.id) if self != other_user
   end
 
   def unfollow(other_user)
     relationship = relationships.find_by(follow_id: other_user.id)
-    relationship.destroy if relationship
+    relationship&.destroy
   end
 
   def following?(other_user)
@@ -81,7 +79,8 @@ class User < ApplicationRecord
   end
 
   def feed
-    Recipe.includes(:user, :comments, :favorites).where("user_id IN (?) OR user_id = ?", following_ids, id).order(updated_at: :DESC)
+    Recipe.includes(:user, :comments, :favorites)
+      .where('user_id IN (?) OR user_id = ?', following_ids, id).order(updated_at: :DESC)
   end
 
   def recommended_recipes
@@ -106,14 +105,12 @@ class User < ApplicationRecord
 
   def self.generate_username
     tmp_username = SecureRandom.urlsafe_base64(11).downcase
-    username = User.vary_from_usernames!(tmp_username)
+    User.vary_from_usernames!(tmp_username)
   end
 
   def self.vary_from_usernames!(tmp_username)
     username = tmp_username
-    while User.exists?(username: username)
-      username = SecureRandom.urlsafe_base64(11).downcase
-    end
+    username = SecureRandom.urlsafe_base64(11).downcase while User.exists?(username: username)
     username
   end
 
@@ -121,12 +118,13 @@ class User < ApplicationRecord
     username
   end
 
-  private
-    def self.ransackable_attributes(auth_object = nil)
-      %w(nickname profile followers_count followings_count recipes_count)
-    end
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[nickname profile followers_count followings_count recipes_count]
+  end
 
-    def remove_image
-      user_image.remove!
-    end
+  private
+
+  def remove_image
+    user_image.remove!
+  end
 end

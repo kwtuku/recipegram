@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :comment do
-    body { 'すばらしい！' }
+    body { Faker::Lorem.paragraphs(number: 3).join(' ') }
     association :user
     association :recipe
   end

@@ -12,43 +12,40 @@ RSpec.describe Recipe, type: :model do
   describe 'others(count)' do
     let(:alice) { create :user, :no_image }
     let(:bob) { create :user, :no_image }
-    let!(:curry) { create :recipe, :no_image, user: alice }
-    let!(:gratin) { create :recipe, :no_image, user: alice }
-    let!(:pizza) { create :recipe, :no_image, user: alice }
-    let!(:ramen) { create :recipe, :no_image, user: alice }
-    let!(:steak) { create :recipe, :no_image, user: alice }
-    let!(:kebab) { create :recipe, :no_image, user: alice }
-    let!(:salad) { create :recipe, :no_image, user: bob }
+    let(:pizza) { create :recipe, :no_image, user: alice }
+    let(:salad) { create :recipe, :no_image, user: bob }
+
+    before { create_list(:recipe, 5, :no_image, user: alice) }
 
     it 'does not have irrelevant recipe' do
-      expect(pizza.others(3)).to_not include salad
+      expect(pizza.others(3)).not_to include salad
     end
 
     it 'does not have self' do
-      expect(pizza.others(3)).to_not include pizza
+      expect(pizza.others(3)).not_to include pizza
     end
 
-    context 'second recipe in descending order of id' do
+    context 'when second recipe in descending order of id' do
       it 'has correct recipes' do
         alice_recipe_ids = alice.recipes.ids.sort.reverse
-        third_recipe = Recipe.find(alice_recipe_ids[1])
-        expect(third_recipe.others(3)[0].id).to eq alice_recipe_ids[0]
-        expect(third_recipe.others(3)[1].id).to eq alice_recipe_ids[2]
-        expect(third_recipe.others(3)[2].id).to eq alice_recipe_ids[3]
+        second_recipe = described_class.find(alice_recipe_ids[1])
+        expect(second_recipe.others(3)[0].id).to eq alice_recipe_ids[0]
+        expect(second_recipe.others(3)[1].id).to eq alice_recipe_ids[2]
+        expect(second_recipe.others(3)[2].id).to eq alice_recipe_ids[3]
       end
     end
 
-    context 'fifth recipe in descending order of id' do
+    context 'when fifth recipe in descending order of id' do
       it 'has correct recipes' do
         alice_recipe_ids = alice.recipes.ids.sort.reverse
-        third_recipe = Recipe.find(alice_recipe_ids[4])
-        expect(third_recipe.others(3)[0].id).to eq alice_recipe_ids[0]
-        expect(third_recipe.others(3)[1].id).to eq alice_recipe_ids[1]
-        expect(third_recipe.others(3)[2].id).to eq alice_recipe_ids[2]
+        fifth_recipe = described_class.find(alice_recipe_ids[4])
+        expect(fifth_recipe.others(3)[0].id).to eq alice_recipe_ids[0]
+        expect(fifth_recipe.others(3)[1].id).to eq alice_recipe_ids[1]
+        expect(fifth_recipe.others(3)[2].id).to eq alice_recipe_ids[2]
       end
     end
 
-    context 'other recipe does not exist' do
+    context 'when other recipe does not exist' do
       it 'has no recipe' do
         expect(salad.others(3)).to eq []
       end

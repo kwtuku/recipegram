@@ -1,6 +1,32 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  describe 'associations' do
+    let(:alice) { create(:user, :no_image) }
+    let(:bob) { create(:user, :no_image) }
+    let(:bob_recipe) { create(:recipe, :no_image, user: bob) }
+
+    context 'when user comments on a recipe' do
+      it 'increases commented_recipes count' do
+        expect do
+          create :comment, recipe: bob_recipe, user: alice
+        end.to change(Comment, :count).by(1)
+          .and change(alice.comments, :count).by(1)
+          .and change(alice.commented_recipes, :count).by(1)
+      end
+    end
+
+    context 'when user makes a favorite on a recipe' do
+      it 'increases favored_recipes count' do
+        expect do
+          alice.favorites.create(recipe_id: bob_recipe.id)
+        end.to change(Favorite, :count).by(1)
+          .and change(alice.favorites, :count).by(1)
+          .and change(alice.favored_recipes, :count).by(1)
+      end
+    end
+  end
+
   describe 'validations' do
     it { is_expected.to validate_presence_of(:nickname) }
     it { is_expected.to validate_presence_of(:email) }
@@ -8,11 +34,8 @@ RSpec.describe User, type: :model do
     it { is_expected.to validate_length_of(:password).is_at_least(6) }
 
     describe 'username' do
-      it { is_expected.to validate_presence_of(:username) }
-      it { is_expected.to validate_length_of(:username).is_at_most(15) }
-
-      it 'excludes reserved words' do
-        RESERVED_WORDS = %w(
+      let(:reserved_words) do
+        %w[
           sign_in
           sign_out
           password
@@ -20,67 +43,64 @@ RSpec.describe User, type: :model do
           sign_up
           edit
           guest_sign_in
-        )
-        is_expected.to validate_exclusion_of(:username).in_array(RESERVED_WORDS)
+        ]
       end
 
-      it "is invalid with invalid formats" do
-        INVALID_USERNAMES = %W(
+      it { is_expected.to validate_presence_of(:username) }
+      it { is_expected.to validate_length_of(:username).is_at_most(15) }
+      it { is_expected.to validate_exclusion_of(:username).in_array(reserved_words) }
+
+      it 'is invalid with invalid formats' do
+        invalid_usernames = %W[
           i_am_alice!
           i_am_alice.
           i/am/alice
-          1_am_alice.
           ありす
           アリス
           愛凜翠
           #{'i am alice'}
           #{' alice'}
           #{'alice '}
-        )
+        ]
         alice = build(:user, :no_image)
-        INVALID_USERNAMES.each do |invalid_username|
+        invalid_usernames.each do |invalid_username|
           alice.username = invalid_username
           expect(alice.invalid?).to eq true
         end
       end
 
-      it "is valid with valid formats" do
-        VALID_USERNAMES = %w(
-          i_am_alice
-          1_am_alice
-          i-am-alice
-          a1-_B2
+      it 'is valid with valid formats' do
+        valid_usernames = %w[
           aaa
           AAA
           111
           ---
           ___
-          -_-
-        )
+          aA1-_
+        ]
         alice = build(:user, :no_image)
-        VALID_USERNAMES.each do |valid_username|
+        valid_usernames.each do |valid_username|
           alice.username = valid_username
           expect(alice.valid?).to eq true
         end
       end
 
-      it 'is saved as lower-case' do
+      it 'is saved as lower case' do
         alice = create(:user, :no_image, username: 'ALICE')
         expect(alice.username).to eq 'alice'
-        alice.username = 'I_aM-AliCe'
-        alice.save
+        alice.update(username: 'I_aM-AliCe')
         expect(alice.username).to eq 'i_am-alice'
       end
 
-      it 'does not recognize if a letter is a capital or a small letter' do
-        alice = create(:user, :no_image, username: 'alice')
-        bob = build(:user, :no_image, username: 'ALICE')
+      it 'is not case sensitive' do
+        create(:user, :no_image, username: 'alice')
+        bob = build_stubbed(:user, :no_image, username: 'ALICE')
         expect(bob.invalid?).to eq true
       end
 
       it 'is invalid when username is already taken' do
-        alice = create(:user, :no_image, username: 'alice')
-        bob = build(:user, :no_image, username: 'alice')
+        create(:user, :no_image, username: 'alice')
+        bob = build_stubbed(:user, :no_image, username: 'alice')
         expect(bob.invalid?).to eq true
       end
     end
@@ -90,17 +110,18 @@ RSpec.describe User, type: :model do
     let(:alice) { create(:user, :no_image) }
     let(:favored_recipe) { create(:recipe, :no_image) }
     let!(:not_favored_recipe) { create(:recipe, :no_image) }
+
     before do
       alice.favorites.create!(recipe_id: favored_recipe.id)
     end
 
-    context 'alice already favored a recipe' do
+    context 'when alice already favored a recipe' do
       it 'returns true' do
         expect(alice.already_favored?(favored_recipe)).to eq true
       end
     end
 
-    context 'alice does not favor a recipe' do
+    context 'when alice does not favor a recipe' do
       it 'returns false' do
         expect(alice.already_favored?(not_favored_recipe)).to eq false
       end
@@ -112,25 +133,26 @@ RSpec.describe User, type: :model do
     let(:bob) { create(:user, :no_image) }
 
     it 'increases relationship count' do
-      expect{
+      expect do
         alice.follow(bob)
-      }.to change { Relationship.count }.by(1)
-      .and change { alice.followings.count }.by(1)
-      .and change { bob.followers.count }.by(1)
+      end.to change(Relationship, :count).by(1)
+        .and change(alice.followings, :count).by(1)
+        .and change(bob.followers, :count).by(1)
     end
   end
 
   describe 'unfollow(other_user)' do
     let(:alice) { create(:user, :no_image) }
     let(:bob) { create(:user, :no_image) }
+
     before { alice.relationships.create!(follow_id: bob.id) }
 
     it 'decreases relationship count' do
-      expect{
+      expect do
         alice.unfollow(bob)
-      }.to change { Relationship.count }.by(-1)
-      .and change { alice.followings.count }.by(-1)
-      .and change { bob.followers.count }.by(-1)
+      end.to change(Relationship, :count).by(-1)
+        .and change(alice.followings, :count).by(-1)
+        .and change(bob.followers, :count).by(-1)
     end
   end
 
@@ -138,15 +160,16 @@ RSpec.describe User, type: :model do
     let(:alice) { create(:user, :no_image) }
     let(:bob) { create(:user, :no_image) }
     let(:carol) { create(:user, :no_image) }
+
     before { alice.relationships.create!(follow_id: bob.id) }
 
-    context 'alice follows a user' do
+    context 'when alice follows a user' do
       it 'returns true' do
         expect(alice.following?(bob)).to eq true
       end
     end
 
-    context 'alice does not follow a user' do
+    context 'when alice does not follow a user' do
       it 'returns false' do
         expect(alice.following?(carol)).to eq false
       end
@@ -159,22 +182,24 @@ RSpec.describe User, type: :model do
     let(:carol) { create :user, :no_image }
     let(:dave) { create :user, :no_image }
     let(:ellen) { create :user, :no_image }
-    let(:frank) { create :user, :no_image }
+
     before do
       alice.relationships.create!(follow_id: carol.id)
       alice.relationships.create!(follow_id: dave.id)
       carol.relationships.create!(follow_id: bob.id)
-      dave.relationships.create!(follow_id: bob.id)
       ellen.relationships.create!(follow_id: bob.id)
-      frank.relationships.create!(follow_id: bob.id)
     end
 
-    it 'has following users' do
-      expect(bob.followers_you_follow(alice)).to include carol, dave
+    it 'has following user which follows object user' do
+      expect(bob.followers_you_follow(alice)).to include carol
     end
 
-    it 'does not have unfollowing users' do
-      expect(bob.followers_you_follow(alice)).to_not include ellen, frank
+    it 'does not have following user which does not follow object user' do
+      expect(bob.followers_you_follow(alice)).not_to include dave
+    end
+
+    it 'does not have unfollowing user' do
+      expect(bob.followers_you_follow(alice)).not_to include ellen
     end
   end
 
@@ -182,6 +207,7 @@ RSpec.describe User, type: :model do
     let(:alice) { create(:user, :has_5_recipes, :no_image) }
     let(:bob) { create(:user, :has_5_recipes, :no_image) }
     let(:carol) { create(:user, :has_5_recipes, :no_image) }
+
     before { alice.relationships.create!(follow_id: bob.id) }
 
     it 'has self recipes' do
@@ -213,9 +239,7 @@ RSpec.describe User, type: :model do
     context 'when feed is present' do
       before do
         [alice, bob, carol, dave, ellen].each do |user|
-          3.times do
-            create :recipe, :no_image, user: user, updated_at: rand(1..100).minutes.ago
-          end
+          create_list :recipe, 3, :no_image, user: user, updated_at: rand(1..100).minutes.ago
         end
         alice.relationships.create!(follow_id: bob.id)
         alice.relationships.create!(follow_id: dave.id)
@@ -224,34 +248,34 @@ RSpec.describe User, type: :model do
       it 'has feed at the beginning' do
         feed_count = alice.feed.size
         alice.feed.each do |feed|
-          expect(alice.home_recipes[0..(feed_count-1)].include?(feed)).to eq true
+          expect(alice.home_recipes[0..(feed_count - 1)].include?(feed)).to eq true
         end
       end
 
       it 'does not have unfollowing user recipes at the beginning' do
         feed_count = alice.feed.size
         carol.recipes.each do |carol_recipe|
-          expect(alice.home_recipes[0..(feed_count-1)].include?(carol_recipe)).to eq false
+          expect(alice.home_recipes[0..(feed_count - 1)].include?(carol_recipe)).to eq false
         end
         ellen.recipes.each do |ellen_recipe|
-          expect(alice.home_recipes[0..(feed_count-1)].include?(ellen_recipe)).to eq false
+          expect(alice.home_recipes[0..(feed_count - 1)].include?(ellen_recipe)).to eq false
         end
       end
 
       it 'does not have feed after feed' do
         feed_count = alice.feed.size
         alice.feed.each do |feed|
-          expect(alice.home_recipes[feed_count..-1].include?(feed)).to eq false
+          expect(alice.home_recipes[feed_count..].include?(feed)).to eq false
         end
       end
 
       it 'has unfollowing user recipes after feed' do
         feed_count = alice.feed.size
         carol.recipes.each do |carol_recipe|
-          expect(alice.home_recipes[feed_count..-1].include?(carol_recipe)).to eq true
+          expect(alice.home_recipes[feed_count..].include?(carol_recipe)).to eq true
         end
         ellen.recipes.each do |ellen_recipe|
-          expect(alice.home_recipes[feed_count..-1].include?(ellen_recipe)).to eq true
+          expect(alice.home_recipes[feed_count..].include?(ellen_recipe)).to eq true
         end
       end
     end
@@ -259,9 +283,7 @@ RSpec.describe User, type: :model do
     context 'when feed is blank' do
       before do
         [bob, carol, dave, ellen].each do |user|
-          3.times do
-            create :recipe, :no_image, user: user, updated_at: rand(1..100).minutes.ago
-          end
+          create_list :recipe, 3, :no_image, user: user, updated_at: rand(1..100).minutes.ago
         end
       end
 
@@ -277,53 +299,65 @@ RSpec.describe User, type: :model do
   end
 
   describe 'self.guest' do
-    it 'is valid' do
-      guest = User.guest
-      expect(guest.valid?).to eq true
+    context 'when guest exists' do
+      before { create :user, email: 'guest@example.com' }
+
+      it 'is valid' do
+        expect(described_class.guest.valid?).to eq true
+      end
+
+      it 'does not increase user count' do
+        expect do
+          described_class.guest
+        end.to change(described_class, :count).by(0)
+      end
     end
 
-    it 'exists guest user' do
-      User.guest
-      expect(User.exists?(email: 'guest@example.com')).to eq true
+    context 'when guest dose not exist' do
+      it 'is valid' do
+        expect(described_class.guest.valid?).to eq true
+      end
+
+      it 'increases user count' do
+        expect do
+          described_class.guest
+        end.to change(described_class, :count).by(1)
+      end
     end
   end
 
   describe 'self.generate_username' do
     before do
-      10.times do
-        create :user, :no_image, username: User.generate_username
-      end
+      create_list :user, 10, :no_image
     end
 
     it 'is saved as lower-case' do
-      username = User.generate_username
+      username = described_class.generate_username
       expect(username).to eq username.downcase
     end
 
     it 'generates username different from existing usernames' do
-      username = User.generate_username
-      expect(User.all.pluck(:username)).to_not include username
+      username = described_class.generate_username
+      expect(described_class.all.pluck(:username)).not_to include username
     end
   end
 
   describe 'self.vary_from_usernames!(tmp_username)' do
     before do
-      10.times do
-        create :user, :no_image, username: User.generate_username
-      end
+      create_list :user, 10, :no_image
     end
 
     it 'is saved as lower-case' do
-      tmp_username = User.all.sample.username
-      username = User.vary_from_usernames!(tmp_username)
+      tmp_username = described_class.all.sample.username
+      username = described_class.vary_from_usernames!(tmp_username)
       expect(username).to eq username.downcase
     end
 
     it 'makes tmp_username different from existing usernames' do
-      tmp_username = User.all.sample.username
-      username = User.vary_from_usernames!(tmp_username)
-      expect(username).to_not eq tmp_username
-      expect(User.all.pluck(:username)).to_not include username
+      tmp_username = described_class.all.sample.username
+      username = described_class.vary_from_usernames!(tmp_username)
+      expect(username).not_to eq tmp_username
+      expect(described_class.all.pluck(:username)).not_to include username
     end
   end
 end

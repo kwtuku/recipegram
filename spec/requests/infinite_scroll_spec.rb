@@ -2,345 +2,459 @@ require 'rails_helper'
 
 RSpec.describe 'InfiniteScroll', type: :request do
   describe 'home#home' do
-    before do
-      users = create_list(:user, 60, :no_image)
-      users.each do |user|
-        rand(1..5).times do
-          create :recipe, :no_image, user: user, updated_at: rand(1..100).minutes.ago
-        end
-      end
-    end
+    let(:alice) { create :user, :no_image }
+    let(:feeds) { alice.feed.order(updated_at: :DESC) }
+    let(:not_feed) { create :recipe, :no_image }
 
     context 'when not signed in and 20 items are already displayed' do
-      it 'returns a 200 response' do
-        get infinite_scroll_path, params: {displayed_item_count: '20', path: '' }, xhr: true
-        expect(response).to have_http_status(200)
+      before do
+        users = create_list(:user, 3, :no_image)
+        users.each { |user| create_list(:recipe, 14, :no_image, user: user) }
       end
 
-      it 'renders 20 item links' do
-        get infinite_scroll_path, params: {displayed_item_count: '20', path: '' }, xhr: true
-        expect(response.body.scan(/\/recipes\/\d+/).size).to eq 20
+      let(:params) { { displayed_item_count: '20', path: '' } }
+
+      it 'returns a 200 response' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.status).to eq 200
+      end
+
+      it 'returns correct link size' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.body.scan(%r{/recipes/\d+}).size).to eq 20
       end
     end
 
     context 'when not signed in and 40 items are already displayed' do
-      it 'returns a 200 response' do
-        get infinite_scroll_path, params: {displayed_item_count: '40', path: '' }, xhr: true
-        expect(response).to have_http_status(200)
+      before do
+        users = create_list(:user, 3, :no_image)
+        users.each { |user| create_list(:recipe, 21, :no_image, user: user) }
       end
 
-      it 'renders correct items links' do
-        get infinite_scroll_path, params: {displayed_item_count: '40', path: '' }, xhr: true
-        expect(response.body.scan(/\/recipes\/\d+/).size).to eq 20
+      let(:params) { { displayed_item_count: '40', path: '' } }
+
+      it 'returns a 200 response' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.status).to eq 200
+      end
+
+      it 'returns correct link size' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.body.scan(%r{/recipes/\d+}).size).to eq 20
       end
     end
 
-    let(:alice) { create :user, :no_image }
-    let(:feed_items) { alice.feed.order(updated_at: :DESC) }
-    let(:not_feed_items) { Recipe.all - feed_items }
-
     context 'when signed in and 20 items are already displayed' do
       before do
-        random_users = User.all.sample(40)
-        random_users.each { |user| alice.relationships.create(follow_id: user.id) }
-        create_list(:recipe, rand(1..10), :no_image, user: alice, updated_at: rand(1..100).minutes.ago)
+        users = create_list(:user, 3, :no_image)
+        users.each do |user|
+          create_list(:recipe, 10, :no_image, user: user, updated_at: rand(1..100).minutes.ago)
+        end
+        User.all.each { |user| alice.relationships.create(follow_id: user.id) }
+        create_list(:recipe, 11, :no_image, user: alice, updated_at: rand(1..100).minutes.ago)
+
+        sign_in alice
       end
+
+      let(:params) { { displayed_item_count: '20', path: '' } }
 
       it 'returns a 200 response' do
-        sign_in alice
-        get infinite_scroll_path, params: {displayed_item_count: '20', path: '' }, xhr: true
-        expect(response).to have_http_status(200)
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.status).to eq 200
       end
 
-      it 'renders correct item links' do
-        sign_in alice
-        get infinite_scroll_path, params: {displayed_item_count: '20', path: '' }, xhr: true
-        feed_items[0..19].pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
-        feed_items[20..39].pluck(:id).each { |recipe_id| expect(response.body).to include "/recipes/#{recipe_id}" }
-        feed_items[40..59].pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
-        not_feed_items.pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
+      it 'renders correct links' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.body).not_to include "/recipes/#{feeds[19].id}"
+        expect(response.body).to include "/recipes/#{feeds[20].id}"
+        expect(response.body).to include "/recipes/#{feeds[39].id}"
+        expect(response.body).not_to include "/recipes/#{feeds[40].id}"
+        expect(response.body).not_to include "/recipes/#{not_feed.id}"
       end
     end
 
     context 'when signed in and 40 items are already displayed' do
       before do
-        random_users = User.all.sample(40)
-        random_users.each { |user| alice.relationships.create(follow_id: user.id) }
-        create_list(:recipe, rand(1..10), :no_image, user: alice, updated_at: rand(1..100).minutes.ago)
+        users = create_list(:user, 3, :no_image)
+        users.each do |user|
+          create_list(:recipe, 17, :no_image, user: user, updated_at: rand(1..100).minutes.ago)
+        end
+        User.all.each { |user| alice.relationships.create(follow_id: user.id) }
+        create_list(:recipe, 11, :no_image, user: alice, updated_at: rand(1..100).minutes.ago)
+
+        sign_in alice
       end
+
+      let(:params) { { displayed_item_count: '40', path: '' } }
 
       it 'returns a 200 response' do
-        sign_in alice
-        get infinite_scroll_path, params: {displayed_item_count: '40', path: '' }, xhr: true
-        expect(response).to have_http_status(200)
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.status).to eq 200
       end
 
-      it 'renders correct items links' do
-        sign_in alice
-        get infinite_scroll_path, params: {displayed_item_count: '40', path: '' }, xhr: true
-        feed_items[0..39].pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
-        feed_items[40..59].pluck(:id).each { |recipe_id| expect(response.body).to include "/recipes/#{recipe_id}" }
-        not_feed_items.pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
+      it 'renders correct links' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.body).not_to include "/recipes/#{feeds[39].id}"
+        expect(response.body).to include "/recipes/#{feeds[40].id}"
+        expect(response.body).to include "/recipes/#{feeds[59].id}"
+        expect(response.body).not_to include "/recipes/#{feeds[60].id}"
+        expect(response.body).not_to include "/recipes/#{not_feed.id}"
       end
     end
   end
 
   describe 'recipes#index' do
-    before { create_list(:recipe, 100, :no_image) }
-    let(:recipes) { Recipe.eager_load(:favorites, :comments).order(updated_at: :DESC) }
+    let(:recipes) { Recipe.order(updated_at: :DESC) }
 
     context 'when 40 items are already displayed' do
-      it 'returns a 200 response' do
-        get infinite_scroll_path, params: {displayed_item_count: '40', path: 'recipes' }, xhr: true
-        expect(response).to have_http_status(200)
+      before do
+        users = create_list(:user, 3, :no_image)
+        users.each { |user| create_list(:recipe, 27, :no_image, user: user) }
       end
 
-      it 'renders correct item links' do
-        get infinite_scroll_path, params: {displayed_item_count: '40', path: 'recipes' }, xhr: true
-        recipes[0..39].pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
-        recipes[40..79].pluck(:id).each { |recipe_id| expect(response.body).to include "/recipes/#{recipe_id}" }
-        recipes[80..99].pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
+      let(:params) { { displayed_item_count: '40', path: 'recipes' } }
+
+      it 'returns a 200 response' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.status).to eq 200
+      end
+
+      it 'renders correct links' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.body).not_to include "/recipes/#{recipes[39].id}"
+        expect(response.body).to include "/recipes/#{recipes[40].id}"
+        expect(response.body).to include "/recipes/#{recipes[79].id}"
+        expect(response.body).not_to include "/recipes/#{recipes[80].id}"
       end
     end
 
     context 'when 80 items are already displayed' do
-      it 'returns a 200 response' do
-        get infinite_scroll_path, params: {displayed_item_count: '80', path: 'recipes' }, xhr: true
-        expect(response).to have_http_status(200)
+      before do
+        users = create_list(:user, 3, :no_image)
+        users.each { |user| create_list(:recipe, 41, :no_image, user: user) }
       end
 
-      it 'renders correct items links' do
-        get infinite_scroll_path, params: {displayed_item_count: '80', path: 'recipes' }, xhr: true
-        recipes[0..79].pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
-        recipes[80..99].pluck(:id).each { |recipe_id| expect(response.body).to include "/recipes/#{recipe_id}" }
+      let(:params) { { displayed_item_count: '80', path: 'recipes' } }
+
+      it 'returns a 200 response' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.status).to eq 200
+      end
+
+      it 'renders correct links' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.body).not_to include "/recipes/#{recipes[79].id}"
+        expect(response.body).to include "/recipes/#{recipes[80].id}"
+        expect(response.body).to include "/recipes/#{recipes[119].id}"
+        expect(response.body).not_to include "/recipes/#{recipes[120].id}"
       end
     end
   end
 
   describe 'users#index' do
-    before { create_list(:user, 100, :no_image) }
     let(:users) { User.order(id: :DESC) }
 
     context 'when 40 items are already displayed' do
+      before { create_list(:user, 81, :no_image) }
+
+      let(:params) { { displayed_item_count: '40', path: 'users' } }
+
       it 'returns a 200 response' do
-        get infinite_scroll_path, params: {displayed_item_count: '40', path: 'users' }, xhr: true
-        expect(response).to have_http_status(200)
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.status).to eq 200
       end
 
-      it 'renders correct items' do
-        get infinite_scroll_path, params: {displayed_item_count: '40', path: 'users' }, xhr: true
-        users[0..39].pluck(:nickname).each { |nickname| expect(response.body).to_not include nickname }
-        users[40..79].pluck(:nickname).each { |nickname| expect(response.body).to include nickname }
-        users[80..99].pluck(:nickname).each { |nickname| expect(response.body).to_not include nickname }
+      it 'renders correct links' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.body).not_to include "/users/#{users[39].username}"
+        expect(response.body).to include "/users/#{users[40].username}"
+        expect(response.body).to include "/users/#{users[79].username}"
+        expect(response.body).not_to include "/users/#{users[80].username}"
       end
     end
 
     context 'when 80 items are already displayed' do
+      before { create_list(:user, 121, :no_image) }
+
+      let(:params) { { displayed_item_count: '80', path: 'users' } }
+
       it 'returns a 200 response' do
-        get infinite_scroll_path, params: {displayed_item_count: '80', path: 'users' }, xhr: true
-        expect(response).to have_http_status(200)
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.status).to eq 200
       end
 
-      it 'renders correct items' do
-        get infinite_scroll_path, params: {displayed_item_count: '80', path: 'users' }, xhr: true
-        users[0..79].pluck(:nickname).each { |nickname| expect(response.body).to_not include nickname }
-        users[80..99].pluck(:nickname).each { |nickname| expect(response.body).to include nickname }
+      it 'renders correct links' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.body).not_to include "/users/#{users[79].username}"
+        expect(response.body).to include "/users/#{users[80].username}"
+        expect(response.body).to include "/users/#{users[119].username}"
+        expect(response.body).not_to include "/users/#{users[120].username}"
       end
     end
   end
 
   describe 'users#show' do
-    let!(:alice) { create :user, :no_image, username: 'alice' }
-    let!(:alice_recipes) { create_list(:recipe, 100, :no_image, user: alice) }
-    let(:posted_recipes) { alice.recipes.eager_load(:favorites, :comments).order(id: :DESC) }
-    let!(:not_posted_recipes) { create_list(:recipe, 10, :no_image) }
+    let(:alice) { create :user, :no_image }
+    let(:posted_recipes) { alice.recipes.order(id: :DESC) }
+    let(:not_posted_recipe) { create :recipe, :no_image }
 
     context 'when 40 items are already displayed' do
+      before { create_list(:recipe, 81, :no_image, user: alice) }
+
+      let(:params) { { displayed_item_count: '40', path: "users/#{alice.username}" } }
+
       it 'returns a 200 response' do
-        get infinite_scroll_path, params: {displayed_item_count: '40', path: "users/#{alice.username}" }, xhr: true
-        expect(response).to have_http_status(200)
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.status).to eq 200
       end
 
-      it 'renders correct item links' do
-        get infinite_scroll_path, params: {displayed_item_count: '40', path: "users/#{alice.username}" }, xhr: true
-        posted_recipes[0..39].pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
-        posted_recipes[40..79].pluck(:id).each { |recipe_id| expect(response.body).to include "/recipes/#{recipe_id}" }
-        posted_recipes[80..99].pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
-        not_posted_recipes.pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
+      it 'renders correct links' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.body).not_to include "/recipes/#{posted_recipes[39].id}"
+        expect(response.body).to include "/recipes/#{posted_recipes[40].id}"
+        expect(response.body).to include "/recipes/#{posted_recipes[79].id}"
+        expect(response.body).not_to include "/recipes/#{posted_recipes[80].id}"
+        expect(response.body).not_to include "/recipes/#{not_posted_recipe.id}"
       end
     end
 
     context 'when 80 items are already displayed' do
+      before { create_list(:recipe, 121, :no_image, user: alice) }
+
+      let(:params) { { displayed_item_count: '80', path: "users/#{alice.username}" } }
+
       it 'returns a 200 response' do
-        get infinite_scroll_path, params: {displayed_item_count: '80', path: "users/#{alice.username}" }, xhr: true
-        expect(response).to have_http_status(200)
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.status).to eq 200
       end
 
-      it 'renders correct item links' do
-        get infinite_scroll_path, params: {displayed_item_count: '80', path: "users/#{alice.username}" }, xhr: true
-        posted_recipes[0..79].pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
-        posted_recipes[80..99].pluck(:id).each { |recipe_id| expect(response.body).to include "/recipes/#{recipe_id}" }
-        not_posted_recipes.pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
+      it 'renders correct links' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.body).not_to include "/recipes/#{posted_recipes[79].id}"
+        expect(response.body).to include "/recipes/#{posted_recipes[80].id}"
+        expect(response.body).to include "/recipes/#{posted_recipes[119].id}"
+        expect(response.body).not_to include "/recipes/#{posted_recipes[120].id}"
+        expect(response.body).not_to include "/recipes/#{not_posted_recipe.id}"
       end
     end
   end
 
   describe 'users#comments' do
-    let(:alice) { create :user, :no_image, username: 'alice' }
-    before do
-      create_list(:recipe, 120, :no_image)
-      random_recipes = Recipe.all.sample(100)
-      random_recipes.each { |recipe| create :comment, user: alice, recipe: recipe }
-    end
-    let(:commented_recipes) { alice.commented_recipes.eager_load(:favorites, :comments).order('comments.created_at desc') }
-    let(:not_commented_recipes) { Recipe.all - commented_recipes }
+    let(:alice) { create :user, :no_image }
+    let(:commented_recipes) { alice.commented_recipes.order('comments.created_at desc') }
+    let(:not_commented_recipe) { (Recipe.all - commented_recipes).first }
 
     context 'when 40 items are already displayed' do
-      it 'returns a 200 response' do
-        get infinite_scroll_path, params: {displayed_item_count: '40', path: "users/#{alice.username}/comments" }, xhr: true
-        expect(response).to have_http_status(200)
+      before do
+        users = create_list(:user, 3, :no_image)
+        users.each { |user| create_list(:recipe, 28, :no_image, user: user) }
+        random_recipes = Recipe.all.sample(81)
+        random_recipes.each { |recipe| create :comment, user: alice, recipe: recipe }
       end
 
-      it 'renders correct item links' do
-        get infinite_scroll_path, params: {displayed_item_count: '40',  path: "users/#{alice.username}/comments" }, xhr: true
-        commented_recipes[0..39].pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
-        commented_recipes[40..79].pluck(:id).each { |recipe_id| expect(response.body).to include "/recipes/#{recipe_id}" }
-        commented_recipes[80..99].pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
-        not_commented_recipes.pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
+      let(:params) { { displayed_item_count: '40', path: "users/#{alice.username}/comments" } }
+
+      it 'returns a 200 response' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.status).to eq 200
+      end
+
+      it 'renders correct links' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.body).not_to include "/recipes/#{commented_recipes[39].id}"
+        expect(response.body).to include "/recipes/#{commented_recipes[40].id}"
+        expect(response.body).to include "/recipes/#{commented_recipes[79].id}"
+        expect(response.body).not_to include "/recipes/#{commented_recipes[80].id}"
+        expect(response.body).not_to include "/recipes/#{not_commented_recipe.id}"
       end
     end
 
     context 'when 80 items are already displayed' do
-      it 'returns a 200 response' do
-        get infinite_scroll_path, params: {displayed_item_count: '80', path: "users/#{alice.username}/comments" }, xhr: true
-        expect(response).to have_http_status(200)
+      before do
+        users = create_list(:user, 3, :no_image)
+        users.each { |user| create_list(:recipe, 41, :no_image, user: user) }
+        random_recipes = Recipe.all.sample(121)
+        random_recipes.each { |recipe| create :comment, user: alice, recipe: recipe }
       end
 
-      it 'renders correct items links' do
-        get infinite_scroll_path, params: {displayed_item_count: '80', path: "users/#{alice.username}/comments" }, xhr: true
-        commented_recipes[0..79].pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
-        commented_recipes[80..99].pluck(:id).each { |recipe_id| expect(response.body).to include "/recipes/#{recipe_id}" }
-        not_commented_recipes.pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
+      let(:params) { { displayed_item_count: '80', path: "users/#{alice.username}/comments" } }
+
+      it 'returns a 200 response' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.status).to eq 200
+      end
+
+      it 'renders correct links' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.body).not_to include "/recipes/#{commented_recipes[79].id}"
+        expect(response.body).to include "/recipes/#{commented_recipes[80].id}"
+        expect(response.body).to include "/recipes/#{commented_recipes[119].id}"
+        expect(response.body).not_to include "/recipes/#{commented_recipes[120].id}"
+        expect(response.body).not_to include "/recipes/#{not_commented_recipe.id}"
       end
     end
   end
 
   describe 'users#favorites' do
     let(:alice) { create :user, :no_image, username: 'alice' }
-    before do
-      create_list(:recipe, 120, :no_image)
-      random_recipes = Recipe.all.sample(100)
-      random_recipes.each { |recipe| alice.favorites.create(recipe_id: recipe.id) }
-    end
-    let(:favored_recipes) { alice.favored_recipes.eager_load(:favorites, :comments).order('favorites.created_at desc') }
-    let(:not_favored_recipes) { Recipe.all - favored_recipes }
+    let(:favored_recipes) { alice.favored_recipes.order('favorites.created_at desc') }
+    let(:not_favored_recipe) { (Recipe.all - favored_recipes).first }
 
     context 'when 40 items are already displayed' do
-      it 'returns a 200 response' do
-        get infinite_scroll_path, params: {displayed_item_count: '40', path: "users/#{alice.username}/favorites" }, xhr: true
-        expect(response).to have_http_status(200)
+      before do
+        users = create_list(:user, 3, :no_image)
+        users.each { |user| create_list(:recipe, 28, :no_image, user: user) }
+        random_recipes = Recipe.all.sample(81)
+        random_recipes.each { |recipe| alice.favorites.create(recipe_id: recipe.id) }
       end
 
-      it 'renders correct item links' do
-        get infinite_scroll_path, params: {displayed_item_count: '40', path: "users/#{alice.username}/favorites" }, xhr: true
-        favored_recipes[0..39].pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
-        favored_recipes[40..79].pluck(:id).each { |recipe_id| expect(response.body).to include "/recipes/#{recipe_id}" }
-        favored_recipes[80..99].pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
-        not_favored_recipes.pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
+      let(:params) { { displayed_item_count: '40', path: "users/#{alice.username}/favorites" } }
+
+      it 'returns a 200 response' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.status).to eq 200
+      end
+
+      it 'renders correct links' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.body).not_to include "/recipes/#{favored_recipes[39].id}"
+        expect(response.body).to include "/recipes/#{favored_recipes[40].id}"
+        expect(response.body).to include "/recipes/#{favored_recipes[79].id}"
+        expect(response.body).not_to include "/recipes/#{favored_recipes[80].id}"
+        expect(response.body).not_to include "/recipes/#{not_favored_recipe.id}"
       end
     end
 
     context 'when 80 items are already displayed' do
-      it 'returns a 200 response' do
-        get infinite_scroll_path, params: {displayed_item_count: '80', path: "users/#{alice.username}/favorites" }, xhr: true
-        expect(response).to have_http_status(200)
+      before do
+        users = create_list(:user, 3, :no_image)
+        users.each { |user| create_list(:recipe, 41, :no_image, user: user) }
+        random_recipes = Recipe.all.sample(121)
+        random_recipes.each { |recipe| alice.favorites.create(recipe_id: recipe.id) }
       end
 
-      it 'renders correct items links' do
-        get infinite_scroll_path, params: {displayed_item_count: '80', path: "users/#{alice.username}/favorites" }, xhr: true
-        favored_recipes[0..79].pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
-        favored_recipes[80..99].pluck(:id).each { |recipe_id| expect(response.body).to include "/recipes/#{recipe_id}" }
-        not_favored_recipes.pluck(:id).each { |recipe_id| expect(response.body).to_not include "/recipes/#{recipe_id}" }
+      let(:params) { { displayed_item_count: '80', path: "users/#{alice.username}/favorites" } }
+
+      it 'returns a 200 response' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.status).to eq 200
+      end
+
+      it 'renders correct links' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.body).not_to include "/recipes/#{favored_recipes[79].id}"
+        expect(response.body).to include "/recipes/#{favored_recipes[80].id}"
+        expect(response.body).to include "/recipes/#{favored_recipes[119].id}"
+        expect(response.body).not_to include "/recipes/#{favored_recipes[120].id}"
+        expect(response.body).not_to include "/recipes/#{not_favored_recipe.id}"
       end
     end
   end
 
   describe 'users#followers' do
-    let(:alice) { create :user, :no_image, username: 'alice' }
-    before do
-      create_list(:user, 120, :no_image)
-      random_users = User.all.sample(100)
-      random_users.each { |user| user.relationships.create(follow_id: alice.id) }
-    end
-    let(:followers) { alice.followers.preload(:followings).order('relationships.created_at desc') }
-    let(:not_followers) { User.all - [alice] - followers }
+    let(:alice) { create :user, :no_image }
+    let(:followers) { alice.followers.order('relationships.created_at desc') }
+    let(:not_follower) { (User.all - [alice] - followers).first }
 
     context 'when 40 items are already displayed' do
-      it 'returns a 200 response' do
-        get infinite_scroll_path, params: {displayed_item_count: '40', path: "users/#{alice.username}/followers" }, xhr: true
-        expect(response).to have_http_status(200)
+      before do
+        create_list(:user, 82, :no_image)
+        random_users = User.all.sample(81)
+        random_users.each { |user| user.relationships.create(follow_id: alice.id) }
       end
 
-      it 'renders correct items' do
-        get infinite_scroll_path, params: {displayed_item_count: '40', path: "users/#{alice.username}/followers" }, xhr: true
-        followers[0..39].pluck(:nickname).each { |nickname| expect(response.body).to_not include nickname }
-        followers[40..79].pluck(:nickname).each { |nickname| expect(response.body).to include nickname }
-        followers[80..99].pluck(:nickname).each { |nickname| expect(response.body).to_not include nickname }
-        not_followers.pluck(:nickname).each { |nickname| expect(response.body).to_not include nickname }
+      let(:params) { { displayed_item_count: '40', path: "users/#{alice.username}/followers" } }
+
+      it 'returns a 200 response' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.status).to eq 200
+      end
+
+      it 'renders correct links' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.body).not_to include "/users/#{followers[39].username}"
+        expect(response.body).to include "/users/#{followers[40].username}"
+        expect(response.body).to include "/users/#{followers[79].username}"
+        expect(response.body).not_to include "/users/#{followers[80].username}"
+        expect(response.body).not_to include "/users/#{not_follower.username}"
       end
     end
 
     context 'when 80 items are already displayed' do
-      it 'returns a 200 response' do
-        get infinite_scroll_path, params: {displayed_item_count: '80', path: "users/#{alice.username}/followers" }, xhr: true
-        expect(response).to have_http_status(200)
+      before do
+        create_list(:user, 122, :no_image)
+        random_users = User.all.sample(121)
+        random_users.each { |user| user.relationships.create(follow_id: alice.id) }
       end
 
-      it 'renders correct items' do
-        get infinite_scroll_path, params: {displayed_item_count: '80', path: "users/#{alice.username}/followers" }, xhr: true
-        followers[0..79].pluck(:nickname).each { |nickname| expect(response.body).to_not include nickname }
-        followers[80..99].pluck(:nickname).each { |nickname| expect(response.body).to include nickname }
-        not_followers.pluck(:nickname).each { |nickname| expect(response.body).to_not include nickname }
+      let(:params) { { displayed_item_count: '80', path: "users/#{alice.username}/followers" } }
+
+      it 'returns a 200 response' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.status).to eq 200
+      end
+
+      it 'renders correct links' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.body).not_to include "/users/#{followers[79].username}"
+        expect(response.body).to include "/users/#{followers[80].username}"
+        expect(response.body).to include "/users/#{followers[119].username}"
+        expect(response.body).not_to include "/users/#{followers[120].username}"
+        expect(response.body).not_to include "/users/#{not_follower.username}"
       end
     end
   end
 
   describe 'users#followings' do
     let(:alice) { create :user, :no_image, username: 'alice' }
-    before do
-      create_list(:user, 120, :no_image)
-      random_users = User.all.sample(100)
-      random_users.each { |user| alice.relationships.create(follow_id: user.id) }
-    end
-    let(:followings) { alice.followings.preload(:followings).order('relationships.created_at desc') }
-    let(:not_followings) { User.all - [alice] - followings }
+    let(:followings) { alice.followings.order('relationships.created_at desc') }
+    let(:not_following) { (User.all - [alice] - followings).first }
 
     context 'when 40 items are already displayed' do
-      it 'returns a 200 response' do
-        get infinite_scroll_path, params: {displayed_item_count: '40', path: "users/#{alice.username}/followings" }, xhr: true
-        expect(response).to have_http_status(200)
+      before do
+        create_list(:user, 82, :no_image)
+        random_users = User.all.sample(81)
+        random_users.each { |user| alice.relationships.create(follow_id: user.id) }
       end
 
-      it 'renders correct items' do
-        get infinite_scroll_path, params: {displayed_item_count: '40', path: "users/#{alice.username}/followings" }, xhr: true
-        followings[0..39].pluck(:nickname).each { |nickname| expect(response.body).to_not include nickname }
-        followings[40..79].pluck(:nickname).each { |nickname| expect(response.body).to include nickname }
-        followings[80..99].pluck(:nickname).each { |nickname| expect(response.body).to_not include nickname }
-        not_followings.pluck(:nickname).each { |nickname| expect(response.body).to_not include nickname }
+      let(:params) { { displayed_item_count: '40', path: "users/#{alice.username}/followings" } }
+
+      it 'returns a 200 response' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.status).to eq 200
+      end
+
+      it 'renders correct links' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.body).not_to include "/users/#{followings[39].username}"
+        expect(response.body).to include "/users/#{followings[40].username}"
+        expect(response.body).to include "/users/#{followings[79].username}"
+        expect(response.body).not_to include "/users/#{followings[80].username}"
+        expect(response.body).not_to include "/users/#{not_following.username}"
       end
     end
 
     context 'when 80 items are already displayed' do
-      it 'returns a 200 response' do
-        get infinite_scroll_path, params: {displayed_item_count: '80', path: "users/#{alice.username}/followings" }, xhr: true
-        expect(response).to have_http_status(200)
+      before do
+        create_list(:user, 122, :no_image)
+        random_users = User.all.sample(121)
+        random_users.each { |user| alice.relationships.create(follow_id: user.id) }
       end
 
-      it 'renders correct items' do
-        get infinite_scroll_path, params: {displayed_item_count: '80', path: "users/#{alice.username}/followings" }, xhr: true
-        followings[0..79].pluck(:nickname).each { |nickname| expect(response.body).to_not include nickname }
-        followings[80..99].pluck(:nickname).each { |nickname| expect(response.body).to include nickname }
-        not_followings.pluck(:nickname).each { |nickname| expect(response.body).to_not include nickname }
+      let(:params) { { displayed_item_count: '80', path: "users/#{alice.username}/followings" } }
+
+      it 'returns a 200 response' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.status).to eq 200
+      end
+
+      it 'renders correct links' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.body).not_to include "/users/#{followings[79].username}"
+        expect(response.body).to include "/users/#{followings[80].username}"
+        expect(response.body).to include "/users/#{followings[119].username}"
+        expect(response.body).not_to include "/users/#{followings[120].username}"
+        expect(response.body).not_to include "/users/#{not_following.username}"
       end
     end
   end

@@ -1,5 +1,5 @@
 class RecipesController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i(index show)
+  skip_before_action :authenticate_user!, only: %i[index show]
 
   def index
     @recipes = Recipe.eager_load(:favorites, :comments).order(updated_at: :DESC).first(40)
@@ -27,9 +27,7 @@ class RecipesController < ApplicationController
 
   def edit
     @recipe = Recipe.find(params[:id])
-    if @recipe.user != current_user
-      redirect_to recipe_path(@recipe), alert: '権限がありません。'
-    end
+    redirect_to recipe_path(@recipe), alert: '権限がありません。' if @recipe.user != current_user
   end
 
   def update
@@ -64,7 +62,8 @@ class RecipesController < ApplicationController
   end
 
   private
-    def recipe_params
-      params.require(:recipe).permit(:title, :body, :recipe_image)
-    end
+
+  def recipe_params
+    params.require(:recipe).permit(:title, :body, :recipe_image)
+  end
 end

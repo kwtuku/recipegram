@@ -9,13 +9,13 @@ class CommentsController < ApplicationController
       @recipe = Recipe.find(params[:recipe_id])
       @other_recipes = @recipe.others(3)
       @comments = @recipe.comments.eager_load(:user).order(:id)
-      render "recipes/show"
+      render 'recipes/show'
     end
   end
 
   def destroy
-    @comment = Comment.find(params[:recipe_id])
-    @recipe = Recipe.find(params[:id])
+    @comment = Comment.find(params[:id])
+    @recipe = @comment.recipe
     if @comment.user != current_user
       redirect_to recipe_url(@recipe), alert: '権限がありません。'
     else
@@ -25,7 +25,8 @@ class CommentsController < ApplicationController
   end
 
   private
-    def comment_params
-      params.require(:comment).permit(:body)
-    end
+
+  def comment_params
+    params.require(:comment).permit(:body)
+  end
 end

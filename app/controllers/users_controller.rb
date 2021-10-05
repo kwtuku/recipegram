@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i(index show generate_username)
+  skip_before_action :authenticate_user!, only: %i[index show generate_username]
 
   def index
     @users = User.order(id: :DESC).first(40)
@@ -49,12 +49,14 @@ class UsersController < ApplicationController
   def comments
     @user = User.find_by(username: params[:user_username])
     @recipes = @user.commented_recipes.eager_load(:favorites, :comments).order('comments.created_at desc').limit(40)
+    @followers_you_follow = @user.followers_you_follow(current_user)
     render 'show'
   end
 
   def favorites
     @user = User.find_by(username: params[:user_username])
     @recipes = @user.favored_recipes.eager_load(:favorites, :comments).order('favorites.created_at desc').limit(40)
+    @followers_you_follow = @user.followers_you_follow(current_user)
     render 'show'
   end
 
@@ -63,7 +65,8 @@ class UsersController < ApplicationController
   end
 
   private
-    def user_params
-      params.require(:user).permit(:username, :nickname, :profile, :user_image)
-    end
+
+  def user_params
+    params.require(:user).permit(:username, :nickname, :profile, :user_image)
+  end
 end

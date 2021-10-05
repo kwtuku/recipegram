@@ -22,16 +22,17 @@ class Recipe < ApplicationRecord
   validates :recipe_image, presence: true
 
   def others(count)
-    others = Recipe.eager_load(:favorites, :comments).where(user_id: self.user_id).order(id: :DESC) - [self]
+    others = Recipe.eager_load(:favorites, :comments).where(user_id: user_id).order(id: :DESC) - [self]
     others.first(count)
   end
 
-  private
-    def self.ransackable_attributes(auth_object = nil)
-      %w(title body updated_at comments_count favorites_count)
-    end
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[title body updated_at comments_count favorites_count]
+  end
 
-    def remove_image
-      recipe_image.remove!
-    end
+  private
+
+  def remove_image
+    recipe_image.remove!
+  end
 end
