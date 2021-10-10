@@ -22,6 +22,7 @@ class Recipe < ApplicationRecord
   validates :title, length: { maximum: 30 }, presence: true
   validates :body, length: { maximum: 2000 }, presence: true
   validates :recipe_image, presence: true
+  validate :validate_tag
 
   def others(count)
     others = Recipe.eager_load(:favorites, :comments).where(user_id: user_id).order(id: :DESC) - [self]
@@ -36,5 +37,16 @@ class Recipe < ApplicationRecord
 
   def remove_image
     recipe_image.remove!
+  end
+
+  TAG_MAX_COUNT = 5
+  def validate_tag
+    return errors.add(:tag_list, "は#{TAG_MAX_COUNT}つ以下にしてください") if tag_list.size > TAG_MAX_COUNT
+
+    tag_list.each do |tag_name|
+      tag = Tag.new(name: tag_name)
+      tag.validate_name
+      tag.errors.messages[:name].each { |message| errors.add(:tag_list, message) }
+    end
   end
 end
