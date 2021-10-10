@@ -1,6 +1,8 @@
 class Recipe < ApplicationRecord
   before_destroy :remove_image
 
+  acts_as_taggable_on :tags
+
   belongs_to :user
 
   has_many :favorites, dependent: :destroy

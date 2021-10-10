@@ -44,6 +44,13 @@
             </p>
             <%= render 'devise/shared/full_error_messages', model: @recipe, attribute: :body %>
           </div>
+          <div class="field">
+            <%= f.label :tag_list, class: 'label' %>
+            <div class="control">
+              <%= f.text_field :tag_list, value: f.object.tag_list.to_s, class: 'input' %>
+            </div>
+            <%= render 'devise/shared/full_error_messages', model: @recipe, attribute: :tag_list %>
+          </div>
           <%= f.submit '更新', class: 'button is-rounded is-success', id: 'update_recipe', disabled: true %>
         </div>
       </div>

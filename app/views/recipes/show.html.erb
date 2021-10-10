@@ -88,7 +88,12 @@
           <div class="card-content">
             <p class="title is-spaced"><%= @recipe.title %></p>
             <p class="subtitle">作り方</p>
-            <%= simple_format h(@recipe.body), class: 'text-break' %>
+            <%= simple_format h(@recipe.body), class: 'content text-break' %>
+            <p class="content">
+              <% @recipe.tags.each do |tag| %>
+                <span class="tag"><%= tag %></span>
+              <% end %>
+            </p>
             <p class="has-text-right has-text-grey-light">
               <time datetime="<%= @recipe.created_at %>">投稿日：<%= l @recipe.created_at, format: :ymd %></time>
               <time class="ml-2" datetime="<%= @recipe.updated_at %>">更新日：<%= l @recipe.updated_at, format: :ymd %></time>
