@@ -16,7 +16,9 @@
       </p>
       <p class="content">
         <% recipe.tags.each do |tag| %>
-          <span class="tag"><%= tag %></span>
+          <%= link_to tag_path(tag.name) do %>
+            <span class="tag"><%= tag %></span>
+          <% end %>
         <% end %>
       </p>
       <p>

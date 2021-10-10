@@ -13,6 +13,8 @@ Rails.application.routes.draw do
 
   resources :notifications, only: %i[index]
 
+  resources :tags, only: %i[show], param: :name
+
   resources :relationships, only: %i[create destroy]
 
   resources :recipes do

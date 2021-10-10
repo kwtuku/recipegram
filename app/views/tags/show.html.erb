@@ -1,0 +1,29 @@
+<% provide(:title, "#{@tag.name}に関するレシピ一覧") %>
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="media">
+          <div class="media-left">
+            <figure class="image is-128x128">
+              <%= image_tag @tagged_recipes.sample.recipe_image.thumb.url, class: 'is-rounded' %>
+            </figure>
+          </div>
+          <div class="media-content">
+            <h1 class="title"><%= @tag.name %></h1>
+            <p><%= @tagged_recipes.size %>件の投稿</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-multiline is-mobile">
+      <%= render @tagged_recipes %>
+    </div>
+  </div>
+</section>
