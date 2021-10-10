@@ -46,7 +46,7 @@
           </div>
           <div class="field">
             <%= f.label :tag_list, class: 'label' %>
-            <div class="control">
+            <div class="control" id="tag-input">
               <%= f.text_field :tag_list, value: f.object.tag_list.to_s, class: 'input height-unset custom-tagify-look' %>
             </div>
             <%= render 'devise/shared/full_error_messages', model: @recipe, attribute: :tag_list %>
