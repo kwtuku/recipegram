@@ -284,3 +284,7 @@
   --tag-inset-shadow-size: 5em !important;
   --tag-remove-btn-color: #363636 !important;
 }
+
+.custom-tagify-look > div {
+  border: unset;
+}
