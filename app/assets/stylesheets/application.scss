@@ -288,3 +288,8 @@
 .custom-tagify-look > div {
   border: unset;
 }
+
+.tag-link:hover {
+  background-color: #eeeeee;
+  color: rgba(0, 0, 0, 0.7);
+}
