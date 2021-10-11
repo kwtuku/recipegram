@@ -40,16 +40,16 @@ RSpec.describe 'Tags', type: :request do
   describe '#show' do
     let(:alice) { create :user, :no_image }
     let!(:tagged_recipe) { create :recipe, :no_image, tag_list: 'かんたん' }
-    let(:tag_kantan) { Tag.find_or_create_by(name: 'かんたん') }
+    let!(:tag_kantan) { Tag.find_or_create_by(name: 'かんたん') }
 
     context 'when not signed in' do
       it 'returns a 200 response' do
-        get tag_path(tag_kantan)
+        get tag_path(tag_kantan.name)
         expect(response.status).to eq 200
       end
 
       it 'renders tagged recipes' do
-        get tag_path(tag_kantan)
+        get tag_path(tag_kantan.name)
         expect(response.body).to include recipe_path(tagged_recipe)
       end
     end
@@ -58,13 +58,21 @@ RSpec.describe 'Tags', type: :request do
       before { sign_in alice }
 
       it 'returns a 200 response' do
-        get tag_path(tag_kantan)
+        get tag_path(tag_kantan.name)
         expect(response.status).to eq 200
       end
 
       it 'renders tagged recipes' do
-        get tag_path(tag_kantan)
+        get tag_path(tag_kantan.name)
         expect(response.body).to include recipe_path(tagged_recipe)
+      end
+    end
+
+    context 'when a tag is nil' do
+      it 'raises ActiveRecord::RecordNotFound' do
+        expect do
+          get tag_path(SecureRandom.urlsafe_base64)
+        end.to raise_error ActiveRecord::RecordNotFound
       end
     end
   end

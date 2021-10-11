@@ -8,6 +8,8 @@ class TagsController < ApplicationController
 
   def show
     @tag = ActsAsTaggableOn::Tag.find_by(name: params[:name])
+    raise ActiveRecord::RecordNotFound unless @tag
+
     @tagged_recipes = Recipe.tagged_with(@tag.name).eager_load(:favorites, :comments)
   end
 end
