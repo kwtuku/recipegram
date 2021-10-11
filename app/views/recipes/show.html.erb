@@ -141,11 +141,11 @@
             <%= render 'recipes/user_card', user: @recipe.user %>
           </div>
           <% unless @other_recipes.blank? %>
-            <div class="card mt-4">
-              <div class="card-content px-5 py-3">
+            <div class="card mt-5">
+              <div class="card-content">
                 <p>他の投稿</p>
               </div>
-              <div class="columns is-multiline is-gapless is-mobile">
+              <div class="columns is-multiline is-mobile is-variable is-1">
                 <%= render partial: 'recipes/other_recipe', collection: @other_recipes, as: 'recipe' %>
               </div>
             </div>
