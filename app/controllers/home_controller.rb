@@ -31,8 +31,8 @@ class HomeController < ApplicationController
 
     recipe_title_results = recipe_title_q.result.eager_load(:favorites, :comments, :tags, :tag_taggings)
     recipe_body_results = recipe_body_q.result.eager_load(:favorites, :comments, :tags, :tag_taggings)
-    user_nickname_results = user_nickname_q.result.preload(:recipes, :followers, :followings)
-    user_profile_results = user_profile_q.result.preload(:recipes, :followers, :followings)
+    user_nickname_results = user_nickname_q.result.eager_load(:recipes)
+    user_profile_results = user_profile_q.result.eager_load(:recipes)
 
     @recipe_title_results = recipe_title_results.page(params[:page]).per(10)
     @recipe_body_results = recipe_body_results.page(params[:page]).per(10)
