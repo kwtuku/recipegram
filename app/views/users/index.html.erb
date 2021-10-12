@@ -4,9 +4,9 @@
 
 <section class="section p-0-mobile">
   <div class="container">
-    <div class="columns is-multiline is-mobile m-0-mobile" id="infinite-scroll-container" data-infinite-scroll="true">
+    <div class="columns is-multiline is-mobile m-0-mobile" id="infinite-scroll-container" data-infinite-scroll="<%= @users.size == 40 %>">
       <%= render @users %>
-      <% if @users.size >= 40 %>
+      <% if @users.size == 40 %>
         <div class="column is-12" id="remove-after-loading"><div class="loading-animation"></div></div>
       <% end %>
     </div>

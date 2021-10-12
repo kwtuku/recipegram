@@ -3,10 +3,10 @@ class HomeController < ApplicationController
 
   def home
     if user_signed_in?
-      @feed_items = current_user.home_recipes.first(20)
+      @feeds = current_user.home_recipes.first(20)
       @recommended_users = current_user.recommended_users.sample(5)
     else
-      @feed_items = Recipe.all.eager_load(:user, :comments, :favorites).sample(20)
+      @feeds = Recipe.all.eager_load(:comments, :favorites, :user).sample(20)
       @recommended_users = User.all.sample(7)
     end
   end

@@ -5,6 +5,8 @@ export default () => {
     window.addEventListener('scroll', () => {
       if (infiniteScrollContainer === null) return false;
 
+      if (infiniteScrollContainer.dataset.infiniteScroll !== 'true') return false;
+
       const scrollHeight = Math.max(
         document.body.scrollHeight, document.documentElement.scrollHeight,
         document.body.offsetHeight, document.documentElement.offsetHeight,
@@ -13,7 +15,7 @@ export default () => {
       const pageMostBottom = scrollHeight - window.innerHeight;
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-      if (scrollTop >= pageMostBottom * 0.9 && infiniteScrollContainer.dataset.infiniteScroll === 'true') {
+      if (scrollTop >= pageMostBottom * 0.8) {
         infiniteScrollContainer.dataset.infiniteScroll = 'false';
 
         const items = Array.prototype.slice.call(document.querySelectorAll('[data-infinite-scroll-item]'), 0);
