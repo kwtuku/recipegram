@@ -45,7 +45,7 @@
     <main>
       <%= yield %>
     </main>
-    <%= render 'layouts/footer' unless controller.action_name == 'home' && user_signed_in? %>
+    <%= render 'layouts/footer' unless controller.action_name == 'home' %>
 
     <% unless user_signed_in? %>
       <div class="modal" id="sign-in-modal">
