@@ -6,7 +6,9 @@
   <div class="container">
     <div class="columns is-multiline is-mobile m-0-mobile" id="infinite-scroll-container" data-infinite-scroll="true">
       <%= render @users %>
-      <div class="column is-12" id="remove-after-loading"><div class="loading-animation"></div></div>
+      <% if @users.size >= 40 %>
+        <div class="column is-12" id="remove-after-loading"><div class="loading-animation"></div></div>
+      <% end %>
     </div>
   </div>
 </section>
