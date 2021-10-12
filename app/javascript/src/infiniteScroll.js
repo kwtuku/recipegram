@@ -3,15 +3,13 @@ export default () => {
     window.infiniteScrollContainer = document.getElementById('infinite-scroll-container')
 
     window.addEventListener('scroll', () => {
-      if (infiniteScrollContainer === null) {
-        return false;
-      }
+      if (infiniteScrollContainer === null) return false;
 
       const scrollHeight = Math.max(
         document.body.scrollHeight, document.documentElement.scrollHeight,
         document.body.offsetHeight, document.documentElement.offsetHeight,
         document.body.clientHeight, document.documentElement.clientHeight
-        );
+      );
       const pageMostBottom = scrollHeight - window.innerHeight;
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
@@ -26,9 +24,9 @@ export default () => {
           type: 'GET',
           url: '/infinite_scroll',
           cache: false,
-          data: {displayed_item_count: displayedItemCount, path: path, remote: true}
+          data: { displayed_item_count: displayedItemCount, path: path, remote: true }
         });
       }
-    }, {passive: true});
+    }, { passive: true });
   });
 }
