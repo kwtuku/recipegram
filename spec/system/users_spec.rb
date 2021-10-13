@@ -60,6 +60,7 @@ RSpec.describe 'Users', type: :system do
       sign_in bob
       find('.rspec_header_dropdown_trigger').click
       click_link 'アカウント編集'
+      expect(page).to have_current_path edit_user_registration_path
       expect(page).to have_button 'update_account', disabled: true
       fill_in 'user[username]', with: 'after'
       fill_in 'user[current_password]', with: bob.password
@@ -170,6 +171,7 @@ RSpec.describe 'Users', type: :system do
     sign_in ellen
     find('.rspec_header_dropdown_trigger').click
     click_link 'アカウント削除手続き'
+    expect(page).to have_current_path users_confirm_destroy_path
     expect(page).to have_button 'destroy_account', disabled: true
     fill_in 'user[current_password]', with: ellen.password
     expect  do
