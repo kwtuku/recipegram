@@ -17,7 +17,7 @@
       <p class="content">
         <% recipe.tags.each do |tag| %>
           <%= link_to tag_path(tag.name) do %>
-            <span class="tag tag-link"><%= tag %></span>
+            <span class="tag is-medium tag-link"><%= tag %></span>
           <% end %>
         <% end %>
       </p>
