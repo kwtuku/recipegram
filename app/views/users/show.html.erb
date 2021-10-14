@@ -92,28 +92,24 @@
         </div>
       </div>
     </div>
-  </div>
-</section>
 
-<section class="section">
-  <div class="container">
     <div class="tabs is-centered is-fullwidth">
       <ul>
         <li class="<%= 'is-active' if controller.action_name == 'show' %>">
           <%= link_to user_path(@user) do %>
-            <span class="icon is-small has-text-link"><i class="fas fa-pen" aria-hidden="true"></i></span>
+            <span class="icon is-small"><i class="fas fa-border-all" aria-hidden="true"></i></span>
             <span class="has-text-black-ter">投稿</span>
           <% end %>
         </li>
         <li class="<%= 'is-active' if controller.action_name == 'comments' %>">
           <%= link_to user_comments_path(@user) do %>
-            <span class="icon is-small has-text-primary"><i class="fas fa-comment" aria-hidden="true"></i></span>
+            <span class="icon is-small"><i class="far fa-comment" aria-hidden="true"></i></span>
             <span class="has-text-black-ter">コメント</span>
           <% end %>
         </li>
         <li class="<%= 'is-active' if controller.action_name == 'favorites' %>">
           <%= link_to user_favorites_path(@user) do %>
-            <span class="icon is-small has-text-danger"><i class="fas fa-heart" aria-hidden="true"></i></span>
+            <span class="icon is-small"><i class="far fa-heart" aria-hidden="true"></i></span>
             <span class="has-text-black-ter">いいね</span>
           <% end %>
         </li>

@@ -31,7 +31,13 @@
         </div>
         <div class="dropdown-menu" id="dropdown-menu" role="menu">
           <div class="dropdown-content">
-              <%= link_to '削除する', recipe_comment_path(comment.recipe, comment), method: :delete, data: {confirm: '本当にコメントを削除しますか？'}, class: 'dropdown-item' %>
+            <%= link_to recipe_comment_path(comment.recipe, comment), method: :delete, data: {confirm: '本当にコメントを削除しますか？'}, class: 'dropdown-item' do %>
+              <span class="icon">
+                  <i class="far fa-trash-alt"></i>
+                </span>
+                <span>削除する</span>
+              </span>
+            <% end %>
           </div>
         </div>
       </div>

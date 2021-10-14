@@ -40,7 +40,7 @@
 
         <%= link_to new_recipe_path, class: 'navbar-item has-text-grey-darker', title: 'レシピを投稿する' do %>
           <span class="icon is-medium">
-            <i class="fas fa-lg fa-plus"></i>
+            <i class="fas fa-lg fa-pen"></i>
           </span>
         <% end %>
 
@@ -60,14 +60,63 @@
           </div>
           <div class="dropdown-menu" id="dropdown-menu" role="menu">
             <div class="dropdown-content">
-              <%= link_to 'マイページ', user_path(current_user), class: 'dropdown-item' %>
-              <%= link_to 'プロフィール編集', edit_users_path, class: 'dropdown-item' %>
-              <%= link_to 'いいねしたレシピ', user_favorites_path(current_user), class: 'dropdown-item' %>
-              <%= link_to 'コメントしたレシピ', user_comments_path(current_user), class: 'dropdown-item' %>
-              <%= link_to 'アカウント編集', edit_user_registration_path, class: 'dropdown-item' %>
-              <%= link_to 'アカウント削除手続き', users_confirm_destroy_path, class: 'dropdown-item' %>
+              <%= link_to user_path(current_user), class: 'dropdown-item' do %>
+                <span class="icon-text">
+                  <span class="icon">
+                    <i class="fas fa-user"></i>
+                  </span>
+                  <span>マイページ</span>
+                </span>
+              <% end %>
+              <%= link_to user_comments_path(current_user), class: 'dropdown-item' do %>
+                <span class="icon-text">
+                  <span class="icon">
+                    <i class="far fa-comment"></i>
+                  </span>
+                  <span>コメントしたレシピ</span>
+                </span>
+              <% end %>
+              <%= link_to user_favorites_path(current_user), class: 'dropdown-item' do %>
+                <span class="icon-text">
+                  <span class="icon">
+                    <i class="far fa-heart"></i>
+                  </span>
+                  <span>いいねしたレシピ</span>
+                </span>
+              <% end %>
+              <%= link_to edit_users_path, class: 'dropdown-item' do %>
+                <span class="icon-text">
+                  <span class="icon">
+                    <i class="fas fa-user-edit"></i>
+                  </span>
+                  <span>プロフィール編集</span>
+                </span>
+              <% end %>
+              <%= link_to edit_user_registration_path, class: 'dropdown-item' do %>
+                <span class="icon-text">
+                  <span class="icon">
+                    <i class="fas fa-cog"></i>
+                  </span>
+                  <span>アカウント編集</span>
+                </span>
+              <% end %>
+              <%= link_to users_confirm_destroy_path, class: 'dropdown-item' do %>
+                <span class="icon-text">
+                  <span class="icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                  </span>
+                  <span>アカウント削除手続き</span>
+                </span>
+              <% end %>
               <hr class="dropdown-divider">
-              <%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: 'dropdown-item' %>
+              <%= link_to destroy_user_session_path, method: :delete, class: 'dropdown-item' do %>
+                <span class="icon-text">
+                  <span class="icon">
+                    <i class="fas fa-sign-out-alt"></i>
+                  </span>
+                  <span>ログアウト</span>
+                </span>
+              <% end %>
             </div>
           </div>
         </div>

@@ -36,8 +36,20 @@
                   </div>
                   <div class="dropdown-menu" id="dropdown-menu" role="menu">
                     <div class="dropdown-content">
-                      <%= link_to '編集する', edit_recipe_path(@recipe), class: 'dropdown-item' %>
-                      <%= link_to '削除する', recipe_path(@recipe), method: :delete, data: {confirm: '本当にレシピを削除しますか？'}, class: 'dropdown-item' %>
+                      <%= link_to edit_recipe_path(@recipe), class: 'dropdown-item' do %>
+                        <span class="icon">
+                            <i class="fas fa-edit"></i>
+                          </span>
+                          <span>編集する</span>
+                        </span>
+                      <% end %>
+                      <%= link_to recipe_path(@recipe), method: :delete, data: {confirm: '本当にレシピを削除しますか？'}, class: 'dropdown-item' do %>
+                        <span class="icon">
+                            <i class="far fa-trash-alt"></i>
+                          </span>
+                          <span>削除する</span>
+                        </span>
+                      <% end %>
                     </div>
                   </div>
                 </div>
@@ -71,8 +83,20 @@
                     </div>
                     <div class="dropdown-menu" id="dropdown-menu" role="menu">
                       <div class="dropdown-content">
-                        <%= link_to '編集する', edit_recipe_path(@recipe), class: 'dropdown-item' %>
-                        <%= link_to '削除する', recipe_path(@recipe), method: :delete, data: {confirm: '本当にレシピを削除しますか？'}, class: 'dropdown-item' %>
+                        <%= link_to edit_recipe_path(@recipe), class: 'dropdown-item' do %>
+                          <span class="icon">
+                              <i class="fas fa-edit"></i>
+                            </span>
+                            <span>編集する</span>
+                          </span>
+                        <% end %>
+                        <%= link_to recipe_path(@recipe), method: :delete, data: {confirm: '本当にレシピを削除しますか？'}, class: 'dropdown-item' do %>
+                          <span class="icon">
+                              <i class="far fa-trash-alt"></i>
+                            </span>
+                            <span>削除する</span>
+                          </span>
+                        <% end %>
                       </div>
                     </div>
                   </div>
@@ -185,8 +209,20 @@
             </div>
             <div class="dropdown-menu" id="dropdown-menu" role="menu">
               <div class="dropdown-content">
-                <%= link_to '編集する', edit_recipe_path(@recipe), class: 'dropdown-item' %>
-                <%= link_to '削除する', recipe_path(@recipe), method: :delete, data: {confirm: '本当にレシピを削除しますか？'}, class: 'dropdown-item' %>
+                <%= link_to edit_recipe_path(@recipe), class: 'dropdown-item' do %>
+                  <span class="icon">
+                      <i class="fas fa-edit"></i>
+                    </span>
+                    <span>編集する</span>
+                  </span>
+                <% end %>
+                <%= link_to recipe_path(@recipe), method: :delete, data: {confirm: '本当にレシピを削除しますか？'}, class: 'dropdown-item' do %>
+                  <span class="icon">
+                      <i class="far fa-trash-alt"></i>
+                    </span>
+                    <span>削除する</span>
+                  </span>
+                <% end %>
               </div>
             </div>
           </div>
