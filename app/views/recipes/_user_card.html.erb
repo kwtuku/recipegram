@@ -13,7 +13,7 @@
           <span><%= link_to user.nickname, user_path(user), title: user.nickname, class: 'has-text-black-bis text-break hover-underline' %></span>
         </p>
         <p class="has-text-grey-light text-break">@<%= user.username %></p>
-        <div class="js-follow-button-<%= user.id %>">
+        <div class="mt-1 js-follow-button-<%= user.id %>">
           <%= render 'shared/follow_button', user: user, size: 'is-small' %>
         </div>
       </div>

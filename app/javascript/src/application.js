@@ -27,3 +27,6 @@ imagePreview();
 
 import countCharacters from './countCharacters'
 countCharacters();
+
+import handleTag from './handleTag'
+handleTag();

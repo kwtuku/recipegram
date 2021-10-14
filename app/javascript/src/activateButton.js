@@ -98,6 +98,7 @@ export default () => {
     const recipeTitle = document.getElementById('recipe_title');
     const recipeBody = document.getElementById('recipe_body');
     const recipeImage = document.getElementById('recipe_recipe_image');
+    const tagInput = document.getElementById('tag-input');
 
     if (createRecipe) {
       inputs.forEach(input => {
@@ -110,6 +111,13 @@ export default () => {
         });
       });
       recipeBody.addEventListener('input', () => {
+        if (recipeTitle.value.trim() && recipeBody.value.trim() && recipeImage.value) {
+          createRecipe.disabled = false;
+        } else {
+          createRecipe.disabled = true;
+        }
+      });
+      tagInput.addEventListener('click', () => {
         if (recipeTitle.value.trim() && recipeBody.value.trim() && recipeImage.value) {
           createRecipe.disabled = false;
         } else {
@@ -129,6 +137,13 @@ export default () => {
         });
       });
       recipeBody.addEventListener('input', () => {
+        if (recipeTitle.value.trim() && recipeBody.value.trim()) {
+          updateRecipe.disabled = false;
+        } else {
+          updateRecipe.disabled = true;
+        }
+      });
+      tagInput.addEventListener('click', () => {
         if (recipeTitle.value.trim() && recipeBody.value.trim()) {
           updateRecipe.disabled = false;
         } else {

@@ -1,9 +1,9 @@
 <section class="section p-0-mobile">
   <div class="container">
     <div class="columns is-centered m-0-mobile is-multiline">
-      <div class="column is-10-tablet is-6-desktop p-0-mobile" id="infinite-scroll-container" data-infinite-scroll="true">
-        <%= render partial: 'home/feed', collection: @feed_items %>
-        <% if @feed_items.size >= 20 %>
+      <div class="column is-10-tablet is-6-desktop p-0-mobile" id="infinite-scroll-container" data-infinite-scroll="<%= @feeds.size == 20 %>">
+        <%= render partial: 'home/feed', collection: @feeds %>
+        <% if @feeds.size == 20 %>
           <div class="column is-12" id="remove-after-loading"><div class="loading-animation"></div></div>
         <% end %>
       </div>

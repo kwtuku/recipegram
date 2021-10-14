@@ -151,6 +151,81 @@ RSpec.describe 'InfiniteScroll', type: :request do
     end
   end
 
+  describe 'tags#show' do
+    context 'when the tag name contains japanese' do
+      let(:recipes_with_japanese_tag) { Recipe.tagged_with(tag_name_with_japanese).order(id: :DESC) }
+      let(:tag_name_with_japanese) { 'かんたん' }
+      let(:encoded_tag_name) { URI.encode_www_form_component(tag_name_with_japanese) }
+      let(:params) { { displayed_item_count: '40', path: "tags/#{encoded_tag_name}" } }
+
+      before do
+        users = create_list(:user, 3, :no_image)
+        users.each { |user| create_list(:recipe, 27, :no_image, user: user, tag_list: tag_name_with_japanese) }
+      end
+
+      it 'returns a 200 response' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.status).to eq 200
+      end
+
+      it 'renders correct links' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.body).not_to include "/recipes/#{recipes_with_japanese_tag[39].id}"
+        expect(response.body).to include "/recipes/#{recipes_with_japanese_tag[40].id}"
+        expect(response.body).to include "/recipes/#{recipes_with_japanese_tag[79].id}"
+        expect(response.body).not_to include "/recipes/#{recipes_with_japanese_tag[80].id}"
+      end
+    end
+
+    context 'when 40 items are already displayed' do
+      let(:tagged_recipes) { Recipe.tagged_with(tag_name).order(id: :DESC) }
+      let(:tag_name) { 'easy' }
+      let(:params) { { displayed_item_count: '40', path: "tags/#{tag_name}" } }
+
+      before do
+        users = create_list(:user, 3, :no_image)
+        users.each { |user| create_list(:recipe, 27, :no_image, user: user, tag_list: tag_name) }
+      end
+
+      it 'returns a 200 response' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.status).to eq 200
+      end
+
+      it 'renders correct links' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.body).not_to include "/recipes/#{tagged_recipes[39].id}"
+        expect(response.body).to include "/recipes/#{tagged_recipes[40].id}"
+        expect(response.body).to include "/recipes/#{tagged_recipes[79].id}"
+        expect(response.body).not_to include "/recipes/#{tagged_recipes[80].id}"
+      end
+    end
+
+    context 'when 80 items are already displayed' do
+      let(:tagged_recipes) { Recipe.tagged_with(tag_name).order(id: :DESC) }
+      let(:tag_name) { 'easy' }
+      let(:params) { { displayed_item_count: '80', path: "tags/#{tag_name}" } }
+
+      before do
+        users = create_list(:user, 3, :no_image)
+        users.each { |user| create_list(:recipe, 41, :no_image, user: user, tag_list: tag_name) }
+      end
+
+      it 'returns a 200 response' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.status).to eq 200
+      end
+
+      it 'renders correct links' do
+        get infinite_scroll_path, params: params, xhr: true
+        expect(response.body).not_to include "/recipes/#{tagged_recipes[79].id}"
+        expect(response.body).to include "/recipes/#{tagged_recipes[80].id}"
+        expect(response.body).to include "/recipes/#{tagged_recipes[119].id}"
+        expect(response.body).not_to include "/recipes/#{tagged_recipes[120].id}"
+      end
+    end
+  end
+
   describe 'users#index' do
     let(:users) { User.order(id: :DESC) }
 

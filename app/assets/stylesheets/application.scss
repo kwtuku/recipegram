@@ -272,3 +272,24 @@
 .resize-textarea:not([rows]) {
   max-height: unset !important;
 }
+
+.height-unset {
+  height: unset !important;
+}
+
+.custom-tagify-look {
+  --tag-bg: #f5f5f5 !important;
+  --tags-focus-border-color: #3273dc !important;
+  --tag-text-color: #363636 !important;
+  --tag-inset-shadow-size: 5em !important;
+  --tag-remove-btn-color: #363636 !important;
+}
+
+.custom-tagify-look > div {
+  border: unset;
+}
+
+.tag-link:hover {
+  background-color: #eeeeee;
+  color: rgba(0, 0, 0, 0.7);
+}

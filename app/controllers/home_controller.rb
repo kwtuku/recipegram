@@ -3,45 +3,45 @@ class HomeController < ApplicationController
 
   def home
     if user_signed_in?
-      @feed_items = current_user.home_recipes.first(20)
+      @feeds = current_user.home_recipes.first(20)
       @recommended_users = current_user.recommended_users.sample(5)
     else
-      @feed_items = Recipe.all.eager_load(:user, :comments, :favorites).sample(20)
+      @feeds = Recipe.all.eager_load(:comments, :favorites, :user).sample(20)
       @recommended_users = User.all.sample(7)
     end
   end
 
   def privacy; end
 
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def search
-    @source = 'recipe_title'
-    @source = params[:source].to_s if params[:source].present?
+    @source = params[:source].to_s.presence || 'recipe_title'
 
     @q_value = params[:q]
 
-    title_q = { title_has_every_term: @q_value, s: { '0' => { name: params[:sort], dir: params[:order] } } }
-    body_q = { body_has_every_term: @q_value, s: { '0' => { name: params[:sort], dir: params[:order] } } }
-    nickname_q = { nickname_has_every_term: @q_value, s: { '0' => { name: params[:sort], dir: params[:order] } } }
-    profile_q = { profile_has_every_term: @q_value, s: { '0' => { name: params[:sort], dir: params[:order] } } }
+    sort = { '0' => { name: params[:sort], dir: params[:order] } }
 
-    recipe_title_q = Recipe.ransack(title_q)
-    recipe_body_q = Recipe.ransack(body_q)
-    user_nickname_q = User.ransack(nickname_q)
-    user_profile_q = User.ransack(profile_q)
+    title_query = { title_has_every_term: @q_value, s: sort }
+    body_query = { body_has_every_term: @q_value, s: sort }
+    nickname_query = { nickname_has_every_term: @q_value, s: sort }
+    profile_query = { profile_has_every_term: @q_value, s: sort }
 
-    recipe_title_results = recipe_title_q.result.eager_load(:favorites, :comments)
-    recipe_body_results = recipe_body_q.result.eager_load(:favorites, :comments)
-    user_nickname_results = user_nickname_q.result.preload(:recipes, :followers, :followings)
-    user_profile_results = user_profile_q.result.preload(:recipes, :followers, :followings)
+    recipe_title_results = Recipe.ransack(title_query).result.eager_load(:favorites, :comments, :tags, :tag_taggings)
+    recipe_body_results = Recipe.ransack(body_query).result.eager_load(:favorites, :comments, :tags, :tag_taggings)
+    user_nickname_results = User.ransack(nickname_query).result.eager_load(:recipes)
+    user_profile_results = User.ransack(profile_query).result.eager_load(:recipes)
 
     @recipe_title_results = recipe_title_results.page(params[:page]).per(10)
     @recipe_body_results = recipe_body_results.page(params[:page]).per(10)
     @user_nickname_results = user_nickname_results.page(params[:page]).per(10)
     @user_profile_results = user_profile_results.page(params[:page]).per(10)
 
-    @recipe_title_results_size = recipe_title_results.size
-    @recipe_body_results_size = recipe_body_results.size
-    @user_nickname_results_size = user_nickname_results.size
-    @user_profile_results_size = user_profile_results.size
+    @result_counts = {
+      title: recipe_title_results.size,
+      body: recipe_body_results.size,
+      nickname: user_nickname_results.size,
+      profile: user_profile_results.size
+    }
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 end

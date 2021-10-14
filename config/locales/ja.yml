@@ -30,6 +30,7 @@ ja:
         title: レシピ名
         body: 作り方
         recipe_image: レシピ画像
+        tag_list: タグ
       user:
         profile: プロフィール
         user_image: プロフィール画像

@@ -9,6 +9,76 @@ RSpec.describe Recipe, type: :model do
     it { is_expected.to validate_presence_of(:recipe_image) }
   end
 
+  describe 'validate_tag' do
+    let(:alice) { create :user, :no_image }
+
+    context 'when recipe has no tags' do
+      it 'is valid' do
+        recipe = build_stubbed(:recipe, tag_list: '', user: alice)
+        expect(recipe.valid?).to eq true
+      end
+    end
+
+    context 'when recipe has 5 tags' do
+      it 'is valid' do
+        recipe = build_stubbed(:recipe, tag_list: '和風, 旬, 時短, かんたん, 手軽', user: alice)
+        expect(recipe.valid?).to eq true
+      end
+    end
+
+    context 'when recipe has 6 tags' do
+      it 'is invalid' do
+        recipe = build_stubbed(:recipe, tag_list: '和風, 旬, 時短, かんたん, 手軽, 楽ちん', user: alice)
+        expect(recipe.invalid?).to eq true
+      end
+    end
+
+    context 'when tag name length <= 20' do
+      it 'is valid' do
+        recipe = build_stubbed(:recipe, tag_list: 'a' * 20, user: alice)
+        expect(recipe.valid?).to eq true
+      end
+    end
+
+    context 'when tag name length > 20' do
+      it 'is invalid' do
+        recipe = build_stubbed(:recipe, tag_list: 'a' * 21, user: alice)
+        expect(recipe.invalid?).to eq true
+      end
+    end
+
+    context 'when tag name has valid words' do
+      let(:valid_tag_names) { %w[ひらがな ゔぁ ヴァ カタカナー 漢字 alphabet ALPHABET 12345] }
+
+      it 'is valid' do
+        recipe = build_stubbed(:recipe, tag_list: valid_tag_names[0..4].join(', '), user: alice)
+        expect(recipe.valid?).to eq true
+        recipe = build_stubbed(:recipe, tag_list: valid_tag_names[5..].join(', '), user: alice)
+        expect(recipe.valid?).to eq true
+      end
+    end
+
+    context 'when tag name has invalid words' do
+      let(:invalid_tag_names) { %w[ｶﾀｶﾅ ｰ ａｌｐｈａｂｅｔ ＡＬＰＨＡＢＥＴ + / ／ * ? '] }
+
+      it 'is invalid' do
+        recipe = build_stubbed(:recipe, tag_list: invalid_tag_names[0..4].join(', '), user: alice)
+        expect(recipe.invalid?).to eq true
+        recipe = build_stubbed(:recipe, tag_list: invalid_tag_names[5..].join(', '), user: alice)
+        expect(recipe.invalid?).to eq true
+      end
+    end
+  end
+
+  context 'when tag_list has duplicated words' do
+    let(:alice) { create :user, :no_image }
+
+    it 'dose not have duplicated tags' do
+      recipe = create(:recipe, :no_image, tag_list: 'easy, easy, Easy', user: alice)
+      expect(recipe.tags.map(&:name)).to eq %w[easy]
+    end
+  end
+
   describe 'others(count)' do
     let(:alice) { create :user, :no_image }
     let(:bob) { create :user, :no_image }

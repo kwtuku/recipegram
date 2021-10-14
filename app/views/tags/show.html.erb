@@ -1,0 +1,32 @@
+<% provide(:title, "#{@tag.name}に関するレシピ一覧") %>
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="media">
+          <div class="media-left">
+            <figure class="image is-128x128">
+              <%= image_tag @tagged_recipes.sample.recipe_image.thumb.url, class: 'is-rounded' %>
+            </figure>
+          </div>
+          <div class="media-content">
+            <h1 class="title"><%= @tag.name %></h1>
+            <p><%= @tag.taggings_count %>件の投稿</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-multiline is-mobile" id="infinite-scroll-container" data-infinite-scroll="<%= @tagged_recipes.size == 40 %>">
+      <%= render @tagged_recipes %>
+      <% if @tagged_recipes.size == 40 %>
+        <div class="column is-12" id="remove-after-loading"><div class="loading-animation"></div></div>
+      <% end %>
+    </div>
+  </div>
+</section>

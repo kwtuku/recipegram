@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :user do
-    sequence(:username) { SecureRandom.urlsafe_base64(11) }
-    sequence(:nickname) { Faker::Name.name }
+    username { SecureRandom.urlsafe_base64(11) }
+    nickname { Faker::Name.name }
     sequence(:email) { |n| "#{n}#{Faker::Internet.email(domain: 'example.com')}" }
     faker_password = Faker::Internet.password(min_length: 6)
     password { faker_password }

@@ -6,9 +6,10 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" integrity="sha256-UzFD2WYH2U1dQpKDjjZK72VtPeWP50NoJjd26rnAdUI=" crossorigin="anonymous" />
+    <script src="https://kit.fontawesome.com/3772f19f3b.js" crossorigin="anonymous"></script>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 
     <% if Rails.env.production? %>
@@ -44,7 +45,7 @@
     <main>
       <%= yield %>
     </main>
-    <%= render 'layouts/footer' unless controller.action_name == 'home' && user_signed_in? %>
+    <%= render 'layouts/footer' unless controller.action_name == 'home' %>
 
     <% unless user_signed_in? %>
       <div class="modal" id="sign-in-modal">
@@ -54,9 +55,9 @@
             <div class="card-content">
               <p class="title is-1 has-text-centered mb-6 recipegram">Recipegram</p>
               <p class="has-text-centered mb-5">ログインまたはアカウントを作成してください。</p>
-              <%= link_to 'ゲストユーザーとしてログイン', users_guest_sign_in_path, method: :post, class: 'button is-fullwidth is-rounded is-primary is-light mb-5' %>
-              <%= link_to 'ログイン', new_user_session_path, class: 'button is-fullwidth is-rounded is-primary mb-5' %>
-              <%= link_to '新規登録', new_user_registration_path, class: 'button is-fullwidth is-rounded is-success' %>
+              <%= link_to 'ゲストユーザーとしてログイン', users_guest_sign_in_path, method: :post, class: 'button is-fullwidth is-rounded is-info mb-5' %>
+              <%= link_to 'ログイン', new_user_session_path, class: 'button is-fullwidth is-rounded is-info is-light mb-5' %>
+              <%= link_to '新規登録', new_user_registration_path, class: 'button is-fullwidth is-rounded is-white' %>
             </div>
           </div>
         </div>

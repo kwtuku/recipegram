@@ -36,8 +36,20 @@
                   </div>
                   <div class="dropdown-menu" id="dropdown-menu" role="menu">
                     <div class="dropdown-content">
-                      <%= link_to '編集する', edit_recipe_path(@recipe), class: 'dropdown-item' %>
-                      <%= link_to '削除する', recipe_path(@recipe), method: :delete, data: {confirm: '本当にレシピを削除しますか？'}, class: 'dropdown-item' %>
+                      <%= link_to edit_recipe_path(@recipe), class: 'dropdown-item' do %>
+                        <span class="icon">
+                            <i class="fas fa-edit"></i>
+                          </span>
+                          <span>編集する</span>
+                        </span>
+                      <% end %>
+                      <%= link_to recipe_path(@recipe), method: :delete, data: {confirm: '本当にレシピを削除しますか？'}, class: 'dropdown-item' do %>
+                        <span class="icon">
+                            <i class="far fa-trash-alt"></i>
+                          </span>
+                          <span>削除する</span>
+                        </span>
+                      <% end %>
                     </div>
                   </div>
                 </div>
@@ -71,8 +83,20 @@
                     </div>
                     <div class="dropdown-menu" id="dropdown-menu" role="menu">
                       <div class="dropdown-content">
-                        <%= link_to '編集する', edit_recipe_path(@recipe), class: 'dropdown-item' %>
-                        <%= link_to '削除する', recipe_path(@recipe), method: :delete, data: {confirm: '本当にレシピを削除しますか？'}, class: 'dropdown-item' %>
+                        <%= link_to edit_recipe_path(@recipe), class: 'dropdown-item' do %>
+                          <span class="icon">
+                              <i class="fas fa-edit"></i>
+                            </span>
+                            <span>編集する</span>
+                          </span>
+                        <% end %>
+                        <%= link_to recipe_path(@recipe), method: :delete, data: {confirm: '本当にレシピを削除しますか？'}, class: 'dropdown-item' do %>
+                          <span class="icon">
+                              <i class="far fa-trash-alt"></i>
+                            </span>
+                            <span>削除する</span>
+                          </span>
+                        <% end %>
                       </div>
                     </div>
                   </div>
@@ -88,7 +112,14 @@
           <div class="card-content">
             <p class="title is-spaced"><%= @recipe.title %></p>
             <p class="subtitle">作り方</p>
-            <%= simple_format h(@recipe.body), class: 'text-break' %>
+            <%= simple_format h(@recipe.body), class: 'content text-break' %>
+            <p class="content">
+              <% @recipe.tags.each do |tag| %>
+                <%= link_to tag_path(tag.name) do %>
+                  <span class="tag is-medium tag-link"><%= tag %></span>
+                <% end %>
+              <% end %>
+            </p>
             <p class="has-text-right has-text-grey-light">
               <time datetime="<%= @recipe.created_at %>">投稿日：<%= l @recipe.created_at, format: :ymd %></time>
               <time class="ml-2" datetime="<%= @recipe.updated_at %>">更新日：<%= l @recipe.updated_at, format: :ymd %></time>
@@ -122,7 +153,7 @@
                 </p>
                 <%= render 'devise/shared/full_error_messages', model: @comment, attribute: :body %>
               </div>
-              <%= f.submit 'コメントを投稿', class: 'button is-primary is-rounded', id: 'create_comment', disabled: true %>
+              <%= f.submit 'コメントを投稿', class: 'button is-info is-rounded', id: 'create_comment', disabled: true %>
             <% end %>
           </div>
         </div>
@@ -134,11 +165,11 @@
             <%= render 'recipes/user_card', user: @recipe.user %>
           </div>
           <% unless @other_recipes.blank? %>
-            <div class="card mt-4">
-              <div class="card-content px-5 py-3">
+            <div class="card mt-5">
+              <div class="card-content">
                 <p>他の投稿</p>
               </div>
-              <div class="columns is-multiline is-gapless is-mobile">
+              <div class="columns is-multiline is-mobile is-variable is-1">
                 <%= render partial: 'recipes/other_recipe', collection: @other_recipes, as: 'recipe' %>
               </div>
             </div>
@@ -178,8 +209,20 @@
             </div>
             <div class="dropdown-menu" id="dropdown-menu" role="menu">
               <div class="dropdown-content">
-                <%= link_to '編集する', edit_recipe_path(@recipe), class: 'dropdown-item' %>
-                <%= link_to '削除する', recipe_path(@recipe), method: :delete, data: {confirm: '本当にレシピを削除しますか？'}, class: 'dropdown-item' %>
+                <%= link_to edit_recipe_path(@recipe), class: 'dropdown-item' do %>
+                  <span class="icon">
+                      <i class="fas fa-edit"></i>
+                    </span>
+                    <span>編集する</span>
+                  </span>
+                <% end %>
+                <%= link_to recipe_path(@recipe), method: :delete, data: {confirm: '本当にレシピを削除しますか？'}, class: 'dropdown-item' do %>
+                  <span class="icon">
+                      <i class="far fa-trash-alt"></i>
+                    </span>
+                    <span>削除する</span>
+                  </span>
+                <% end %>
               </div>
             </div>
           </div>

@@ -16,6 +16,9 @@ class InfiniteScrollController < ApplicationController
 
     if controller_name == 'recipes'
       added_items = Recipe.eager_load(:favorites, :comments).order(updated_at: :DESC)[first..last]
+    elsif controller_name == 'tags'
+      decoded_tag_name = URI.decode_www_form_component(path_components[1])
+      added_items = Recipe.tagged_with(decoded_tag_name).eager_load(:comments, :favorites).order(id: :DESC)[first..last]
     elsif controller_name == 'users' && action_name == 'comments'
       added_items = user.commented_recipes.eager_load(:favorites, :comments).order('comments.created_at desc')[first..last]
     elsif controller_name == 'users' && action_name == 'favorites'

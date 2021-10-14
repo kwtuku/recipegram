@@ -14,6 +14,13 @@
       <p class="is-3-lines mb-3">
         <span><%= recipe.body %></span>
       </p>
+      <p class="content">
+        <% recipe.tags.each do |tag| %>
+          <%= link_to tag_path(tag.name) do %>
+            <span class="tag is-medium tag-link"><%= tag %></span>
+          <% end %>
+        <% end %>
+      </p>
       <p>
         <span class="icon-text mr-5">
           <span class="icon">

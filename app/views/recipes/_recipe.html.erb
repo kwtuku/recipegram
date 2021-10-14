@@ -1,5 +1,5 @@
 <div class="column is-6-mobile is-4-tablet is-3-desktop">
-  <div class="card" id="recipe-<%= recipe.id %>" data-infinite-scroll-item="">
+  <div class="card" data-infinite-scroll-item="" data-rspec="recipe-<%= recipe.id %>">
     <div class="card-image">
       <%= link_to recipe_path(recipe) do %>
         <figure class="image is-1by1 has-mask">
