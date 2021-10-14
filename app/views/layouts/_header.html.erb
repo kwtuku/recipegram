@@ -84,6 +84,7 @@
                   <span>いいねしたレシピ</span>
                 </span>
               <% end %>
+              <hr class="dropdown-divider">
               <%= link_to edit_users_path, class: 'dropdown-item' do %>
                 <span class="icon-text">
                   <span class="icon">
@@ -121,9 +122,9 @@
           </div>
         </div>
       <% else %>
-        <%= link_to 'ゲストログイン', users_guest_sign_in_path, method: :post, class: 'button is-small is-rounded is-primary is-light margin-auto-0' %>
-        <%= link_to 'ログイン', new_user_session_path, class: 'button is-small is-rounded is-primary margin-auto-0' %>
-        <%= link_to '登録', new_user_registration_path, class: 'button is-small is-rounded is-white margin-auto-0' %>
+        <%= link_to 'ゲストログイン', users_guest_sign_in_path, method: :post, class: 'button is-small is-rounded is-info ml-1 margin-auto-0' %>
+        <%= link_to 'ログイン', new_user_session_path, class: 'button is-small is-rounded is-info is-light ml-1 margin-auto-0' %>
+        <%= link_to '登録', new_user_registration_path, class: 'button is-small is-rounded is-white ml-1 margin-auto-0' %>
       <% end %>
     </div>
   </nav>

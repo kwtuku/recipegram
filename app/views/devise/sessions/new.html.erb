@@ -40,12 +40,13 @@
             </div>
           <% end %>
 
-          <div class="field">
-            <%= f.submit t('.sign_in'), class: 'button is-fullwidth is-rounded is-primary', id: 'signin', disabled: true %>
-          </div>
+          <%= f.submit t('.sign_in'), class: 'button is-fullwidth is-rounded is-info', id: 'signin', disabled: true %>
         <% end %>
 
-        <%= render 'devise/shared/links' %>
+        <div class="is-flex is-justify-content-space-between mt-4">
+          <%= link_to 'ゲストログイン', users_guest_sign_in_path, method: :post, class: 'hover-underline' %>
+          <%= link_to '新規登録', new_user_registration_path, class: 'hover-underline' %>
+        </div>
       </div>
     </div>
   </div>

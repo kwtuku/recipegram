@@ -92,9 +92,7 @@
             <%= render 'devise/shared/full_error_messages', model: resource, attribute: :current_password %>
           </div>
 
-          <div class="field">
-            <%= f.submit t('.update'), class: 'button is-fullwidth is-rounded is-primary', id: 'update_account', disabled: true %>
-          </div>
+          <%= f.submit t('.update'), class: 'button is-fullwidth is-rounded is-info', id: 'update_account', disabled: true %>
         <% end %>
       </div>
     </div>

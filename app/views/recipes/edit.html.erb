@@ -23,6 +23,7 @@
           </div>
           <%= render 'devise/shared/full_error_messages', model: @recipe, attribute: :recipe_image %>
         </div>
+
         <div class="column is-6">
           <div class="field">
             <%= f.label :title, class: 'label' %>
@@ -34,6 +35,7 @@
             </p>
             <%= render 'devise/shared/full_error_messages', model: @recipe, attribute: :title %>
           </div>
+
           <div class="field">
             <%= f.label :body, class: 'label' %>
             <div class="control">
@@ -44,6 +46,7 @@
             </p>
             <%= render 'devise/shared/full_error_messages', model: @recipe, attribute: :body %>
           </div>
+
           <div class="field">
             <%= f.label :tag_list, class: 'label' %>
             <div class="control" id="tag-input">
@@ -51,7 +54,8 @@
             </div>
             <%= render 'devise/shared/full_error_messages', model: @recipe, attribute: :tag_list %>
           </div>
-          <%= f.submit '更新', class: 'button is-rounded is-success', id: 'update_recipe', disabled: true %>
+
+          <%= f.submit '更新', class: 'button is-rounded is-info', id: 'update_recipe', disabled: true %>
         </div>
       </div>
     <% end %>
