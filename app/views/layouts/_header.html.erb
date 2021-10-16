@@ -9,15 +9,13 @@
     <div class="navbar-menu is-justify-content-center is-flex-grow-1 w-one-thirds">
       <div class="navbar-item is-justify-content-center w-full p-0">
         <%= form_with url: search_path, method: :get, html: { class: 'w-full' } do |f| %>
-          <div class="field has-addons">
-            <div class="control is-expanded">
-              <%= f.text_field :q, value: @q_value, placeholder: 'レシピまたはユーザーを検索', required: true, class: 'input', id: 'search_query' %>
-              <%= f.hidden_field :source, value: @source %>
-            </div>
-            <div class="control">
-              <%= button_tag type: 'submit', name: nil, class: 'button', id: 'search', disabled: true do %>
+          <div class="field">
+            <div class="control has-icons-left is-expanded">
+              <span class="icon is-small is-left">
                 <i class="fas fa-search"></i>
-              <% end %>
+              </span>
+              <%= f.text_field :q, value: @q_value, placeholder: 'レシピまたはユーザーを検索', required: true, type: 'search', class: 'input js-search-input' %>
+              <%= f.hidden_field :source, value: @source %>
             </div>
           </div>
         <% end %>

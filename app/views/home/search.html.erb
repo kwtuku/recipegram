@@ -5,15 +5,13 @@
     <div class="columns is-centered is-hidden-desktop">
       <div class="column is-6">
         <%= form_with url: search_path, method: :get do |f| %>
-          <div class="field has-addons">
-            <div class="control is-expanded">
-              <%= f.text_field :q, value: @q_value, placeholder: 'レシピまたはユーザーを検索', required: true, class: 'input is-rounded', id: 'search_query' %>
-              <%= f.hidden_field :source, value: @source %>
-            </div>
-            <div class="control">
-              <%= button_tag type: 'submit', name: nil, class: 'button is-rounded', id: 'search', disabled: true do %>
+          <div class="field">
+            <div class="control has-icons-left is-expanded">
+              <span class="icon is-small is-left">
                 <i class="fas fa-search"></i>
-              <% end %>
+              </span>
+              <%= f.text_field :q, value: @q_value, placeholder: 'レシピまたはユーザーを検索', required: true, type: 'search', class: 'input js-search-input' %>
+              <%= f.hidden_field :source, value: @source %>
             </div>
           </div>
         <% end %>
@@ -34,7 +32,7 @@
               <li class="<%= 'is-active' if @source == 'recipe_title' %>">
                 <%= link_to search_path(q: @q_value, source: 'recipe_title'), class: 'has-text-weight-bold' do %>
                   <span>レシピ名</span>
-                  <span class="tag is-rounded ml-2 rspec_recipe_title_results_size <%= 'is-grey' unless @result_counts[:title].zero? %>">
+                  <span class="tag is-rounded ml-2 <%= 'is-grey' unless @result_counts[:title].zero? %>">
                     <%= @result_counts[:title] %>
                   </span>
                 <% end %>
@@ -42,7 +40,7 @@
               <li class="<%= 'is-active' if @source == 'recipe_body' %>">
                 <%= link_to search_path(q: @q_value, source: 'recipe_body'), class: 'has-text-weight-bold' do %>
                   <span>作り方</span>
-                  <span class="tag is-rounded ml-2 rspec_recipe_body_results_size <%= 'is-grey' unless @result_counts[:body].zero? %>">
+                  <span class="tag is-rounded ml-2 <%= 'is-grey' unless @result_counts[:body].zero? %>">
                     <%= @result_counts[:body] %>
                   </span>
                 <% end %>
@@ -50,7 +48,7 @@
               <li class="<%= 'is-active' if @source == 'user_nickname' %>">
                 <%= link_to search_path(q: @q_value, source: 'user_nickname'), class: 'has-text-weight-bold' do %>
                   <span>ニックネーム</span>
-                  <span class="tag is-rounded ml-2 rspec_user_nickname_results_size <%= 'is-grey' unless @result_counts[:nickname].zero? %>">
+                  <span class="tag is-rounded ml-2 <%= 'is-grey' unless @result_counts[:nickname].zero? %>">
                     <%= @result_counts[:nickname] %>
                   </span>
                 <% end %>
@@ -58,7 +56,7 @@
               <li class="<%= 'is-active' if @source == 'user_profile' %>">
                 <%= link_to search_path(q: @q_value, source: 'user_profile'), class: 'has-text-weight-bold' do %>
                   <span>プロフィール</span>
-                  <span class="tag is-rounded ml-2 rspec_user_profile_results_size <%= 'is-grey' unless @result_counts[:profile].zero? %>">
+                  <span class="tag is-rounded ml-2 <%= 'is-grey' unless @result_counts[:profile].zero? %>">
                     <%= @result_counts[:profile] %>
                   </span>
                 <% end %>
