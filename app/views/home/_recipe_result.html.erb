@@ -8,12 +8,14 @@
       <% end %>
     </div>
     <div class="media-content text-break">
-      <p class="is-size-4 mb-3 is-1-line">
-        <span><%= link_to recipe.title, recipe_path(recipe), title: recipe.title, class: 'has-text-black-bis hover-underline' %></span>
-      </p>
-      <p class="is-3-lines mb-3">
-        <span><%= recipe.body %></span>
-      </p>
+      <%= link_to recipe_path(recipe) do %>
+        <p class="is-size-4 mb-3 is-1-line">
+          <span class="has-text-black-bis text-break hover-underline" title="<%= recipe.title %>"><%= recipe.title %></span>
+        </p>
+        <p class="is-3-lines mb-3">
+          <span class="has-text-black-bis"><%= recipe.body %></span>
+        </p>
+      <% end %>
       <p class="content">
         <% recipe.tags.each do |tag| %>
           <%= link_to tag_path(tag.name) do %>

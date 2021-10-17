@@ -3,12 +3,16 @@
   <div class="card-content">
     <div class="media">
       <div class="media-left">
-        <figure class="image is-24x24">
-          <%= image_tag feed.user.user_image.icon.url, class: 'is-rounded' %>
-        </figure>
+        <%= link_to user_path(feed.user) do %>
+          <figure class="image is-24x24">
+            <%= image_tag feed.user.user_image.icon.url, class: 'is-rounded' %>
+          </figure>
+        <% end %>
       </div>
       <div class="media-content is-1-line">
-        <span><%= link_to feed.user.nickname, user_path(feed.user), title: feed.user.nickname, class: 'has-text-black-bis text-break hover-underline' %></span>
+        <%= link_to user_path(feed.user) do %>
+          <span class="has-text-black-bis text-break hover-underline" title="<%= feed.user.nickname %>"><%= feed.user.nickname %></span>
+        <% end %>
       </div>
       <% if user_signed_in? && feed.user == current_user %>
         <div class="media-right">
@@ -45,8 +49,8 @@
   </div>
 
   <div class="card-image">
-    <figure class="image is-1by1 has-mask">
-      <%= link_to recipe_path(feed) do %>
+    <%= link_to recipe_path(feed) do %>
+      <figure class="image is-1by1 has-mask">
         <%= image_tag feed.recipe_image.main.url %>
         <div class="mask has-text-centered">
           <p class="has-text-white">
@@ -64,7 +68,7 @@
             </span>
           </p>
         </div>
-      <% end %>
-    </figure>
+      </figure>
+    <% end %>
   </div>
 </div>

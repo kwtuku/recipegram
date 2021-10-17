@@ -1,5 +1,5 @@
 <header>
-  <nav class="navbar is-fixed-top is-white is-inline-flex is-justify-content-space-around navbar-border" role="navigation" aria-label="main navigation">
+  <nav class="navbar navbar-border is-fixed-top is-white is-inline-flex is-justify-content-space-around is-align-items-center" role="navigation" aria-label="main navigation">
     <div class="navbar-brand is-justify-content-center is-flex-grow-2">
       <%= link_to root_path, class: 'navbar-item' do %>
         <h1 class="title is-4 is-size-5-mobile recipegram">Recipegram</h1>
@@ -120,9 +120,9 @@
           </div>
         </div>
       <% else %>
-        <%= link_to 'ゲストログイン', users_guest_sign_in_path, method: :post, class: 'button is-small is-rounded is-info ml-1 margin-auto-0' %>
-        <%= link_to 'ログイン', new_user_session_path, class: 'button is-small is-rounded is-info is-light ml-1 margin-auto-0' %>
-        <%= link_to '登録', new_user_registration_path, class: 'button is-small is-rounded is-white ml-1 margin-auto-0' %>
+        <%= link_to 'ゲストログイン', users_guest_sign_in_path, method: :post, class: 'button is-small is-rounded is-info ml-1' %>
+        <%= link_to 'ログイン', new_user_session_path, class: 'button is-small is-rounded is-info is-light ml-1' %>
+        <%= link_to '登録', new_user_registration_path, class: 'button is-small is-rounded is-white ml-1' %>
       <% end %>
     </div>
   </nav>
