@@ -14,6 +14,10 @@
  *= require_self
  */
 
+$pagination-current-background-color: #3e8ed0;
+$pagination-current-border-color: #3e8ed0;
+$pagination-focus-border-color: #3e8ed0;
+
 @import "bulma";
 
 .recipegram {
@@ -34,39 +38,30 @@
 
 .has-mask {
   position: relative;
-}
-
-.has-mask .mask {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-.has-mask:hover .mask {
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 1;
-}
-
-.mask p {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
+  &:hover .mask {
+    opacity: 1;
+  }
+  .mask {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    p {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
 }
 
 .field_with_errors {
   .input,
   .textarea {
-    border-color: $danger;
+    border: 1px solid $danger;
   }
-}
-
-.field_with_errors {
   + .border_red_with_errors {
     border: 1px solid $danger;
   }
@@ -152,13 +147,14 @@
   border-radius: 50%;
 }
 
-.tabs li.is-active a {
-  border-bottom-color: #363636;
-  color: #363636;
-}
-
-.tabs a:hover {
-  border-bottom-color: #dbdbdb;
+.tabs {
+  li.is-active a {
+    border-bottom-color: #363636;
+    color: #363636;
+  }
+  a:hover {
+    border-bottom-color: #dbdbdb;
+  }
 }
 
 .is-grey {
@@ -263,14 +259,12 @@
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
-}
-
-.resize-textarea::-webkit-scrollbar {
-  display: none;
-}
-
-.resize-textarea:not([rows]) {
-  max-height: unset !important;
+  &::-webkit-scrollbar {
+    display: none !important;
+  }
+  &:not([rows]) {
+    max-height: unset !important;
+  }
 }
 
 .height-unset {
@@ -283,13 +277,12 @@
   --tag-text-color: #363636 !important;
   --tag-inset-shadow-size: 5em !important;
   --tag-remove-btn-color: #363636 !important;
-}
-
-.custom-tagify-look > div {
-  border: unset;
+  > div {
+    border: unset;
+  }
 }
 
 .tag-link:hover {
-  background-color: #eeeeee;
+  background-color: #eee;
   color: rgba(0, 0, 0, 0.7);
 }
