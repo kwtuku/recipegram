@@ -24,7 +24,7 @@ class HomeController < ApplicationController
     body_query = { body_has_every_term: @q_value, s: sort }
     nickname_query = { nickname_has_every_term: @q_value, s: sort }
     profile_query = { profile_has_every_term: @q_value, s: sort }
-    name_query = { name_has_every_term: @q_value, taggings_count_gteq: '1' }
+    name_query = { name_has_every_term: @q_value, taggings_count_gteq: '1', s: sort }
 
     recipe_title_results = Recipe.ransack(title_query).result.eager_load(:favorites, :comments, :tags, :tag_taggings)
     recipe_body_results = Recipe.ransack(body_query).result.eager_load(:favorites, :comments, :tags, :tag_taggings)
