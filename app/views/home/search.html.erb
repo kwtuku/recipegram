@@ -122,209 +122,175 @@
           </aside>
         </div>
 
-        <% if @source == 'recipe_title' || @source == 'recipe_body' %>
-          <div class="column is-9">
-            <% if @recipe_title_results.exists? || @recipe_body_results.exists? %>
-              <nav class="level is-mobile">
-                <div class="level-left">
-                  <div class="level-item">「<%= @q_value %>」の検索結果</div>
+        <div class="column is-9">
+          <nav class="level is-mobile">
+            <div class="level-left">
+              <div class="level-item">「<%= @q_value %>」の検索結果</div>
+            </div>
+            <div class="level-right">
+              <div class="level-item dropdown is-right">
+                <div class="dropdown-trigger">
+                  <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                    <span><%= selected_recipe_sort_order %></span>
+                    <span class="icon is-small">
+                      <i class="fas fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                  </button>
                 </div>
-                <div class="level-right">
-                  <div class="level-item dropdown is-right">
-                    <div class="dropdown-trigger">
-                      <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                        <span><%= selected_recipe_sort_order %></span>
-                        <span class="icon is-small">
-                          <i class="fas fa-angle-down" aria-hidden="true"></i>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                  <div class="dropdown-content">
+                    <% if @source == 'recipe_title' || @source == 'recipe_body' %>
+                      <%= link_to search_path(q: @q_value, source: @source, sort: 'updated_at', order: 'desc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'updated_at' && request.query_parameters[:order] == 'desc'}" do %>
+                        <span class="icon-text">
+                          <span class="icon">
+                            <i class="far fa-clock"></i>
+                          </span>
+                          <span>更新日が新しい順</span>
                         </span>
-                      </button>
-                    </div>
-                    <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                      <div class="dropdown-content">
-                        <%= link_to search_path(q: @q_value, source: @source, sort: 'updated_at', order: 'desc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'updated_at' && request.query_parameters[:order] == 'desc'}" do %>
-                          <span class="icon-text">
-                            <span class="icon">
-                              <i class="far fa-clock"></i>
-                            </span>
-                            <span>更新日が新しい順</span>
+                      <% end %>
+                      <%= link_to search_path(q: @q_value, source: @source, sort: 'updated_at', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'updated_at' && request.query_parameters[:order] == 'asc'}" do %>
+                        <span class="icon-text">
+                          <span class="icon">
+                            <i class="far fa-clock"></i>
                           </span>
-                        <% end %>
-                        <%= link_to search_path(q: @q_value, source: @source, sort: 'updated_at', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'updated_at' && request.query_parameters[:order] == 'asc'}" do %>
-                          <span class="icon-text">
-                            <span class="icon">
-                              <i class="far fa-clock"></i>
-                            </span>
-                            <span>更新日が古い順</span>
+                          <span>更新日が古い順</span>
+                        </span>
+                      <% end %>
+                      <%= link_to search_path(q: @q_value, source: @source, sort: 'favorites_count', order: 'desc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'favorites_count' && request.query_parameters[:order] == 'desc'}" do %>
+                        <span class="icon-text">
+                          <span class="icon">
+                            <i class="far fa-heart"></i>
                           </span>
-                        <% end %>
-                        <%= link_to search_path(q: @q_value, source: @source, sort: 'favorites_count', order: 'desc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'favorites_count' && request.query_parameters[:order] == 'desc'}" do %>
-                          <span class="icon-text">
-                            <span class="icon">
-                              <i class="far fa-heart"></i>
-                            </span>
-                            <span>いいねが多い順</span>
+                          <span>いいねが多い順</span>
+                        </span>
+                      <% end %>
+                      <%= link_to search_path(q: @q_value, source: @source, sort: 'favorites_count', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'favorites_count' && request.query_parameters[:order] == 'asc'}" do %>
+                        <span class="icon-text">
+                          <span class="icon">
+                            <i class="far fa-heart"></i>
                           </span>
-                        <% end %>
-                        <%= link_to search_path(q: @q_value, source: @source, sort: 'favorites_count', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'favorites_count' && request.query_parameters[:order] == 'asc'}" do %>
-                          <span class="icon-text">
-                            <span class="icon">
-                              <i class="far fa-heart"></i>
-                            </span>
-                            <span>いいねが少ない順</span>
+                          <span>いいねが少ない順</span>
+                        </span>
+                      <% end %>
+                      <%= link_to search_path(q: @q_value, source: @source, sort: 'comments_count', order: 'desc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'comments_count' && request.query_parameters[:order] == 'desc'}" do %>
+                        <span class="icon-text">
+                          <span class="icon">
+                            <i class="far fa-comment"></i>
                           </span>
-                        <% end %>
-                        <%= link_to search_path(q: @q_value, source: @source, sort: 'comments_count', order: 'desc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'comments_count' && request.query_parameters[:order] == 'desc'}" do %>
-                          <span class="icon-text">
-                            <span class="icon">
-                              <i class="far fa-comment"></i>
-                            </span>
-                            <span>コメントが多い順</span>
+                          <span>コメントが多い順</span>
+                        </span>
+                      <% end %>
+                      <%= link_to search_path(q: @q_value, source: @source, sort: 'comments_count', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'comments_count' && request.query_parameters[:order] == 'asc'}" do %>
+                        <span class="icon-text">
+                          <span class="icon">
+                            <i class="far fa-comment"></i>
                           </span>
-                        <% end %>
-                        <%= link_to search_path(q: @q_value, source: @source, sort: 'comments_count', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'comments_count' && request.query_parameters[:order] == 'asc'}" do %>
-                          <span class="icon-text">
-                            <span class="icon">
-                              <i class="far fa-comment"></i>
-                            </span>
-                            <span>コメントが少ない順</span>
+                          <span>コメントが少ない順</span>
+                        </span>
+                      <% end %>
+                    <% elsif @source == 'user_nickname' || @source == 'user_profile' %>
+                      <%= link_to search_path(q: @q_value, source: @source, sort: 'recipes_count', order: 'desc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'recipes_count' && request.query_parameters[:order] == 'desc'}" do %>
+                        <span class="icon-text">
+                          <span class="icon">
+                            <i class="fas fa-border-all"></i>
                           </span>
-                        <% end %>
-                      </div>
-                    </div>
+                          <span>投稿が多い順</span>
+                        </span>
+                      <% end %>
+                      <%= link_to search_path(q: @q_value, source: @source, sort: 'recipes_count', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'recipes_count' && request.query_parameters[:order] == 'asc'}" do %>
+                        <span class="icon-text">
+                          <span class="icon">
+                            <i class="fas fa-border-all"></i>
+                          </span>
+                          <span>投稿が少ない順</span>
+                        </span>
+                      <% end %>
+                      <%= link_to search_path(q: @q_value, source: @source, sort: 'followers_count', order: 'desc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'followers_count' && request.query_parameters[:order] == 'desc'}" do %>
+                        <span class="icon-text">
+                          <span class="icon">
+                            <i class="fas fa-users"></i>
+                          </span>
+                          <span>フォロワーが多い順</span>
+                        </span>
+                      <% end %>
+                      <%= link_to search_path(q: @q_value, source: @source, sort: 'followers_count', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'followers_count' && request.query_parameters[:order] == 'asc'}" do %>
+                        <span class="icon-text">
+                          <span class="icon">
+                            <i class="fas fa-users"></i>
+                          </span>
+                          <span>フォロワーが少ない順</span>
+                        </span>
+                      <% end %>
+                      <%= link_to search_path(q: @q_value, source: @source, sort: 'followings_count', order: 'desc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'followings_count' && request.query_parameters[:order] == 'desc'}" do %>
+                        <span class="icon-text">
+                          <span class="icon">
+                            <i class="fas fa-users"></i>
+                          </span>
+                          <span>フォロー中が多い順</span>
+                        </span>
+                      <% end %>
+                      <%= link_to search_path(q: @q_value, source: @source, sort: 'followings_count', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'followings_count' && request.query_parameters[:order] == 'asc'}" do %>
+                        <span class="icon-text">
+                          <span class="icon">
+                            <i class="fas fa-users"></i>
+                          </span>
+                          <span>フォロー中が少ない順</span>
+                        </span>
+                      <% end %>
+                    <% end %>
                   </div>
                 </div>
-              </nav>
-            <% end %>
-            <% if @source == 'recipe_title' && @recipe_title_results.exists? %>
-              <div class="rspec_recipe_title_results mb-5">
+              </div>
+            </div>
+          </nav>
+
+          <% if @source == 'recipe_title' %>
+            <div class="rspec_recipe_title_results mb-5">
+              <% if @recipe_title_results.exists? %>
                 <%= render partial: 'recipe_result', collection: @recipe_title_results, as: 'recipe' %>
-              </div>
-              <%= paginate @recipe_title_results, window: 2, outer_window: 1 %>
-            <% elsif @source == 'recipe_body' && @recipe_body_results.exists? %>
-              <div class="rspec_recipe_body_results mb-5">
+              <% else %>
+                <p class="has-text-centered-touch text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
+              <% end %>
+            </div>
+            <%= paginate @recipe_title_results, window: 2, outer_window: 1 %>
+          <% elsif @source == 'recipe_body' %>
+            <div class="rspec_recipe_body_results mb-5">
+              <% if @recipe_title_results.exists? %>
                 <%= render partial: 'recipe_result', collection: @recipe_body_results, as: 'recipe' %>
-              </div>
-              <%= paginate @recipe_body_results, window: 2, outer_window: 1 %>
-            <% else %>
-              <div class="<%= 'rspec_recipe_title_results' if @source == 'recipe_title' %> <%= 'rspec_recipe_body_results' if @source == 'recipe_body' %>">
+              <% else %>
                 <p class="has-text-centered-touch text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
-              </div>
-            <% end %>
-          </div>
-        <% end %>
-
-        <% if @source == 'user_nickname' || @source == 'user_profile' %>
-          <div class="column is-9">
-            <% if @user_nickname_results.exists? || @user_profile_results.exists? %>
-              <nav class="level is-mobile">
-                <div class="level-left">
-                  <div class="level-item">「<%= @q_value %>」の検索結果</div>
-                </div>
-                <div class="level-right">
-                  <div class="level-item dropdown is-right">
-                    <div class="dropdown-trigger">
-                      <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                        <span><%= selected_user_sort_order %></span>
-                        <span class="icon is-small">
-                          <i class="fas fa-angle-down" aria-hidden="true"></i>
-                        </span>
-                      </button>
-                    </div>
-                    <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                      <div class="dropdown-content">
-                        <%= link_to search_path(q: @q_value, source: @source, sort: 'recipes_count', order: 'desc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'recipes_count' && request.query_parameters[:order] == 'desc'}" do %>
-                          <span class="icon-text">
-                            <span class="icon">
-                              <i class="fas fa-border-all"></i>
-                            </span>
-                            <span>投稿が多い順</span>
-                          </span>
-                        <% end %>
-                        <%= link_to search_path(q: @q_value, source: @source, sort: 'recipes_count', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'recipes_count' && request.query_parameters[:order] == 'asc'}" do %>
-                          <span class="icon-text">
-                            <span class="icon">
-                              <i class="fas fa-border-all"></i>
-                            </span>
-                            <span>投稿が少ない順</span>
-                          </span>
-                        <% end %>
-                        <%= link_to search_path(q: @q_value, source: @source, sort: 'followers_count', order: 'desc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'followers_count' && request.query_parameters[:order] == 'desc'}" do %>
-                          <span class="icon-text">
-                            <span class="icon">
-                              <i class="fas fa-users"></i>
-                            </span>
-                            <span>フォロワーが多い順</span>
-                          </span>
-                        <% end %>
-                        <%= link_to search_path(q: @q_value, source: @source, sort: 'followers_count', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'followers_count' && request.query_parameters[:order] == 'asc'}" do %>
-                          <span class="icon-text">
-                            <span class="icon">
-                              <i class="fas fa-users"></i>
-                            </span>
-                            <span>フォロワーが少ない順</span>
-                          </span>
-                        <% end %>
-                        <%= link_to search_path(q: @q_value, source: @source, sort: 'followings_count', order: 'desc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'followings_count' && request.query_parameters[:order] == 'desc'}" do %>
-                          <span class="icon-text">
-                            <span class="icon">
-                              <i class="fas fa-users"></i>
-                            </span>
-                            <span>フォロー中が多い順</span>
-                          </span>
-                        <% end %>
-                        <%= link_to search_path(q: @q_value, source: @source, sort: 'followings_count', order: 'asc'), class: "dropdown-item #{'is-active' if request.query_parameters[:sort] == 'followings_count' && request.query_parameters[:order] == 'asc'}" do %>
-                          <span class="icon-text">
-                            <span class="icon">
-                              <i class="fas fa-users"></i>
-                            </span>
-                            <span>フォロー中が少ない順</span>
-                          </span>
-                        <% end %>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </nav>
-            <% end %>
-            <% if @source == 'user_nickname' && @user_nickname_results.exists? %>
-              <div class="rspec_user_nickname_results mb-5">
+              <% end %>
+            </div>
+            <%= paginate @recipe_body_results, window: 2, outer_window: 1 %>
+          <% elsif @source == 'user_nickname' %>
+            <div class="rspec_user_nickname_results mb-5">
+              <% if @source == 'user_nickname' && @user_nickname_results.exists? %>
                 <%= render partial: 'user_result', collection: @user_nickname_results, as: 'user' %>
-              </div>
-              <%= paginate @user_nickname_results, window: 2, outer_window: 1 %>
-            <% elsif @source == 'user_profile' && @user_profile_results.exists? %>
-              <div class="rspec_user_profile_results mb-5">
+              <% else %>
+                <p class="has-text-centered-touch text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
+              <% end %>
+            </div>
+            <%= paginate @user_nickname_results, window: 2, outer_window: 1 %>
+          <% elsif @source == 'user_profile' %>
+            <div class="rspec_user_profile_results mb-5">
+              <% if @user_profile_results.exists? %>
                 <%= render partial: 'user_result', collection: @user_profile_results, as: 'user' %>
-              </div>
-              <%= paginate @user_profile_results, window: 2, outer_window: 1 %>
-            <% else %>
-              <div class="<%= 'rspec_user_nickname_results' if @source == 'user_nickname' %> <%= 'rspec_user_profile_results' if @source == 'user_profile' %>">
+              <% else %>
                 <p class="has-text-centered-touch text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
-              </div>
-            <% end %>
-          </div>
-        <% end %>
-
-        <% if @source == 'tag_name' %>
-          <div class="column is-9">
-            <% if @tag_name_results.exists? %>
-              <nav class="level is-mobile">
-                <div class="level-left">
-                  <div class="level-item">「<%= @q_value %>」の検索結果</div>
-                </div>
-              </nav>
-            <% end %>
-            <% if @source == 'tag_name' && @tag_name_results.exists? %>
-              <div class="rspec_tag_name_results mb-5">
+              <% end %>
+            </div>
+            <%= paginate @user_profile_results, window: 2, outer_window: 1 %>
+          <% else %>
+            <div class="rspec_tag_name_results mb-5">
+              <% if @tag_name_results.exists? %>
                 <%= render partial: 'tag_result', collection: @tag_name_results, as: 'tag' %>
-              </div>
-              <%= paginate @tag_name_results, window: 2, outer_window: 1, class: 'mt-5' %>
-            <% else %>
-              <div class="<%= 'rspec_tag_name_results' if @source == 'tag_name' %>">
+              <% else %>
                 <p class="has-text-centered-touch text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
-              </div>
-            <% end %>
-          </div>
-        <% end %>
+              <% end %>
+            </div>
+            <%= paginate @tag_name_results, window: 2, outer_window: 1 %>
+          <% end %>
+        </div>
       </div>
     <% end %>
   </div>

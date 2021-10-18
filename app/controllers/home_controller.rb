@@ -40,7 +40,7 @@ class HomeController < ApplicationController
     @tag_name_results = tag_name_results.page(params[:page]).per(10)
 
     if @source == 'tag_name'
-      @tagged_recipes = Hash.new
+      @tagged_recipes = {}
       @tag_name_results.each do |tag|
         @tagged_recipes.store(tag.name, Recipe.tagged_with(tag.name).first(6))
       end
