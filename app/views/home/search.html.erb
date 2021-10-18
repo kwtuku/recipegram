@@ -61,6 +61,14 @@
                   </span>
                 <% end %>
               </li>
+              <li class="<%= 'is-active' if @source == 'tag_name' %>">
+                <%= link_to search_path(q: @q_value, source: 'tag_name'), class: 'has-text-weight-bold' do %>
+                  <span>タグ</span>
+                  <span class="tag is-rounded ml-2 <%= 'is-grey' unless @result_counts[:name].zero? %>">
+                    <%= @result_counts[:name] %>
+                  </span>
+                <% end %>
+              </li>
             </ul>
           </div>
         </div>
@@ -99,6 +107,14 @@
                   <span>プロフィール</span>
                   <span class="tag is-rounded is-pulled-right menu-tag rspec_user_profile_results_size <%= 'is-grey' unless @result_counts[:profile].zero? %>">
                     <%= @result_counts[:profile] %>
+                  </span>
+                <% end %>
+              </li>
+              <li class="<%= 'is-active' if @source == 'tag_name' %>">
+                <%= link_to search_path(q: @q_value, source: 'tag_name'), class: 'has-text-weight-bold px-4 py-3' do %>
+                  <span>タグ</span>
+                  <span class="tag is-rounded is-pulled-right menu-tag rspec_tag_name_results_size <%= 'is-grey' unless @result_counts[:name].zero? %>">
+                    <%= @result_counts[:name] %>
                   </span>
                 <% end %>
               </li>
@@ -180,15 +196,15 @@
               </nav>
             <% end %>
             <% if @source == 'recipe_title' && @recipe_title_results.exists? %>
-              <div class="rspec_recipe_title_results">
+              <div class="rspec_recipe_title_results mb-5">
                 <%= render partial: 'recipe_result', collection: @recipe_title_results, as: 'recipe' %>
-                <%= paginate @recipe_title_results, window: 2, outer_window: 1 %>
               </div>
+              <%= paginate @recipe_title_results, window: 2, outer_window: 1 %>
             <% elsif @source == 'recipe_body' && @recipe_body_results.exists? %>
-              <div class="rspec_recipe_body_results">
+              <div class="rspec_recipe_body_results mb-5">
                 <%= render partial: 'recipe_result', collection: @recipe_body_results, as: 'recipe' %>
-                <%= paginate @recipe_body_results, window: 2, outer_window: 1 %>
               </div>
+              <%= paginate @recipe_body_results, window: 2, outer_window: 1 %>
             <% else %>
               <div class="<%= 'rspec_recipe_title_results' if @source == 'recipe_title' %> <%= 'rspec_recipe_body_results' if @source == 'recipe_body' %>">
                 <p class="has-text-centered-touch text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
@@ -271,17 +287,39 @@
               </nav>
             <% end %>
             <% if @source == 'user_nickname' && @user_nickname_results.exists? %>
-              <div class="rspec_user_nickname_results">
+              <div class="rspec_user_nickname_results mb-5">
                 <%= render partial: 'user_result', collection: @user_nickname_results, as: 'user' %>
-                <%= paginate @user_nickname_results, window: 2, outer_window: 1 %>
               </div>
+              <%= paginate @user_nickname_results, window: 2, outer_window: 1 %>
             <% elsif @source == 'user_profile' && @user_profile_results.exists? %>
-              <div class="rspec_user_profile_results">
+              <div class="rspec_user_profile_results mb-5">
                 <%= render partial: 'user_result', collection: @user_profile_results, as: 'user' %>
-                <%= paginate @user_profile_results, window: 2, outer_window: 1 %>
               </div>
+              <%= paginate @user_profile_results, window: 2, outer_window: 1 %>
             <% else %>
               <div class="<%= 'rspec_user_nickname_results' if @source == 'user_nickname' %> <%= 'rspec_user_profile_results' if @source == 'user_profile' %>">
+                <p class="has-text-centered-touch text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+
+        <% if @source == 'tag_name' %>
+          <div class="column is-9">
+            <% if @tag_name_results.exists? %>
+              <nav class="level is-mobile">
+                <div class="level-left">
+                  <div class="level-item">「<%= @q_value %>」の検索結果</div>
+                </div>
+              </nav>
+            <% end %>
+            <% if @source == 'tag_name' && @tag_name_results.exists? %>
+              <div class="rspec_tag_name_results mb-5">
+                <%= render partial: 'tag_result', collection: @tag_name_results, as: 'tag' %>
+              </div>
+              <%= paginate @tag_name_results, window: 2, outer_window: 1, class: 'mt-5' %>
+            <% else %>
+              <div class="<%= 'rspec_tag_name_results' if @source == 'tag_name' %>">
                 <p class="has-text-centered-touch text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
               </div>
             <% end %>
