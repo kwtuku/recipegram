@@ -14,25 +14,25 @@ RSpec.describe 'Search', type: :system do
   end
 
   context 'when no results' do
-    it 'returns correct results size', js: true do
+    it 'returns correct result counts', js: true do
       visit root_path
       fill_in 'q', with: "ごはん\n"
       expect(page).to have_content '「ごはん」は見つかりませんでした。'
-      expect(page).to have_selector '.rspec_recipe_title_results_size', text: '0'
-      expect(page).to have_selector '.rspec_recipe_body_results_size', text: '0'
-      expect(page).to have_selector '.rspec_user_nickname_results_size', text: '0'
-      expect(page).to have_selector '.rspec_user_profile_results_size', text: '0'
+      expect(page).to have_selector '[data-rspec=recipe_title_result_count]', text: '0'
+      expect(page).to have_selector '[data-rspec=recipe_body_result_count]', text: '0'
+      expect(page).to have_selector '[data-rspec=user_nickname_result_count]', text: '0'
+      expect(page).to have_selector '[data-rspec=user_profile_result_count]', text: '0'
     end
   end
 
   context 'when results exist' do
-    it 'returns correct results size', js: true do
+    it 'returns correct result counts', js: true do
       visit root_path
       fill_in 'q', with: "ラーメン\n"
-      expect(page).to have_selector '.rspec_recipe_title_results_size', text: '3'
-      expect(page).to have_selector '.rspec_recipe_body_results_size', text: '2'
-      expect(page).to have_selector '.rspec_user_nickname_results_size', text: '0'
-      expect(page).to have_selector '.rspec_user_profile_results_size', text: '1'
+      expect(page).to have_selector '[data-rspec=recipe_title_result_count]', text: '3'
+      expect(page).to have_selector '[data-rspec=recipe_body_result_count]', text: '2'
+      expect(page).to have_selector '[data-rspec=user_nickname_result_count]', text: '0'
+      expect(page).to have_selector '[data-rspec=user_profile_result_count]', text: '1'
     end
 
     it 'keeps search keyword on form', js: true do
@@ -44,19 +44,19 @@ RSpec.describe 'Search', type: :system do
     it 'can AND search using space', js: true do
       visit root_path
       fill_in 'q', with: "ラーメン 作り方\n"
-      expect(page).to have_selector '.rspec_recipe_title_results_size', text: '0'
-      expect(page).to have_selector '.rspec_recipe_body_results_size', text: '2'
-      expect(page).to have_selector '.rspec_user_nickname_results_size', text: '0'
-      expect(page).to have_selector '.rspec_user_profile_results_size', text: '0'
+      expect(page).to have_selector '[data-rspec=recipe_title_result_count]', text: '0'
+      expect(page).to have_selector '[data-rspec=recipe_body_result_count]', text: '2'
+      expect(page).to have_selector '[data-rspec=user_nickname_result_count]', text: '0'
+      expect(page).to have_selector '[data-rspec=user_profile_result_count]', text: '0'
     end
 
     it 'can AND search using zenkaku spece', js: true do
       visit root_path
       fill_in 'q', with: "ラーメン　作り方\n"
-      expect(page).to have_selector '.rspec_recipe_title_results_size', text: '0'
-      expect(page).to have_selector '.rspec_recipe_body_results_size', text: '2'
-      expect(page).to have_selector '.rspec_user_nickname_results_size', text: '0'
-      expect(page).to have_selector '.rspec_user_profile_results_size', text: '0'
+      expect(page).to have_selector '[data-rspec=recipe_title_result_count]', text: '0'
+      expect(page).to have_selector '[data-rspec=recipe_body_result_count]', text: '2'
+      expect(page).to have_selector '[data-rspec=user_nickname_result_count]', text: '0'
+      expect(page).to have_selector '[data-rspec=user_profile_result_count]', text: '0'
     end
   end
 
@@ -70,40 +70,40 @@ RSpec.describe 'Search', type: :system do
       within '.menu' do
         click_link 'レシピ名'
       end
-      expect(page).to have_css '.rspec_recipe_title_results'
-      expect(page).to have_no_css '.rspec_recipe_body_results'
-      expect(page).to have_no_css '.rspec_user_nickname_results'
-      expect(page).to have_no_css '.rspec_user_profile_results'
+      expect(page).to have_css '[data-rspec=recipe_title_results]'
+      expect(page).to have_no_css '[data-rspec=recipe_body_results]'
+      expect(page).to have_no_css '[data-rspec=user_nickname_results]'
+      expect(page).to have_no_css '[data-rspec=user_profile_results]'
     end
 
     it 'shows recipe body results', js: true do
       within '.menu' do
         click_link '作り方'
       end
-      expect(page).to have_no_css '.rspec_recipe_title_results'
-      expect(page).to have_css '.rspec_recipe_body_results'
-      expect(page).to have_no_css '.rspec_user_nickname_results'
-      expect(page).to have_no_css '.rspec_user_profile_results'
+      expect(page).to have_no_css '[data-rspec=recipe_title_results]'
+      expect(page).to have_css '[data-rspec=recipe_body_results]'
+      expect(page).to have_no_css '[data-rspec=user_nickname_results]'
+      expect(page).to have_no_css '[data-rspec=user_profile_results]'
     end
 
     it 'shows user nickname results', js: true do
       within '.menu' do
         click_link 'ニックネーム'
       end
-      expect(page).to have_no_css '.rspec_recipe_title_results'
-      expect(page).to have_no_css '.rspec_recipe_body_results'
-      expect(page).to have_css '.rspec_user_nickname_results'
-      expect(page).to have_no_css '.rspec_user_profile_results'
+      expect(page).to have_no_css '[data-rspec=recipe_title_results]'
+      expect(page).to have_no_css '[data-rspec=recipe_body_results]'
+      expect(page).to have_css '[data-rspec=user_nickname_results]'
+      expect(page).to have_no_css '[data-rspec=user_profile_results]'
     end
 
     it 'shows user profile results', js: true do
       within '.menu' do
         click_link 'プロフィール'
       end
-      expect(page).to have_no_css '.rspec_recipe_title_results'
-      expect(page).to have_no_css '.rspec_recipe_body_results'
-      expect(page).to have_no_css '.rspec_user_nickname_results'
-      expect(page).to have_css '.rspec_user_profile_results'
+      expect(page).to have_no_css '[data-rspec=recipe_title_results]'
+      expect(page).to have_no_css '[data-rspec=recipe_body_results]'
+      expect(page).to have_no_css '[data-rspec=user_nickname_results]'
+      expect(page).to have_css '[data-rspec=user_profile_results]'
     end
   end
 
@@ -117,60 +117,60 @@ RSpec.describe 'Search', type: :system do
       within '.menu' do
         click_link 'レシピ名'
       end
-      expect(page).to have_css '.rspec_recipe_title_results'
-      expect(page).to have_no_css '.rspec_recipe_body_results'
-      expect(page).to have_no_css '.rspec_user_nickname_results'
-      expect(page).to have_no_css '.rspec_user_profile_results'
+      expect(page).to have_css '[data-rspec=recipe_title_results]'
+      expect(page).to have_no_css '[data-rspec=recipe_body_results]'
+      expect(page).to have_no_css '[data-rspec=user_nickname_results]'
+      expect(page).to have_no_css '[data-rspec=user_profile_results]'
       fill_in 'q', with: "らーめん\n"
-      expect(page).to have_css '.rspec_recipe_title_results'
-      expect(page).to have_no_css '.rspec_recipe_body_results'
-      expect(page).to have_no_css '.rspec_user_nickname_results'
-      expect(page).to have_no_css '.rspec_user_profile_results'
+      expect(page).to have_css '[data-rspec=recipe_title_results]'
+      expect(page).to have_no_css '[data-rspec=recipe_body_results]'
+      expect(page).to have_no_css '[data-rspec=user_nickname_results]'
+      expect(page).to have_no_css '[data-rspec=user_profile_results]'
     end
 
     it 'shows recipe body results again', js: true do
       within '.menu' do
         click_link '作り方'
       end
-      expect(page).to have_no_css '.rspec_recipe_title_results'
-      expect(page).to have_css '.rspec_recipe_body_results'
-      expect(page).to have_no_css '.rspec_user_nickname_results'
-      expect(page).to have_no_css '.rspec_user_profile_results'
+      expect(page).to have_no_css '[data-rspec=recipe_title_results]'
+      expect(page).to have_css '[data-rspec=recipe_body_results]'
+      expect(page).to have_no_css '[data-rspec=user_nickname_results]'
+      expect(page).to have_no_css '[data-rspec=user_profile_results]'
       fill_in 'q', with: "らーめん\n"
-      expect(page).to have_no_css '.rspec_recipe_title_results'
-      expect(page).to have_css '.rspec_recipe_body_results'
-      expect(page).to have_no_css '.rspec_user_nickname_results'
-      expect(page).to have_no_css '.rspec_user_profile_results'
+      expect(page).to have_no_css '[data-rspec=recipe_title_results]'
+      expect(page).to have_css '[data-rspec=recipe_body_results]'
+      expect(page).to have_no_css '[data-rspec=user_nickname_results]'
+      expect(page).to have_no_css '[data-rspec=user_profile_results]'
     end
 
     it 'shows user nickname results again', js: true do
       within '.menu' do
         click_link 'ニックネーム'
       end
-      expect(page).to have_no_css '.rspec_recipe_title_results'
-      expect(page).to have_no_css '.rspec_recipe_body_results'
-      expect(page).to have_css '.rspec_user_nickname_results'
-      expect(page).to have_no_css '.rspec_user_profile_results'
+      expect(page).to have_no_css '[data-rspec=recipe_title_results]'
+      expect(page).to have_no_css '[data-rspec=recipe_body_results]'
+      expect(page).to have_css '[data-rspec=user_nickname_results]'
+      expect(page).to have_no_css '[data-rspec=user_profile_results]'
       fill_in 'q', with: "らーめん\n"
-      expect(page).to have_no_css '.rspec_recipe_title_results'
-      expect(page).to have_no_css '.rspec_recipe_body_results'
-      expect(page).to have_css '.rspec_user_nickname_results'
-      expect(page).to have_no_css '.rspec_user_profile_results'
+      expect(page).to have_no_css '[data-rspec=recipe_title_results]'
+      expect(page).to have_no_css '[data-rspec=recipe_body_results]'
+      expect(page).to have_css '[data-rspec=user_nickname_results]'
+      expect(page).to have_no_css '[data-rspec=user_profile_results]'
     end
 
     it 'shows user profile results again', js: true do
       within '.menu' do
         click_link 'プロフィール'
       end
-      expect(page).to have_no_css '.rspec_recipe_title_results'
-      expect(page).to have_no_css '.rspec_recipe_body_results'
-      expect(page).to have_no_css '.rspec_user_nickname_results'
-      expect(page).to have_css '.rspec_user_profile_results'
+      expect(page).to have_no_css '[data-rspec=recipe_title_results]'
+      expect(page).to have_no_css '[data-rspec=recipe_body_results]'
+      expect(page).to have_no_css '[data-rspec=user_nickname_results]'
+      expect(page).to have_css '[data-rspec=user_profile_results]'
       fill_in 'q', with: "らーめん\n"
-      expect(page).to have_no_css '.rspec_recipe_title_results'
-      expect(page).to have_no_css '.rspec_recipe_body_results'
-      expect(page).to have_no_css '.rspec_user_nickname_results'
-      expect(page).to have_css '.rspec_user_profile_results'
+      expect(page).to have_no_css '[data-rspec=recipe_title_results]'
+      expect(page).to have_no_css '[data-rspec=recipe_body_results]'
+      expect(page).to have_no_css '[data-rspec=user_nickname_results]'
+      expect(page).to have_css '[data-rspec=user_profile_results]'
     end
   end
 end

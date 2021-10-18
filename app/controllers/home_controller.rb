@@ -13,7 +13,6 @@ class HomeController < ApplicationController
 
   def privacy; end
 
-  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def search
     @source = params[:source].to_s.presence || 'recipe_title'
 
@@ -33,15 +32,17 @@ class HomeController < ApplicationController
     user_profile_results = User.ransack(profile_query).result.eager_load(:recipes)
     tag_name_results = Tag.ransack(name_query).result
 
-    @recipe_title_results = recipe_title_results.page(params[:page]).per(10)
-    @recipe_body_results = recipe_body_results.page(params[:page]).per(10)
-    @user_nickname_results = user_nickname_results.page(params[:page]).per(10)
-    @user_profile_results = user_profile_results.page(params[:page]).per(10)
-    @tag_name_results = tag_name_results.page(params[:page]).per(10)
+    @results = {
+      recipe_title: recipe_title_results.page(params[:page]).per(10),
+      recipe_body: recipe_body_results.page(params[:page]).per(10),
+      user_nickname: user_nickname_results.page(params[:page]).per(10),
+      user_profile: user_profile_results.page(params[:page]).per(10),
+      tag_name: tag_name_results.page(params[:page]).per(10)
+    }
 
     if @source == 'tag_name'
       @tagged_recipes = {}
-      @tag_name_results.each do |tag|
+      @results[:tag_name].each do |tag|
         @tagged_recipes.store(tag.name, Recipe.tagged_with(tag.name).first(6))
       end
     end
@@ -54,5 +55,4 @@ class HomeController < ApplicationController
       name: tag_name_results.size
     }
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 end
