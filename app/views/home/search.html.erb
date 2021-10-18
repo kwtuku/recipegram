@@ -76,7 +76,7 @@
 
       <div class="columns is-centered">
         <div class="column is-one-fifth is-2-widescreen is-hidden-touch">
-          <aside class="menu sticky">
+          <aside class="menu sticky" data-rspec="search-menu">
             <ul class="menu-list">
               <li class="<%= 'is-active' if @source == 'recipe_title' %>">
                 <%= link_to search_path(q: @q_value, source: 'recipe_title'), class: 'has-text-weight-bold px-4 py-3' do %>
@@ -113,7 +113,7 @@
               <li class="<%= 'is-active' if @source == 'tag_name' %>">
                 <%= link_to search_path(q: @q_value, source: 'tag_name'), class: 'has-text-weight-bold px-4 py-3' do %>
                   <span>タグ</span>
-                  <span class="tag is-rounded is-pulled-right menu-tag <%= 'is-grey' unless @result_counts[:name].zero? %>">
+                  <span class="tag is-rounded is-pulled-right menu-tag <%= 'is-grey' unless @result_counts[:name].zero? %>" data-rspec="tag_name_result_count">
                     <%= @result_counts[:name] %>
                   </span>
                 <% end %>
