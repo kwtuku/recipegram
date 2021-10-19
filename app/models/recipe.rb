@@ -30,7 +30,11 @@ class Recipe < ApplicationRecord
   end
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[title body updated_at comments_count favorites_count]
+    %w[title body]
+  end
+
+  def self.ransortable_attributes(_auth_object = nil)
+    %w[comments_count favorites_count updated_at]
   end
 
   private

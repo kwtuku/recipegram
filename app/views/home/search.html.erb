@@ -155,15 +155,6 @@
                           <span>更新日が新しい順</span>
                         </span>
                       <% end %>
-                      <%= link_to search_path(q: @q_value, source: @source, sort: 'updated_at', order: 'asc'),
-                        class: "dropdown-item #{'is-active' if sort_order?('updated_at', 'asc')}" do %>
-                        <span class="icon-text">
-                          <span class="icon">
-                            <i class="far fa-clock"></i>
-                          </span>
-                          <span>更新日が古い順</span>
-                        </span>
-                      <% end %>
                       <%= link_to search_path(q: @q_value, source: @source, sort: 'favorites_count', order: 'desc'),
                         class: "dropdown-item #{'is-active' if sort_order?('favorites_count', 'desc')}" do %>
                         <span class="icon-text">
@@ -173,15 +164,6 @@
                           <span>いいねが多い順</span>
                         </span>
                       <% end %>
-                      <%= link_to search_path(q: @q_value, source: @source, sort: 'favorites_count', order: 'asc'),
-                        class: "dropdown-item #{'is-active' if sort_order?('favorites_count', 'asc')}" do %>
-                        <span class="icon-text">
-                          <span class="icon">
-                            <i class="far fa-heart"></i>
-                          </span>
-                          <span>いいねが少ない順</span>
-                        </span>
-                      <% end %>
                       <%= link_to search_path(q: @q_value, source: @source, sort: 'comments_count', order: 'desc'),
                         class: "dropdown-item #{'is-active' if sort_order?('comments_count', 'desc')}" do %>
                         <span class="icon-text">
@@ -189,15 +171,6 @@
                             <i class="far fa-comment"></i>
                           </span>
                           <span>コメントが多い順</span>
-                        </span>
-                      <% end %>
-                      <%= link_to search_path(q: @q_value, source: @source, sort: 'comments_count', order: 'asc'),
-                        class: "dropdown-item #{'is-active' if sort_order?('comments_count', 'asc')}" do %>
-                        <span class="icon-text">
-                          <span class="icon">
-                            <i class="far fa-comment"></i>
-                          </span>
-                          <span>コメントが少ない順</span>
                         </span>
                       <% end %>
                     <% elsif @source == 'user_nickname' || @source == 'user_profile' %>
@@ -210,15 +183,6 @@
                           <span>投稿が多い順</span>
                         </span>
                       <% end %>
-                      <%= link_to search_path(q: @q_value, source: @source, sort: 'recipes_count', order: 'asc'),
-                        class: "dropdown-item #{'is-active' if sort_order?('recipes_count', 'asc')}" do %>
-                        <span class="icon-text">
-                          <span class="icon">
-                            <i class="fas fa-border-all"></i>
-                          </span>
-                          <span>投稿が少ない順</span>
-                        </span>
-                      <% end %>
                       <%= link_to search_path(q: @q_value, source: @source, sort: 'followers_count', order: 'desc'),
                         class: "dropdown-item #{'is-active' if sort_order?('followers_count', 'desc')}" do %>
                         <span class="icon-text">
@@ -226,33 +190,6 @@
                             <i class="fas fa-users"></i>
                           </span>
                           <span>フォロワーが多い順</span>
-                        </span>
-                      <% end %>
-                      <%= link_to search_path(q: @q_value, source: @source, sort: 'followers_count', order: 'asc'),
-                        class: "dropdown-item #{'is-active' if sort_order?('followers_count', 'asc')}" do %>
-                        <span class="icon-text">
-                          <span class="icon">
-                            <i class="fas fa-users"></i>
-                          </span>
-                          <span>フォロワーが少ない順</span>
-                        </span>
-                      <% end %>
-                      <%= link_to search_path(q: @q_value, source: @source, sort: 'followings_count', order: 'desc'),
-                        class: "dropdown-item #{'is-active' if sort_order?('followings_count', 'desc')}" do %>
-                        <span class="icon-text">
-                          <span class="icon">
-                            <i class="fas fa-users"></i>
-                          </span>
-                          <span>フォロー中が多い順</span>
-                        </span>
-                      <% end %>
-                      <%= link_to search_path(q: @q_value, source: @source, sort: 'followings_count', order: 'asc'),
-                        class: "dropdown-item #{'is-active' if sort_order?('followings_count', 'asc')}" do %>
-                        <span class="icon-text">
-                          <span class="icon">
-                            <i class="fas fa-users"></i>
-                          </span>
-                          <span>フォロー中が少ない順</span>
                         </span>
                       <% end %>
                     <% else %>
