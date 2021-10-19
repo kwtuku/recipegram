@@ -18,11 +18,14 @@ class InfiniteScrollController < ApplicationController
       added_items = Recipe.eager_load(:favorites, :comments).order(updated_at: :DESC)[first..last]
     elsif controller_name == 'tags'
       decoded_tag_name = URI.decode_www_form_component(path_components[1])
-      added_items = Recipe.tagged_with(decoded_tag_name).eager_load(:comments, :favorites).order(id: :DESC)[first..last]
+      added_items = Recipe.tagged_with(decoded_tag_name).eager_load(:comments, :favorites)
+        .order(id: :DESC)[first..last]
     elsif controller_name == 'users' && action_name == 'comments'
-      added_items = user.commented_recipes.eager_load(:favorites, :comments).order('comments.created_at desc')[first..last]
+      added_items = user.commented_recipes.eager_load(:favorites, :comments)
+        .order('comments.created_at desc')[first..last]
     elsif controller_name == 'users' && action_name == 'favorites'
-      added_items = user.favored_recipes.eager_load(:favorites, :comments).order('favorites.created_at desc')[first..last]
+      added_items = user.favored_recipes.eager_load(:favorites, :comments)
+        .order('favorites.created_at desc')[first..last]
     elsif controller_name == 'users' && username && action_name.nil?
       added_items = user.recipes.eager_load(:favorites, :comments).order(id: :DESC)[first..last]
     elsif controller_name == 'users' && username.nil?
@@ -41,7 +44,12 @@ class InfiniteScrollController < ApplicationController
       last = first + 19
       file_path = 'home/feed'
       local_value = 'feed'
-      added_items = user_signed_in? ? current_user.home_recipes[first..last] : Recipe.all.eager_load(:user, :comments, :favorites).sample(20)
+      added_items =
+        if user_signed_in?
+          current_user.home_recipes[first..last]
+        else
+          Recipe.all.eager_load(:user, :comments, :favorites).sample(20)
+        end
     end
 
     @file_path = file_path

@@ -78,4 +78,8 @@ module ApplicationHelper
 
     'おすすめ' if feed.user != current_user && !current_user.following?(feed.user)
   end
+
+  def sort_order?(sort, order)
+    request.query_parameters[:sort] == sort && request.query_parameters[:order] == order
+  end
 end
