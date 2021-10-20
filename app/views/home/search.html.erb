@@ -210,13 +210,13 @@
           </nav>
 
           <div class="mb-5" data-rspec="<%= @source %>_results">
-            <% if @results[@source.to_sym].exists? %>
-              <%= render partial: "#{@source.split('_')[0]}_result", collection: @results[@source.to_sym], as: "#{@source.split('_')[0]}" %>
+            <% if @results.exists? %>
+              <%= render partial: "#{@source.split('_')[0]}_result", collection: @results, as: "#{@source.split('_')[0]}" %>
             <% else %>
               <p class="has-text-centered-touch text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
             <% end %>
           </div>
-          <%= paginate @results[@source.to_sym], window: 2, outer_window: 1 %>
+          <%= paginate @results, window: 2, outer_window: 1 %>
         </div>
       </div>
     <% end %>
