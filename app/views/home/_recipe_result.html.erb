@@ -1,41 +1,41 @@
-<div class="block">
-  <div class="media">
-    <div class="media-left">
-      <%= link_to recipe_path(recipe) do %>
-        <figure class="image is-128x128">
-          <%= image_tag recipe.recipe_image.thumb.url %>
-        </figure>
-      <% end %>
-    </div>
-    <div class="media-content text-break">
+<div class="media">
+  <div class="media-left">
+    <%= link_to recipe_path(recipe) do %>
+      <figure class="image is-128x128">
+        <%= image_tag recipe.recipe_image.thumb.url %>
+      </figure>
+    <% end %>
+  </div>
+  <div class="media-content text-break">
+    <%= link_to recipe_path(recipe) do %>
       <p class="is-size-4 mb-3 is-1-line">
-        <span><%= link_to recipe.title, recipe_path(recipe), title: recipe.title, class: 'has-text-black-bis hover-underline' %></span>
+        <span class="has-text-black-bis text-break hover-underline" title="<%= recipe.title %>"><%= recipe.title %></span>
       </p>
       <p class="is-3-lines mb-3">
-        <span><%= recipe.body %></span>
+        <span class="has-text-black-bis"><%= recipe.body %></span>
       </p>
-      <p class="content">
-        <% recipe.tags.each do |tag| %>
-          <%= link_to tag_path(tag.name) do %>
-            <span class="tag is-medium tag-link"><%= tag %></span>
-          <% end %>
+    <% end %>
+    <p class="content">
+      <% recipe.tags.each do |tag| %>
+        <%= link_to tag_path(tag.name) do %>
+          <span class="tag is-medium tag-link"><%= tag %></span>
         <% end %>
-      </p>
-      <p>
-        <span class="icon-text mr-5">
-          <span class="icon">
-            <i class="far fa-heart"></i>
-          </span>
-          <span><%= recipe.favorites.size %></span>
+      <% end %>
+    </p>
+    <p>
+      <span class="icon-text mr-5">
+        <span class="icon">
+          <i class="far fa-heart"></i>
         </span>
-        <span class="icon-text mr-5">
-          <span class="icon">
-            <i class="far fa-comment"></i>
-          </span>
-          <span><%= recipe.comments.size %></span>
+        <span><%= recipe.favorites.size %></span>
+      </span>
+      <span class="icon-text mr-5">
+        <span class="icon">
+          <i class="far fa-comment"></i>
         </span>
-        <time datetime="<%= recipe.updated_at %>">更新日：<%= l recipe.updated_at, format: :ymd %></time>
-      </p>
-    </div>
+        <span><%= recipe.comments.size %></span>
+      </span>
+      <time datetime="<%= recipe.updated_at %>">更新日：<%= l recipe.updated_at, format: :ymd %></time>
+    </p>
   </div>
 </div>

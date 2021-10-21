@@ -9,7 +9,7 @@ export default () => {
     const createRecipe = document.getElementById('create_recipe');
     const updateRecipe = document.getElementById('update_recipe');
     const createComment = document.getElementById('create_comment');
-    const searchButtons = Array.prototype.slice.call(document.querySelectorAll('#search'), 0);
+    const searchInputs = Array.prototype.slice.call(document.querySelectorAll('.js-search-input'), 0);
 
     const inputs = Array.prototype.slice.call(document.querySelectorAll('input'), 0);
 
@@ -164,18 +164,14 @@ export default () => {
       });
     }
 
-    if (searchButtons) {
-      const searchQueries = Array.prototype.slice.call(document.querySelectorAll('#search_query'), 0);
-
-      for (let i = 0; i < searchButtons.length; i++) {
-        searchQueries[i].addEventListener('input', () => {
-          if (searchQueries[i].value.trim()) {
-            searchButtons[i].disabled = false;
-          } else {
-            searchButtons[i].disabled = true;
+    if (searchInputs) {
+      searchInputs.forEach(searchInput => {
+        searchInput.addEventListener('keydown', (e) => {
+          if (!searchInput.value.trim() && e.key === 'Enter') {
+            e.preventDefault();
           }
-        });
-      }
+        })
+      })
     }
   });
 }

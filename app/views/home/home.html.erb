@@ -11,7 +11,7 @@
         <div class="sticky">
           <% if user_signed_in? %>
             <div class="block">
-              <div class="media">
+              <div class="media is-align-items-center">
                 <div class="media-left">
                   <%= link_to user_path(current_user) do %>
                     <figure class="image is-48x48">
@@ -19,12 +19,14 @@
                     </figure>
                   <% end %>
                 </div>
-                <div class="media-content margin-auto-0">
-                  <p class="is-size-5 is-1-line">
-                    <span><%= link_to current_user.nickname, user_path(current_user), title: current_user.nickname, class: 'has-text-black-bis text-break hover-underline' %></span>
-                  </p>
+                <div class="media-content">
+                  <%= link_to user_path(current_user) do %>
+                    <p class="is-size-5 is-1-line">
+                      <span class="has-text-black-bis text-break hover-underline" title="<%= current_user.nickname %>"><%= current_user.nickname %></span>
+                    </p>
+                  <% end %>
                 </div>
-                <div class="media-right margin-auto-0">
+                <div class="media-right">
                   <%= link_to 'プロフィールを編集', edit_users_path, class: 'button is-small is-rounded' %>
                 </div>
               </div>

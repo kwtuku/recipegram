@@ -1,25 +1,25 @@
-<div class="block">
-  <div class="media">
-    <div class="media-left">
-      <%= link_to user_path(user) do %>
-        <figure class="image is-64x64">
-          <%= image_tag user.user_image.thumb.url, class: 'is-rounded' %>
-        </figure>
-      <% end %>
-    </div>
-    <div class="media-content text-break">
+<div class="media">
+  <div class="media-left">
+    <%= link_to user_path(user) do %>
+      <figure class="image is-64x64">
+        <%= image_tag user.user_image.thumb.url, class: 'is-rounded' %>
+      </figure>
+    <% end %>
+  </div>
+  <div class="media-content text-break">
+    <%= link_to user_path(user) do %>
       <p class="is-size-4 is-1-line">
-        <span><%= link_to user.nickname, user_path(user), title: user.nickname, class: 'has-text-black-bis hover-underline' %></span>
+        <span class="has-text-black-bis text-break hover-underline" title="<%= user.nickname %>"><%= user.nickname %></span>
       </p>
       <p class="has-text-grey-light mb-3">@<%= user.username %></p>
       <p class="is-3-lines mb-3">
-        <span><%= user.profile %></span>
+        <span class="has-text-black-bis"><%= user.profile %></span>
       </p>
-      <p>
-        <span class="mr-5">投稿<%= user.recipes.size %>件</span>
-        <span class="mr-5">フォロワー<%= user.followers.size %>人</span>
-        <span>フォロー中<%= user.followings.size %>人</span>
-      </p>
-    </div>
+    <% end %>
+    <p>
+      <span class="mr-5">投稿<%= user.recipes.size %>件</span>
+      <span class="mr-5">フォロワー<%= user.followers.size %>人</span>
+      <span>フォロー中<%= user.followings.size %>人</span>
+    </p>
   </div>
 </div>

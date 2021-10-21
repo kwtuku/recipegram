@@ -31,7 +31,7 @@ module ApplicationHelper
     end
   end
 
-  def selected_recipe_sort_order
+  def selected_sort_order
     case request.query_parameters[:sort]
     when 'comments_count'
       request.query_parameters[:order] == 'asc' ? 'コメントが少ない順' : 'コメントが多い順'
@@ -39,18 +39,13 @@ module ApplicationHelper
       request.query_parameters[:order] == 'asc' ? 'いいねが少ない順' : 'いいねが多い順'
     when 'updated_at'
       request.query_parameters[:order] == 'asc' ? '更新日が古い順' : '更新日が新しい順'
-    else
-      '並び替え'
-    end
-  end
-
-  def selected_user_sort_order
-    case request.query_parameters[:sort]
     when 'followers_count'
       request.query_parameters[:order] == 'asc' ? 'フォロワーが少ない順' : 'フォロワーが多い順'
     when 'followings_count'
       request.query_parameters[:order] == 'asc' ? 'フォロー中が少ない順' : 'フォロー中が多い順'
     when 'recipes_count'
+      request.query_parameters[:order] == 'asc' ? '投稿が少ない順' : '投稿が多い順'
+    when 'taggings_count'
       request.query_parameters[:order] == 'asc' ? '投稿が少ない順' : '投稿が多い順'
     else
       '並び替え'
@@ -82,5 +77,9 @@ module ApplicationHelper
     return 'おすすめ' unless user_signed_in?
 
     'おすすめ' if feed.user != current_user && !current_user.following?(feed.user)
+  end
+
+  def sort_order?(sort, order)
+    request.query_parameters[:sort] == sort && request.query_parameters[:order] == order
   end
 end

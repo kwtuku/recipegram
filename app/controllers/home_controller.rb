@@ -13,35 +13,37 @@ class HomeController < ApplicationController
 
   def privacy; end
 
-  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def search
     @source = params[:source].to_s.presence || 'recipe_title'
-
     @q_value = params[:q]
 
     sort = { '0' => { name: params[:sort], dir: params[:order] } }
 
-    title_query = { title_has_every_term: @q_value, s: sort }
-    body_query = { body_has_every_term: @q_value, s: sort }
-    nickname_query = { nickname_has_every_term: @q_value, s: sort }
-    profile_query = { profile_has_every_term: @q_value, s: sort }
+    results = {
+      recipe_title: Recipe.ransack({ title_has_every_term: @q_value, s: sort }).result
+        .eager_load(:favorites, :comments, :tags, :tag_taggings),
+      recipe_body: Recipe.ransack({ body_has_every_term: @q_value, s: sort }).result
+        .eager_load(:favorites, :comments, :tags, :tag_taggings),
+      user_nickname: User.ransack({ nickname_has_every_term: @q_value, s: sort }).result.eager_load(:recipes),
+      user_profile: User.ransack({ profile_has_every_term: @q_value, s: sort }).result.eager_load(:recipes),
+      tag_name: Tag.ransack({ name_has_every_term: @q_value, taggings_count_gteq: '1', s: sort }).result
+    }
 
-    recipe_title_results = Recipe.ransack(title_query).result.eager_load(:favorites, :comments, :tags, :tag_taggings)
-    recipe_body_results = Recipe.ransack(body_query).result.eager_load(:favorites, :comments, :tags, :tag_taggings)
-    user_nickname_results = User.ransack(nickname_query).result.eager_load(:recipes)
-    user_profile_results = User.ransack(profile_query).result.eager_load(:recipes)
-
-    @recipe_title_results = recipe_title_results.page(params[:page]).per(10)
-    @recipe_body_results = recipe_body_results.page(params[:page]).per(10)
-    @user_nickname_results = user_nickname_results.page(params[:page]).per(10)
-    @user_profile_results = user_profile_results.page(params[:page]).per(10)
+    @results = results[@source.to_sym].page(params[:page]).per(10)
 
     @result_counts = {
-      title: recipe_title_results.size,
-      body: recipe_body_results.size,
-      nickname: user_nickname_results.size,
-      profile: user_profile_results.size
+      title: results[:recipe_title].size,
+      body: results[:recipe_body].size,
+      nickname: results[:user_nickname].size,
+      profile: results[:user_profile].size,
+      name: results[:tag_name].size
     }
+
+    return unless @source == 'tag_name'
+
+    @tagged_recipes = {}
+    @results.each do |tag|
+      @tagged_recipes.store(tag.name, Recipe.tagged_with(tag.name).first(6))
+    end
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 end

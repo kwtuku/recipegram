@@ -119,7 +119,11 @@ class User < ApplicationRecord
   end
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[nickname profile followers_count followings_count recipes_count]
+    %w[nickname profile]
+  end
+
+  def self.ransortable_attributes(_auth_object = nil)
+    %w[followers_count followings_count recipes_count]
   end
 
   private

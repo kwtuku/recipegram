@@ -6,13 +6,13 @@
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-10">
-        <div class="media is-hidden-tablet">
+        <div class="media is-hidden-tablet is-align-items-center">
           <div class="media-content">
             <figure class="image is-96x96">
               <%= image_tag @user.user_image.thumb.url, class: 'is-rounded' %>
             </figure>
           </div>
-          <div class="media-right margin-auto-0">
+          <div class="media-right">
             <% if @user == current_user %>
               <%= link_to 'プロフィールを編集', edit_users_path, class: 'button is-rounded' %>
             <% else %>
@@ -23,18 +23,23 @@
           </div>
         </div>
         <div class="media border-0 mt-0 pt-0">
-          <div class="media-left is-hidden-mobile mr-6">
+          <div class="media-left is-hidden-mobile">
             <figure class="image is-128x128">
               <%= image_tag @user.user_image.thumb.url, class: 'is-rounded' %>
             </figure>
           </div>
           <div class="media-content">
-            <div class="media border-0 pt-0">
-              <div class="media-content">
-                <p class="title mb-0"><%= @user.nickname %></p>
-                <p class="has-text-grey-light">@<%= @user.username %></p>
+            <div class="is-flex is-justify-content-space-between is-align-items-center">
+              <div class="content">
+                <p class="title is-size-4-mobile mb-0"><%= @user.nickname %></p>
+                <p>
+                  <span class="has-text-grey-light">@<%= @user.username %></span>
+                  <% if @user.following?(current_user) %>
+                    <span class="tag is-info is-light">フォローされています</span>
+                  <% end %>
+                </p>
               </div>
-              <div class="media-right margin-auto-0 is-hidden-mobile">
+              <div class="is-hidden-mobile">
                 <% if @user == current_user %>
                   <%= link_to 'プロフィールを編集', edit_users_path, class: 'button is-rounded' %>
                 <% else %>
@@ -44,15 +49,8 @@
                 <% end %>
               </div>
             </div>
-            <% if @user.following?(current_user) %>
-              <div class="content">
-                <span class="tag is-info is-light">フォローされています</span>
-              </div>
-            <% end %>
             <div class="content text-break">
-              <p class="mb-3">
-                <%= @user.profile %>
-              </p>
+              <p><%= @user.profile %></p>
               <p class="is-size-7-mobile">
                 <span class="mr-5">投稿<span class="has-text-weight-bold"><%= @user.recipes.size %></span>件</span>
                 <%= link_to user_followers_path(@user), class: 'has-text-grey-dark hover-underline mr-5' do %>
@@ -64,10 +62,10 @@
               </p>
             </div>
             <% if @user != current_user && @followers_you_follow.present? %>
-              <div class="media border-0">
-                <div class="media-left is-flex">
+              <div class="is-flex is-align-items-center">
+                <div class="is-flex">
                   <figure class="image is-24x24">
-                    <%= image_tag @followers_you_follow.map(&:user_image).first.url(:icon), class: 'is-rounded' %>
+                    <%= image_tag @followers_you_follow.map(&:user_image)[0].url(:icon), class: 'is-rounded' %>
                   </figure>
                   <% if @followers_you_follow.size >= 2 %>
                     <figure class="image is-24x24">
@@ -75,7 +73,7 @@
                     </figure>
                   <% end %>
                 </div>
-                <div class="media-content text-break is-size-7-mobile">
+                <div class="ml-3 text-break is-size-7-mobile">
                   <% if @followers_you_follow.size >= 3 %>
                     <p class="has-text-grey-light">
                       <%= "#{@followers_you_follow.map(&:nickname).first(2).join('さん、')}さん、他#{@followers_you_follow.size - 2}人にフォローされています" %>
