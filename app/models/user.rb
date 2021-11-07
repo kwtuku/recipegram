@@ -26,10 +26,6 @@ class User < ApplicationRecord
     query = '(SELECT COUNT(*) FROM relationships WHERE relationships.follow_id = users.id)'
     Arel.sql(query)
   end
-  ransacker :followings_count do
-    query = '(SELECT COUNT(*) FROM relationships WHERE relationships.user_id = users.id)'
-    Arel.sql(query)
-  end
   ransacker :recipes_count do
     query = '(SELECT COUNT(*) FROM recipes WHERE recipes.user_id = users.id)'
     Arel.sql(query)
