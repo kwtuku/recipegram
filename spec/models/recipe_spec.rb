@@ -15,35 +15,37 @@ RSpec.describe Recipe, type: :model do
     context 'when recipe has no tags' do
       it 'is valid' do
         recipe = build_stubbed(:recipe, tag_list: '', user: alice)
-        expect(recipe.valid?).to eq true
+        expect(recipe).to be_valid
       end
     end
 
     context 'when recipe has 5 tags' do
       it 'is valid' do
         recipe = build_stubbed(:recipe, tag_list: '和風, 旬, 時短, かんたん, 手軽', user: alice)
-        expect(recipe.valid?).to eq true
+        expect(recipe).to be_valid
       end
     end
 
     context 'when recipe has 6 tags' do
       it 'is invalid' do
         recipe = build_stubbed(:recipe, tag_list: '和風, 旬, 時短, かんたん, 手軽, 楽ちん', user: alice)
-        expect(recipe.invalid?).to eq true
+        expect(recipe).to be_invalid
+        expect(recipe.errors).to be_of_kind(:tag_list, :too_many_tags)
       end
     end
 
     context 'when tag name length <= 20' do
       it 'is valid' do
         recipe = build_stubbed(:recipe, tag_list: 'a' * 20, user: alice)
-        expect(recipe.valid?).to eq true
+        expect(recipe).to be_valid
       end
     end
 
     context 'when tag name length > 20' do
       it 'is invalid' do
         recipe = build_stubbed(:recipe, tag_list: 'a' * 21, user: alice)
-        expect(recipe.invalid?).to eq true
+        expect(recipe).to be_invalid
+        expect(recipe.errors[:tag_list]).to include 'は20文字以内で入力してください'
       end
     end
 
@@ -52,9 +54,9 @@ RSpec.describe Recipe, type: :model do
 
       it 'is valid' do
         recipe = build_stubbed(:recipe, tag_list: valid_tag_names[0..4].join(', '), user: alice)
-        expect(recipe.valid?).to eq true
+        expect(recipe).to be_valid
         recipe = build_stubbed(:recipe, tag_list: valid_tag_names[5..].join(', '), user: alice)
-        expect(recipe.valid?).to eq true
+        expect(recipe).to be_valid
       end
     end
 
@@ -63,9 +65,11 @@ RSpec.describe Recipe, type: :model do
 
       it 'is invalid' do
         recipe = build_stubbed(:recipe, tag_list: invalid_tag_names[0..4].join(', '), user: alice)
-        expect(recipe.invalid?).to eq true
+        expect(recipe).to be_invalid
+        expect(recipe.errors[:tag_list]).to include 'はひらがなまたは、全角のカタカナ、漢字、半角の英数字のみが使用できます'
         recipe = build_stubbed(:recipe, tag_list: invalid_tag_names[5..].join(', '), user: alice)
-        expect(recipe.invalid?).to eq true
+        expect(recipe).to be_invalid
+        expect(recipe.errors[:tag_list]).to include 'はひらがなまたは、全角のカタカナ、漢字、半角の英数字のみが使用できます'
       end
     end
   end
