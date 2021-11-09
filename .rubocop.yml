@@ -27,10 +27,6 @@ Metrics/ClassLength:
   Exclude:
     - app/models/user.rb
 
-Style/BlockComments:
-  Exclude:
-    - spec/spec_helper.rb
-
 Style/Documentation:
   Enabled: false
 
