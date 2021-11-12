@@ -32,21 +32,20 @@ module ApplicationHelper
   end
 
   def selected_sort_order
+    order = request.query_parameters[:order]
     case request.query_parameters[:sort]
     when 'comments_count'
-      request.query_parameters[:order] == 'asc' ? 'コメントが少ない順' : 'コメントが多い順'
+      order == 'asc' ? 'コメントが少ない順' : 'コメントが多い順'
     when 'favorites_count'
-      request.query_parameters[:order] == 'asc' ? 'いいねが少ない順' : 'いいねが多い順'
+      order == 'asc' ? 'いいねが少ない順' : 'いいねが多い順'
     when 'updated_at'
-      request.query_parameters[:order] == 'asc' ? '更新日が古い順' : '更新日が新しい順'
+      order == 'asc' ? '更新日が古い順' : '更新日が新しい順'
     when 'followers_count'
-      request.query_parameters[:order] == 'asc' ? 'フォロワーが少ない順' : 'フォロワーが多い順'
-    when 'followings_count'
-      request.query_parameters[:order] == 'asc' ? 'フォロー中が少ない順' : 'フォロー中が多い順'
+      order == 'asc' ? 'フォロワーが少ない順' : 'フォロワーが多い順'
     when 'recipes_count'
-      request.query_parameters[:order] == 'asc' ? '投稿が少ない順' : '投稿が多い順'
+      order == 'asc' ? '投稿が少ない順' : '投稿が多い順'
     when 'taggings_count'
-      request.query_parameters[:order] == 'asc' ? '投稿が少ない順' : '投稿が多い順'
+      order == 'asc' ? '投稿が少ない順' : '投稿が多い順'
     else
       '並び替え'
     end

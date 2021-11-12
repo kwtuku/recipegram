@@ -105,7 +105,7 @@ RSpec.describe 'Search', type: :model do
     let(:dave) { create :user, :no_image, nickname: 'ユーザー4' }
     let(:ellen) { create :user, :no_image, nickname: 'user5' }
 
-    context 'when sort by followers count or followings count' do
+    context 'when sort by followers count' do
       before do
         alice.relationships.create(follow_id: carol.id)
         [alice, carol].each { |user| user.relationships.create(follow_id: ellen.id) }
@@ -117,13 +117,6 @@ RSpec.describe 'Search', type: :model do
         nickname_query = { nickname_has_every_term: 'ユーザー', s: { '0' => { name: 'followers_count', dir: 'desc' } } }
         user_nickname_results = User.ransack(nickname_query).result
         expected_results = [dave.id, bob.id, carol.id, alice.id]
-        expect(user_nickname_results.map(&:id)).to eq expected_results
-      end
-
-      it 'is in descending order of followings count' do
-        nickname_query = { nickname_has_every_term: 'ユーザー', s: { '0' => { name: 'followings_count', dir: 'desc' } } }
-        user_nickname_results = User.ransack(nickname_query).result
-        expected_results = [alice.id, carol.id, bob.id, dave.id]
         expect(user_nickname_results.map(&:id)).to eq expected_results
       end
     end
@@ -152,7 +145,7 @@ RSpec.describe 'Search', type: :model do
     let(:dave) { create :user, :no_image, profile: 'こんにちは' }
     let(:ellen) { create :user, :no_image, profile: 'こんにちは' }
 
-    context 'when sort by followers count or followings count' do
+    context 'when sort by followers count' do
       before do
         [bob, dave].each { |user| user.relationships.create(follow_id: ellen.id) }
         [bob, dave, ellen].each { |user| user.relationships.create(follow_id: alice.id) }
@@ -163,13 +156,6 @@ RSpec.describe 'Search', type: :model do
         profile_query = { profile_has_every_term: 'こんにちは', s: { '0' => { name: 'followers_count', dir: 'desc' } } }
         user_profile_results = User.ransack(profile_query).result
         expected_results = [carol.id, alice.id, ellen.id, dave.id]
-        expect(user_profile_results.map(&:id)).to eq expected_results
-      end
-
-      it 'is in descending order of followings count' do
-        profile_query = { profile_has_every_term: 'こんにちは', s: { '0' => { name: 'followings_count', dir: 'desc' } } }
-        user_profile_results = User.ransack(profile_query).result
-        expected_results = [dave.id, ellen.id, alice.id, carol.id]
         expect(user_profile_results.map(&:id)).to eq expected_results
       end
     end

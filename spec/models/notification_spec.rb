@@ -153,7 +153,7 @@ RSpec.describe Notification, type: :model do
 
   describe 'self.create_relationship_notification(relationship)' do
     it 'creates relationship notification' do
-      relationship = bob.follow(alice)
+      relationship = bob.relationships.create(follow_id: alice.id)
       expect do
         described_class.create_relationship_notification(relationship)
       end.to change(described_class, :count).by(1)

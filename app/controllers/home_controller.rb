@@ -4,10 +4,19 @@ class HomeController < ApplicationController
   def home
     if user_signed_in?
       @feeds = current_user.home_recipes.first(20)
-      @recommended_users = current_user.recommended_users.sample(5)
+      @recommended_users =
+        Rails.cache.fetch("cache_recommended_users_#{current_user.id}", expires_in: 1.hour) do
+          current_user.recommended_users.sample(5)
+        end
     else
-      @feeds = Recipe.all.eager_load(:comments, :favorites, :user).sample(20)
-      @recommended_users = User.all.sample(7)
+      @feeds =
+        Rails.cache.fetch('cache_recommended_recipes', expires_in: 1.hour) do
+          Recipe.all.eager_load(:comments, :favorites, :user).sample(20)
+        end
+      @recommended_users =
+        Rails.cache.fetch('cache_recommended_users', expires_in: 1.hour) do
+          User.all.sample(7)
+        end
     end
   end
 

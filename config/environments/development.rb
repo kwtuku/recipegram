@@ -88,5 +88,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
   config.hosts << 'www.example.com'
+
+  config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'], expires_in: 1.hour }
 end
 # rubocop:enable Metrics/BlockLength

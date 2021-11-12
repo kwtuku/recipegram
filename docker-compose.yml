@@ -19,6 +19,7 @@ services:
       RAILS_ENV: ${RAILS_ENV:-development}
       NODE_ENV: ${NODE_ENV:-development}
       SELENIUM_DRIVER_URL: http://chrome:4444/wd/hub
+      REDIS_URL: redis://redis:6379
       WEBPACKER_DEV_SERVER_HOST: webpacker
     depends_on:
       - chrome
@@ -40,6 +41,11 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --locale=C.UTF-8"
       TZ: Asia/Tokyo
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
 
   webpacker:
     build: .

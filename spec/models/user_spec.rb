@@ -67,7 +67,8 @@ RSpec.describe User, type: :model do
         alice = build(:user, :no_image)
         invalid_usernames.each do |invalid_username|
           alice.username = invalid_username
-          expect(alice.invalid?).to eq true
+          expect(alice).to be_invalid
+          expect(alice.errors).to be_of_kind(:username, :invalid)
         end
       end
 
@@ -83,7 +84,7 @@ RSpec.describe User, type: :model do
         alice = build(:user, :no_image)
         valid_usernames.each do |valid_username|
           alice.username = valid_username
-          expect(alice.valid?).to eq true
+          expect(alice).to be_valid
         end
       end
 
@@ -97,13 +98,15 @@ RSpec.describe User, type: :model do
       it 'is not case sensitive' do
         create(:user, :no_image, username: 'alice')
         bob = build_stubbed(:user, :no_image, username: 'ALICE')
-        expect(bob.invalid?).to eq true
+        expect(bob).to be_invalid
+        expect(bob.errors).to be_of_kind(:username, :taken)
       end
 
       it 'is invalid when username is already taken' do
         create(:user, :no_image, username: 'alice')
         bob = build_stubbed(:user, :no_image, username: 'alice')
-        expect(bob.invalid?).to eq true
+        expect(bob).to be_invalid
+        expect(bob.errors).to be_of_kind(:username, :taken)
       end
     end
   end
@@ -305,7 +308,7 @@ RSpec.describe User, type: :model do
       before { create :user, email: 'guest@example.com' }
 
       it 'is valid' do
-        expect(described_class.guest.valid?).to eq true
+        expect(described_class.guest).to be_valid
       end
 
       it 'does not increase user count' do
@@ -317,7 +320,7 @@ RSpec.describe User, type: :model do
 
     context 'when guest dose not exist' do
       it 'is valid' do
-        expect(described_class.guest.valid?).to eq true
+        expect(described_class.guest).to be_valid
       end
 
       it 'increases user count' do
