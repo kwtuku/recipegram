@@ -45,7 +45,9 @@ class Recipe < ApplicationRecord
 
   TAG_MAX_COUNT = 5
   def validate_tag
-    return errors.add(:tag_list, :too_many_tags, message: "は#{TAG_MAX_COUNT}つ以下にしてください") if tag_list.size > TAG_MAX_COUNT
+    if tag_list.size > TAG_MAX_COUNT
+      return errors.add(:tag_list, :too_many_tags, message: "は#{TAG_MAX_COUNT}つ以下にしてください")
+    end
 
     tag_list.each do |tag_name|
       tag = Tag.new(name: tag_name)
