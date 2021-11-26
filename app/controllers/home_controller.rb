@@ -38,7 +38,7 @@ class HomeController < ApplicationController
       tag_name: Tag.ransack({ name_has_every_term: @q_value, taggings_count_gteq: '1', s: sort }).result
     }
 
-    @results = results[@source.to_sym].page(params[:page]).per(10)
+    @results = results[@source.to_sym].page(params[:page])
 
     @result_counts = {
       title: results[:recipe_title].size,

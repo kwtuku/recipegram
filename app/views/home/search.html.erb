@@ -216,7 +216,7 @@
               <p class="has-text-centered-touch text-break"><%= "「#{@q_value}」は見つかりませんでした。" %></p>
             <% end %>
           </div>
-          <%= paginate @results, window: 2, outer_window: 1 %>
+          <%= paginate @results %>
         </div>
       </div>
     <% end %>
