@@ -33,7 +33,7 @@
               <li class="<%= 'is-active' if @source == 'recipe_title' %>">
                 <%= link_to search_path(q: @q_value, source: 'recipe_title'), class: 'has-text-weight-bold' do %>
                   <span>レシピ名</span>
-                  <span class="tag is-rounded ml-2 <%= 'is-grey' unless @result_counts[:title].zero? %>">
+                  <span class="tag is-rounded ml-2 <%= 'has-text-white has-background-grey' unless @result_counts[:title].zero? %>">
                     <%= @result_counts[:title] %>
                   </span>
                 <% end %>
@@ -41,7 +41,7 @@
               <li class="<%= 'is-active' if @source == 'recipe_body' %>">
                 <%= link_to search_path(q: @q_value, source: 'recipe_body'), class: 'has-text-weight-bold' do %>
                   <span>作り方</span>
-                  <span class="tag is-rounded ml-2 <%= 'is-grey' unless @result_counts[:body].zero? %>">
+                  <span class="tag is-rounded ml-2 <%= 'has-text-white has-background-grey' unless @result_counts[:body].zero? %>">
                     <%= @result_counts[:body] %>
                   </span>
                 <% end %>
@@ -49,7 +49,7 @@
               <li class="<%= 'is-active' if @source == 'user_nickname' %>">
                 <%= link_to search_path(q: @q_value, source: 'user_nickname'), class: 'has-text-weight-bold' do %>
                   <span>ニックネーム</span>
-                  <span class="tag is-rounded ml-2 <%= 'is-grey' unless @result_counts[:nickname].zero? %>">
+                  <span class="tag is-rounded ml-2 <%= 'has-text-white has-background-grey' unless @result_counts[:nickname].zero? %>">
                     <%= @result_counts[:nickname] %>
                   </span>
                 <% end %>
@@ -57,7 +57,7 @@
               <li class="<%= 'is-active' if @source == 'user_profile' %>">
                 <%= link_to search_path(q: @q_value, source: 'user_profile'), class: 'has-text-weight-bold' do %>
                   <span>プロフィール</span>
-                  <span class="tag is-rounded ml-2 <%= 'is-grey' unless @result_counts[:profile].zero? %>">
+                  <span class="tag is-rounded ml-2 <%= 'has-text-white has-background-grey' unless @result_counts[:profile].zero? %>">
                     <%= @result_counts[:profile] %>
                   </span>
                 <% end %>
@@ -65,7 +65,7 @@
               <li class="<%= 'is-active' if @source == 'tag_name' %>">
                 <%= link_to search_path(q: @q_value, source: 'tag_name'), class: 'has-text-weight-bold' do %>
                   <span>タグ</span>
-                  <span class="tag is-rounded ml-2 <%= 'is-grey' unless @result_counts[:name].zero? %>">
+                  <span class="tag is-rounded ml-2 <%= 'has-text-white has-background-grey' unless @result_counts[:name].zero? %>">
                     <%= @result_counts[:name] %>
                   </span>
                 <% end %>
@@ -83,7 +83,7 @@
                 <%= link_to search_path(q: @q_value, source: 'recipe_title'), class: 'has-text-weight-bold px-4 py-3' do %>
                   <span>レシピ名</span>
                   <span data-rspec="recipe_title_result_count"
-                    class="tag is-rounded is-pulled-right menu-tag <%= 'is-grey' unless @result_counts[:title].zero? %>">
+                    class="tag is-rounded is-pulled-right menu-tag <%= 'has-text-white has-background-grey' unless @result_counts[:title].zero? %>">
                     <%= @result_counts[:title] %>
                   </span>
                 <% end %>
@@ -92,7 +92,7 @@
                 <%= link_to search_path(q: @q_value, source: 'recipe_body'), class: 'has-text-weight-bold px-4 py-3' do %>
                   <span>作り方</span>
                   <span data-rspec="recipe_body_result_count"
-                    class="tag is-rounded is-pulled-right menu-tag <%= 'is-grey' unless @result_counts[:body].zero? %>">
+                    class="tag is-rounded is-pulled-right menu-tag <%= 'has-text-white has-background-grey' unless @result_counts[:body].zero? %>">
                     <%= @result_counts[:body] %>
                   </span>
                 <% end %>
@@ -101,7 +101,7 @@
                 <%= link_to search_path(q: @q_value, source: 'user_nickname'), class: 'has-text-weight-bold px-4 py-3' do %>
                   <span>ニックネーム</span>
                   <span data-rspec="user_nickname_result_count"
-                    class="tag is-rounded is-pulled-right menu-tag <%= 'is-grey' unless @result_counts[:nickname].zero? %>">
+                    class="tag is-rounded is-pulled-right menu-tag <%= 'has-text-white has-background-grey' unless @result_counts[:nickname].zero? %>">
                     <%= @result_counts[:nickname] %>
                   </span>
                 <% end %>
@@ -110,7 +110,7 @@
                 <%= link_to search_path(q: @q_value, source: 'user_profile'), class: 'has-text-weight-bold px-4 py-3' do %>
                   <span>プロフィール</span>
                   <span data-rspec="user_profile_result_count"
-                    class="tag is-rounded is-pulled-right menu-tag <%= 'is-grey' unless @result_counts[:profile].zero? %>">
+                    class="tag is-rounded is-pulled-right menu-tag <%= 'has-text-white has-background-grey' unless @result_counts[:profile].zero? %>">
                     <%= @result_counts[:profile] %>
                   </span>
                 <% end %>
@@ -119,7 +119,7 @@
                 <%= link_to search_path(q: @q_value, source: 'tag_name'), class: 'has-text-weight-bold px-4 py-3' do %>
                   <span>タグ</span>
                   <span data-rspec="tag_name_result_count"
-                    class="tag is-rounded is-pulled-right menu-tag <%= 'is-grey' unless @result_counts[:name].zero? %>">
+                    class="tag is-rounded is-pulled-right menu-tag <%= 'has-text-white has-background-grey' unless @result_counts[:name].zero? %>">
                     <%= @result_counts[:name] %>
                   </span>
                 <% end %>
