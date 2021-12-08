@@ -17,6 +17,8 @@
 $pagination-current-background-color: #3e8ed0;
 $pagination-current-border-color: #3e8ed0;
 $pagination-focus-border-color: #3e8ed0;
+$tabs-link-active-border-bottom-color: #4a4a4a;
+$tabs-link-active-color: #4a4a4a;
 
 @import "bulma";
 
@@ -141,16 +143,6 @@ $pagination-focus-border-color: #3e8ed0;
 
 .round {
   border-radius: 50%;
-}
-
-.tabs {
-  li.is-active a {
-    border-bottom-color: #363636;
-    color: #363636;
-  }
-  a:hover {
-    border-bottom-color: #dbdbdb;
-  }
 }
 
 .menu-list li.is-active {
