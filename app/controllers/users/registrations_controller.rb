@@ -1,10 +1,9 @@
 module Users
   class RegistrationsController < Devise::RegistrationsController
-    prepend_before_action :authenticate_scope!, only: %i[edit update confirm_destroy destroy] # rubocop:disable Rails/LexicallyScopedActionFilter
+    prepend_before_action :authenticate_scope!, only: %i[edit update confirm_destroy destroy]
 
     def confirm_destroy; end
 
-    # rubocop:disable Metrics/AbcSize
     def destroy
       if resource.destroy_with_password(destroy_params[:current_password])
         Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
@@ -15,7 +14,6 @@ module Users
         render 'confirm_destroy'
       end
     end
-    # rubocop:enable Metrics/AbcSize
 
     private
 
