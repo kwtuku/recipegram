@@ -80,12 +80,10 @@ RSpec.describe 'Notifications', type: :request do
       end
     end
 
-    # rubocop:disable RSpec/MultipleMemoizedHelpers
     context 'when other user comments on commented recipe' do
-      let(:bob_recipe) { create :recipe, :no_image, user: bob }
-      let(:carol) { create :user, :no_image }
-
       it 'increases Notification count' do
+        carol = create :user, :no_image
+        bob_recipe = create :recipe, :no_image, user: bob
         create :comment, recipe: bob_recipe, user: alice
         sign_in carol
         expect do
@@ -95,7 +93,6 @@ RSpec.describe 'Notifications', type: :request do
           .and change(bob.notifications, :count).by(1)
       end
     end
-    # rubocop:enable RSpec/MultipleMemoizedHelpers
 
     context 'when user comments on own recipe' do
       it 'does not increase Notification count' do

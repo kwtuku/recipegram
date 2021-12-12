@@ -26,12 +26,12 @@ services:
       - db
 
   chrome:
-    image: selenium/standalone-chrome:latest
+    image: selenium/standalone-chrome:95.0
     ports:
-      - 4444:4444
+      - "4444:4444"
 
   db:
-    image: postgres:11.0-alpine
+    image: postgres:13.4-alpine
     volumes:
       - postgres:/var/lib/postgresql/data:cached
     ports:
@@ -43,7 +43,7 @@ services:
       TZ: Asia/Tokyo
 
   redis:
-    image: redis:latest
+    image: redis:6.2.6
     ports:
       - "6379:6379"
 

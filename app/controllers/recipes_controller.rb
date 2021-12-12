@@ -42,12 +42,10 @@ class RecipesController < ApplicationController
       else
         render :edit
       end
+    elsif @recipe.update(recipe_params)
+      redirect_to recipe_path(@recipe), notice: 'レシピを編集しました。'
     else
-      if @recipe.update(recipe_params)
-        redirect_to recipe_path(@recipe), notice: 'レシピを編集しました。'
-      else
-        render :edit
-      end
+      render :edit
     end
   end
 

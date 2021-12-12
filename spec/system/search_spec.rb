@@ -70,7 +70,7 @@ RSpec.describe 'Search', type: :system do
       fill_in 'q', with: "ラーメン\n"
     end
 
-    it 'shows recipe title results', js: true do
+    it 'shows only recipe title results', js: true do
       within '[data-rspec=search-menu]' do
         click_link 'レシピ名'
       end
@@ -81,7 +81,7 @@ RSpec.describe 'Search', type: :system do
       expect(page).to have_no_css '[data-rspec=tag_name_results]'
     end
 
-    it 'shows recipe body results', js: true do
+    it 'shows only recipe body results', js: true do
       within '[data-rspec=search-menu]' do
         click_link '作り方'
       end
@@ -92,7 +92,7 @@ RSpec.describe 'Search', type: :system do
       expect(page).to have_no_css '[data-rspec=tag_name_results]'
     end
 
-    it 'shows user nickname results', js: true do
+    it 'shows only user nickname results', js: true do
       within '[data-rspec=search-menu]' do
         click_link 'ニックネーム'
       end
@@ -103,7 +103,7 @@ RSpec.describe 'Search', type: :system do
       expect(page).to have_no_css '[data-rspec=tag_name_results]'
     end
 
-    it 'shows user profile results', js: true do
+    it 'shows only user profile results', js: true do
       within '[data-rspec=search-menu]' do
         click_link 'プロフィール'
       end
@@ -114,7 +114,7 @@ RSpec.describe 'Search', type: :system do
       expect(page).to have_no_css '[data-rspec=tag_name_results]'
     end
 
-    it 'shows tag name results', js: true do
+    it 'shows only tag name results', js: true do
       within '[data-rspec=search-menu]' do
         click_link 'タグ'
       end
@@ -132,15 +132,12 @@ RSpec.describe 'Search', type: :system do
       fill_in 'q', with: "ラーメン\n"
     end
 
-    it 'shows recipe title results again', js: true do
+    it 'shows only recipe title results again', js: true do
       within '[data-rspec=search-menu]' do
         click_link 'レシピ名'
       end
       expect(page).to have_css '[data-rspec=recipe_title_results]'
       expect(page).to have_no_css '[data-rspec=recipe_body_results]'
-      expect(page).to have_no_css '[data-rspec=user_nickname_results]'
-      expect(page).to have_no_css '[data-rspec=user_profile_results]'
-      expect(page).to have_no_css '[data-rspec=tag_name_results]'
       fill_in 'q', with: "らーめん\n"
       expect(page).to have_css '[data-rspec=recipe_title_results]'
       expect(page).to have_no_css '[data-rspec=recipe_body_results]'
@@ -149,15 +146,12 @@ RSpec.describe 'Search', type: :system do
       expect(page).to have_no_css '[data-rspec=tag_name_results]'
     end
 
-    it 'shows recipe body results again', js: true do
+    it 'shows only recipe body results again', js: true do
       within '[data-rspec=search-menu]' do
         click_link '作り方'
       end
-      expect(page).to have_no_css '[data-rspec=recipe_title_results]'
       expect(page).to have_css '[data-rspec=recipe_body_results]'
-      expect(page).to have_no_css '[data-rspec=user_nickname_results]'
-      expect(page).to have_no_css '[data-rspec=user_profile_results]'
-      expect(page).to have_no_css '[data-rspec=tag_name_results]'
+      expect(page).to have_no_css '[data-rspec=recipe_title_results]'
       fill_in 'q', with: "らーめん\n"
       expect(page).to have_no_css '[data-rspec=recipe_title_results]'
       expect(page).to have_css '[data-rspec=recipe_body_results]'
@@ -166,15 +160,12 @@ RSpec.describe 'Search', type: :system do
       expect(page).to have_no_css '[data-rspec=tag_name_results]'
     end
 
-    it 'shows user nickname results again', js: true do
+    it 'shows only user nickname results again', js: true do
       within '[data-rspec=search-menu]' do
         click_link 'ニックネーム'
       end
-      expect(page).to have_no_css '[data-rspec=recipe_title_results]'
-      expect(page).to have_no_css '[data-rspec=recipe_body_results]'
       expect(page).to have_css '[data-rspec=user_nickname_results]'
-      expect(page).to have_no_css '[data-rspec=user_profile_results]'
-      expect(page).to have_no_css '[data-rspec=tag_name_results]'
+      expect(page).to have_no_css '[data-rspec=recipe_title_results]'
       fill_in 'q', with: "らーめん\n"
       expect(page).to have_no_css '[data-rspec=recipe_title_results]'
       expect(page).to have_no_css '[data-rspec=recipe_body_results]'
@@ -183,15 +174,12 @@ RSpec.describe 'Search', type: :system do
       expect(page).to have_no_css '[data-rspec=tag_name_results]'
     end
 
-    it 'shows user profile results again', js: true do
+    it 'shows only user profile results again', js: true do
       within '[data-rspec=search-menu]' do
         click_link 'プロフィール'
       end
-      expect(page).to have_no_css '[data-rspec=recipe_title_results]'
-      expect(page).to have_no_css '[data-rspec=recipe_body_results]'
-      expect(page).to have_no_css '[data-rspec=user_nickname_results]'
       expect(page).to have_css '[data-rspec=user_profile_results]'
-      expect(page).to have_no_css '[data-rspec=tag_name_results]'
+      expect(page).to have_no_css '[data-rspec=recipe_title_results]'
       fill_in 'q', with: "らーめん\n"
       expect(page).to have_no_css '[data-rspec=recipe_title_results]'
       expect(page).to have_no_css '[data-rspec=recipe_body_results]'
@@ -200,15 +188,12 @@ RSpec.describe 'Search', type: :system do
       expect(page).to have_no_css '[data-rspec=tag_name_results]'
     end
 
-    it 'shows tag name results again', js: true do
+    it 'shows only tag name results again', js: true do
       within '[data-rspec=search-menu]' do
         click_link 'タグ'
       end
-      expect(page).to have_no_css '[data-rspec=recipe_title_results]'
-      expect(page).to have_no_css '[data-rspec=recipe_body_results]'
-      expect(page).to have_no_css '[data-rspec=user_nickname_results]'
-      expect(page).to have_no_css '[data-rspec=user_profile_results]'
       expect(page).to have_css '[data-rspec=tag_name_results]'
+      expect(page).to have_no_css '[data-rspec=recipe_title_results]'
       fill_in 'q', with: "らーめん\n"
       expect(page).to have_no_css '[data-rspec=recipe_title_results]'
       expect(page).to have_no_css '[data-rspec=recipe_body_results]'

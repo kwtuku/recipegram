@@ -25,12 +25,10 @@ class UsersController < ApplicationController
       else
         render :edit
       end
+    elsif @user.update(user_params)
+      redirect_to user_url(@user), notice: 'プロフィールを変更しました。'
     else
-      if @user.update(user_params)
-        redirect_to user_url(@user), notice: 'プロフィールを変更しました。'
-      else
-        render :edit
-      end
+      render :edit
     end
   end
 

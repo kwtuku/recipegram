@@ -10,7 +10,7 @@
           <div class="mb-5">
             <%= render @notifications %>
           </div>
-          <%= paginate @notifications, window: 2, outer_window: 1 %>
+          <%= paginate @notifications %>
         <% else %>
           <p class="has-text-centered">通知はありません。</p>
         <% end %>
