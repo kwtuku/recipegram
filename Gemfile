@@ -46,6 +46,7 @@ group :development, :test do
 
   gem 'capybara'
   gem 'factory_bot_rails'
+  gem 'rspec_junit_formatter'
   gem 'rspec-rails'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
