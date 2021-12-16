@@ -13,9 +13,9 @@
             <p class='help has-text-dark'>2MB以下でjpgまたはjpeg、png、webp形式のファイルをアップロードすることができます。</p>
           </div>
           <div class="file is-boxed is-centered">
-            <%= f.label :recipe_image do %>
-              <%= f.file_field :recipe_image, class: 'is-hidden', required: true, accept: 'image/jpg, image/jpeg, image/png, image/webp' %>
-              <span class="file-cta cursor-pointer border_red_with_errors" id="file-cta">
+            <%= f.label :recipe_image, class: 'file-label' do %>
+              <%= f.file_field :recipe_image, class: 'file-input', required: true, accept: 'image/jpg, image/jpeg, image/png, image/webp' %>
+              <span class="file-cta border_red_with_errors" id="file-cta">
                 <span class="file-icon">
                   <i class="far fa-image"></i>
                 </span>
