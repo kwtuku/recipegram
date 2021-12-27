@@ -167,16 +167,35 @@ RSpec.describe 'Users', type: :system do
     end
   end
 
-  it 'destroys account', js: true do
-    sign_in ellen
-    find('.rspec_header_dropdown_trigger').click
-    click_link 'アカウント削除手続き'
-    expect(page).to have_current_path users_confirm_destroy_path
-    expect(page).to have_button 'destroy_account', disabled: true
-    fill_in 'user[current_password]', with: ellen.password
-    expect  do
-      click_button 'destroy_account'
-    end.to change(User, :count).by(-1)
-    expect(page).to have_content 'アカウントを削除しました。またのご利用をお待ちしております。'
+  describe 'destroy account' do
+    context 'when current password is correct' do
+      it 'destroys account', js: true do
+        sign_in ellen
+        find('.rspec_header_dropdown_trigger').click
+        click_link 'アカウント削除手続き'
+        expect(page).to have_current_path users_confirm_destroy_path
+        expect(page).to have_button 'destroy_account', disabled: true
+        fill_in 'user[current_password]', with: ellen.password
+        expect  do
+          click_button 'destroy_account'
+        end.to change(User, :count).by(-1)
+        expect(page).to have_content 'アカウントを削除しました。またのご利用をお待ちしております。'
+      end
+    end
+
+    context 'when current password is wrong' do
+      it 'does not destroy account', js: true do
+        sign_in ellen
+        find('.rspec_header_dropdown_trigger').click
+        click_link 'アカウント削除手続き'
+        expect(page).to have_current_path users_confirm_destroy_path
+        expect(page).to have_button 'destroy_account', disabled: true
+        fill_in 'user[current_password]', with: 'wrong_password'
+        expect  do
+          click_button 'destroy_account'
+        end.to change(User, :count).by(0)
+        expect(page).to have_content '現在のパスワードは不正な値です'
+      end
+    end
   end
 end
