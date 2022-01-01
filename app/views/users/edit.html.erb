@@ -1,5 +1,7 @@
 <% provide(:title, 'プロフィール編集') %>
 
+<% provide(:body_attributes) { 'data-turbolinks=false' } %>
+
 <%= render 'shared/error_messages', model: @user %>
 
 <%= render 'layouts/hero', hero_title: 'プロフィール編集' %>

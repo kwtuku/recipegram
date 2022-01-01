@@ -30,3 +30,6 @@ countCharacters();
 
 import handleTag from './handleTag'
 handleTag();
+
+import moveConfirmation from './moveConfirmation'
+moveConfirmation();

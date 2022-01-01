@@ -1,5 +1,7 @@
 <% provide(:title, 'アカウント編集') %>
 
+<% provide(:body_attributes) { 'data-turbolinks=false' } %>
+
 <%= render 'devise/shared/error_messages', resource: resource %>
 
 <%= render 'layouts/hero', hero_title: 'アカウント編集' %>

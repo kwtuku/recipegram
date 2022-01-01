@@ -1,5 +1,7 @@
 <% provide(:title, 'レシピ編集') %>
 
+<% provide(:body_attributes) { 'data-turbolinks=false' } %>
+
 <%= render 'shared/error_messages', model: @recipe %>
 
 <%= render 'layouts/hero', hero_title: 'レシピ編集' %>
