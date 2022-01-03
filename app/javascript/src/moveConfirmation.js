@@ -7,10 +7,13 @@ export default () => {
 
     function moveConfirmation(currentInputTrimmedValues, inputs) {
       window.addEventListener('beforeunload', (event) => {
-        const newInputTrimmedValues = inputs.map((input) => input.value.trim())
+        const newInputTrimmedValues = inputs.map((input) => input.value.trim());
 
-        if (JSON.stringify(currentInputTrimmedValues) !== JSON.stringify(newInputTrimmedValues)) {
-          openDialog(event)
+        if (
+          JSON.stringify(currentInputTrimmedValues) !==
+          JSON.stringify(newInputTrimmedValues)
+        ) {
+          openDialog(event);
         }
       });
 
@@ -28,12 +31,16 @@ export default () => {
       const username = document.getElementById('user_username');
       const email = document.getElementById('user_email');
       const password = document.getElementById('user_password');
-      const passwordConfirmation = document.getElementById('user_password_confirmation');
+      const passwordConfirmation = document.getElementById(
+        'user_password_confirmation',
+      );
 
-      const inputs = [username, email, password, passwordConfirmation]
-      const currentInputTrimmedValues = inputs.map((input) => input.value.trim())
+      const inputs = [username, email, password, passwordConfirmation];
+      const currentInputTrimmedValues = inputs.map((input) =>
+        input.value.trim(),
+      );
 
-      moveConfirmation(currentInputTrimmedValues, inputs)
+      moveConfirmation(currentInputTrimmedValues, inputs);
     }
 
     if (updateUserButton) {
@@ -41,10 +48,12 @@ export default () => {
       const profile = document.getElementById('user_profile');
       const image = document.getElementById('user_user_image');
 
-      const inputs = [nickname, profile, image]
-      const currentInputTrimmedValues = inputs.map((input) => input.value.trim())
+      const inputs = [nickname, profile, image];
+      const currentInputTrimmedValues = inputs.map((input) =>
+        input.value.trim(),
+      );
 
-      moveConfirmation(currentInputTrimmedValues, inputs)
+      moveConfirmation(currentInputTrimmedValues, inputs);
     }
 
     if (createRecipeButton || updateRecipeButton) {
@@ -53,10 +62,12 @@ export default () => {
       const image = document.getElementById('recipe_recipe_image');
       const tagList = document.getElementById('recipe_tag_list');
 
-      const inputs = [title, body, image, tagList]
-      const currentInputTrimmedValues = inputs.map((input) => input.value.trim())
+      const inputs = [title, body, image, tagList];
+      const currentInputTrimmedValues = inputs.map((input) =>
+        input.value.trim(),
+      );
 
-      moveConfirmation(currentInputTrimmedValues, inputs)
+      moveConfirmation(currentInputTrimmedValues, inputs);
     }
   });
-}
+};

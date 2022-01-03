@@ -21,4 +21,4 @@ export default () => {
       textarea.style.height = textareaScrollHeight + 2 + 'px';
     });
   });
-}
+};
