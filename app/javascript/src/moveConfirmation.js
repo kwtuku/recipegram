@@ -6,19 +6,22 @@ export default () => {
     }
 
     function moveConfirmation(currentInputTrimmedValues, inputs) {
+      let isSubmitting = false;
+
       window.addEventListener('beforeunload', (event) => {
         const newInputTrimmedValues = inputs.map((input) => input.value.trim());
 
         if (
+          !isSubmitting &&
           JSON.stringify(currentInputTrimmedValues) !==
-          JSON.stringify(newInputTrimmedValues)
+            JSON.stringify(newInputTrimmedValues)
         ) {
           openDialog(event);
         }
       });
 
       window.addEventListener('submit', () => {
-        window.removeEventListener('beforeunload', openDialog);
+        isSubmitting = true;
       });
     }
 
