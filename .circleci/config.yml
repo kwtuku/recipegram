@@ -1,8 +1,8 @@
 version: 2.1
 
 orbs:
-  ruby: circleci/ruby@1.1.0
-  node: circleci/node@2
+  ruby: circleci/ruby@1.3.0
+  node: circleci/node@5.0.0
 
 jobs:
   build:
@@ -27,7 +27,7 @@ jobs:
     parallelism: 3
     docker:
       - image: cimg/ruby:2.7.3-node
-      - image: circleci/postgres:9.6.9-alpine
+      - image: cimg/postgres:14.1
         environment:
           POSTGRES_USER: postgres
           POSTGRES_DB: myapp_test
@@ -63,8 +63,12 @@ jobs:
       - store_test_results:
           path: /tmp/test-results
       - store_artifacts:
+          path: coverage
+      - store_artifacts:
           path: tmp/screenshots
       - ruby/rubocop-check
+      - store_artifacts:
+          path: /tmp/rubocop-results
 
 workflows:
   version: 2
