@@ -11,9 +11,17 @@ jobs:
     steps:
       - checkout
       - ruby/install-deps
+      - run:
+          name: 'Update Node.js and npm'
+          command: |
+            curl -sSL "https://nodejs.org/dist/v14.18.1/node-v14.18.1-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v14.18.1-linux-x64/bin/node
+            curl https://www.npmjs.com/install.sh | sudo bash
+      - run:
+          name: Check current version of node
+          command: node -v
       - node/install-packages:
           pkg-manager: yarn
-          cache-key: "yarn.lock"
+          cache-key: 'yarn.lock'
 
   test:
     parallelism: 3
@@ -23,15 +31,15 @@ jobs:
         environment:
           POSTGRES_USER: postgres
           POSTGRES_DB: myapp_test
-          POSTGRES_PASSWORD: ""
+          POSTGRES_PASSWORD: ''
       - image: selenium/standalone-chrome:95.0
         name: chrome
     environment:
-      BUNDLE_JOBS: "3"
-      BUNDLE_RETRY: "3"
+      BUNDLE_JOBS: '3'
+      BUNDLE_RETRY: '3'
       PGHOST: 127.0.0.1
+      PGPASSWORD: ''
       PGUSER: postgres
-      PGPASSWORD: ""
       RAILS_ENV: test
       SELENIUM_DRIVER_URL: http://chrome:4444/wd/hub
     steps:
@@ -39,7 +47,7 @@ jobs:
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
-          cache-key: "yarn.lock"
+          cache-key: 'yarn.lock'
       - run:
           name: Install imagemagick
           command: |
