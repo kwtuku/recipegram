@@ -21,7 +21,6 @@ jobs:
           command: node -v
       - node/install-packages:
           pkg-manager: yarn
-          cache-key: 'yarn.lock'
 
   test:
     parallelism: 3
@@ -47,7 +46,6 @@ jobs:
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
-          cache-key: 'yarn.lock'
       - run:
           name: Install imagemagick
           command: |
