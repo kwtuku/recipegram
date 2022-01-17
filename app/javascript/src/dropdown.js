@@ -1,11 +1,14 @@
 export default () => {
   document.addEventListener('turbolinks:load', () => {
-    const dropdownTriggers = Array.prototype.slice.call(document.querySelectorAll('.dropdown-trigger'), 0);
+    const dropdownTriggers = Array.prototype.slice.call(
+      document.querySelectorAll('.dropdown-trigger'),
+      0,
+    );
     if (dropdownTriggers === null) {
       return false;
     }
 
-    dropdownTriggers.forEach( dropdownTrigger => {
+    dropdownTriggers.forEach((dropdownTrigger) => {
       const button = dropdownTrigger.querySelector('button');
       const dropdown = dropdownTrigger.parentNode;
 
@@ -14,10 +17,10 @@ export default () => {
       });
 
       document.addEventListener('click', (e) => {
-        if(!e.target.closest('.dropdown')) {
+        if (!e.target.closest('.dropdown')) {
           dropdown.classList.remove('is-active');
         }
       });
     });
   });
-}
+};

@@ -13,7 +13,7 @@ RSpec.describe 'Recipes', type: :system do
     attach_file 'recipe[recipe_image]', image_path, visible: false
     fill_in 'recipe[title]', with: '野菜炒め'
     fill_in 'recipe[body]', with: '野菜を切って炒める。'
-    fill_in 'recipe[tag_list]', with: 'かんたん, お手軽', visible: false
+    fill_in 'recipe[tag_list]', with: 'かんたん,お手軽', visible: false
     expect { click_button 'create_recipe' }.to change(alice.recipes, :count).by(1)
     expect(page).to have_content 'レシピを投稿しました。'
   end
@@ -70,7 +70,7 @@ RSpec.describe 'Recipes', type: :system do
         sign_in alice
         visit edit_recipe_path(alice_recipe)
         expect(page).to have_button 'update_recipe', disabled: true
-        fill_in 'recipe[tag_list]', with: 'かんたん, お手軽', visible: false
+        fill_in 'recipe[tag_list]', with: 'かんたん,お手軽', visible: false
         click_button 'update_recipe'
         expect(page).to have_content 'レシピを編集しました。'
         expect(alice_recipe.reload.tags).to include tag_kantan, tag_otegaru

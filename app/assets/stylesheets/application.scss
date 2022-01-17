@@ -14,6 +14,9 @@
  *= require_self
  */
 
+$navbar-box-shadow-color: #dbdbdb;
+$navbar-box-shadow-size: 0 1px 0 0;
+$navbar-item-hover-color: #0a0a0a;
 $pagination-current-background-color: #3e8ed0;
 $pagination-current-border-color: #3e8ed0;
 $pagination-focus-border-color: #3e8ed0;
@@ -178,10 +181,6 @@ $tabs-link-active-color: #4a4a4a;
   background-color: transparent !important;
 }
 
-.navbar-border {
-  border-bottom: 1px solid lightgray;
-}
-
 .w-full {
   width: 100%;
 }
@@ -225,5 +224,5 @@ $tabs-link-active-color: #4a4a4a;
 
 .tag-link:hover {
   background-color: #eee;
-  color: rgba(0, 0, 0, 0.7);
+  color: #0a0a0a;
 }

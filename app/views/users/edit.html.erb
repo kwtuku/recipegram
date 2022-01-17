@@ -1,5 +1,7 @@
 <% provide(:title, 'プロフィール編集') %>
 
+<% provide(:body_attributes) { 'data-turbolinks=false' } %>
+
 <%= render 'shared/error_messages', model: @user %>
 
 <%= render 'layouts/hero', hero_title: 'プロフィール編集' %>
@@ -13,8 +15,8 @@
             <p class='help has-text-dark'>2MB以下でjpgまたはjpeg、png、webp形式のファイルをアップロードすることができます。</p>
           </div>
           <div class="file is-centered">
-            <%= f.label :user_image do %>
-              <%= f.file_field :user_image, class: 'is-hidden', accept: 'image/jpg, image/jpeg, image/png, image/webp' %>
+            <%= f.label :user_image, class: 'file-label' do %>
+              <%= f.file_field :user_image, class: 'file-input', accept: 'image/jpg, image/jpeg, image/png, image/webp' %>
               <figure class="image is-256x256 cursor-pointer border_red_with_errors round" id="file-cta">
                 <%= image_tag @user.user_image.thumb.url, class: 'is-rounded' %>
               </figure>

@@ -10,11 +10,18 @@ export default () => {
     const navbar = document.querySelector('.navbar');
 
     const scrollbarMeasure = document.createElement('div');
-    scrollbarMeasure.setAttribute('style', 'visibility: hidden; position: absolute; top: 0; left: 0; width: 100vw;');
+    scrollbarMeasure.setAttribute(
+      'style',
+      'visibility: hidden; position: absolute; top: 0; left: 0; width: 100vw;',
+    );
     document.body.appendChild(scrollbarMeasure);
-    const viewportWidth = parseInt(window.getComputedStyle(scrollbarMeasure).width);
+    const viewportWidth = parseInt(
+      window.getComputedStyle(scrollbarMeasure).width,
+    );
     scrollbarMeasure.style.width = '100%';
-    const percentWidth = parseInt(window.getComputedStyle(scrollbarMeasure).width);
+    const percentWidth = parseInt(
+      window.getComputedStyle(scrollbarMeasure).width,
+    );
     document.body.removeChild(scrollbarMeasure);
     const scrollbarWidth = viewportWidth - percentWidth;
 
@@ -33,7 +40,7 @@ export default () => {
     }
 
     if (imageModal) {
-      const imageModalTrigger = document.getElementById('show-image-modal')
+      const imageModalTrigger = document.getElementById('show-image-modal');
       imageModalTrigger.addEventListener('click', () => {
         showModal(imageModal);
       });
@@ -50,8 +57,11 @@ export default () => {
     }
 
     if (signInModal) {
-      const signInModalTriggers = Array.prototype.slice.call(document.querySelectorAll('.js-show-sign-in-modal'), 0);
-      signInModalTriggers.forEach(signInModalTrigger => {
+      const signInModalTriggers = Array.prototype.slice.call(
+        document.querySelectorAll('.js-show-sign-in-modal'),
+        0,
+      );
+      signInModalTriggers.forEach((signInModalTrigger) => {
         signInModalTrigger.addEventListener('click', () => {
           showModal(signInModal);
           signInModalTrigger.blur();
@@ -69,4 +79,4 @@ export default () => {
       });
     }
   });
-}
+};

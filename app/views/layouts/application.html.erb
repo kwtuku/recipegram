@@ -27,7 +27,7 @@
     <% end %>
   </head>
 
-  <body class="has-navbar-fixed-top">
+  <body class="has-navbar-fixed-top" <%= yield(:body_attributes) %>>
     <% if flash[:notice] %>
       <div class="notification is-info is-light">
         <button class="delete"></button>

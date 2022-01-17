@@ -20,4 +20,4 @@ export default () => {
       allComments.classList.add('is-hidden');
     });
   });
-}
+};
