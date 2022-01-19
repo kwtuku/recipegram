@@ -22,6 +22,16 @@ jobs:
       - node/install-packages:
           pkg-manager: yarn
 
+  checking:
+    docker:
+      - image: cimg/ruby:2.7.3-node
+    steps:
+      - checkout
+      - ruby/install-deps
+      - ruby/rubocop-check
+      - store_artifacts:
+          path: /tmp/rubocop-results
+
   test:
     parallelism: 3
     docker:
@@ -64,15 +74,13 @@ jobs:
           path: coverage
       - store_artifacts:
           path: tmp/screenshots
-      - ruby/rubocop-check
-      - store_artifacts:
-          path: /tmp/rubocop-results
 
 workflows:
   version: 2
   build_and_test:
     jobs:
       - build
+      - checking
       - test:
           requires:
             - build
