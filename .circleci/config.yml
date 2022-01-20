@@ -28,9 +28,20 @@ jobs:
     steps:
       - checkout
       - ruby/install-deps
+      - run:
+          name: 'Update Node.js and npm'
+          command: |
+            curl -sSL "https://nodejs.org/dist/v14.18.1/node-v14.18.1-linux-x64.tar.xz" | sudo tar --strip-components=2 -xJ -C /usr/local/bin/ node-v14.18.1-linux-x64/bin/node
+            curl https://www.npmjs.com/install.sh | sudo bash
+      - run:
+          name: Check current version of node
+          command: node -v
+      - node/install-packages:
+          pkg-manager: yarn
       - ruby/rubocop-check
-      - store_artifacts:
-          path: /tmp/rubocop-results
+      - run:
+          name: ESLint checks
+          command: yarn eslint app/javascript
 
   test:
     parallelism: 3
@@ -80,7 +91,9 @@ workflows:
   build_and_test:
     jobs:
       - build
-      - checking
+      - checking:
+          requires:
+            - build
       - test:
           requires:
             - build
