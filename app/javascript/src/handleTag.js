@@ -18,10 +18,8 @@ export default () => {
     });
     let controller;
 
-    tagify.on('input', onInput);
-
     function onInput(e) {
-      const value = e.detail.value;
+      const { value } = e.detail;
 
       if (!value) return false;
 
@@ -34,10 +32,12 @@ export default () => {
 
       fetch(`/tags?name=${value}`, { signal: controller.signal })
         .then((RES) => RES.json())
-        .then(function (newWhitelist) {
+        .then((newWhitelist) => {
           tagify.whitelist = newWhitelist.data;
           tagify.loading(false).dropdown.show(value);
         });
     }
+
+    tagify.on('input', onInput);
   });
 };

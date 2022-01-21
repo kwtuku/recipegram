@@ -1,6 +1,6 @@
 export default () => {
   document.addEventListener('turbolinks:load', () => {
-    window.infiniteScrollContainer = document.getElementById('infinite-scroll-container');
+    const infiniteScrollContainer = document.getElementById('infinite-scroll-container');
 
     window.addEventListener(
       'scroll',
@@ -25,7 +25,7 @@ export default () => {
 
           const items = Array.prototype.slice.call(document.querySelectorAll('[data-infinite-scroll-item]'), 0);
           const displayedItemCount = items.length;
-          const path = location.pathname.slice(1);
+          const path = window.location.pathname.slice(1);
 
           $.ajax({
             type: 'GET',
@@ -33,7 +33,7 @@ export default () => {
             cache: false,
             data: {
               displayed_item_count: displayedItemCount,
-              path: path,
+              path,
               remote: true,
             },
           });

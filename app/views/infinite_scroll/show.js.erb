@@ -1,10 +1,12 @@
-var loadingAnimation = document.getElementById('remove-after-loading')
+var loadingAnimation = document.getElementById('remove-after-loading');
 
 if (loadingAnimation) {
   loadingAnimation.remove();
 }
 
-infiniteScrollContainer.insertAdjacentHTML('beforeend', '<%= j(render partial: @file_path, collection: @added_items, as: @local_value) %>')
+var infiniteScrollContainer = document.getElementById('infinite-scroll-container');
+
+infiniteScrollContainer.insertAdjacentHTML('beforeend', '<%= j(render partial: @file_path, collection: @added_items, as: @local_value) %>');
 
 <% if @added_items.size == @max_added_item_size %>
   infiniteScrollContainer.dataset.infiniteScroll = 'true';
@@ -13,5 +15,5 @@ infiniteScrollContainer.insertAdjacentHTML('beforeend', '<%= j(render partial: @
     loadingAnimation.dataset.rspec = 'inserted-loading-animation';
   }
 
-  infiniteScrollContainer.insertAdjacentHTML('beforeend', loadingAnimation.outerHTML)
+  infiniteScrollContainer.insertAdjacentHTML('beforeend', loadingAnimation.outerHTML);
 <% end %>

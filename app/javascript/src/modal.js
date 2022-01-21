@@ -12,9 +12,9 @@ export default () => {
     const scrollbarMeasure = document.createElement('div');
     scrollbarMeasure.setAttribute('style', 'visibility: hidden; position: absolute; top: 0; left: 0; width: 100vw;');
     document.body.appendChild(scrollbarMeasure);
-    const viewportWidth = parseInt(window.getComputedStyle(scrollbarMeasure).width);
+    const viewportWidth = parseInt(window.getComputedStyle(scrollbarMeasure).width, 10);
     scrollbarMeasure.style.width = '100%';
-    const percentWidth = parseInt(window.getComputedStyle(scrollbarMeasure).width);
+    const percentWidth = parseInt(window.getComputedStyle(scrollbarMeasure).width, 10);
     document.body.removeChild(scrollbarMeasure);
     const scrollbarWidth = viewportWidth - percentWidth;
 
