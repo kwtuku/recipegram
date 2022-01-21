@@ -1,15 +1,11 @@
 export default () => {
   document.addEventListener('turbolinks:load', () => {
-    const dropdownTriggers = Array.prototype.slice.call(
-      document.querySelectorAll('.dropdown-trigger'),
-      0,
-    );
-    if (dropdownTriggers === null) {
-      return false;
-    }
+    const dropdownTriggers = [].slice.call(document.querySelectorAll('.dropdown-trigger'), 0);
+
+    if (dropdownTriggers === null) return false;
 
     dropdownTriggers.forEach((dropdownTrigger) => {
-      const button = dropdownTrigger.querySelector('button');
+      const button = dropdownTrigger.querySelector('.button');
       const dropdown = dropdownTrigger.parentNode;
 
       button.addEventListener('click', () => {

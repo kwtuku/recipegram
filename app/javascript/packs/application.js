@@ -8,8 +8,32 @@ import Turbolinks from 'turbolinks';
 import * as ActiveStorage from '@rails/activestorage';
 import 'channels';
 
+import activateButton from '../src/activateButton';
+import countCharacters from '../src/countCharacters';
+import deleteNotification from '../src/deleteNotification';
+import dropdown from '../src/dropdown';
+import handleTag from '../src/handleTag';
+import imagePreview from '../src/imagePreview';
+import infiniteScroll from '../src/infiniteScroll';
+import modal from '../src/modal';
+import moveConfirmation from '../src/moveConfirmation';
+import readmore from '../src/readmore';
+import removePasswordMask from '../src/removePasswordMask';
+import resizeTextarea from '../src/resizeTextarea';
+
 Rails.start();
 Turbolinks.start();
 ActiveStorage.start();
 
-import '../src/application';
+activateButton();
+countCharacters();
+deleteNotification();
+dropdown();
+handleTag();
+imagePreview();
+infiniteScroll();
+modal();
+moveConfirmation();
+readmore();
+removePasswordMask();
+resizeTextarea();

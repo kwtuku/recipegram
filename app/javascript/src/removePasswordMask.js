@@ -1,12 +1,8 @@
 export default () => {
   document.addEventListener('turbolinks:load', () => {
-    const passwordMasks = Array.prototype.slice.call(
-      document.querySelectorAll('.password-mask'),
-      0,
-    );
-    if (passwordMasks === null) {
-      return false;
-    }
+    const passwordMasks = [].slice.call(document.querySelectorAll('.password-mask'), 0);
+
+    if (passwordMasks === null) return false;
 
     passwordMasks.forEach((passwordMask) => {
       const input = passwordMask.previousElementSibling.firstElementChild;

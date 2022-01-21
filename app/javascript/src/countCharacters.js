@@ -7,9 +7,7 @@ export default () => {
 
     if (updateUser) {
       const nickname = document.getElementById('user_nickname');
-      const countNicknameCharacters = document.getElementById(
-        'count-nickname-characters',
-      );
+      const countNicknameCharacters = document.getElementById('count-nickname-characters');
 
       nickname.addEventListener('input', () => {
         countNicknameCharacters.textContent = nickname.value.length;
@@ -23,9 +21,7 @@ export default () => {
       });
 
       const profile = document.getElementById('user_profile');
-      const countProfileCharacters = document.getElementById(
-        'count-profile-characters',
-      );
+      const countProfileCharacters = document.getElementById('count-profile-characters');
 
       profile.addEventListener('input', () => {
         countProfileCharacters.textContent = profile.value.length;
@@ -41,9 +37,7 @@ export default () => {
 
     if (createRecipe || updateRecipe) {
       const recipeTitle = document.getElementById('recipe_title');
-      const countRecipeTitleCharacters = document.getElementById(
-        'count-recipe-title-characters',
-      );
+      const countRecipeTitleCharacters = document.getElementById('count-recipe-title-characters');
 
       recipeTitle.addEventListener('input', () => {
         countRecipeTitleCharacters.textContent = recipeTitle.value.length;
@@ -57,9 +51,7 @@ export default () => {
       });
 
       const recipeBody = document.getElementById('recipe_body');
-      const countRecipeBodyCharacters = document.getElementById(
-        'count-recipe-body-characters',
-      );
+      const countRecipeBodyCharacters = document.getElementById('count-recipe-body-characters');
 
       recipeBody.addEventListener('input', () => {
         countRecipeBodyCharacters.textContent = recipeBody.value.length;
@@ -75,9 +67,7 @@ export default () => {
 
     if (createComment) {
       const commentBody = document.getElementById('comment_body');
-      const countCommentBodyCharacters = document.getElementById(
-        'count-comment-body-characters',
-      );
+      const countCommentBodyCharacters = document.getElementById('count-comment-body-characters');
 
       commentBody.addEventListener('input', () => {
         countCommentBodyCharacters.textContent = commentBody.value.length;

@@ -1,16 +1,13 @@
 export default () => {
   document.addEventListener('turbolinks:load', () => {
-    window.infiniteScrollContainer = document.getElementById(
-      'infinite-scroll-container',
-    );
+    const infiniteScrollContainer = document.getElementById('infinite-scroll-container');
 
     window.addEventListener(
       'scroll',
       () => {
         if (infiniteScrollContainer === null) return false;
 
-        if (infiniteScrollContainer.dataset.infiniteScroll !== 'true')
-          return false;
+        if (infiniteScrollContainer.dataset.infiniteScroll !== 'true') return false;
 
         const scrollHeight = Math.max(
           document.body.scrollHeight,
@@ -21,18 +18,14 @@ export default () => {
           document.documentElement.clientHeight,
         );
         const pageMostBottom = scrollHeight - window.innerHeight;
-        const scrollTop =
-          window.pageYOffset || document.documentElement.scrollTop;
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
         if (scrollTop >= pageMostBottom * 0.8) {
           infiniteScrollContainer.dataset.infiniteScroll = 'false';
 
-          const items = Array.prototype.slice.call(
-            document.querySelectorAll('[data-infinite-scroll-item]'),
-            0,
-          );
+          const items = [].slice.call(document.querySelectorAll('[data-infinite-scroll-item]'), 0);
           const displayedItemCount = items.length;
-          const path = location.pathname.slice(1);
+          const path = window.location.pathname.slice(1);
 
           $.ajax({
             type: 'GET',
@@ -40,7 +33,7 @@ export default () => {
             cache: false,
             data: {
               displayed_item_count: displayedItemCount,
-              path: path,
+              path,
               remote: true,
             },
           });
