@@ -1,9 +1,8 @@
 export default () => {
   document.addEventListener('turbolinks:load', () => {
     const imageForm = document.getElementById('recipe_recipe_image') || document.getElementById('user_user_image');
-    if (imageForm === null) {
-      return false;
-    }
+
+    if (imageForm === null) return false;
 
     imageForm.addEventListener('change', (e) => {
       const file = e.target.files[0];

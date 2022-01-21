@@ -9,9 +9,9 @@ export default () => {
     const createRecipe = document.getElementById('create_recipe');
     const updateRecipe = document.getElementById('update_recipe');
     const createComment = document.getElementById('create_comment');
-    const searchInputs = Array.prototype.slice.call(document.querySelectorAll('.js-search-input'), 0);
+    const searchInputs = [].slice.call(document.querySelectorAll('.js-search-input'), 0);
 
-    const inputs = Array.prototype.slice.call(document.querySelectorAll('input'), 0);
+    const inputs = [].slice.call(document.querySelectorAll('input'), 0);
 
     const username = document.getElementById('user_username');
     const nickname = document.getElementById('user_nickname');

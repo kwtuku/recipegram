@@ -1,11 +1,10 @@
 export default () => {
   document.addEventListener('turbolinks:load', () => {
-    const deleteButtons = document.querySelectorAll('.notification .delete');
-    if (deleteButtons === null) {
-      return false;
-    }
+    const deleteButtons = [].slice.call(document.querySelectorAll('.notification .delete'), 0);
 
-    (deleteButtons || []).forEach((deleteButton) => {
+    if (deleteButtons === null) return false;
+
+    deleteButtons.forEach((deleteButton) => {
       const notification = deleteButton.parentNode;
 
       deleteButton.addEventListener('click', () => {

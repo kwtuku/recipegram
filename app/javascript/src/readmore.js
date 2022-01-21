@@ -1,9 +1,8 @@
 export default () => {
   document.addEventListener('turbolinks:load', () => {
-    const readmore = document.querySelector('#readmore');
-    if (readmore === null) {
-      return false;
-    }
+    const readmore = document.getElementById('readmore');
+
+    if (readmore === null) return false;
 
     const oldestComment = document.querySelector('.oldest-comment');
     const allComments = document.querySelector('.all-comments');
@@ -13,7 +12,7 @@ export default () => {
       allComments.classList.remove('is-hidden');
     });
 
-    const readless = document.querySelector('#readless');
+    const readless = document.getElementById('readless');
 
     readless.addEventListener('click', () => {
       oldestComment.classList.remove('is-hidden');

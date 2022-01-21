@@ -23,7 +23,7 @@ export default () => {
         if (scrollTop >= pageMostBottom * 0.8) {
           infiniteScrollContainer.dataset.infiniteScroll = 'false';
 
-          const items = Array.prototype.slice.call(document.querySelectorAll('[data-infinite-scroll-item]'), 0);
+          const items = [].slice.call(document.querySelectorAll('[data-infinite-scroll-item]'), 0);
           const displayedItemCount = items.length;
           const path = window.location.pathname.slice(1);
 
