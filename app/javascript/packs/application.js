@@ -20,6 +20,7 @@ import moveConfirmation from '../src/moveConfirmation';
 import readmore from '../src/readmore';
 import removePasswordMask from '../src/removePasswordMask';
 import resizeTextarea from '../src/resizeTextarea';
+import searchHistory from '../src/searchHistory';
 
 Rails.start();
 Turbolinks.start();
@@ -37,3 +38,4 @@ moveConfirmation();
 readmore();
 removePasswordMask();
 resizeTextarea();
+searchHistory();
