@@ -1,9 +1,6 @@
 export default () => {
   document.addEventListener('turbolinks:load', () => {
-    const passwordMasks = Array.prototype.slice.call(
-      document.querySelectorAll('.password-mask'),
-      0,
-    );
+    const passwordMasks = Array.prototype.slice.call(document.querySelectorAll('.password-mask'), 0);
     if (passwordMasks === null) {
       return false;
     }

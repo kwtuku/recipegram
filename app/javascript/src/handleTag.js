@@ -7,8 +7,7 @@ export default () => {
     if (tagInput === null) return false;
 
     const tagify = new Tagify(tagInput, {
-      originalInputValueFormat: (valuesArr) =>
-        valuesArr.map((item) => item.value).join(','),
+      originalInputValueFormat: (valuesArr) => valuesArr.map((item) => item.value).join(','),
       whitelist: [],
       delimiters: ',| ',
       dropdown: {

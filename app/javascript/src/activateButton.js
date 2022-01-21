@@ -9,23 +9,15 @@ export default () => {
     const createRecipe = document.getElementById('create_recipe');
     const updateRecipe = document.getElementById('update_recipe');
     const createComment = document.getElementById('create_comment');
-    const searchInputs = Array.prototype.slice.call(
-      document.querySelectorAll('.js-search-input'),
-      0,
-    );
+    const searchInputs = Array.prototype.slice.call(document.querySelectorAll('.js-search-input'), 0);
 
-    const inputs = Array.prototype.slice.call(
-      document.querySelectorAll('input'),
-      0,
-    );
+    const inputs = Array.prototype.slice.call(document.querySelectorAll('input'), 0);
 
     const username = document.getElementById('user_username');
     const nickname = document.getElementById('user_nickname');
     const email = document.getElementById('user_email');
     const password = document.getElementById('user_password');
-    const passwordConfirmation = document.getElementById(
-      'user_password_confirmation',
-    );
+    const passwordConfirmation = document.getElementById('user_password_confirmation');
     const currentPassword = document.getElementById('user_current_password');
 
     if (signup) {
@@ -61,11 +53,7 @@ export default () => {
     if (updateAccount) {
       inputs.forEach((input) => {
         input.addEventListener('input', () => {
-          if (
-            username.value.trim() &&
-            email.value.trim() &&
-            currentPassword.value.trim().length >= 6
-          ) {
+          if (username.value.trim() && email.value.trim() && currentPassword.value.trim().length >= 6) {
             updateAccount.disabled = false;
           } else {
             updateAccount.disabled = true;
@@ -121,11 +109,7 @@ export default () => {
     if (createRecipe) {
       inputs.forEach((input) => {
         input.addEventListener('input', () => {
-          if (
-            recipeTitle.value.trim() &&
-            recipeBody.value.trim() &&
-            recipeImage.value
-          ) {
+          if (recipeTitle.value.trim() && recipeBody.value.trim() && recipeImage.value) {
             createRecipe.disabled = false;
           } else {
             createRecipe.disabled = true;
@@ -133,22 +117,14 @@ export default () => {
         });
       });
       recipeBody.addEventListener('input', () => {
-        if (
-          recipeTitle.value.trim() &&
-          recipeBody.value.trim() &&
-          recipeImage.value
-        ) {
+        if (recipeTitle.value.trim() && recipeBody.value.trim() && recipeImage.value) {
           createRecipe.disabled = false;
         } else {
           createRecipe.disabled = true;
         }
       });
       tagInput.addEventListener('click', () => {
-        if (
-          recipeTitle.value.trim() &&
-          recipeBody.value.trim() &&
-          recipeImage.value
-        ) {
+        if (recipeTitle.value.trim() && recipeBody.value.trim() && recipeImage.value) {
           createRecipe.disabled = false;
         } else {
           createRecipe.disabled = true;
