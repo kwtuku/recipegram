@@ -1,6 +1,6 @@
 export default () => {
   document.addEventListener('turbolinks:load', () => {
-    const searchHistories = JSON.parse(localStorage.getItem('search-histories')) || [];
+    let searchHistories = JSON.parse(localStorage.getItem('search-histories')) || [];
     const suggestContainer = document.getElementById('suggest-container');
     const input = document.getElementById('q');
 
@@ -50,6 +50,7 @@ export default () => {
       document.querySelectorAll('[data-search-history]').forEach((suggestEl) => {
         suggestEl.remove();
       });
+      searchHistories = [];
       localStorage.removeItem('search-histories');
     });
 
