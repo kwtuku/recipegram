@@ -2,22 +2,6 @@
 
 <section class="section">
   <div class="container is-fullhd">
-    <div class="columns is-centered is-hidden-desktop">
-      <div class="column is-6">
-        <%= form_with url: search_path, method: :get do |f| %>
-          <div class="field">
-            <div class="control has-icons-left is-expanded">
-              <span class="icon is-small is-left">
-                <i class="fas fa-search"></i>
-              </span>
-              <%= f.search_field :q, value: @q_value, placeholder: 'レシピまたはユーザーを検索', required: true, class: 'input js-search-input' %>
-              <%= f.hidden_field :source, value: @source %>
-            </div>
-          </div>
-        <% end %>
-      </div>
-    </div>
-
     <% if request.query_string.present? && @q_value.blank? %>
       <div class="columns is-centered">
         <div class="column">

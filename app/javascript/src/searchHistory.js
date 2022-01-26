@@ -27,7 +27,8 @@ export default () => {
       if (
         !e.target.closest('#search-form') &&
         !e.target.closest('#suggest-container') &&
-        !e.target.closest('.js-delete-suggest')
+        !e.target.closest('.js-delete-suggest') &&
+        !e.target.closest('#expand-search-input')
       ) {
         suggestContainer.classList.add('is-hidden');
       }
