@@ -16,6 +16,7 @@
 
 $navbar-box-shadow-color: #dbdbdb;
 $navbar-box-shadow-size: 0 1px 0 0;
+$navbar-breakpoint: 768px;
 $navbar-item-hover-color: #0a0a0a;
 $pagination-current-background-color: #3e8ed0;
 $pagination-current-border-color: #3e8ed0;
@@ -23,7 +24,7 @@ $pagination-focus-border-color: #3e8ed0;
 $tabs-link-active-border-bottom-color: #4a4a4a;
 $tabs-link-active-color: #4a4a4a;
 
-@import "bulma";
+@import 'bulma';
 
 .recipegram {
   font-family: Monotype Corsiva;
@@ -152,7 +153,7 @@ $tabs-link-active-color: #4a4a4a;
   position: relative;
   &::before {
     position: absolute;
-    content: "";
+    content: '';
     width: 3px;
     height: 100%;
     background-color: #f9826c;
@@ -225,4 +226,10 @@ $tabs-link-active-color: #4a4a4a;
 .tag-link:hover {
   background-color: #eee;
   color: #0a0a0a;
+}
+
+.search-history {
+  position: absolute;
+  top: 45px;
+  width: 100%;
 }

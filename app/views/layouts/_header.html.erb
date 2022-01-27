@@ -1,28 +1,39 @@
 <header>
   <nav class="navbar has-shadow is-fixed-top is-flex is-justify-content-space-around is-align-items-center" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand is-justify-content-center is-flex-grow-2">
+    <div class="navbar-brand is-justify-content-center is-flex-grow-2" id="navbar-brand">
       <%= link_to root_path, class: 'navbar-item' do %>
         <h1 class="title is-4 is-size-5-mobile recipegram">Recipegram</h1>
       <% end %>
     </div>
 
-    <div class="navbar-menu is-justify-content-center is-flex-grow-1 w-one-thirds">
+    <div class="navbar-menu is-justify-content-center is-flex-grow-1 w-one-thirds" id="navbar-menu">
       <div class="navbar-item is-justify-content-center w-full p-0">
-        <%= form_with url: search_path, method: :get, html: { class: 'w-full' } do |f| %>
-          <div class="field">
-            <div class="control has-icons-left is-expanded">
-              <span class="icon is-small is-left">
-                <i class="fas fa-search"></i>
-              </span>
-              <%= f.search_field :q, value: @q_value, placeholder: 'レシピまたはユーザーを検索', required: true, class: 'input js-search-input' %>
-              <%= f.hidden_field :source, value: @source %>
+        <div class="is-flex is-align-items-center w-full px-2">
+          <%= form_with url: search_path, method: :get, class: 'w-full', id: 'search-form' do |f| %>
+            <div class="field">
+              <div class="control has-icons-left is-expanded">
+                <span class="icon is-small is-left">
+                  <i class="fas fa-search"></i>
+                </span>
+                <%= f.search_field :q, value: @q_value, placeholder: 'レシピまたはユーザーを検索', autocomplete: :off, required: true, class: 'input' %>
+                <%= f.hidden_field :source, value: @source %>
+              </div>
             </div>
-          </div>
-        <% end %>
+          <% end %>
+
+          <button class="button is-white is-small is-hidden-tablet ml-2" id="shrink-search-input">キャンセル</button>
+        </div>
+
+        <div class="panel search-history is-hidden has-background-white" id="suggest-container">
+          <p class="panel-heading is-flex is-justify-content-space-between is-align-items-center">
+            <span class="is-size-6">最近</span>
+            <span class="is-size-7 has-text-info is-clickable" id="delete-all-suggests">すべて削除</span>
+          </p>
+        </div>
       </div>
     </div>
 
-    <div class="navbar-item is-flex-touch is-justify-content-center is-flex-grow-1 p-0">
+    <div class="navbar-item is-flex-touch is-justify-content-center is-flex-grow-1 p-0" id="navbar-end">
       <% if user_signed_in? %>
         <%= link_to root_path, class: 'navbar-item', title: 'ホームへ' do %>
           <span class="icon is-medium">
@@ -30,11 +41,11 @@
           </span>
         <% end %>
 
-        <%= link_to search_path, class: 'navbar-item is-hidden-desktop', title: '検索する' do %>
+        <a class="navbar-item is-hidden-tablet" title="検索する" id="expand-search-input">
           <span class="icon is-medium">
             <i class="fas fa-lg fa-search"></i>
           </span>
-        <% end %>
+        </a>
 
         <%= link_to new_recipe_path, class: 'navbar-item', title: 'レシピを投稿する' do %>
           <span class="icon is-medium">
