@@ -9,7 +9,7 @@ export default () => {
     const createRecipe = document.getElementById('create_recipe');
     const updateRecipe = document.getElementById('update_recipe');
     const createComment = document.getElementById('create_comment');
-    const searchInputs = [].slice.call(document.querySelectorAll('.js-search-input'), 0);
+    const searchInput = document.getElementById('q');
 
     const inputs = [].slice.call(document.querySelectorAll('input'), 0);
 
@@ -170,13 +170,11 @@ export default () => {
       });
     }
 
-    if (searchInputs) {
-      searchInputs.forEach((searchInput) => {
-        searchInput.addEventListener('keydown', (e) => {
-          if (!searchInput.value.trim() && e.key === 'Enter') {
-            e.preventDefault();
-          }
-        });
+    if (searchInput) {
+      searchInput.addEventListener('keydown', (e) => {
+        if (!searchInput.value.trim() && e.key === 'Enter') {
+          e.preventDefault();
+        }
       });
     }
   });
