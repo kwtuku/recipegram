@@ -1,3 +1,5 @@
+Capybara.default_max_wait_time = 5
+
 Capybara.register_driver :remote_chrome do |app|
   url = ENV['SELENIUM_DRIVER_URL']
   caps = ::Selenium::WebDriver::Remote::Capabilities.chrome(

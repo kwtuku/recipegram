@@ -2,8 +2,6 @@ class Notification < ApplicationRecord
   belongs_to :notifiable, polymorphic: true
   belongs_to :receiver, class_name: 'User'
 
-  default_scope -> { order(created_at: :desc) }
-
   def self.create_comment_notification(comment)
     comment_notification_receiver_ids(comment).each do |receiver_id|
       Notification.create(
