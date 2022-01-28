@@ -13,7 +13,7 @@ class RecipesController < ApplicationController
   end
 
   def new
-    @recipe = current_user.recipes.new
+    @recipe = Recipe.new
   end
 
   def create
@@ -27,14 +27,13 @@ class RecipesController < ApplicationController
 
   def edit
     @recipe = Recipe.find(params[:id])
-    redirect_to recipe_path(@recipe), alert: '権限がありません。' if @recipe.user != current_user
+    authorize @recipe
   end
 
   def update
     @recipe = Recipe.find(params[:id])
-    if @recipe.user != current_user
-      redirect_to recipe_path(@recipe), alert: '権限がありません。'
-    elsif recipe_params[:recipe_image]
+    authorize @recipe
+    if recipe_params[:recipe_image]
       tmp_image = @recipe.recipe_image
       if @recipe.update(recipe_params)
         tmp_image.remove!
@@ -50,13 +49,10 @@ class RecipesController < ApplicationController
   end
 
   def destroy
-    @recipe = Recipe.find(params[:id])
-    if @recipe.user != current_user
-      redirect_to recipe_url(@recipe), alert: '権限がありません。'
-    else
-      @recipe.destroy
-      redirect_to recipes_url, notice: 'レシピを削除しました。'
-    end
+    recipe = Recipe.find(params[:id])
+    authorize recipe
+    recipe.destroy
+    redirect_to recipes_url, notice: 'レシピを削除しました。'
   end
 
   private
