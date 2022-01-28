@@ -15,15 +15,15 @@ AllCops:
     - vendor/**/*
 
 Layout/LineLength:
-  Exclude:
-    - config/initializers/devise.rb
+  IgnoredPatterns:
+    - '# '
 
 Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 
 Metrics/BlockLength:
   Exclude:
-    - config/environments/development.rb
+    - config/environments/*
     - spec/**/*
 
 Metrics/ClassLength:
