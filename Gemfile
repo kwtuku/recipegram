@@ -37,6 +37,7 @@ gem 'devise-i18n'
 gem 'faker'
 gem 'kaminari'
 gem 'mini_magick'
+gem 'pundit'
 gem 'rails-i18n'
 gem 'ransack'
 
