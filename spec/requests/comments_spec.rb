@@ -79,7 +79,7 @@ RSpec.describe 'Comments', type: :request do
       end
     end
 
-    context 'when signed in as wrong user' do
+    context 'when user is not the author' do
       before { sign_in bob }
 
       it 'returns a 302 response' do
@@ -87,9 +87,14 @@ RSpec.describe 'Comments', type: :request do
         expect(response.status).to eq 302
       end
 
-      it 'redirects to recipe_path(commented recipe)' do
+      it 'redirects to request.referer or root_path' do
         delete recipe_comment_path(bob_recipe, alice_comment)
-        expect(response).to redirect_to recipe_path(bob_recipe)
+        expect(response).to redirect_to(request.referer || root_path)
+      end
+
+      it 'has the flash message' do
+        delete recipe_comment_path(bob_recipe, alice_comment)
+        expect(flash[:alert]).to eq '権限がありません。'
       end
 
       it 'does not decrease Comment count' do
@@ -102,7 +107,7 @@ RSpec.describe 'Comments', type: :request do
       end
     end
 
-    context 'when signed in as correct user' do
+    context 'when user is the author' do
       before { sign_in alice }
 
       it 'returns a 302 response' do
