@@ -21,16 +21,16 @@ RSpec.describe 'Recipes', type: :system do
   describe 'updates the recipe' do
     let(:alice_recipe) { create :recipe, user: alice }
 
-    context 'when signed in as wrong user' do
-      it 'redirects to recipe_path', js: true do
+    context 'when user is not the author' do
+      it 'redirects to root_path', js: true do
         sign_in bob
         visit edit_recipe_path(alice_recipe)
-        expect(page).to have_current_path recipe_path(alice_recipe)
+        expect(page).to have_current_path root_path
         expect(page).to have_content '権限がありません。'
       end
     end
 
-    context 'when signed in as correct user' do
+    context 'when user is the author' do
       it 'updates title', js: true do
         sign_in alice
         visit edit_recipe_path(alice_recipe)

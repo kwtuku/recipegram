@@ -160,7 +160,7 @@ RSpec.describe 'Recipes', type: :request do
       end
     end
 
-    context 'when signed in as wrong user' do
+    context 'when user is not the author' do
       before { sign_in bob }
 
       it 'returns a 302 response' do
@@ -168,13 +168,18 @@ RSpec.describe 'Recipes', type: :request do
         expect(response.status).to eq 302
       end
 
-      it 'redirects to recipe_path(alice_recipe)' do
+      it 'redirects to request.referer or root_path' do
         get edit_recipe_path(alice_recipe)
-        expect(response).to redirect_to recipe_path(alice_recipe)
+        expect(response).to redirect_to(request.referer || root_path)
+      end
+
+      it 'has the flash message' do
+        get edit_recipe_path(alice_recipe)
+        expect(flash[:alert]).to eq '権限がありません。'
       end
     end
 
-    context 'when signed in as correct user' do
+    context 'when user is the author' do
       it 'returns a 200 response' do
         sign_in alice
         get edit_recipe_path(alice_recipe)
@@ -206,7 +211,7 @@ RSpec.describe 'Recipes', type: :request do
       end
     end
 
-    context 'when signed in as wrong user' do
+    context 'when user is not the author' do
       before { sign_in bob }
 
       it 'returns a 302 response' do
@@ -214,9 +219,14 @@ RSpec.describe 'Recipes', type: :request do
         expect(response.status).to eq 302
       end
 
-      it 'redirects to recipe_path(alice_recipe)' do
+      it 'redirects to request.referer or root_path' do
         patch recipe_path(alice_recipe), params: { recipe: recipe_params }
-        expect(response).to redirect_to recipe_path(alice_recipe)
+        expect(response).to redirect_to(request.referer || root_path)
+      end
+
+      it 'has the flash message' do
+        patch recipe_path(alice_recipe), params: { recipe: recipe_params }
+        expect(flash[:alert]).to eq '権限がありません。'
       end
 
       it 'does not update a recipe' do
@@ -225,7 +235,7 @@ RSpec.describe 'Recipes', type: :request do
       end
     end
 
-    context 'when signed in as correct user and recipe_params[:recipe_image] is not present' do
+    context 'when user is the author and recipe_params[:recipe_image] is not present' do
       before { sign_in alice }
 
       it 'returns a 302 response' do
@@ -244,7 +254,7 @@ RSpec.describe 'Recipes', type: :request do
       end
     end
 
-    context 'when signed in as correct user and recipe_params[:recipe_image] is present' do
+    context 'when user is the author and recipe_params[:recipe_image] is present' do
       let(:recipe_params_with_image) do
         new_recipe_image = Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/recipe_image_sample_after.jpg'))
         { recipe_image: new_recipe_image }
@@ -295,7 +305,7 @@ RSpec.describe 'Recipes', type: :request do
       end
     end
 
-    context 'when signed in as wrong user' do
+    context 'when user is not the author' do
       before { sign_in bob }
 
       it 'returns a 302 response' do
@@ -303,9 +313,14 @@ RSpec.describe 'Recipes', type: :request do
         expect(response.status).to eq 302
       end
 
-      it 'redirects to recipe_path(alice_recipe)' do
+      it 'redirects to request.referer or root_path' do
         delete recipe_path(alice_recipe)
-        expect(response).to redirect_to recipe_path(alice_recipe)
+        expect(response).to redirect_to(request.referer || root_path)
+      end
+
+      it 'has the flash message' do
+        delete recipe_path(alice_recipe)
+        expect(flash[:alert]).to eq '権限がありません。'
       end
 
       it 'does not decrease Recipe count' do
@@ -316,7 +331,7 @@ RSpec.describe 'Recipes', type: :request do
       end
     end
 
-    context 'when signed in as correct user' do
+    context 'when user is the author' do
       before { sign_in alice }
 
       it 'returns a 302 response' do
