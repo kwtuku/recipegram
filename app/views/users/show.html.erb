@@ -54,10 +54,10 @@
               <p class="is-size-7-mobile">
                 <span class="mr-5">投稿<span class="has-text-weight-bold"><%= @user.recipes_count %></span>件</span>
                 <%= link_to user_followers_path(@user), class: 'has-text-grey-dark hover-underline mr-5' do %>
-                  フォロワー<span class="has-text-weight-bold" id="recount-followers"><%= @user.followers.size %></span>人
+                  フォロワー<span class="has-text-weight-bold" id="recount-followers"><%= @user.followers_count %></span>人
                 <% end %>
                 <%= link_to user_followings_path(@user), class: 'has-text-grey-dark hover-underline mr-5' do %>
-                  フォロー中<span class="has-text-weight-bold"><%= @user.followings.size %></span>人
+                  フォロー中<span class="has-text-weight-bold"><%= @user.followings_count %></span>人
                 <% end %>
               </p>
             </div>
