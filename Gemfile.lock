@@ -98,6 +98,9 @@ GEM
       aws_cf_signer
       rest-client (>= 2.0.0)
     concurrent-ruby (1.1.9)
+    counter_culture (3.2.0)
+      activerecord (>= 4.2)
+      activesupport (>= 4.2)
     crass (1.0.6)
     devise (4.8.0)
       bcrypt (~> 3.0)
@@ -351,6 +354,7 @@ DEPENDENCIES
   capybara
   carrierwave
   cloudinary
+  counter_culture
   devise
   devise-i18n
   factory_bot_rails
