@@ -52,7 +52,7 @@
             <div class="content text-break">
               <p><%= @user.profile %></p>
               <p class="is-size-7-mobile">
-                <span class="mr-5">投稿<span class="has-text-weight-bold"><%= @user.recipes.size %></span>件</span>
+                <span class="mr-5">投稿<span class="has-text-weight-bold"><%= @user.recipes_count %></span>件</span>
                 <%= link_to user_followers_path(@user), class: 'has-text-grey-dark hover-underline mr-5' do %>
                   フォロワー<span class="has-text-weight-bold" id="recount-followers"><%= @user.followers.size %></span>人
                 <% end %>

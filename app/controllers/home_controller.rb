@@ -33,8 +33,8 @@ class HomeController < ApplicationController
         .eager_load(:favorites, :comments, :tags, :tag_taggings),
       recipe_body: Recipe.ransack({ body_has_every_term: @q_value, s: sort }).result
         .eager_load(:favorites, :comments, :tags, :tag_taggings),
-      user_nickname: User.ransack({ nickname_has_every_term: @q_value, s: sort }).result.eager_load(:recipes),
-      user_profile: User.ransack({ profile_has_every_term: @q_value, s: sort }).result.eager_load(:recipes),
+      user_nickname: User.ransack({ nickname_has_every_term: @q_value, s: sort }).result,
+      user_profile: User.ransack({ profile_has_every_term: @q_value, s: sort }).result,
       tag_name: Tag.ransack({ name_has_every_term: @q_value, taggings_count_gteq: '1', s: sort }).result
     }
 
