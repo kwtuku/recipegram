@@ -27,13 +27,13 @@
         <span class="icon">
           <i class="far fa-heart"></i>
         </span>
-        <span><%= recipe.favorites.size %></span>
+        <span><%= recipe.favorites_count %></span>
       </span>
       <span class="icon-text mr-5">
         <span class="icon">
           <i class="far fa-comment"></i>
         </span>
-        <span><%= recipe.comments.size %></span>
+        <span><%= recipe.comments_count %></span>
       </span>
       <time datetime="<%= recipe.updated_at %>">更新日：<%= l recipe.updated_at, format: :ymd %></time>
     </p>

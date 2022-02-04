@@ -12,7 +12,7 @@
               <%= render 'shared/favorite_button', recipe: @recipe, icon_size: 'is-medium', fa_size: 'fa-lg' %>
             </li>
             <li class="js-recount-favorites">
-              <%= @recipe.favorites.size %>
+              <%= @recipe.favorites_count %>
             </li>
             <li>
               <a href="#comments" title="コメント一覧へ">
@@ -22,7 +22,7 @@
               </a>
             </li>
             <li>
-              <%= @comments.size %>
+              <%= @recipe.comments_count %>
             </li>
             <li>
               <% if user_signed_in? && @recipe.user == current_user %>
@@ -129,11 +129,11 @@
             <p class="subtitle">コメント一覧</p>
             <div class="mb-5">
               <div class="oldest-comment">
-                <% if @comments.size > 0 %>
+                <% if @recipe.comments_count > 0 %>
                   <%= render 'recipes/comment', comment: @comments.first %>
-                  <% if @comments.size > 1 %>
+                  <% if @recipe.comments_count > 1 %>
                     <div class="has-text-centered" id="readmore">
-                      <div class="button is-rounded"><%= @comments.size %>件のコメントをすべて見る</div>
+                      <div class="button is-rounded"><%= @recipe.comments_count %>件のコメントをすべて見る</div>
                     </div>
                   <% end %>
                 <% end %>
@@ -187,7 +187,7 @@
         <div class="js-favorite-button-<%= @recipe.id %>">
           <%= render 'shared/favorite_button', recipe: @recipe, icon_size: '', fa_size: '' %>
         </div>
-        <div class="ml-3 js-recount-favorites"><%= @recipe.favorites.size %></div>
+        <div class="ml-3 js-recount-favorites"><%= @recipe.favorites_count %></div>
       </div>
       <div class="level-item">
         <a href="#comments" title="コメント一覧へ">
@@ -195,7 +195,7 @@
             <i class="far fa-comment"></i>
           </span>
         </a>
-        <div class="ml-3"><%= @comments.size %></div>
+        <div class="ml-3"><%= @recipe.comments_count %></div>
       </div>
       <% if user_signed_in? && @recipe.user == current_user %>
         <div class="level-item">

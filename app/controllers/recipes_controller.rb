@@ -2,7 +2,7 @@ class RecipesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show]
 
   def index
-    @recipes = Recipe.eager_load(:favorites, :comments).order(updated_at: :DESC).first(40)
+    @recipes = Recipe.order(updated_at: :DESC).first(40)
   end
 
   def show

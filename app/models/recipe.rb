@@ -27,7 +27,7 @@ class Recipe < ApplicationRecord
   validate :validate_tag
 
   def others(count)
-    others = Recipe.eager_load(:favorites, :comments).where(user_id: user_id).order(id: :DESC) - [self]
+    others = Recipe.where(user_id: user_id).order(id: :DESC) - [self]
     others.first(count)
   end
 
