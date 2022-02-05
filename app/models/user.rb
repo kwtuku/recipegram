@@ -22,15 +22,6 @@ class User < ApplicationRecord
 
   mount_uploader :user_image, UserImageUploader
 
-  ransacker :followers_count do
-    query = '(SELECT COUNT(*) FROM relationships WHERE relationships.follow_id = users.id)'
-    Arel.sql(query)
-  end
-  ransacker :recipes_count do
-    query = '(SELECT COUNT(*) FROM recipes WHERE recipes.user_id = users.id)'
-    Arel.sql(query)
-  end
-
   RESERVED_WORDS = %w[
     sign_in
     sign_out
@@ -119,7 +110,7 @@ class User < ApplicationRecord
   end
 
   def self.ransortable_attributes(_auth_object = nil)
-    %w[followers_count followings_count recipes_count]
+    %w[followers_count recipes_count]
   end
 
   private

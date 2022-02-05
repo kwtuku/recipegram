@@ -12,15 +12,6 @@ class Recipe < ApplicationRecord
 
   mount_uploader :recipe_image, RecipeImageUploader
 
-  ransacker :comments_count do
-    query = '(SELECT COUNT(*) FROM comments WHERE comments.recipe_id = recipes.id)'
-    Arel.sql(query)
-  end
-  ransacker :favorites_count do
-    query = '(SELECT COUNT(*) FROM favorites WHERE favorites.recipe_id = recipes.id)'
-    Arel.sql(query)
-  end
-
   validates :title, length: { maximum: 30 }, presence: true
   validates :body, length: { maximum: 2000 }, presence: true
   validates :recipe_image, presence: true
