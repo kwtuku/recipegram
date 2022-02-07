@@ -23,8 +23,7 @@ $pagination-current-border-color: #3e8ed0;
 $pagination-focus-border-color: #3e8ed0;
 $tabs-link-active-border-bottom-color: #4a4a4a;
 $tabs-link-active-color: #4a4a4a;
-
-@import 'bulma';
+$danger: hsl(348, 86%, 61%);
 
 .recipegram {
   font-family: Monotype Corsiva;

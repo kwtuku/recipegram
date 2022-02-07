@@ -29,7 +29,6 @@ gem 'redis'
 gem 'bootsnap', '>= 1.4.4', require: false
 
 gem 'acts-as-taggable-on'
-gem 'bulma-rails'
 gem 'carrierwave'
 gem 'cloudinary'
 gem 'counter_culture'
