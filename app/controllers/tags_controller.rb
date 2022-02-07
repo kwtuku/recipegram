@@ -10,6 +10,6 @@ class TagsController < ApplicationController
     @tag = Tag.find_by(name: params[:name])
     raise ActiveRecord::RecordNotFound unless @tag
 
-    @tagged_recipes = Recipe.tagged_with(@tag.name).eager_load(:comments, :favorites).order(id: :DESC).first(40)
+    @tagged_recipes = Recipe.tagged_with(@tag.name).order(id: :DESC).first(40)
   end
 end

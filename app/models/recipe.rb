@@ -5,19 +5,12 @@ class Recipe < ApplicationRecord
 
   belongs_to :user
 
+  counter_culture :user
+
   has_many :favorites, dependent: :destroy
   has_many :comments, dependent: :destroy
 
   mount_uploader :recipe_image, RecipeImageUploader
-
-  ransacker :comments_count do
-    query = '(SELECT COUNT(*) FROM comments WHERE comments.recipe_id = recipes.id)'
-    Arel.sql(query)
-  end
-  ransacker :favorites_count do
-    query = '(SELECT COUNT(*) FROM favorites WHERE favorites.recipe_id = recipes.id)'
-    Arel.sql(query)
-  end
 
   validates :title, length: { maximum: 30 }, presence: true
   validates :body, length: { maximum: 2000 }, presence: true
@@ -25,7 +18,7 @@ class Recipe < ApplicationRecord
   validate :validate_tag
 
   def others(count)
-    others = Recipe.eager_load(:favorites, :comments).where(user_id: user_id).order(id: :DESC) - [self]
+    others = Recipe.where(user_id: user_id).order(id: :DESC) - [self]
     others.first(count)
   end
 

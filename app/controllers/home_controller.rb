@@ -11,7 +11,7 @@ class HomeController < ApplicationController
     else
       @feeds =
         Rails.cache.fetch('cache_recommended_recipes', expires_in: 1.hour) do
-          Recipe.all.eager_load(:comments, :favorites, :user).sample(20)
+          Recipe.all.eager_load(:user).sample(20)
         end
       @recommended_users =
         Rails.cache.fetch('cache_recommended_users', expires_in: 1.hour) do
@@ -29,12 +29,10 @@ class HomeController < ApplicationController
     sort = { '0' => { name: params[:sort], dir: params[:order] } }
 
     results = {
-      recipe_title: Recipe.ransack({ title_has_every_term: @q_value, s: sort }).result
-        .eager_load(:favorites, :comments, :tags, :tag_taggings),
-      recipe_body: Recipe.ransack({ body_has_every_term: @q_value, s: sort }).result
-        .eager_load(:favorites, :comments, :tags, :tag_taggings),
-      user_nickname: User.ransack({ nickname_has_every_term: @q_value, s: sort }).result.eager_load(:recipes),
-      user_profile: User.ransack({ profile_has_every_term: @q_value, s: sort }).result.eager_load(:recipes),
+      recipe_title: Recipe.ransack({ title_has_every_term: @q_value, s: sort }).result.eager_load(:tags, :tag_taggings),
+      recipe_body: Recipe.ransack({ body_has_every_term: @q_value, s: sort }).result.eager_load(:tags, :tag_taggings),
+      user_nickname: User.ransack({ nickname_has_every_term: @q_value, s: sort }).result,
+      user_profile: User.ransack({ profile_has_every_term: @q_value, s: sort }).result,
       tag_name: Tag.ransack({ name_has_every_term: @q_value, taggings_count_gteq: '1', s: sort }).result
     }
 

@@ -22,15 +22,6 @@ class User < ApplicationRecord
 
   mount_uploader :user_image, UserImageUploader
 
-  ransacker :followers_count do
-    query = '(SELECT COUNT(*) FROM relationships WHERE relationships.follow_id = users.id)'
-    Arel.sql(query)
-  end
-  ransacker :recipes_count do
-    query = '(SELECT COUNT(*) FROM recipes WHERE recipes.user_id = users.id)'
-    Arel.sql(query)
-  end
-
   RESERVED_WORDS = %w[
     sign_in
     sign_out
@@ -75,12 +66,11 @@ class User < ApplicationRecord
   end
 
   def feed
-    Recipe.includes(:user, :comments, :favorites)
-      .where('user_id IN (?) OR user_id = ?', following_ids, id).order(updated_at: :DESC)
+    Recipe.includes(:user).where('user_id IN (?) OR user_id = ?', following_ids, id).order(updated_at: :DESC)
   end
 
   def recommended_recipes
-    Recipe.all.eager_load(:user, :comments, :favorites).shuffle - feed
+    Recipe.all.eager_load(:user).shuffle - feed
   end
 
   def home_recipes
@@ -119,7 +109,7 @@ class User < ApplicationRecord
   end
 
   def self.ransortable_attributes(_auth_object = nil)
-    %w[followers_count followings_count recipes_count]
+    %w[followers_count recipes_count]
   end
 
   private
