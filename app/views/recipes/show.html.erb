@@ -24,8 +24,8 @@
             <li>
               <%= @recipe.comments_count %>
             </li>
-            <li>
-              <% if user_signed_in? && @recipe.user == current_user %>
+            <% if user_signed_in? && @recipe.user == current_user %>
+              <li>
                 <div class="dropdown has-text-left">
                   <div class="dropdown-trigger rspec_recipe_dropdown_trigger">
                     <button class="button is-white has-background-white-bis" aria-haspopup="true" aria-controls="dropdown-menu">
@@ -38,23 +38,21 @@
                     <div class="dropdown-content">
                       <%= link_to edit_recipe_path(@recipe), class: 'dropdown-item' do %>
                         <span class="icon">
-                            <i class="fas fa-edit"></i>
-                          </span>
-                          <span>編集する</span>
+                          <i class="fas fa-edit"></i>
                         </span>
+                        <span>編集する</span>
                       <% end %>
-                      <%= link_to recipe_path(@recipe), method: :delete, data: {confirm: '本当にレシピを削除しますか？'}, class: 'dropdown-item' do %>
+                      <%= link_to recipe_path(@recipe), method: :delete, data: { confirm: '本当にレシピを削除しますか？' }, class: 'dropdown-item' do %>
                         <span class="icon">
-                            <i class="far fa-trash-alt"></i>
-                          </span>
-                          <span>削除する</span>
+                          <i class="far fa-trash-alt"></i>
                         </span>
+                        <span>削除する</span>
                       <% end %>
                     </div>
                   </div>
                 </div>
-              <% end %>
-            </li>
+              </li>
+            <% end %>
           </ul>
         </aside>
       </div>
@@ -85,17 +83,15 @@
                       <div class="dropdown-content">
                         <%= link_to edit_recipe_path(@recipe), class: 'dropdown-item' do %>
                           <span class="icon">
-                              <i class="fas fa-edit"></i>
-                            </span>
-                            <span>編集する</span>
+                            <i class="fas fa-edit"></i>
                           </span>
+                          <span>編集する</span>
                         <% end %>
-                        <%= link_to recipe_path(@recipe), method: :delete, data: {confirm: '本当にレシピを削除しますか？'}, class: 'dropdown-item' do %>
+                        <%= link_to recipe_path(@recipe), method: :delete, data: { confirm: '本当にレシピを削除しますか？' }, class: 'dropdown-item' do %>
                           <span class="icon">
-                              <i class="far fa-trash-alt"></i>
-                            </span>
-                            <span>削除する</span>
+                            <i class="far fa-trash-alt"></i>
                           </span>
+                          <span>削除する</span>
                         <% end %>
                       </div>
                     </div>
@@ -211,17 +207,15 @@
               <div class="dropdown-content">
                 <%= link_to edit_recipe_path(@recipe), class: 'dropdown-item' do %>
                   <span class="icon">
-                      <i class="fas fa-edit"></i>
-                    </span>
-                    <span>編集する</span>
+                    <i class="fas fa-edit"></i>
                   </span>
+                  <span>編集する</span>
                 <% end %>
-                <%= link_to recipe_path(@recipe), method: :delete, data: {confirm: '本当にレシピを削除しますか？'}, class: 'dropdown-item' do %>
+                <%= link_to recipe_path(@recipe), method: :delete, data: { confirm: '本当にレシピを削除しますか？' }, class: 'dropdown-item' do %>
                   <span class="icon">
-                      <i class="far fa-trash-alt"></i>
-                    </span>
-                    <span>削除する</span>
+                    <i class="far fa-trash-alt"></i>
                   </span>
+                  <span>削除する</span>
                 <% end %>
               </div>
             </div>

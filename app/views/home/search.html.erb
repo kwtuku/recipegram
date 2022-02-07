@@ -132,59 +132,47 @@
                       <% if @source == 'recipe_title' || @source == 'recipe_body' %>
                         <%= link_to search_path(q: @q_value, source: @source, sort: 'updated_at', order: 'desc'),
                           class: "dropdown-item #{'is-active' if sort_order?('updated_at', 'desc')}" do %>
-                          <span class="icon-text">
-                            <span class="icon">
-                              <i class="far fa-clock"></i>
-                            </span>
-                            <span>更新日が新しい順</span>
+                          <span class="icon">
+                            <i class="far fa-clock"></i>
                           </span>
+                          <span>更新日が新しい順</span>
                         <% end %>
                         <%= link_to search_path(q: @q_value, source: @source, sort: 'favorites_count', order: 'desc'),
                           class: "dropdown-item #{'is-active' if sort_order?('favorites_count', 'desc')}" do %>
-                          <span class="icon-text">
-                            <span class="icon">
-                              <i class="far fa-heart"></i>
-                            </span>
-                            <span>いいねが多い順</span>
+                          <span class="icon">
+                            <i class="far fa-heart"></i>
                           </span>
+                          <span>いいねが多い順</span>
                         <% end %>
                         <%= link_to search_path(q: @q_value, source: @source, sort: 'comments_count', order: 'desc'),
                           class: "dropdown-item #{'is-active' if sort_order?('comments_count', 'desc')}" do %>
-                          <span class="icon-text">
-                            <span class="icon">
-                              <i class="far fa-comment"></i>
-                            </span>
-                            <span>コメントが多い順</span>
+                          <span class="icon">
+                            <i class="far fa-comment"></i>
                           </span>
+                          <span>コメントが多い順</span>
                         <% end %>
                       <% elsif @source == 'user_nickname' || @source == 'user_profile' %>
                         <%= link_to search_path(q: @q_value, source: @source, sort: 'recipes_count', order: 'desc'),
                           class: "dropdown-item #{'is-active' if sort_order?('recipes_count', 'desc')}" do %>
-                          <span class="icon-text">
-                            <span class="icon">
-                              <i class="fas fa-border-all"></i>
-                            </span>
-                            <span>投稿が多い順</span>
+                          <span class="icon">
+                            <i class="fas fa-border-all"></i>
                           </span>
+                          <span>投稿が多い順</span>
                         <% end %>
                         <%= link_to search_path(q: @q_value, source: @source, sort: 'followers_count', order: 'desc'),
                           class: "dropdown-item #{'is-active' if sort_order?('followers_count', 'desc')}" do %>
-                          <span class="icon-text">
-                            <span class="icon">
-                              <i class="fas fa-users"></i>
-                            </span>
-                            <span>フォロワーが多い順</span>
+                          <span class="icon">
+                            <i class="fas fa-users"></i>
                           </span>
+                          <span>フォロワーが多い順</span>
                         <% end %>
                       <% else %>
                         <%= link_to search_path(q: @q_value, source: @source, sort: 'taggings_count', order: 'desc'),
                           class: "dropdown-item #{'is-active' if sort_order?('taggings_count', 'desc')}" do %>
-                          <span class="icon-text">
-                            <span class="icon">
-                              <i class="fas fa-border-all"></i>
-                            </span>
-                            <span>投稿が多い順</span>
+                          <span class="icon">
+                            <i class="fas fa-border-all"></i>
                           </span>
+                          <span>投稿が多い順</span>
                         <% end %>
                       <% end %>
                     </div>

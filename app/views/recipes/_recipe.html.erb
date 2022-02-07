@@ -6,18 +6,14 @@
           <%= image_tag recipe.recipe_image.thumb.url %>
           <div class="mask has-text-centered">
             <p class="has-text-white">
-              <span class="icon-text mr-3">
-                <span class="icon">
-                  <i class="far fa-heart"></i>
-                </span>
-                <span><%= recipe.favorites_count %></span>
+              <span class="icon">
+                <i class="far fa-heart"></i>
               </span>
-              <span class="icon-text">
-                <span class="icon">
-                  <i class="far fa-comment"></i>
-                </span>
-                <span><%= recipe.comments_count %></span>
+              <span><%= recipe.favorites_count %></span>
+              <span class="icon ml-3">
+                <i class="far fa-comment"></i>
               </span>
+              <span><%= recipe.comments_count %></span>
             </p>
           </div>
         </figure>
