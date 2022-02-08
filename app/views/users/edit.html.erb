@@ -17,10 +17,10 @@
           <div class="file is-centered">
             <%= f.label :user_image, class: 'file-label' do %>
               <%= f.file_field :user_image, class: 'file-input', accept: 'image/jpg, image/jpeg, image/png, image/webp' %>
-              <figure class="image is-256x256 cursor-pointer border_red_with_errors round" id="file-cta">
+              <figure class="image is-256x256 border_red_with_errors" id="file-cta">
                 <%= image_tag @user.user_image.thumb.url, class: 'is-rounded' %>
               </figure>
-              <img class="is-hidden is-256x256 round cursor-pointer" id="file-preview">
+              <img class="is-hidden is-256x256 round" id="file-preview">
             <% end %>
           </div>
           <%= render 'devise/shared/full_error_messages', model: @user, attribute: :user_image %>
