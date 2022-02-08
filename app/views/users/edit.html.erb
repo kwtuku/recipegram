@@ -1,29 +1,43 @@
 <% provide(:title, 'プロフィール編集') %>
-
 <% provide(:body_attributes) { 'data-turbolinks=false' } %>
 
 <%= render 'shared/error_messages', model: @user %>
 
-<%= render 'layouts/hero', hero_title: 'プロフィール編集' %>
-
 <section class="section">
   <div class="container">
-    <%= form_with model: @user do |f| %>
+    <h1 class="title has-text-centered">プロフィール編集</h1>
+    <%= form_with model: @user, class: 'box' do |f| %>
       <div class="columns is-centered">
-        <div class="column is-5">
-          <div class="mb-5">
-            <p class='help has-text-dark'>2MB以下でjpgまたはjpeg、png、webp形式のファイルをアップロードすることができます。</p>
-          </div>
-          <div class="file is-centered">
-            <%= f.label :user_image, class: 'file-label' do %>
-              <%= f.file_field :user_image, class: 'file-input', accept: 'image/jpg, image/jpeg, image/png, image/webp' %>
-              <figure class="image is-256x256 border_red_with_errors" id="file-cta">
+        <div class="column is-6">
+          <div class="field">
+            <label class="label">画像</label>
+            <p class='help has-text-dark mb-5'>2MB以下でjpgまたはjpeg、png、webp形式のファイルをアップロードすることができます。</p>
+
+            <% if @user.user_image.cached? %>
+              <figure class="image is-256x256 mx-auto" id="file-preview-container">
+                <%= image_tag "/#{@user.user_image.cache_path}", class: 'is-256x256 round' %>
+              </figure>
+            <% else %>
+              <figure class="image is-256x256 mx-auto" id="file-preview-container">
                 <%= image_tag @user.user_image.thumb.url, class: 'is-rounded' %>
               </figure>
-              <img class="is-hidden is-256x256 round" id="file-preview">
             <% end %>
+
+            <div class="file is-centered my-5">
+              <%= f.label :user_image, class: 'file-label' do %>
+                <%= f.file_field :user_image, class: 'file-input', accept: 'image/jpg, image/jpeg, image/png, image/webp' %>
+                <span class="file-cta border_red_with_errors">
+                  <span class="file-icon">
+                    <i class="far fa-image"></i>
+                  </span>
+                  <span class="file-label">
+                    画像を選択する
+                  </span>
+                </span>
+              <% end %>
+            </div>
+            <%= render 'devise/shared/full_error_messages', model: @user, attribute: :user_image %>
           </div>
-          <%= render 'devise/shared/full_error_messages', model: @user, attribute: :user_image %>
         </div>
 
         <div class="column is-6">
@@ -35,7 +49,7 @@
             <p class="help has-text-right">
               <span class="<%= 'has-text-danger' if @user.errors[:nickname].any? %>" id="count-nickname-characters"><%= @user.nickname.size.presence || 0 %></span>/30字
             </p>
-            <%= render "devise/shared/full_error_messages", model: @user, attribute: :nickname %>
+            <%= render 'devise/shared/full_error_messages', model: @user, attribute: :nickname %>
           </div>
 
           <div class="field">
@@ -46,7 +60,7 @@
             <p class="help has-text-right">
               <span class="<%= 'has-text-danger' if @user.errors[:profile].any? %>" id="count-profile-characters"><%= @user.profile&.size.presence || 0 %></span>/500字
             </p>
-            <%= render "devise/shared/full_error_messages", model: @user, attribute: :profile %>
+            <%= render 'devise/shared/full_error_messages', model: @user, attribute: :profile %>
           </div>
 
           <%= f.submit '更新', class: 'button is-rounded is-info', id: 'update_user', disabled: true %>

@@ -7,14 +7,11 @@ export default () => {
     imageForm.addEventListener('change', (e) => {
       const file = e.target.files[0];
       const blobUrl = window.URL.createObjectURL(file);
-      const previewImage = document.getElementById('file-preview');
-      const cta = document.getElementById('file-cta');
+      const previewImageContainer = document.getElementById('file-preview-container');
+      const imageStyle = previewImageContainer.classList.contains('is-256x256') ? 'is-256x256 round' : 'is-400x400';
 
-      previewImage.classList.remove('is-hidden');
-      previewImage.src = blobUrl;
-      if (cta) {
-        cta.remove();
-      }
+      previewImageContainer.classList.remove('is-hidden');
+      previewImageContainer.innerHTML = `<img src="${blobUrl}" class="${imageStyle}">`;
     });
   });
 };
