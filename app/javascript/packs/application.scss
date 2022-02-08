@@ -1,2 +1,23 @@
 @import '~bulma/bulma.sass';
 @import '~@yaireo/tagify/src/tagify.scss';
+
+.custom-tagify-look {
+  height: unset;
+  --tag-bg: hsl(0, 0%, 96%);
+  --tag-inset-shadow-size: 5em;
+  --tag-remove-btn-color: hsl(0, 0%, 21%);
+  --tag-text-color: hsl(0, 0%, 21%);
+  --tags-focus-border-color: hsl(229, 53%, 53%);
+}
+
+.tagify--focus {
+  box-shadow: 0 0 0 0.125em rgba(72, 95, 199, 0.25);
+}
+
+.tagify__dropdown__item--active {
+  background-color: hsl(207, 61%, 53%);
+}
+
+.tagify__dropdown__wrapper {
+  border: unset;
+}

@@ -11,7 +11,7 @@ export default () => {
       whitelist: [],
       delimiters: ',| ',
       dropdown: {
-        classname: 'custom-tagify-look card',
+        classname: 'card',
         maxItems: 5,
       },
       maxTags: 5,
