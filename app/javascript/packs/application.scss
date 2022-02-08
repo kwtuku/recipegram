@@ -1,3 +1,13 @@
+$navbar-box-shadow-color: hsl(0, 0%, 86%);
+$navbar-box-shadow-size: 0 1px 0 0;
+$navbar-breakpoint: 768px;
+$navbar-item-hover-color: hsl(0, 0%, 4%);
+$pagination-current-background-color: hsl(207, 61%, 53%);
+$pagination-current-border-color: hsl(207, 61%, 53%);
+$pagination-focus-border-color: hsl(207, 61%, 53%);
+$tabs-link-active-border-bottom-color: hsl(0, 0%, 29%);
+$tabs-link-active-color: hsl(0, 0%, 29%);
+
 @import '~bulma/bulma.sass';
 @import '~@yaireo/tagify/src/tagify.scss';
 
@@ -20,4 +30,30 @@
 
 .tagify__dropdown__wrapper {
   border: unset;
+}
+
+.menu-list .is-active {
+  position: relative;
+  &::before {
+    position: absolute;
+    content: '';
+    width: 3px;
+    height: 100%;
+    background-color: #f9826c;
+  }
+}
+
+.menu-tag {
+  height: auto !important;
+  display: inline-block !important;
+}
+
+.modal-content {
+  @media screen and (min-width: 769px) {
+    width: 90vh;
+  }
+}
+
+.notification:not(:last-child) {
+  margin-bottom: 0;
 }

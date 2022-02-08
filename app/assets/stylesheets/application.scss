@@ -14,23 +14,8 @@
  *= require_self
  */
 
-$navbar-box-shadow-color: #dbdbdb;
-$navbar-box-shadow-size: 0 1px 0 0;
-$navbar-breakpoint: 768px;
-$navbar-item-hover-color: #0a0a0a;
-$pagination-current-background-color: #3e8ed0;
-$pagination-current-border-color: #3e8ed0;
-$pagination-focus-border-color: #3e8ed0;
-$tabs-link-active-border-bottom-color: #4a4a4a;
-$tabs-link-active-color: #4a4a4a;
-$danger: hsl(348, 86%, 61%);
-
 .recipegram {
   font-family: Monotype Corsiva;
-}
-
-.notification:not(:last-child) {
-  margin-bottom: 0;
 }
 
 .hover-underline:hover {
@@ -65,10 +50,10 @@ $danger: hsl(348, 86%, 61%);
 .field_with_errors {
   .input,
   .textarea {
-    border: 1px solid $danger;
+    border: 1px solid hsl(348, 86%, 61%);
   }
   + .border_red_with_errors {
-    border: 1px solid $danger;
+    border: 1px solid hsl(348, 86%, 61%);
   }
 }
 
@@ -91,8 +76,8 @@ $danger: hsl(348, 86%, 61%);
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background-color: #ef5350;
-    border: 1px solid #fff;
+    background-color: hsl(348, 86%, 61%);
+    border: 1px solid hsl(0, 0%, 100%);
     content: attr(data-num);
   }
 }
@@ -124,8 +109,8 @@ $danger: hsl(348, 86%, 61%);
   position: fixed;
   bottom: 0;
   overflow: visible;
-  border-top: 1px solid lightgray;
-  background-color: white;
+  border-top: 1px solid hsl(0, 0%, 86%);
+  background-color: hsl(0, 0%, 100%);
 }
 
 .z-index-1 {
@@ -148,27 +133,14 @@ $danger: hsl(348, 86%, 61%);
   border-radius: 50%;
 }
 
-.menu-list li.is-active {
-  position: relative;
-  &::before {
-    position: absolute;
-    content: '';
-    width: 3px;
-    height: 100%;
-    background-color: #f9826c;
-  }
-}
-
-.menu-tag {
-  height: auto !important;
-  display: inline-block !important;
-}
-
-@media (max-width: 767px) {
-  .m-0-mobile {
+.m-0-mobile {
+  @media (max-width: 767px) {
     margin: 0 !important;
   }
-  .p-0-mobile {
+}
+
+.p-0-mobile {
+  @media (max-width: 767px) {
     padding: 0 !important;
   }
 }
@@ -189,12 +161,6 @@ $danger: hsl(348, 86%, 61%);
   width: 33.333333%;
 }
 
-@media screen and (min-width: 769px) {
-  .modal-content {
-    width: 90vh !important;
-  }
-}
-
 .resize-textarea {
   overflow-y: scroll;
   -ms-overflow-style: none;
@@ -208,8 +174,8 @@ $danger: hsl(348, 86%, 61%);
 }
 
 .tag-link:hover {
-  background-color: #eee;
-  color: #0a0a0a;
+  background-color: hsl(0, 0%, 93%);
+  color: hsl(0, 0%, 4%);
 }
 
 .search-history {
