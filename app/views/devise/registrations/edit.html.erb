@@ -4,10 +4,9 @@
 
 <%= render 'devise/shared/error_messages', resource: resource %>
 
-<%= render 'layouts/hero', hero_title: 'アカウント編集' %>
-
 <section class="section">
   <div class="container">
+    <h1 class="title has-text-centered">アカウント編集</h1>
     <div class="columns is-centered">
       <div class="column is-5">
         <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>

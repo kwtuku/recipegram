@@ -1,9 +1,8 @@
 <% provide(:title, '通知一覧') %>
 
-<%= render 'layouts/hero', hero_title: '通知一覧' %>
-
 <section class="section">
   <div class="container">
+    <h1 class="title has-text-centered">通知一覧</h1>
     <div class="columns is-centered">
       <div class="column is-9">
         <% if @notifications.exists? %>
