@@ -5,55 +5,51 @@
 <section class="section p-0-mobile">
   <div class="container">
     <div class="columns is-centered is-multiline m-0-mobile">
-      <div class="column is-1 is-hidden-mobile">
-        <aside class="menu sticky z-index-1">
-          <ul class="menu-list has-text-centered">
-            <li class="js-favorite-button-<%= @recipe.id %>">
-              <%= render 'shared/favorite_button', recipe: @recipe, icon_size: 'is-medium', fa_size: 'fa-lg' %>
-            </li>
-            <li class="js-recount-favorites">
+      <div class="column is-1 is-12-mobile">
+        <aside class="recipe-navbar">
+          <div class="recipe-navbar__item">
+            <div class="recipe-navbar__item-button js-favorite-button-<%= @recipe.id %>">
+              <%= render 'shared/favorite_button', recipe: @recipe, icon_size: 'is-large', fa_size: 'fa-lg' %>
+            </div>
+            <span class="recipe-navbar__item-text js-recount-favorites">
               <%= @recipe.favorites_count %>
-            </li>
-            <li>
-              <a href="#comments" title="コメント一覧へ">
-                <span class="icon is-medium has-text-primary">
-                  <i class="far fa-lg fa-comment"></i>
-                </span>
-              </a>
-            </li>
-            <li>
+            </span>
+          </div>
+          <div class="recipe-navbar__item">
+            <a href="#comments" title="コメント一覧へ" class="recipe-navbar__item-button">
+              <span class="icon is-large has-text-primary">
+                <i class="far fa-lg fa-comment"></i>
+              </span>
+            </a>
+            <span class="recipe-navbar__item-text">
               <%= @recipe.comments_count %>
-            </li>
-            <% if user_signed_in? && @recipe.user == current_user %>
-              <li>
-                <div class="dropdown has-text-left">
-                  <div class="dropdown-trigger rspec_recipe_dropdown_trigger">
-                    <button class="button is-white has-background-white-bis" aria-haspopup="true" aria-controls="dropdown-menu">
-                      <span class="icon">
-                        <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
-                      </span>
-                    </button>
-                  </div>
-                  <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                    <div class="dropdown-content">
-                      <%= link_to edit_recipe_path(@recipe), class: 'dropdown-item' do %>
-                        <span class="icon">
-                          <i class="fas fa-edit"></i>
-                        </span>
-                        <span>編集する</span>
-                      <% end %>
-                      <%= link_to recipe_path(@recipe), method: :delete, data: { confirm: '本当にレシピを削除しますか？' }, class: 'dropdown-item' do %>
-                        <span class="icon">
-                          <i class="far fa-trash-alt"></i>
-                        </span>
-                        <span>削除する</span>
-                      <% end %>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            <% end %>
-          </ul>
+            </span>
+          </div>
+          <div class="dropdown has-text-left">
+            <div class="dropdown-trigger rspec_recipe_dropdown_trigger">
+              <button class="button is-medium recipe-navbar__item-dropdown-button" aria-haspopup="true" aria-controls="dropdown-menu">
+                <span class="icon">
+                  <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                </span>
+              </button>
+            </div>
+            <div class="dropdown-menu recipe-navbar__item-dropdown-menu" id="dropdown-menu" role="menu">
+              <div class="dropdown-content">
+                <%= link_to edit_recipe_path(@recipe), class: 'dropdown-item' do %>
+                  <span class="icon">
+                    <i class="fas fa-edit"></i>
+                  </span>
+                  <span>編集する</span>
+                <% end %>
+                <%= link_to recipe_path(@recipe), method: :delete, data: { confirm: '本当にレシピを削除しますか？' }, class: 'dropdown-item' do %>
+                  <span class="icon">
+                    <i class="far fa-trash-alt"></i>
+                  </span>
+                  <span>削除する</span>
+                <% end %>
+              </div>
+            </div>
+          </div>
         </aside>
       </div>
 
@@ -175,56 +171,6 @@
     </div>
   </div>
 </section>
-
-<div class="bottom-item is-hidden-tablet">
-  <div class="content py-3">
-    <div class="level is-mobile">
-      <div class="level-item">
-        <div class="js-favorite-button-<%= @recipe.id %>">
-          <%= render 'shared/favorite_button', recipe: @recipe, icon_size: '', fa_size: '' %>
-        </div>
-        <div class="ml-3 js-recount-favorites"><%= @recipe.favorites_count %></div>
-      </div>
-      <div class="level-item">
-        <a href="#comments" title="コメント一覧へ">
-          <span class="icon has-text-primary">
-            <i class="far fa-comment"></i>
-          </span>
-        </a>
-        <div class="ml-3"><%= @recipe.comments_count %></div>
-      </div>
-      <% if user_signed_in? && @recipe.user == current_user %>
-        <div class="level-item">
-          <div class="dropdown is-right is-up">
-            <div class="dropdown-trigger">
-              <button class="button is-rounded is-white is-small" aria-haspopup="true" aria-controls="dropdown-menu">
-                <span class="icon is-small">
-                  <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
-                </span>
-              </button>
-            </div>
-            <div class="dropdown-menu" id="dropdown-menu" role="menu">
-              <div class="dropdown-content">
-                <%= link_to edit_recipe_path(@recipe), class: 'dropdown-item' do %>
-                  <span class="icon">
-                    <i class="fas fa-edit"></i>
-                  </span>
-                  <span>編集する</span>
-                <% end %>
-                <%= link_to recipe_path(@recipe), method: :delete, data: { confirm: '本当にレシピを削除しますか？' }, class: 'dropdown-item' do %>
-                  <span class="icon">
-                    <i class="far fa-trash-alt"></i>
-                  </span>
-                  <span>削除する</span>
-                <% end %>
-              </div>
-            </div>
-          </div>
-        </div>
-      <% end %>
-    </div>
-  </div>
-</div>
 
 <div class="modal" id="image-modal">
   <div class="modal-background"></div>
