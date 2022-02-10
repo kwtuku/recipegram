@@ -32,6 +32,10 @@ $tabs-link-active-color: hsl(0, 0%, 29%);
   border: unset;
 }
 
+.form-icon:hover {
+  color: hsl(0, 0%, 4%) !important;
+}
+
 .menu-list .is-active {
   position: relative;
   &::before {

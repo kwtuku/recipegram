@@ -23,8 +23,8 @@ RSpec.describe 'Users', type: :system do
       visit root_path
       click_link '登録'
       expect(page).to have_field 'user[username]', with: ''
-      click_link href: generate_username_path
-      expect(page).to have_selector '.rspec_has_generated_username'
+      find('[data-rspec=generate-username]').click
+      expect(page).to have_selector '[data-rspec=username-generated]'
       valid_username_regex = /\A[a-zA-Z0-9_-]+\z/
       expect(page).to have_field 'user[username]', with: valid_username_regex
       generated_username = find_field('user[username]').value
@@ -176,7 +176,7 @@ RSpec.describe 'Users', type: :system do
         expect(page).to have_current_path users_confirm_destroy_path
         expect(page).to have_button 'destroy_account', disabled: true
         fill_in 'user[current_password]', with: ellen.password
-        expect  do
+        expect do
           click_button 'destroy_account'
         end.to change(User, :count).by(-1)
         expect(page).to have_content 'アカウントを削除しました。またのご利用をお待ちしております。'
@@ -191,7 +191,7 @@ RSpec.describe 'Users', type: :system do
         expect(page).to have_current_path users_confirm_destroy_path
         expect(page).to have_button 'destroy_account', disabled: true
         fill_in 'user[current_password]', with: 'wrong_password'
-        expect  do
+        expect do
           click_button 'destroy_account'
         end.to change(User, :count).by(0)
         expect(page).to have_content '現在のパスワードは不正な値です'
