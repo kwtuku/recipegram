@@ -132,10 +132,6 @@
   border: 0 !important;
 }
 
-.bg-color-transparent {
-  background-color: transparent !important;
-}
-
 .w-full {
   width: 100%;
 }
@@ -228,4 +224,8 @@
   @media (max-width: 768px) {
     margin-left: 0.25rem;
   }
+}
+
+.navbar-dropdown-button {
+  height: 48px !important;
 }

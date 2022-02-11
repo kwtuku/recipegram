@@ -10,11 +10,17 @@
     <% end %>
   </div>
   <div class="media-content">
-    <p class="is-size-4 is-1-line"><span><%= link_to user.nickname, user_path(user), title: user.nickname, class: 'has-text-black-bis text-break hover-underline' %></span></p>
-    <p class="has-text-grey-light">@<%= user.username %></p>
-    <% if user.following?(current_user) %>
-      <span class="tag is-info is-light">フォローされています</span>
+    <%= link_to user_path(user), title: user.nickname, class: 'has-text-black-bis hover-underline' do %>
+      <p class="is-size-4 is-1-line">
+        <span><%= user.nickname %></span>
+      </p>
     <% end %>
+    <p>
+      <span class="has-text-grey-light">@<%= user.username %></span>
+      <% if user.following?(current_user) %>
+        <span class="tag is-info is-light">フォローされています</span>
+      <% end %>
+    </p>
     <p class="text-break is-3-lines"><span><%= user.profile %></span></p>
   </div>
 </div>

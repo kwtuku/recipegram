@@ -24,7 +24,7 @@
           <button class="button is-white is-small is-hidden-tablet ml-2" id="shrink-search-input">キャンセル</button>
         </div>
 
-        <div class="panel search-history is-hidden has-background-white" id="suggest-container">
+        <div class="panel search-history is-hidden has-background-white text-break" id="suggest-container">
           <p class="panel-heading is-flex is-justify-content-space-between is-align-items-center">
             <span class="is-size-6">最近</span>
             <span class="is-size-7 has-text-info is-clickable" id="delete-all-suggests">すべて削除</span>
@@ -59,9 +59,9 @@
           </span>
         <% end %>
 
-        <div class="navbar-item dropdown is-right">
+        <div class="navbar-item dropdown is-right p-0">
           <div class="dropdown-trigger rspec_header_dropdown_trigger">
-            <button class="button is-white is-small is-rounded bg-color-transparent p-0" aria-haspopup="true" aria-controls="dropdown-menu">
+            <button class="button is-white is-small navbar-dropdown-button" aria-haspopup="true" aria-controls="dropdown-menu">
               <figure class="image is-24x24">
                 <%= image_tag current_user.user_image.icon.url, class: 'is-rounded' %>
               </figure>
