@@ -21,8 +21,10 @@
                 </div>
                 <div class="media-content">
                   <%= link_to user_path(current_user) do %>
-                    <p class="is-size-5 is-1-line">
-                      <span class="has-text-black-bis text-break hover-underline" title="<%= current_user.nickname %>"><%= current_user.nickname %></span>
+                    <p class="is-size-5 text-truncate-container">
+                      <span class="has-text-black-bis text-break hover-underline text-truncate-1" title="<%= current_user.nickname %>">
+                        <%= current_user.nickname %>
+                      </span>
                     </p>
                   <% end %>
                 </div>

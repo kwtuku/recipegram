@@ -11,8 +11,8 @@
   </div>
   <div class="media-content">
     <%= link_to user_path(user), title: user.nickname, class: 'has-text-black-bis hover-underline' do %>
-      <p class="is-size-4 is-1-line">
-        <span><%= user.nickname %></span>
+      <p class="is-size-4 text-truncate-container">
+        <span class="text-truncate-1"><%= user.nickname %></span>
       </p>
     <% end %>
     <p>
@@ -21,6 +21,8 @@
         <span class="tag is-info is-light">フォローされています</span>
       <% end %>
     </p>
-    <p class="text-break is-3-lines"><span><%= user.profile %></span></p>
+    <p class="text-break text-truncate-container">
+      <span class="text-truncate-3"><%= user.profile %></span>
+    </p>
   </div>
 </div>

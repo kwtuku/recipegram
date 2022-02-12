@@ -10,9 +10,11 @@
           </figure>
         <% end %>
       </div>
-      <div class="media-content is-1-line">
+      <div class="media-content text-truncate-container">
         <%= link_to user_path(feed.user) do %>
-          <span class="has-text-black-bis text-break hover-underline" title="<%= feed.user.nickname %>"><%= feed.user.nickname %></span>
+          <span class="has-text-black-bis text-break hover-underline text-truncate-1" title="<%= feed.user.nickname %>">
+            <%= feed.user.nickname %>
+          </span>
         <% end %>
       </div>
       <% if user_signed_in? && feed.user == current_user %>

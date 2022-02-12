@@ -64,8 +64,10 @@
                   <%= image_tag @recipe.user.user_image.icon.url, class: 'is-rounded' %>
                 </figure>
               </div>
-              <div class="media-content is-1-line">
-                <span><%= link_to @recipe.user.nickname, user_path(@recipe.user), title: @recipe.user.nickname, class: 'has-text-black-bis text-break hover-underline' %></span>
+              <div class="media-content text-truncate-container">
+                <%= link_to user_path(@recipe.user), title: @recipe.user.nickname, class: 'has-text-black-bis text-break hover-underline' do %>
+                  <span class="text-truncate-1"><%= @recipe.user.nickname %></span>
+                <% end %>
               </div>
               <% if user_signed_in? && @recipe.user == current_user %>
                 <div class="media-right">

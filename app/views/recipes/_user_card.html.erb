@@ -8,13 +8,15 @@
           </figure>
         <% end %>
       </div>
-      <div class="media-content">
+      <div class="media-content text-break">
         <%= link_to user_path(user) do %>
-          <p class="title mb-0 is-size-5 is-1-line">
-            <span class="has-text-black-bis text-break hover-underline" title="<%= user.nickname %>"><%= user.nickname %></span>
+          <p class="title mb-0 is-size-5 text-truncate-container">
+            <span class="has-text-black-bis hover-underline text-truncate-1" title="<%= user.nickname %>"><%= user.nickname %></span>
           </p>
-          <p class="has-text-grey-light text-break">@<%= user.username %></p>
         <% end %>
+        <p class="has-text-grey-light">
+          <span class="has-text-grey-light">@<%= user.username %></span>
+        </p>
         <div class="mt-1 js-follow-button-<%= user.id %>">
           <%= render 'shared/follow_button', user: user, size: 'is-small' %>
         </div>
@@ -22,7 +24,9 @@
     </div>
     <% if user.profile.present? %>
       <div class="content">
-        <p class="text-break <%= show_some_lines_depends_on(@other_recipes) %>"><span><%= user.profile %></span></p>
+        <p class="text-break text-truncate-container">
+          <span class="<%= text_truncate_depends_on(@other_recipes) %>"><%= user.profile %></span>
+        </p>
       </div>
     <% end %>
   </div>

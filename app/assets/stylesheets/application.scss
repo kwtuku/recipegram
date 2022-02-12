@@ -78,21 +78,10 @@
   }
 }
 
-.is-1-line {
+.text-truncate-container {
   overflow: hidden;
-  width: 100%;
-  span {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-  }
-}
-
-@for $i from 2 through 15 {
-  .is-#{$i}-lines {
-    overflow: hidden;
-    width: 100%;
-    span {
+  @for $i from 1 through 12 {
+    .text-truncate-#{$i} {
       display: -webkit-box;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: $i;

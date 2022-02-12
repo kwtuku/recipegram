@@ -51,12 +51,8 @@ module ApplicationHelper
     end
   end
 
-  def show_some_lines_depends_on(other_recipes)
-    if other_recipes.blank?
-      'is-12-lines'
-    else
-      'is-4-lines'
-    end
+  def text_truncate_depends_on(other_recipes)
+    other_recipes.blank? ? 'text-truncate-12' : 'text-truncate-4'
   end
 
   def recommended_description(user)
