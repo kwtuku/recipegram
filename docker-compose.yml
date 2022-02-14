@@ -1,4 +1,4 @@
-version: "3.9"
+version: '3.9'
 
 services:
   app:
@@ -8,19 +8,19 @@ services:
       - .:/myapp:cached
       - rails_cache:/myapp/tmp/cache:cached
       - node_modules:/myapp/node_modules:cached
-      - bundle:/usr/local/bundle:cached
-      - yarn-cache:/usr/local/share/.cache/yarn/v6:cached
+      - bundle_cache:/usr/local/bundle:cached
+      - yarn_cache:/usr/local/share/.cache/yarn/v6:cached
     tmpfs:
       - /tmp
     tty: true
     stdin_open: true
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       RAILS_ENV: ${RAILS_ENV:-development}
       NODE_ENV: ${NODE_ENV:-development}
-      SELENIUM_DRIVER_URL: http://chrome:4444/wd/hub
       REDIS_URL: redis://redis:6379
+      SELENIUM_DRIVER_URL: http://chrome:4444/wd/hub
       WEBPACKER_DEV_SERVER_HOST: webpacker
     depends_on:
       - chrome
@@ -29,36 +29,36 @@ services:
   chrome:
     image: selenium/standalone-chrome:95.0
     ports:
-      - "4444:4444"
+      - '4444:4444'
 
   db:
     image: postgres:13.4-alpine
     volumes:
-      - postgres:/var/lib/postgresql/data:cached
+      - db_data:/var/lib/postgresql/data:cached
     ports:
-      - "5432:5432"
+      - '5432:5432'
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_INITDB_ARGS: '--encoding=UTF-8 --locale=C.UTF-8'
       POSTGRES_PASSWORD: password
-      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --locale=C.UTF-8"
       TZ: Asia/Tokyo
 
   redis:
     image: redis:6.2.6
     ports:
-      - "6379:6379"
+      - '6379:6379'
 
   webpacker:
     build: .
     command: ./bin/webpack-dev-server
     ports:
-      - "3035:3035"
+      - '3035:3035'
     volumes:
       - .:/myapp:cached
       - rails_cache:/myapp/tmp/cache:cached
       - node_modules:/myapp/node_modules:cached
-      - bundle:/usr/local/bundle:cached
-      - yarn-cache:/usr/local/share/.cache/yarn/v6:cached
+      - bundle_cache:/usr/local/bundle:cached
+      - yarn_cache:/usr/local/share/.cache/yarn/v6:cached
     environment:
       RAILS_ENV: ${RAILS_ENV:-development}
       NODE_ENV: ${NODE_ENV:-development}
@@ -67,6 +67,6 @@ services:
 volumes:
   rails_cache:
   node_modules:
-  postgres:
-  bundle:
-  yarn-cache:
+  bundle_cache:
+  yarn_cache:
+  db_data:
