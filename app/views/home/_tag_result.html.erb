@@ -3,7 +3,7 @@
     <div class="content">
       <%= link_to tag_path(tag.name), class: 'is-flex is-align-items-center' do %>
         <span class="tag is-large tag-link has-text-weight-bold has-text-grey-darker"><%= tag %></span>
-        <p class="ml-5 has-text-black-bis"><%= tag.taggings_count %>件の投稿</p>
+        <p class="ml-5 has-text-grey-dark"><%= tag.taggings_count %>件の投稿</p>
       <% end %>
     </div>
     <div class="columns is-multiline is-mobile is-variable is-1">

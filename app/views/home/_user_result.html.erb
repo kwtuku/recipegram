@@ -9,11 +9,11 @@
   <div class="media-content text-break">
     <%= link_to user_path(user) do %>
       <p class="title is-4 mb-0 text-truncate-container">
-        <span class="has-text-black-bis hover-underline text-truncate-1" title="<%= user.nickname %>"><%= user.nickname %></span>
+        <span class="has-text-grey-darker hover-underline text-truncate-1" title="<%= user.nickname %>"><%= user.nickname %></span>
       </p>
       <p class="has-text-grey-light mb-3">@<%= user.username %></p>
       <p class="mb-3 text-truncate-container">
-        <span class="has-text-black-bis text-truncate-3"><%= user.profile %></span>
+        <span class="has-text-grey-dark text-truncate-3"><%= user.profile %></span>
       </p>
     <% end %>
     <p>
