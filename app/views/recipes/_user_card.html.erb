@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-content">
-    <div class="media">
+    <div class="media is-align-items-center">
       <div class="media-left">
         <%= link_to user_path(user) do %>
           <figure class="image is-48x48">
@@ -10,16 +10,16 @@
       </div>
       <div class="media-content text-break">
         <%= link_to user_path(user) do %>
-          <p class="title mb-0 is-size-5 text-truncate-container">
+          <p class="title is-5 text-truncate-container">
             <span class="has-text-black-bis hover-underline text-truncate-1" title="<%= user.nickname %>"><%= user.nickname %></span>
           </p>
         <% end %>
-        <p class="has-text-grey-light">
-          <span class="has-text-grey-light">@<%= user.username %></span>
+        <p class="text-truncate-container">
+          <span class="has-text-grey-light text-truncate-1">@<%= user.username %></span>
         </p>
-        <div class="mt-1 js-follow-button-<%= user.id %>">
-          <%= render 'shared/follow_button', user: user, size: 'is-small' %>
-        </div>
+      </div>
+      <div class="media-left js-follow-button-<%= user.id %>">
+        <%= render 'shared/follow_button', user: user, size: 'is-small' %>
       </div>
     </div>
     <% if user.profile.present? %>

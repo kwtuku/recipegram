@@ -2,10 +2,10 @@
   <div class="card">
     <div class="card-image">
       <%= link_to recipe_path(recipe) do %>
-        <figure class="image is-1by1 has-mask">
+        <figure class="image is-1by1 mask-container">
           <%= image_tag recipe.recipe_image.thumb.url %>
           <div class="mask has-text-centered">
-            <p class="has-text-white">
+            <p class="has-text-white mask-text">
               <span class="icon is-small">
                 <i class="far fa-heart"></i>
               </span>

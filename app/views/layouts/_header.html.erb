@@ -1,12 +1,12 @@
 <header>
-  <nav class="navbar has-shadow is-fixed-top is-flex is-justify-content-space-around is-align-items-center" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand is-justify-content-center is-flex-grow-2" id="navbar-brand">
+  <nav class="navbar has-shadow is-fixed-top is-flex is-align-items-center" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand is-justify-content-center is-flex-grow-4" id="navbar-brand">
       <%= link_to root_path, class: 'navbar-item' do %>
         <h1 class="title is-4 is-size-5-mobile recipegram">Recipegram</h1>
       <% end %>
     </div>
 
-    <div class="navbar-menu is-justify-content-center is-flex-grow-1 w-one-thirds" id="navbar-menu">
+    <div class="navbar-menu is-justify-content-center is-flex-grow-3" id="navbar-menu">
       <div class="navbar-item is-justify-content-center w-full p-0">
         <div class="is-flex is-align-items-center w-full px-2">
           <%= form_with url: search_path, method: :get, class: 'w-full', id: 'search-form' do |f| %>
@@ -33,7 +33,7 @@
       </div>
     </div>
 
-    <div class="navbar-item is-flex-touch is-justify-content-center is-flex-grow-1 p-0" id="navbar-end">
+    <div class="navbar-item is-flex-touch is-justify-content-center is-flex-grow-3 p-0" id="navbar-end">
       <% if user_signed_in? %>
         <%= link_to root_path, class: 'navbar-item', title: 'ホームへ' do %>
           <span class="icon is-medium">

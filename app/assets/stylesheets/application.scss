@@ -22,7 +22,7 @@
   text-decoration: underline;
 }
 
-.has-mask {
+.mask-container {
   position: relative;
   &:hover .mask {
     opacity: 1;
@@ -35,7 +35,7 @@
     left: 0;
     opacity: 0;
     background-color: rgba(0, 0, 0, 0.4);
-    p {
+    .mask-text {
       position: relative;
       top: 50%;
       transform: translateY(-50%);
@@ -76,6 +76,10 @@
     border: 1px solid hsl(0, 0%, 100%);
     content: attr(data-num);
   }
+}
+
+.title.text-truncate-container {
+  line-height: unset;
 }
 
 .text-truncate-container {
@@ -125,9 +129,9 @@
   width: 100%;
 }
 
-.w-one-thirds {
-  width: 33.333333%;
-}
+// .w-one-thirds {
+//   width: 33.333333%;
+// }
 
 .resize-textarea {
   overflow-y: scroll;

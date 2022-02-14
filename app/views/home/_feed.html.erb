@@ -10,12 +10,14 @@
           </figure>
         <% end %>
       </div>
-      <div class="media-content text-truncate-container">
+      <div class="media-content is-flex text-truncate-container">
         <%= link_to user_path(feed.user) do %>
-          <span class="has-text-black-bis text-break hover-underline text-truncate-1" title="<%= feed.user.nickname %>">
-            <%= feed.user.nickname %>
+          <span class="text-break text-truncate-1" title="<%= feed.user.nickname %>@<%= feed.user.username %>">
+            <span class="has-text-black-bis hover-underline"><%= feed.user.nickname %></span>
+            <span class="has-text-grey-light">@<%= feed.user.username %></span>
           </span>
         <% end %>
+        <span class="is-flex-shrink-0 has-text-grey-light">・<%= time_ago_in_words(feed.updated_at) %>前</span>
       </div>
       <% if user_signed_in? && feed.user == current_user %>
         <div class="media-right">
@@ -51,10 +53,10 @@
 
   <div class="card-image">
     <%= link_to recipe_path(feed) do %>
-      <figure class="image is-1by1 has-mask">
+      <figure class="image is-1by1 mask-container">
         <%= image_tag feed.recipe_image.main.url %>
         <div class="mask has-text-centered">
-          <p class="has-text-white">
+          <p class="has-text-white mask-text">
             <span class="icon">
               <i class="far fa-heart"></i>
             </span>

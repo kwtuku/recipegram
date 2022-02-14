@@ -60,9 +60,9 @@ module ApplicationHelper
 
     followers_you_follow = user.followers_you_follow(current_user)
     if followers_you_follow.size >= 2
-      "#{followers_you_follow.sample.nickname.truncate(14)}さん、他#{followers_you_follow.size - 1}人がフォロー中"
+      "#{followers_you_follow.sample.nickname.truncate(10)}さん、他#{followers_you_follow.size - 1}人がフォロー中"
     elsif followers_you_follow.size == 1
-      "#{followers_you_follow.sample.nickname.truncate(20)}さんがフォロー中"
+      "#{followers_you_follow.sample.nickname.truncate(15)}さんがフォロー中"
     else
       user.following?(current_user) ? 'あなたをフォローしています' : 'おすすめ'
     end

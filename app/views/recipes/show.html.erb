@@ -55,51 +55,8 @@
         </aside>
       </div>
 
-      <div class="column is-9-tablet is-7-desktop p-0-mobile">
+      <div class="column is-10-tablet is-7-desktop p-0-mobile">
         <div class="card">
-          <div class="card-content is-hidden-desktop">
-            <div class="media">
-              <div class="media-left">
-                <figure class="image is-24x24">
-                  <%= image_tag @recipe.user.user_image.icon.url, class: 'is-rounded' %>
-                </figure>
-              </div>
-              <div class="media-content text-truncate-container">
-                <%= link_to user_path(@recipe.user), title: @recipe.user.nickname, class: 'has-text-black-bis text-break hover-underline' do %>
-                  <span class="text-truncate-1"><%= @recipe.user.nickname %></span>
-                <% end %>
-              </div>
-              <% if user_signed_in? && @recipe.user == current_user %>
-                <div class="media-right">
-                  <div class="dropdown is-right">
-                    <div class="dropdown-trigger">
-                      <button class="button is-white is-small" aria-haspopup="true" aria-controls="dropdown-menu">
-                        <span class="icon is-small">
-                          <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
-                        </span>
-                      </button>
-                    </div>
-                    <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                      <div class="dropdown-content">
-                        <%= link_to edit_recipe_path(@recipe), class: 'dropdown-item' do %>
-                          <span class="icon">
-                            <i class="fas fa-edit"></i>
-                          </span>
-                          <span>編集する</span>
-                        <% end %>
-                        <%= link_to recipe_path(@recipe), method: :delete, data: { confirm: '本当にレシピを削除しますか？' }, class: 'dropdown-item' do %>
-                          <span class="icon">
-                            <i class="far fa-trash-alt"></i>
-                          </span>
-                          <span>削除する</span>
-                        <% end %>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              <% end %>
-            </div>
-          </div>
           <div class="card-image">
             <figure class="image is-1by1 is-clickable" id="show-image-modal">
               <%= image_tag @recipe.recipe_image.main.url %>
@@ -155,14 +112,12 @@
         </div>
       </div>
 
-      <div class="column is-10-tablet is-4-desktop p-0-mobile">
+      <div class="column is-offset-1-tablet is-10-tablet is-offset-0-desktop is-4-desktop p-0-mobile">
         <div class="sticky">
-          <div class="is-hidden-touch">
-            <%= render 'recipes/user_card', user: @recipe.user %>
-          </div>
+          <%= render 'recipes/user_card', user: @recipe.user %>
           <% unless @other_recipes.blank? %>
-            <div class="card mt-5">
-              <div class="card-content">
+            <div class="block mt-5">
+              <div class="content pl-5">
                 <p>他の投稿</p>
               </div>
               <div class="columns is-multiline is-mobile is-variable is-1">
