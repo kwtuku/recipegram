@@ -8,14 +8,14 @@
   </div>
   <div class="media-content">
     <p>
-      <%= link_to notification.notifiable.user.nickname, user_path(notification.notifiable.user), class: 'has-text-black-bis has-text-weight-bold text-break hover-underline' %>さんが
+      <%= link_to notification.notifiable.user.nickname, user_path(notification.notifiable.user), class: 'has-text-grey-darker has-text-weight-bold text-break hover-underline' %>さんが
       <% if notification.notifiable_type.downcase == 'favorite' %>
-        <%= link_to "あなたの投稿「#{notification.notifiable.recipe.title}」", recipe_path(notification.notifiable.recipe), class: 'has-text-black-bis has-text-weight-bold text-break hover-underline' %>にいいねしました。
+        <%= link_to "あなたの投稿「#{notification.notifiable.recipe.title}」", recipe_path(notification.notifiable.recipe), class: 'has-text-grey-darker has-text-weight-bold text-break hover-underline' %>にいいねしました。
       <% elsif notification.notifiable_type.downcase == 'comment' %>
         <% if notification.notifiable.recipe.user_id == notification.receiver_id %>
-          <%= link_to "あなたの投稿「#{notification.notifiable.recipe.title}」", recipe_path(notification.notifiable.recipe), class: 'has-text-black-bis has-text-weight-bold text-break hover-underline' %>にコメントしました。
+          <%= link_to "あなたの投稿「#{notification.notifiable.recipe.title}」", recipe_path(notification.notifiable.recipe), class: 'has-text-grey-darker has-text-weight-bold text-break hover-underline' %>にコメントしました。
         <% else %>
-          <%= link_to "あなたがコメントした投稿「#{notification.notifiable.recipe.title}」", recipe_path(notification.notifiable.recipe), class: 'has-text-black-bis has-text-weight-bold text-break hover-underline' %>にコメントしました。
+          <%= link_to "あなたがコメントした投稿「#{notification.notifiable.recipe.title}」", recipe_path(notification.notifiable.recipe), class: 'has-text-grey-darker has-text-weight-bold text-break hover-underline' %>にコメントしました。
         <% end %>
       <% else notification.notifiable_type.downcase == 'relationship' %>
         あなたをフォローしました。

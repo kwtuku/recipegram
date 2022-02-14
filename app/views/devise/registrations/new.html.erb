@@ -5,39 +5,31 @@
 <section class="section">
   <div class="container">
     <div class="columns is-centered">
-      <div class="column is-5">
+      <div class="column is-6">
         <%= link_to root_path do %>
-          <p class="title is-1 has-text-centered mb-6 recipegram">Recipegram</p>
+          <p class="title is-1 has-text-centered mb-5 recipegram">Recipegram</p>
         <% end %>
-        <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'box p-6' }) do |f| %>
           <div class="field">
-            <%= f.label :username, class: 'label mb-0' %>
-            <p class='help has-text-dark'>15字以内の半角英数-（ハイフン）_（アンダースコア）</p>
-          </div>
-          <div class="field is-grouped mb-0">
-            <div class="control is-expanded">
-              <%= f.text_field :username, autofocus: true, autocomplete: 'username', required: true, maxlength: '15', class: 'input' %>
-            </div>
-            <p class="control">
+            <%= f.label :username, class: 'label' %>
+            <div class="control has-icons-right">
+              <%= f.text_field :username, autofocus: true, autocomplete: 'username', required: true, maxlength: 15, class: 'input' %>
               <%= link_to generate_username_path, title: 'ユーザー名を自動生成する', remote: true do %>
-                <button class="button">
-                  <span class="icon is-small">
-                    <i class="fas fa-redo-alt"></i>
-                  </span>
-                </button>
+                <span class="icon is-small is-right is-clickable form-icon" data-rspec="generate-username">
+                  <i class="fas fa-redo-alt"></i>
+                </span>
               <% end %>
-            </p>
-          </div>
-          <div class="field">
-            <%= render 'devise/shared/full_error_messages', model: resource, attribute: :username %>
+            </div>
+            <p class='help has-text-dark'>15字以内の半角英数-（ハイフン）_（アンダースコア）</p>
+            <%= render 'shared/full_error_messages', model: resource, attribute: :username %>
           </div>
 
           <div class="field">
             <%= f.label :nickname, class: 'label' %>
             <div class="control">
-              <%= f.text_field :nickname, autocomplete: 'nickname', required: true, maxlength: '30', class: 'input' %>
+              <%= f.text_field :nickname, autocomplete: 'nickname', required: true, maxlength: 30, class: 'input' %>
             </div>
-            <%= render 'devise/shared/full_error_messages', model: resource, attribute: :nickname %>
+            <%= render 'shared/full_error_messages', model: resource, attribute: :nickname %>
           </div>
 
           <div class="field">
@@ -45,55 +37,40 @@
             <div class="control">
               <%= f.email_field :email, autocomplete: 'email', required: true, class: 'input' %>
             </div>
-            <%= render 'devise/shared/full_error_messages', model: resource, attribute: :email %>
+            <%= render 'shared/full_error_messages', model: resource, attribute: :email %>
           </div>
 
           <div class="field">
-            <%= f.label :password, class: 'label mb-0' %>
-            <p class='help has-text-dark'><%= "#{t('devise.shared.minimum_password_length', count: @minimum_password_length)}の" if @minimum_password_length %>半角英数記号</p>
-          </div>
-          <div class="field is-grouped mb-0 password-area">
-            <div class="control is-expanded">
-              <%= f.password_field :password, autocomplete: 'new-password', required: true, minlength: @minimum_password_length, maxlength: '128', class: 'input' %>
+            <%= f.label :password, class: 'label' %>
+            <div class="control has-icons-right js-handle-password-mask">
+              <%= f.password_field :password, autocomplete: 'new-password', required: true, minlength: @minimum_password_length, maxlength: 128, class: 'input' %>
+              <span class="icon is-small is-right is-clickable form-icon" title="パスワードを表示する">
+                <i class="far fa-eye-slash"></i>
+              </span>
             </div>
-            <p class="control password-mask">
-              <button class="button" title="パスワードを表示する" onclick="return false;">
-                <span class="icon is-small">
-                  <i class="far fa-eye-slash"></i>
-                </span>
-              </button>
-            </p>
-          </div>
-          <div class="field">
-            <%= render 'devise/shared/full_error_messages', model: resource, attribute: :password %>
+            <p class='help has-text-dark'><%= "#{t('devise.shared.minimum_password_length', count: @minimum_password_length)}の" if @minimum_password_length %>半角英数記号</p>
+            <%= render 'shared/full_error_messages', model: resource, attribute: :password %>
           </div>
 
           <div class="field">
             <%= f.label :password_confirmation, class: 'label' %>
-          </div>
-          <div class="field is-grouped mb-0 password-area">
-            <div class="control is-expanded">
-              <%= f.password_field :password_confirmation, autocomplete: 'new-password', required: true, minlength: @minimum_password_length, maxlength: '128', class: 'input' %>
+            <div class="control has-icons-right js-handle-password-mask">
+              <%= f.password_field :password_confirmation, autocomplete: 'new-password', required: true, minlength: @minimum_password_length, maxlength: 128, class: 'input' %>
+              <span class="icon is-small is-right is-clickable form-icon" title="パスワードを表示する">
+                <i class="far fa-eye-slash"></i>
+              </span>
             </div>
-            <p class="control password-mask password-confirmation-mask">
-              <button class="button" title="パスワードを表示する" onclick="return false;">
-                <span class="icon is-small">
-                  <i class="far fa-eye-slash"></i>
-                </span>
-              </button>
-            </p>
-          </div>
-          <div class="field">
-            <%= render 'devise/shared/full_error_messages', model: resource, attribute: :password_confirmation %>
+            <%= render 'shared/full_error_messages', model: resource, attribute: :password_confirmation %>
           </div>
 
           <%= f.submit t('.sign_up'), class: 'button is-fullwidth is-rounded is-info', id: 'signup', disabled: true %>
-        <% end %>
 
-        <div class="is-flex is-justify-content-space-between mt-4">
-          <%= link_to 'ゲストログイン', users_guest_sign_in_path, method: :post, class: 'hover-underline' %>
-          <%= link_to 'ログイン', new_user_session_path, class: 'hover-underline' %>
-        </div>
+          <div class="is-flex is-justify-content-center mt-4">
+            <%= link_to 'ゲストログイン', users_guest_sign_in_path, method: :post, class: 'hover-underline' %>
+            <span class="mx-2">/</span>
+            <%= link_to 'ログイン', new_user_session_path, class: 'hover-underline' %>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>

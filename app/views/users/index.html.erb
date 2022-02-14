@@ -1,9 +1,8 @@
 <% provide(:title, 'ユーザー一覧') %>
 
-<%= render 'layouts/hero', hero_title: 'ユーザー一覧' %>
-
 <section class="section p-0-mobile">
   <div class="container">
+    <h1 class="title has-text-centered">ユーザー一覧</h1>
     <div class="columns is-multiline is-mobile m-0-mobile" id="infinite-scroll-container" data-infinite-scroll="<%= @users.size == 40 %>">
       <%= render @users %>
       <% if @users.size == 40 %>

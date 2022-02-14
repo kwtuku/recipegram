@@ -11,21 +11,21 @@
         </div>
         <div class="media-content">
           <%= link_to user_path(user) do %>
-            <p class="is-size-5 is-1-line">
-              <span class="has-text-black-bis text-break hover-underline" title="<%= user.nickname %>"><%= user.nickname %></span>
+            <p class="title is-5 text-truncate-container">
+              <span class="text-break hover-underline text-truncate-1" title="<%= user.nickname %>"><%= user.nickname %></span>
             </p>
-            <p class="has-text-grey-light mb-2">@<%= user.username %></p>
           <% end %>
+          <p class="mb-2">
+            <span class="has-text-grey-light">@<%= user.username %></span>
+            <% if user.following?(current_user) %>
+              <span class="tag is-info is-light">フォローされています</span>
+            <% end %>
+          </p>
           <div class="js-follow-button-<%= user.id %>">
             <%= render 'shared/follow_button', user: user, size: 'is-small' %>
           </div>
         </div>
       </div>
-      <% if user.following?(current_user) %>
-        <div class="content">
-          <span class="tag is-info is-light">フォローされています</span>
-        </div>
-      <% end %>
     </div>
   </div>
 </div>

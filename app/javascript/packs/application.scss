@@ -1,1 +1,55 @@
-@import '@yaireo/tagify/src/tagify.scss';
+$dropdown-item-active-background-color: hsl(0, 0%, 96%);
+$dropdown-item-active-color: hsl(0, 0%, 4%);
+
+$menu-item-active-background-color: hsl(0, 0%, 96%);
+$menu-item-active-color: hsl(0, 0%, 4%);
+
+$navbar-box-shadow-color: hsl(0, 0%, 86%);
+$navbar-box-shadow-size: 0 1px 0 0;
+$navbar-breakpoint: 768px;
+$navbar-item-hover-color: hsl(0, 0%, 4%);
+
+$pagination-current-background-color: hsl(207, 61%, 53%);
+$pagination-current-border-color: hsl(207, 61%, 53%);
+$pagination-focus-border-color: hsl(0, 0%, 71%);
+
+$tabs-link-active-border-bottom-color: hsl(0, 0%, 29%);
+$tabs-link-active-color: hsl(0, 0%, 29%);
+
+@import '~bulma/bulma.sass';
+@import '~@yaireo/tagify/src/tagify.scss';
+
+.custom-tagify-look {
+  height: unset;
+  --tag-bg: hsl(0, 0%, 96%);
+  --tag-inset-shadow-size: 5em;
+  --tag-remove-btn-color: hsl(0, 0%, 21%);
+  --tag-text-color: hsl(0, 0%, 21%);
+  --tags-focus-border-color: hsl(229, 53%, 53%);
+}
+
+.tagify--focus {
+  box-shadow: 0 0 0 0.125em rgba(72, 95, 199, 0.25);
+}
+
+.tagify__dropdown__item--active {
+  background-color: hsl(207, 61%, 53%);
+}
+
+.tagify__dropdown__wrapper {
+  border: unset;
+}
+
+.form-icon:hover {
+  color: hsl(0, 0%, 4%) !important;
+}
+
+.modal-content {
+  @media screen and (min-width: 769px) {
+    width: 90vh;
+  }
+}
+
+.notification:not(:last-child) {
+  margin-bottom: 0;
+}

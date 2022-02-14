@@ -2,10 +2,9 @@
 
 <%= render 'devise/shared/error_messages', resource: resource %>
 
-<%= render 'layouts/hero', hero_title: 'アカウント削除の確認' %>
-
 <section class="section">
   <div class="container">
+    <h1 class="title has-text-centered">アカウント削除の確認</h1>
     <div class="columns is-centered">
       <div class="column is-10">
         <h2 class="title is-size-5 has-text-centered">一度アカウントを削除すると、以下のものが完全に削除され、<span class="has-text-danger">復元することはできません。</span></h2>
@@ -28,22 +27,15 @@
         <%= form_with model: resource, url: registration_path(resource_name), method: :delete do |f| %>
           <div class="field">
             <%= f.label :current_password, class: 'label' %>
-          </div>
-          <div class="field is-grouped password-area">
-            <div class="control is-expanded">
-              <%= f.password_field :current_password, autocomplete: 'current-password', required: true, maxlength: '128', class: 'input' %>
+            <div class="control has-icons-right js-handle-password-mask">
+              <%= f.password_field :current_password, autocomplete: 'current-password', required: true, maxlength: 128, class: 'input' %>
+              <span class="icon is-small is-right is-clickable form-icon" title="パスワードを表示する">
+                <i class="far fa-eye-slash"></i>
+              </span>
             </div>
-            <p class="control password-mask">
-              <button class="button" title="パスワードを表示する" onclick="return false;">
-                <span class="icon is-small">
-                  <i class="far fa-eye-slash"></i>
-                </span>
-              </button>
-            </p>
+            <%= render 'shared/full_error_messages', model: resource, attribute: :current_password %>
           </div>
-          <div class="field">
-            <%= render 'devise/shared/full_error_messages', model: resource, attribute: :current_password %>
-          </div>
+
           <%= f.submit t('.cancel_my_account'), class: 'button is-rounded is-danger', id: 'destroy_account', disabled: true %>
         <% end %>
       </div>

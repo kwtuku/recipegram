@@ -1,4 +1,5 @@
 <p class="has-text-grey-light"><%= feed_description(feed) %></p>
+
 <div class="card mb-5" data-infinite-scroll-item="" data-rspec="recipe-<%= feed.id %>">
   <div class="card-content">
     <div class="media">
@@ -9,10 +10,14 @@
           </figure>
         <% end %>
       </div>
-      <div class="media-content is-1-line">
+      <div class="media-content is-flex text-truncate-container">
         <%= link_to user_path(feed.user) do %>
-          <span class="has-text-black-bis text-break hover-underline" title="<%= feed.user.nickname %>"><%= feed.user.nickname %></span>
+          <span class="text-break text-truncate-1" title="<%= feed.user.nickname %>@<%= feed.user.username %>">
+            <span class="has-text-grey-dark hover-underline"><%= feed.user.nickname %></span>
+            <span class="has-text-grey-light">@<%= feed.user.username %></span>
+          </span>
         <% end %>
+        <span class="is-flex-shrink-0 has-text-grey-light">・<%= time_ago_in_words(feed.updated_at) %>前</span>
       </div>
       <% if user_signed_in? && feed.user == current_user %>
         <div class="media-right">
@@ -26,20 +31,18 @@
             </div>
             <div class="dropdown-menu" id="dropdown-menu" role="menu">
               <div class="dropdown-content">
-                  <%= link_to edit_recipe_path(feed), class: 'dropdown-item' do %>
-                    <span class="icon">
-                        <i class="fas fa-edit"></i>
-                      </span>
-                      <span>編集する</span>
-                    </span>
-                  <% end %>
-                  <%= link_to recipe_path(feed), method: :delete, data: {confirm: '本当にレシピを削除しますか？'}, class: 'dropdown-item' do %>
-                    <span class="icon">
-                        <i class="far fa-trash-alt"></i>
-                      </span>
-                      <span>削除する</span>
-                    </span>
-                  <% end %>
+                <%= link_to edit_recipe_path(feed), class: 'dropdown-item' do %>
+                  <span class="icon">
+                    <i class="fas fa-edit"></i>
+                  </span>
+                  <span>編集する</span>
+                <% end %>
+                <%= link_to recipe_path(feed), method: :delete, data: { confirm: '本当にレシピを削除しますか？' }, class: 'dropdown-item' do %>
+                  <span class="icon">
+                    <i class="far fa-trash-alt"></i>
+                  </span>
+                  <span>削除する</span>
+                <% end %>
               </div>
             </div>
           </div>
@@ -50,22 +53,18 @@
 
   <div class="card-image">
     <%= link_to recipe_path(feed) do %>
-      <figure class="image is-1by1 has-mask">
+      <figure class="image is-1by1 mask-container">
         <%= image_tag feed.recipe_image.main.url %>
         <div class="mask has-text-centered">
-          <p class="has-text-white">
-            <span class="icon-text mr-3">
-              <span class="icon">
-                <i class="far fa-heart"></i>
-              </span>
-              <span><%= feed.favorites_count %></span>
+          <p class="has-text-white mask-text">
+            <span class="icon">
+              <i class="far fa-heart"></i>
             </span>
-            <span class="icon-text">
-              <span class="icon">
-                <i class="far fa-comment"></i>
-              </span>
-              <span><%= feed.comments_count %></span>
+            <span><%= feed.favorites_count %></span>
+            <span class="icon ml-3">
+              <i class="far fa-comment"></i>
             </span>
+            <span><%= feed.comments_count %></span>
           </p>
         </div>
       </figure>

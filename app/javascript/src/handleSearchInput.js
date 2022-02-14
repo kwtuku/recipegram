@@ -7,7 +7,7 @@ export default () => {
     const navbarMenu = document.getElementById('navbar-menu');
     const navbarEnd = document.getElementById('navbar-end');
 
-    expandTrigger.addEventListener('click', () => {
+    expandTrigger?.addEventListener('click', () => {
       navbarBrand.classList.add('is-hidden-mobile');
       navbarMenu.classList.add('is-block-mobile');
       navbarMenu.style.overflow = 'visible';

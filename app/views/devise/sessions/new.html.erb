@@ -3,11 +3,11 @@
 <section class="section">
   <div class="container">
     <div class="columns is-centered">
-      <div class="column is-5">
+      <div class="column is-6">
         <%= link_to root_path do %>
-          <p class="title is-1 has-text-centered mb-6 recipegram">Recipegram</p>
+          <p class="title is-1 has-text-centered mb-5 recipegram">Recipegram</p>
         <% end %>
-        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'box p-6' }) do |f| %>
           <div class="field">
             <%= f.label :email, class: 'label' %>
             <div class="control">
@@ -17,36 +17,29 @@
 
           <div class="field">
             <%= f.label :password, class: 'label' %>
-          </div>
-          <div class="field is-grouped password-area">
-            <div class="control is-expanded">
-              <%= f.password_field :password, autocomplete: 'current-password', required: true, minlength: @minimum_password_length, maxlength: '128', class: 'input' %>
+            <div class="control has-icons-right js-handle-password-mask">
+              <%= f.password_field :password, autocomplete: 'current-password', required: true, minlength: @minimum_password_length, maxlength: 128, class: 'input' %>
+              <span class="icon is-small is-right is-clickable form-icon" title="パスワードを表示する">
+                <i class="far fa-eye-slash"></i>
+              </span>
             </div>
-            <p class="control password-mask">
-              <button class="button" title="パスワードを表示する" onclick="return false;">
-                <span class="icon is-small">
-                  <i class="far fa-eye-slash"></i>
-                </span>
-              </button>
-            </p>
           </div>
 
-          <% if devise_mapping.rememberable? %>
-            <div class="field">
-              <%= f.label :remember_me, class: 'checkbox' do %>
-                <%= f.check_box :remember_me %>
-                <%= resource.class.human_attribute_name('remember_me') %>
-              <% end %>
-            </div>
-          <% end %>
+          <div class="field">
+            <%= f.label :remember_me, class: 'checkbox' do %>
+              <%= f.check_box :remember_me %>
+              <%= resource.class.human_attribute_name('remember_me') %>
+            <% end %>
+          </div>
 
           <%= f.submit t('.sign_in'), class: 'button is-fullwidth is-rounded is-info', id: 'signin', disabled: true %>
-        <% end %>
 
-        <div class="is-flex is-justify-content-space-between mt-4">
-          <%= link_to 'ゲストログイン', users_guest_sign_in_path, method: :post, class: 'hover-underline' %>
-          <%= link_to '新規登録', new_user_registration_path, class: 'hover-underline' %>
-        </div>
+          <div class="is-flex is-justify-content-center mt-4">
+            <%= link_to 'ゲストログイン', users_guest_sign_in_path, method: :post, class: 'hover-underline' %>
+            <span class="mx-2">/</span>
+            <%= link_to '新規登録', new_user_registration_path, class: 'hover-underline' %>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>

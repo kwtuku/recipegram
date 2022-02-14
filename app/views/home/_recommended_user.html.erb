@@ -8,11 +8,13 @@
   </div>
   <div class="media-content">
     <%= link_to user_path(user) do %>
-      <p class="is-size-6 is-1-line">
-        <span class="has-text-black-bis text-break hover-underline" title="<%= user.nickname %>"><%= user.nickname %></span>
+      <p class="is-size-6 text-truncate-container">
+        <span class="has-text-grey-dark text-break hover-underline text-truncate-1" title="<%= user.nickname %>"><%= user.nickname %></span>
       </p>
     <% end %>
-    <p class="is-size-7 has-text-grey-light"><%= recommended_description(user) %></p>
+    <p class="is-size-7 has-text-grey-light text-truncate-container">
+      <span class="text-truncate-1"><%= recommended_description(user) %></span>
+    </p>
   </div>
   <div class="media-right">
     <div class="js-follow-button-<%= user.id %>">

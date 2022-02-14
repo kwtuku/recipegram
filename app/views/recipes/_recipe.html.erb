@@ -2,22 +2,18 @@
   <div class="card" data-infinite-scroll-item="" data-rspec="recipe-<%= recipe.id %>">
     <div class="card-image">
       <%= link_to recipe_path(recipe) do %>
-        <figure class="image is-1by1 has-mask">
+        <figure class="image is-1by1 mask-container">
           <%= image_tag recipe.recipe_image.thumb.url %>
           <div class="mask has-text-centered">
-            <p class="has-text-white">
-              <span class="icon-text mr-3">
-                <span class="icon">
-                  <i class="far fa-heart"></i>
-                </span>
-                <span><%= recipe.favorites_count %></span>
+            <p class="has-text-white mask-text">
+              <span class="icon">
+                <i class="far fa-heart"></i>
               </span>
-              <span class="icon-text">
-                <span class="icon">
-                  <i class="far fa-comment"></i>
-                </span>
-                <span><%= recipe.comments_count %></span>
+              <span><%= recipe.favorites_count %></span>
+              <span class="icon ml-3">
+                <i class="far fa-comment"></i>
               </span>
+              <span><%= recipe.comments_count %></span>
             </p>
           </div>
         </figure>
