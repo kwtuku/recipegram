@@ -9,6 +9,7 @@ services:
       - rails_cache:/myapp/tmp/cache:cached
       - node_modules:/myapp/node_modules:cached
       - bundle:/usr/local/bundle:cached
+      - yarn-cache:/usr/local/share/.cache/yarn/v6:cached
     tmpfs:
       - /tmp
     tty: true
@@ -57,6 +58,7 @@ services:
       - rails_cache:/myapp/tmp/cache:cached
       - node_modules:/myapp/node_modules:cached
       - bundle:/usr/local/bundle:cached
+      - yarn-cache:/usr/local/share/.cache/yarn/v6:cached
     environment:
       RAILS_ENV: ${RAILS_ENV:-development}
       NODE_ENV: ${NODE_ENV:-development}
@@ -67,3 +69,4 @@ volumes:
   node_modules:
   postgres:
   bundle:
+  yarn-cache:
