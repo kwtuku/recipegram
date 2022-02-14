@@ -36,7 +36,7 @@
                 </span>
               <% end %>
             </div>
-            <%= render 'devise/shared/full_error_messages', model: @user, attribute: :user_image %>
+            <%= render 'shared/full_error_messages', model: @user, attribute: :user_image %>
           </div>
         </div>
 
@@ -49,7 +49,7 @@
             <p class="help has-text-right">
               <span class="<%= 'has-text-danger' if @user.errors[:nickname].any? %>" id="count-nickname-characters"><%= @user.nickname.size.presence || 0 %></span>/30字
             </p>
-            <%= render 'devise/shared/full_error_messages', model: @user, attribute: :nickname %>
+            <%= render 'shared/full_error_messages', model: @user, attribute: :nickname %>
           </div>
 
           <div class="field">
@@ -60,7 +60,7 @@
             <p class="help has-text-right">
               <span class="<%= 'has-text-danger' if @user.errors[:profile].any? %>" id="count-profile-characters"><%= @user.profile&.size.presence || 0 %></span>/500字
             </p>
-            <%= render 'devise/shared/full_error_messages', model: @user, attribute: :profile %>
+            <%= render 'shared/full_error_messages', model: @user, attribute: :profile %>
           </div>
 
           <%= f.submit '更新', class: 'button is-rounded is-info', id: 'update_user', disabled: true %>

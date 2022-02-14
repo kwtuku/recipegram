@@ -28,7 +28,7 @@
         </span>
       <% end %>
     </div>
-    <%= render 'devise/shared/full_error_messages', model: recipe, attribute: :recipe_image %>
+    <%= render 'shared/full_error_messages', model: recipe, attribute: :recipe_image %>
   </div>
 
   <div class="field">
@@ -39,7 +39,7 @@
     <p class="help has-text-right">
       <span class="<%= 'has-text-danger' if recipe.errors[:title].any? %>" id="count-recipe-title-characters"><%= recipe.title&.size.presence || 0 %></span>/30字
     </p>
-    <%= render 'devise/shared/full_error_messages', model: recipe, attribute: :title %>
+    <%= render 'shared/full_error_messages', model: recipe, attribute: :title %>
   </div>
 
   <div class="field">
@@ -50,7 +50,7 @@
     <p class="help has-text-right">
       <span class="<%= 'has-text-danger' if recipe.errors[:body].any? %>" id="count-recipe-body-characters"><%= recipe.body&.size.presence || 0 %></span>/2000字
     </p>
-    <%= render 'devise/shared/full_error_messages', model: recipe, attribute: :body %>
+    <%= render 'shared/full_error_messages', model: recipe, attribute: :body %>
   </div>
 
   <div class="field">
@@ -58,7 +58,7 @@
     <div class="control" id="tag-input">
       <%= f.text_field :tag_list, value: f.object.tag_list.join(','), pattern: '^[,a-z0-9一-龠々ぁ-ヶー]+$', class: 'input custom-tagify-look' %>
     </div>
-    <%= render 'devise/shared/full_error_messages', model: recipe, attribute: :tag_list %>
+    <%= render 'shared/full_error_messages', model: recipe, attribute: :tag_list %>
   </div>
 
   <% if action == 'new' %>

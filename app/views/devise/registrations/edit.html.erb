@@ -15,7 +15,7 @@
               <%= f.text_field :username, autofocus: true, required: true, maxlength: 15, class: 'input' %>
             </div>
             <p class='help has-text-dark'>15字以内の半角英数-（ハイフン）_（アンダースコア）</p>
-            <%= render 'devise/shared/full_error_messages', model: resource, attribute: :username %>
+            <%= render 'shared/full_error_messages', model: resource, attribute: :username %>
           </div>
 
           <div class="field">
@@ -23,7 +23,7 @@
             <div class="control">
               <%= f.email_field :email, autocomplete: 'email', required: true, class: 'input' %>
             </div>
-            <%= render 'devise/shared/full_error_messages', model: resource, attribute: :email %>
+            <%= render 'shared/full_error_messages', model: resource, attribute: :email %>
           </div>
 
           <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
@@ -40,7 +40,7 @@
             </div>
             <p class='help has-text-dark'><%= "#{t('devise.shared.minimum_password_length', count: @minimum_password_length)}の" if @minimum_password_length %>半角英数記号</p>
             <p class='help has-text-dark'><%= t('.leave_blank_if_you_don_t_want_to_change_it') %></p>
-            <%= render 'devise/shared/full_error_messages', model: resource, attribute: :password %>
+            <%= render 'shared/full_error_messages', model: resource, attribute: :password %>
           </div>
 
           <div class="field">
@@ -51,7 +51,7 @@
                 <i class="far fa-eye-slash"></i>
               </span>
             </div>
-            <%= render 'devise/shared/full_error_messages', model: resource, attribute: :password_confirmation %>
+            <%= render 'shared/full_error_messages', model: resource, attribute: :password_confirmation %>
           </div>
 
           <div class="field">
@@ -63,7 +63,7 @@
               </span>
             </div>
             <p class='help has-text-dark'><%= t('.we_need_your_current_password_to_confirm_your_changes', count: @minimum_password_length) %></p>
-            <%= render 'devise/shared/full_error_messages', model: resource, attribute: :current_password %>
+            <%= render 'shared/full_error_messages', model: resource, attribute: :current_password %>
           </div>
 
           <%= f.submit t('.update'), class: 'button is-fullwidth is-rounded is-info', id: 'update_account', disabled: true %>

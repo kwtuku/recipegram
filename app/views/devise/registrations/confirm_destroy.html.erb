@@ -33,7 +33,7 @@
                 <i class="far fa-eye-slash"></i>
               </span>
             </div>
-            <%= render 'devise/shared/full_error_messages', model: resource, attribute: :current_password %>
+            <%= render 'shared/full_error_messages', model: resource, attribute: :current_password %>
           </div>
 
           <%= f.submit t('.cancel_my_account'), class: 'button is-rounded is-danger', id: 'destroy_account', disabled: true %>
