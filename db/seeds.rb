@@ -1,6 +1,22 @@
 Rails.logger = Logger.new($stdout)
 Faker::Config.locale = :en
 
+def generate_paragraphs(max_chars_count)
+  chars_count = rand(10..max_chars_count)
+  new_lines_count = rand(1..(chars_count / 50)) || 0
+  not_new_line_chars_count = chars_count - new_lines_count * 2
+
+  rands = Array.new(new_lines_count) { rand(1..(not_new_line_chars_count - 1)) }
+  rands.push(0, not_new_line_chars_count)
+  rands.sort!
+  paragraph_chars_counts = rands.drop(1).zip(rands).map { |a, b| a - b }.delete_if(&:zero?)
+  paragraphs = paragraph_chars_counts.map do |paragraph_chars_count|
+    Faker::Lorem.paragraph_by_chars(number: paragraph_chars_count, supplemental: false)
+  end
+
+  paragraphs.join("\r\n")
+end
+
 def create_long_word_user_recipe_comment
   password_for_production = Rails.application.credentials.seed[:user_password]
   common_password = Rails.env.production? ? password_for_production : 'fffffr'
