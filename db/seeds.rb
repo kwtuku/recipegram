@@ -7,8 +7,7 @@ def generate_paragraphs(max_chars_count)
   not_new_line_chars_count = chars_count - new_lines_count * 2
 
   rands = Array.new(new_lines_count) { rand(1..(not_new_line_chars_count - 1)) }
-  rands.push(0, not_new_line_chars_count)
-  rands.sort!
+  rands.push(0, not_new_line_chars_count).sort!
   paragraph_chars_counts = rands.drop(1).zip(rands).map { |a, b| a - b }.delete_if(&:zero?)
   paragraphs = paragraph_chars_counts.map do |paragraph_chars_count|
     Faker::Lorem.paragraph_by_chars(number: paragraph_chars_count, supplemental: false)
@@ -18,15 +17,13 @@ def generate_paragraphs(max_chars_count)
 end
 
 def create_long_word_user_recipe_comment
-  password_for_production = Rails.application.credentials.seed[:user_password]
-  common_password = Rails.env.production? ? password_for_production : 'fffffr'
-
-  user = User.create!(
-    username: "l#{'o' * 9}ng",
+  user = User.find_by(email: 'long@example.com')
+  user ||= User.create!(
+    username: "very_long_w#{'o' * 2}rd",
     nickname: "very_long_w#{'o' * 17}rd",
     email: 'long@example.com',
-    password: common_password,
-    password_confirmation: common_password,
+    password: password = Rails.env.production? ? Rails.application.credentials.seed[:user_password] : 'fffffr',
+    password_confirmation: password,
     profile: "very_long_w#{'o' * 487}rd",
     user_image: File.open("./db/fixtures/user/user_sample_#{rand(1..30)}.jpg")
   )
@@ -36,7 +33,7 @@ def create_long_word_user_recipe_comment
     title: "very_long_w#{'o' * 17}rd",
     body: "very_long_w#{'o' * 1987}rd",
     recipe_image: File.open("./db/fixtures/recipe/recipe_sample_#{rand(1..30)}.jpg"),
-    tag_list: "very_long_w#{'o' * 7}rd"
+    tag_list: Array.new(5) { "#{SecureRandom.hex(7)}a" }.join(',')
   )
   Rails.logger.debug 'レシピを作成完了'
 
@@ -47,249 +44,202 @@ def create_long_word_user_recipe_comment
   Rails.logger.debug 'コメントを作成完了'
 end
 
-def create_user(user_creation_time)
-  Rails.logger.debug "ユーザーを#{user_creation_time}回作成"
+def create_users(count)
+  Rails.logger.debug "ユーザーを#{count}回作成"
 
-  password_for_production = Rails.application.credentials.seed[:user_password]
-  common_password = Rails.env.production? ? password_for_production : 'fffffr'
-
-  user_example_emails = User.all.pluck(:email).grep(/example(.+)@example.com/)
-  last_email_number =
-    if user_example_emails.blank?
-      0
-    else
-      user_example_emails.map { |email| email.gsub(/example(.+)@example.com/, '\+').to_i }.max
-    end
-
-  user_creation_time.times do |n|
-    nickname = Faker::Lorem.words(number: rand(1..10)).join(' ')[0..29]
-    email = "example#{last_email_number + n + 1}@example.com"
-    profile = Faker::Lorem.paragraphs(number: rand(1..10)).join(' ')[0..499]
-    user_image = File.open("./db/fixtures/user/user_sample_#{rand(1..30)}.jpg")
-
+  count.times do
     User.create!(
-      username: User.generate_username,
-      nickname: nickname,
-      email: email,
-      password: common_password,
-      password_confirmation: common_password,
-      profile: profile,
-      user_image: user_image
+      username: SecureRandom.urlsafe_base64(rand(7..11)).downcase,
+      nickname: Faker::Lorem.words(number: rand(1..5)).join(' ')[0..29],
+      email: "#{SecureRandom.urlsafe_base64}@example.com",
+      password: password = Rails.env.production? ? Rails.application.credentials.seed[:user_password] : 'fffffr',
+      password_confirmation: password,
+      profile: rand > 0.3 ? generate_paragraphs(500) : nil,
+      user_image: rand > 0.3 ? File.open("./db/fixtures/user/user_sample_#{rand(1..30)}.jpg") : nil
     )
 
-    user_creation_time -= 1
-    Rails.logger.debug user_creation_time.zero? ? 'ユーザー作成完了' : "あと#{user_creation_time}回"
+    count -= 1
+    Rails.logger.debug "あと#{count}回" unless count.zero?
   end
+
+  Rails.logger.debug 'ユーザー作成完了'
 end
 
-def create_relationship(create_relationship_time)
-  Rails.logger.debug "フォローを#{create_relationship_time}回作成"
+def create_relationships(count)
+  Rails.logger.debug "フォローを#{count}回作成"
 
-  users = User.all
+  user_ids = User.ids
+  count.times do
+    user_pair = user_ids.sample(2)
+    Relationship.find_or_create_by!(follow_id: user_pair[0], user_id: user_pair[1])
 
-  users.sample(create_relationship_time).each do |user|
-    followed_ids = User.ids.sample(rand(1..users.size)) - [user.id]
-    followed_ids.each do |followed_id|
-      user.relationships.find_or_create_by(follow_id: followed_id)
-    end
-    Rails.logger.debug "#{user.id}が#{followed_ids}をフォロー"
+    count -= 1
+    Rails.logger.debug "あと#{count}回" unless count.zero?
   end
+
+  Rails.logger.debug 'フォロー作成完了'
 end
 
-def create_recipe(recipe_creation_time)
-  Rails.logger.debug "レシピを#{recipe_creation_time}回作成"
+def create_recipes(count)
+  Rails.logger.debug "レシピを#{count}回作成"
 
-  recipe_creation_time.times do
-    recipe_title = Faker::Lorem.words(number: rand(1..10)).join(' ')[0..29]
-    recipe_body = <<~TEXT
-      #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..10)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..8)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..10)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..8)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..3)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..8)).join(' ')}
-    TEXT
-    recipe_image = File.open("./db/fixtures/recipe/recipe_sample_#{rand(1..30)}.jpg")
-
-    User.all.sample.recipes.create!(
-      title: recipe_title,
-      body: recipe_body[0..1999],
-      recipe_image: recipe_image,
-      tag_list: Faker::Lorem.words(number: rand(1..5)).join(', ')
+  user_ids = User.ids
+  count.times do
+    Recipe.create!(
+      user_id: user_ids.sample,
+      title: Faker::Lorem.words(number: rand(1..5)).join(' ')[0..29],
+      body: generate_paragraphs(2000),
+      recipe_image: File.open("./db/fixtures/recipe/recipe_sample_#{rand(1..30)}.jpg"),
+      tag_list: Faker::Lorem.words(number: rand(6)).join(',')
     )
 
-    recipe_creation_time -= 1
-    Rails.logger.debug recipe_creation_time.zero? ? 'レシピ作成完了' : "あと#{recipe_creation_time}回"
+    count -= 1
+    Rails.logger.debug "あと#{count}回" unless count.zero?
   end
+
+  Rails.logger.debug 'レシピ作成完了'
 end
 
-def create_comment(comment_creation_time)
-  Rails.logger.debug "コメントを#{comment_creation_time}回作成"
+def create_comments(count)
+  Rails.logger.debug "コメントを#{count}回作成"
 
-  comment_creation_time.times do
-    comment_body = <<~TEXT
-      #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..10)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..3)).join(' ')}
-    TEXT
+  user_ids = User.ids
+  recipe_ids = Recipe.ids
+  count.times do
+    Comment.create!(recipe_id: recipe_ids.sample, user_id: user_ids.sample, body: generate_paragraphs(500))
 
-    User.all.sample.comments.create!(
-      recipe_id: Recipe.ids.sample,
-      body: comment_body[0..499]
-    )
-    comment_creation_time -= 1
-    Rails.logger.debug comment_creation_time.zero? ? 'コメント作成完了' : "あと#{comment_creation_time}回"
+    count -= 1
+    Rails.logger.debug "あと#{count}回" unless count.zero?
   end
+
+  Rails.logger.debug 'コメント作成完了'
 end
 
-def create_favorite(favorite_creation_time)
-  Rails.logger.debug "いいねを#{favorite_creation_time}回作成"
+def create_favorites(count)
+  Rails.logger.debug "いいねを#{count}回作成"
 
-  favorite_creation_time.times do
-    User.all.sample.favorites.find_or_create_by(recipe_id: Recipe.ids.sample)
+  user_ids = User.ids
+  recipe_ids = Recipe.ids
+  count.times do
+    Favorite.find_or_create_by!(recipe_id: recipe_ids.sample, user_id: user_ids.sample)
 
-    favorite_creation_time -= 1
-    Rails.logger.debug favorite_creation_time.zero? ? 'いいね作成完了' : "あと#{favorite_creation_time}回"
+    count -= 1
+    Rails.logger.debug "あと#{count}回" unless count.zero?
   end
+
+  Rails.logger.debug 'いいね作成完了'
 end
 
-def update_recipe(recipe_updating_time)
-  Rails.logger.debug "レシピを#{recipe_updating_time}回更新"
+def update_recipes(count)
+  Rails.logger.debug "レシピを#{count}回更新"
 
-  recipe_updating_time.times do
-    recipe_title = Faker::Lorem.words(number: rand(1..10)).join(' ')[0..29]
-    recipe_body = <<~TEXT
-      #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..10)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..8)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..10)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..8)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..3)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..8)).join(' ')}
-    TEXT
-
-    target_recipe = Recipe.all.sample
-    target_recipe.update!(
-      title: recipe_title,
-      body: recipe_body[0..1999],
-      tag_list: Faker::Lorem.words(number: rand(1..5)).join(', ')
+  Recipe.all.sample(count).each do |recipe|
+    recipe.update!(
+      title: Faker::Lorem.words(number: rand(1..5)).join(' ')[0..29],
+      body: generate_paragraphs(2000),
+      tag_list: Faker::Lorem.words(number: rand(6)).join(',')
     )
 
-    recipe_updating_time -= 1
-    Rails.logger.debug "#{target_recipe.id}を更新"
-    Rails.logger.debug recipe_updating_time.zero? ? 'レシピ更新完了' : "あと#{recipe_updating_time}回"
+    count -= 1
+    Rails.logger.debug "#{recipe.id}を更新"
+    Rails.logger.debug "あと#{count}回" unless count.zero?
   end
+
+  Rails.logger.debug 'レシピ更新完了'
 end
 
-def create_notification_of_one_user(notification_creation_time, user_id)
-  Rails.logger.debug "#{user_id}の通知を#{notification_creation_time}回作成"
+def create_notifications_of_one_user(count, user_id)
+  Rails.logger.debug "#{user_id}の通知を#{count}回作成"
 
   user = User.find(user_id)
-  other_user_ids = User.ids - [user.id]
-
-  if user.recipes.blank?
-    Rails.logger.debug 'ユーザーのレシピがありません'
-    return
+  user_recipe_ids = user.recipe_ids
+  user_commented_recipe_ids = user.commented_recipe_ids
+  other_user_ids = User.where.not(id: user_id).ids
+  not_user_recipe_ids = Recipe.where.not(user_id: user_id).ids
+  if user_commented_recipe_ids.blank?
+    Comment.create!(recipe_id: not_user_recipe_ids.sample, user_id: user_id, body: generate_paragraphs(500))
   end
 
-  notification_creation_time.times do
-    other_user = User.find(other_user_ids.sample)
+  count.times do
+    case rand
+    when 0..0.25
+      recipe_id = user_recipe_ids.sample
+      other_user_id = other_user_ids.sample
+      notifiable = Comment.create!(recipe_id: recipe_id, user_id: other_user_id, body: generate_paragraphs(500))
+    when 0.25..0.5
+      recipe_id = user_commented_recipe_ids.sample
+      other_user_id = other_user_ids.sample
+      notifiable = Comment.create!(recipe_id: recipe_id, user_id: other_user_id, body: generate_paragraphs(500))
+    when 0.5..0.75
+      notifiable = Favorite.find_or_create_by!(recipe_id: user_recipe_ids.sample, user_id: other_user_ids.sample)
+    when 0.75..1
+      notifiable = Relationship.find_or_create_by!(follow_id: user_id, user_id: other_user_ids.sample)
+    end
 
-    comment_body = <<~TEXT
-      #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..10)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..3)).join(' ')}
-    TEXT
+    Notification.create!(notifiable_id: notifiable.id, receiver_id: user_id, notifiable_type: notifiable.class.name)
 
-    other_user_comment = other_user.comments.create(
-      recipe_id: user.recipes.sample.id,
-      body: comment_body
-    )
-    Notification.create_comment_notification(other_user_comment)
-
-    other_user_favorite = other_user.favorites.find_or_create_by(
-      recipe_id: user.recipes.sample.id
-    )
-    Notification.create_favorite_notification(other_user_favorite)
-
-    other_user_relationship = other_user.relationships.find_or_create_by(
-      follow_id: user.id
-    )
-    Notification.create_relationship_notification(other_user_relationship)
-
-    notification_creation_time -= 1
-    Rails.logger.debug notification_creation_time.zero? ? '通知作成完了' : "あと#{notification_creation_time}回"
+    count -= 1
+    Rails.logger.debug "あと#{count}回" unless count.zero?
   end
+
+  Rails.logger.debug '通知作成完了'
 end
 
-def create_recipe_of_one_user(recipe_creation_time, user_id)
-  Rails.logger.debug "#{user_id}のレシピを#{recipe_creation_time}回作成"
+def create_recipes_of_one_user(count, user_id)
+  Rails.logger.debug "#{user_id}のレシピを#{count}回作成"
 
-  recipe_creation_time.times do
-    recipe_title = Faker::Lorem.words(number: rand(1..10)).join(' ')[0..29]
-    recipe_body = <<~TEXT
-      #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..10)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..8)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..10)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..8)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..3)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..8)).join(' ')}
-    TEXT
-    recipe_image = File.open("./db/fixtures/recipe/recipe_sample_#{rand(1..30)}.jpg")
-
-    User.find(user_id).recipes.create!(
-      title: recipe_title,
-      body: recipe_body[0..1999],
-      recipe_image: recipe_image,
-      tag_list: Faker::Lorem.words(number: rand(1..5)).join(', ')
+  count.times do
+    Recipe.create!(
+      user_id: user_id,
+      title: Faker::Lorem.words(number: rand(1..5)).join(' ')[0..29],
+      body: generate_paragraphs(2000),
+      recipe_image: File.open("./db/fixtures/recipe/recipe_sample_#{rand(1..30)}.jpg"),
+      tag_list: Faker::Lorem.words(number: rand(6)).join(',')
     )
 
-    recipe_creation_time -= 1
-    Rails.logger.debug recipe_creation_time.zero? ? "#{user_id}のレシピ作成完了" : "あと#{recipe_creation_time}回"
+    count -= 1
+    Rails.logger.debug "あと#{count}回" unless count.zero?
   end
+
+  Rails.logger.debug "#{user_id}のレシピ作成完了"
 end
 
-def create_comment_of_one_user(comment_creation_time, user_id)
-  Rails.logger.debug "#{user_id}のコメントを#{comment_creation_time}回作成"
+def create_comments_of_one_user(count, user_id)
+  Rails.logger.debug "#{user_id}のコメントを#{count}回作成"
 
-  comment_creation_time.times do
-    comment_body = <<~TEXT
-      #{Faker::Lorem.paragraphs(number: rand(1..5)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..10)).join(' ')}
-      #{Faker::Lorem.paragraphs(number: rand(1..3)).join(' ')}
-    TEXT
+  recipe_ids = Recipe.ids
+  count.times do
+    Comment.create!(recipe_id: recipe_ids.sample, user_id: user_id, body: generate_paragraphs(500))
 
-    User.find(user_id).comments.create!(
-      body: comment_body[0..499],
-      recipe_id: Recipe.ids.sample
-    )
-
-    comment_creation_time -= 1
-    Rails.logger.debug comment_creation_time.zero? ? "#{user_id}のコメント作成完了" : "あと#{comment_creation_time}回"
+    count -= 1
+    Rails.logger.debug "あと#{count}回" unless count.zero?
   end
+
+  Rails.logger.debug "#{user_id}のコメント作成完了"
 end
 
-def create_favorite_of_one_user(favorite_creation_time, user_id)
-  Rails.logger.debug "#{user_id}のいいねを#{favorite_creation_time}回作成"
+def create_favorites_of_one_user(count, user_id)
+  Rails.logger.debug "#{user_id}のいいねを#{count}回作成"
 
-  favorite_creation_time.times do
-    User.find(user_id).favorites.find_or_create_by(recipe_id: Recipe.ids.sample)
+  recipe_ids = Recipe.ids
+  count.times do
+    Favorite.find_or_create_by!(recipe_id: recipe_ids.sample, user_id: user_id)
 
-    favorite_creation_time -= 1
-    Rails.logger.debug favorite_creation_time.zero? ? "#{user_id}のいいね作成完了" : "あと#{favorite_creation_time}回"
+    count -= 1
+    Rails.logger.debug "あと#{count}回" unless count.zero?
   end
+
+  Rails.logger.debug "#{user_id}のいいね作成完了"
 end
 
-# create_characteristic_user_recipe_comment
-# create_user(time)
-# create_relationship(time)
-# create_recipe(time)
-# create_comment(time)
-# create_favorite(time)
-# update_recipe(time)
-# create_notification_of_one_user(time, user_id)
-# create_recipe_of_one_user(time, user_id)
-# create_comment_of_one_user(time, user_id)
-# create_favorite_of_one_user(time, user_id)
+# create_long_word_user_recipe_comment
+# create_users(count)
+# create_relationships(count)
+# create_recipes(count)
+# create_comments(count)
+# create_favorites(count)
+# update_recipes(count)
+# create_notifications_of_one_user(count, user_id)
+# create_recipes_of_one_user(count, user_id)
+# create_comments_of_one_user(count, user_id)
+# create_favorites_of_one_user(count, user_id)
