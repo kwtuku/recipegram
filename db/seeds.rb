@@ -80,10 +80,10 @@ def create_relationships(count)
   Rails.logger.debug 'フォロー作成完了'
 end
 
-def create_recipes(count)
-  Rails.logger.debug "レシピを#{count}回作成"
+def create_recipes(count, user_id = nil)
+  Rails.logger.debug user_id ? "#{user_id}のレシピを#{count}回作成" : "レシピを#{count}回作成"
 
-  user_ids = User.ids
+  user_ids = user_id ? [user_id] : User.ids
   count.times do
     Recipe.create!(
       user_id: user_ids.sample,
@@ -97,13 +97,13 @@ def create_recipes(count)
     Rails.logger.debug "あと#{count}回" unless count.zero?
   end
 
-  Rails.logger.debug 'レシピ作成完了'
+  Rails.logger.debug user_id ? "#{user_id}のレシピ作成完了" : 'レシピ作成完了'
 end
 
-def create_comments(count)
-  Rails.logger.debug "コメントを#{count}回作成"
+def create_comments(count, user_id = nil)
+  Rails.logger.debug user_id ? "#{user_id}のコメントを#{count}回作成" : "コメントを#{count}回作成"
 
-  user_ids = User.ids
+  user_ids = user_id ? [user_id] : User.ids
   recipe_ids = Recipe.ids
   count.times do
     Comment.create!(recipe_id: recipe_ids.sample, user_id: user_ids.sample, body: generate_paragraphs(500))
@@ -112,13 +112,13 @@ def create_comments(count)
     Rails.logger.debug "あと#{count}回" unless count.zero?
   end
 
-  Rails.logger.debug 'コメント作成完了'
+  Rails.logger.debug user_id ? "#{user_id}のコメント作成完了" : 'コメント作成完了'
 end
 
-def create_favorites(count)
-  Rails.logger.debug "いいねを#{count}回作成"
+def create_favorites(count, user_id = nil)
+  Rails.logger.debug user_id ? "#{user_id}のいいねを#{count}回作成" : "いいねを#{count}回作成"
 
-  user_ids = User.ids
+  user_ids = user_id ? [user_id] : User.ids
   recipe_ids = Recipe.ids
   count.times do
     Favorite.find_or_create_by!(recipe_id: recipe_ids.sample, user_id: user_ids.sample)
@@ -127,7 +127,7 @@ def create_favorites(count)
     Rails.logger.debug "あと#{count}回" unless count.zero?
   end
 
-  Rails.logger.debug 'いいね作成完了'
+  Rails.logger.debug user_id ? "#{user_id}のいいね作成完了" : 'いいね作成完了'
 end
 
 def update_recipes(count)
@@ -148,7 +148,7 @@ def update_recipes(count)
   Rails.logger.debug 'レシピ更新完了'
 end
 
-def create_notifications_of_one_user(count, user_id)
+def create_notifications(count, user_id)
   Rails.logger.debug "#{user_id}の通知を#{count}回作成"
 
   user = User.find(user_id)
@@ -185,61 +185,11 @@ def create_notifications_of_one_user(count, user_id)
   Rails.logger.debug '通知作成完了'
 end
 
-def create_recipes_of_one_user(count, user_id)
-  Rails.logger.debug "#{user_id}のレシピを#{count}回作成"
-
-  count.times do
-    Recipe.create!(
-      user_id: user_id,
-      title: Faker::Lorem.words(number: rand(1..5)).join(' ')[0..29],
-      body: generate_paragraphs(2000),
-      recipe_image: File.open("./db/fixtures/recipe/recipe_sample_#{rand(1..30)}.jpg"),
-      tag_list: Faker::Lorem.words(number: rand(6)).join(',')
-    )
-
-    count -= 1
-    Rails.logger.debug "あと#{count}回" unless count.zero?
-  end
-
-  Rails.logger.debug "#{user_id}のレシピ作成完了"
-end
-
-def create_comments_of_one_user(count, user_id)
-  Rails.logger.debug "#{user_id}のコメントを#{count}回作成"
-
-  recipe_ids = Recipe.ids
-  count.times do
-    Comment.create!(recipe_id: recipe_ids.sample, user_id: user_id, body: generate_paragraphs(500))
-
-    count -= 1
-    Rails.logger.debug "あと#{count}回" unless count.zero?
-  end
-
-  Rails.logger.debug "#{user_id}のコメント作成完了"
-end
-
-def create_favorites_of_one_user(count, user_id)
-  Rails.logger.debug "#{user_id}のいいねを#{count}回作成"
-
-  recipe_ids = Recipe.ids
-  count.times do
-    Favorite.find_or_create_by!(recipe_id: recipe_ids.sample, user_id: user_id)
-
-    count -= 1
-    Rails.logger.debug "あと#{count}回" unless count.zero?
-  end
-
-  Rails.logger.debug "#{user_id}のいいね作成完了"
-end
-
 # create_long_word_user_recipe_comment
 # create_users(count)
 # create_relationships(count)
-# create_recipes(count)
-# create_comments(count)
-# create_favorites(count)
+# create_recipes(count, blank_or_user_id)
+# create_comments(count, blank_or_user_id)
+# create_favorites(count, blank_or_user_id)
 # update_recipes(count)
-# create_notifications_of_one_user(count, user_id)
-# create_recipes_of_one_user(count, user_id)
-# create_comments_of_one_user(count, user_id)
-# create_favorites_of_one_user(count, user_id)
+# create_notifications(count, user_id)
