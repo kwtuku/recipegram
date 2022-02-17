@@ -21,6 +21,7 @@
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.0",
+    "jest": "^27.5.1",
     "prettier": "2.5.1",
     "webpack-dev-server": "^3.11.2"
   }
