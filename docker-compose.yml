@@ -17,7 +17,6 @@ services:
     ports:
       - '3000:3000'
     environment:
-      RAILS_ENV: ${RAILS_ENV:-development}
       REDIS_URL: redis://redis:6379
       SELENIUM_DRIVER_URL: http://chrome:4444/wd/hub
       WEBPACKER_DEV_SERVER_HOST: webpacker
@@ -59,7 +58,6 @@ services:
       - bundle_cache:/usr/local/bundle:cached
       - yarn_cache:/usr/local/share/.cache/yarn/v6:cached
     environment:
-      RAILS_ENV: ${RAILS_ENV:-development}
       WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
 
 volumes:
