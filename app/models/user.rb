@@ -62,7 +62,7 @@ class User < ApplicationRecord
   end
 
   def followers_you_follow(you)
-    followers & you.followings
+    followers.where(id: you.following_ids)
   end
 
   def feed
@@ -70,7 +70,7 @@ class User < ApplicationRecord
   end
 
   def recommended_recipes
-    Recipe.all.eager_load(:user).shuffle - feed
+    Recipe.where.not(id: feed.ids).preload(:user).shuffle
   end
 
   def home_recipes
@@ -78,7 +78,7 @@ class User < ApplicationRecord
   end
 
   def recommended_users
-    User.all - [self] - followings
+    User.where.not(id: following_ids.push(id))
   end
 
   def self.guest

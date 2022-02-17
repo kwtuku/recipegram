@@ -17,9 +17,10 @@ class Recipe < ApplicationRecord
   validates :recipe_image, presence: true
   validate :validate_tag
 
+  TAG_MAX_COUNT = 5
+
   def others(count)
-    others = Recipe.where(user_id: user_id).order(id: :DESC) - [self]
-    others.first(count)
+    user.recipes.where.not(id: id).order(id: :DESC).limit(count)
   end
 
   def self.ransackable_attributes(_auth_object = nil)
@@ -36,7 +37,6 @@ class Recipe < ApplicationRecord
     recipe_image.remove!
   end
 
-  TAG_MAX_COUNT = 5
   def validate_tag
     if tag_list.size > TAG_MAX_COUNT
       return errors.add(:tag_list, :too_many_tags, message: "は#{TAG_MAX_COUNT}つ以下にしてください")
