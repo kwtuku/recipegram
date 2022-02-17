@@ -1,4 +1,7 @@
 module ApplicationHelper
+  delegate :follower_ids, to: :current_user, prefix: true
+  delegate :following_ids, to: :current_user, prefix: true
+
   def full_title(page_title = '')
     base_title = 'Recipegram'
     if page_title.empty?
@@ -59,19 +62,20 @@ module ApplicationHelper
     return unless user_signed_in?
 
     followers_you_follow = user.followers_you_follow(current_user)
-    if followers_you_follow.size >= 2
-      "#{followers_you_follow.sample.nickname.truncate(10)}さん、他#{followers_you_follow.size - 1}人がフォロー中"
-    elsif followers_you_follow.size == 1
+    followers_you_follows_count = followers_you_follow.size
+    if followers_you_follows_count >= 2
+      "#{followers_you_follow.sample.nickname.truncate(10)}さん、他#{followers_you_follows_count - 1}人がフォロー中"
+    elsif followers_you_follows_count == 1
       "#{followers_you_follow.sample.nickname.truncate(15)}さんがフォロー中"
     else
-      user.following?(current_user) ? 'あなたをフォローしています' : 'おすすめ'
+      current_user_follower_ids.include?(user.id) ? 'あなたをフォローしています' : 'おすすめ'
     end
   end
 
   def feed_description(feed)
     return 'おすすめ' unless user_signed_in?
 
-    'おすすめ' if feed.user != current_user && !current_user.following?(feed.user)
+    'おすすめ' if feed.user_id != current_user.id && !current_user_following_ids.include?(feed.user_id)
   end
 
   def sort_order?(sort, order)

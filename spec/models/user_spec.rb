@@ -161,26 +161,6 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe 'following?(other_user)' do
-    let(:alice) { create(:user, :no_image) }
-    let(:bob) { create(:user, :no_image) }
-    let(:carol) { create(:user, :no_image) }
-
-    before { alice.relationships.create!(follow_id: bob.id) }
-
-    context 'when alice follows a user' do
-      it 'returns true' do
-        expect(alice.following?(bob)).to eq true
-      end
-    end
-
-    context 'when alice does not follow a user' do
-      it 'returns false' do
-        expect(alice.following?(carol)).to eq false
-      end
-    end
-  end
-
   describe 'followers_you_follow(you)' do
     let(:alice) { create :user, :no_image }
     let(:bob) { create :user, :no_image }

@@ -57,10 +57,6 @@ class User < ApplicationRecord
     relationship&.destroy
   end
 
-  def following?(other_user)
-    followings.include?(other_user)
-  end
-
   def followers_you_follow(you)
     followers.where(id: you.following_ids)
   end
