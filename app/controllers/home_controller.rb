@@ -50,7 +50,7 @@ class HomeController < ApplicationController
 
     @tagged_recipes = {}
     @results.each do |tag|
-      @tagged_recipes.store(tag.name, Recipe.tagged_with(tag.name).first(6))
+      @tagged_recipes.store(tag.name, Recipe.tagged_with(tag.name).limit(6))
     end
   end
 end

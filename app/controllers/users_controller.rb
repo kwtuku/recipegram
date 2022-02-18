@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show generate_username]
 
   def index
-    @users = User.order(id: :DESC).first(40)
+    @users = User.order(id: :DESC).limit(40)
   end
 
   def show
