@@ -34,13 +34,13 @@ class UsersController < ApplicationController
 
   def followings
     @user = User.find_by(username: params[:user_username])
-    @follows = @user.followings.eager_load(:followings).order('relationships.created_at desc').limit(40)
+    @follows = @user.followings.order('relationships.created_at desc').limit(40)
     render 'follows'
   end
 
   def followers
     @user = User.find_by(username: params[:user_username])
-    @follows = @user.followers.eager_load(:followings).order('relationships.created_at desc').limit(40)
+    @follows = @user.followers.order('relationships.created_at desc').limit(40)
     render 'follows'
   end
 

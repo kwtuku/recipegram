@@ -9,7 +9,7 @@ class RecipesController < ApplicationController
     @recipe = Recipe.find(params[:id])
     @other_recipes = @recipe.others(3)
     @comment = Comment.new
-    @comments = @recipe.comments.eager_load(:user).order(:id)
+    @comments = @recipe.comments.preload(:user).order(:id)
   end
 
   def new
