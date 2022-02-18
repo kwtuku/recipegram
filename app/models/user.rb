@@ -66,15 +66,15 @@ class User < ApplicationRecord
   end
 
   def recommended_recipes
-    Recipe.where.not(id: feed.ids).preload(:user).shuffle
+    Recipe.where.not(id: feed.ids).preload(:user).order('RANDOM()')
   end
 
   def home_recipes
     feed + recommended_recipes
   end
 
-  def recommended_users
-    User.where.not(id: following_ids.push(id))
+  def recommended_users(count)
+    User.where(id: User.select(:id).where.not(id: following_ids.push(id)).order('RANDOM()').limit(count))
   end
 
   def self.guest

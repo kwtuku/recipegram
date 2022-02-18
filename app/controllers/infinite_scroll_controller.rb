@@ -45,7 +45,7 @@ class InfiniteScrollController < ApplicationController
         if user_signed_in?
           current_user.home_recipes[first..last]
         else
-          Recipe.all.eager_load(:user).sample(20)
+          Recipe.where(id: Recipe.select(:id).order('RANDOM()').limit(20)).preload(:user)
         end
     end
 

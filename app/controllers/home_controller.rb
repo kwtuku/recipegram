@@ -6,16 +6,16 @@ class HomeController < ApplicationController
       @feeds = current_user.home_recipes.first(20)
       @recommended_users =
         Rails.cache.fetch("cache_recommended_users_#{current_user.id}", expires_in: 1.hour) do
-          current_user.recommended_users.sample(5)
+          current_user.recommended_users(5)
         end
     else
       @feeds =
         Rails.cache.fetch('cache_recommended_recipes', expires_in: 1.hour) do
-          Recipe.all.eager_load(:user).sample(20)
+          Recipe.where(id: Recipe.select(:id).order('RANDOM()').limit(20)).preload(:user)
         end
       @recommended_users =
         Rails.cache.fetch('cache_recommended_users', expires_in: 1.hour) do
-          User.all.sample(7)
+          User.where(id: User.select(:id).order('RANDOM()').limit(7))
         end
     end
   end
