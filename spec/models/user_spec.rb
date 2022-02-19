@@ -10,7 +10,7 @@ RSpec.describe User, type: :model do
       it 'increases commented_recipes count' do
         expect do
           create :comment, recipe: bob_recipe, user: alice
-        end.to change(Comment, :count).by(1).and change(alice.comments, :count).by(1).and change(alice.commented_recipes, :count).by(1)
+        end.to change(Comment, :count).by(1).and change(alice.commented_recipes, :count).by(1)
       end
     end
 
@@ -18,7 +18,7 @@ RSpec.describe User, type: :model do
       it 'increases favored_recipes count' do
         expect do
           alice.favorites.create(recipe_id: bob_recipe.id)
-        end.to change(Favorite, :count).by(1).and change(alice.favorites, :count).by(1).and change(alice.favored_recipes, :count).by(1)
+        end.to change(Favorite, :count).by(1).and change(alice.favored_recipes, :count).by(1)
       end
     end
   end
@@ -136,7 +136,7 @@ RSpec.describe User, type: :model do
     it 'increases relationship count' do
       expect do
         alice.follow(bob)
-      end.to change(Relationship, :count).by(1).and change(alice.followings, :count).by(1).and change(bob.followers, :count).by(1)
+      end.to change(alice.followings, :count).by(1).and change(bob.followers, :count).by(1)
     end
   end
 
@@ -149,7 +149,7 @@ RSpec.describe User, type: :model do
     it 'decreases relationship count' do
       expect do
         alice.unfollow(bob)
-      end.to change(Relationship, :count).by(-1).and change(alice.followings, :count).by(-1).and change(bob.followers, :count).by(-1)
+      end.to change(alice.followings, :count).by(-1).and change(bob.followers, :count).by(-1)
     end
   end
 
