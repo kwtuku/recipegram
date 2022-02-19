@@ -5,9 +5,7 @@ RSpec.describe 'Home', type: :request do
     context 'when not signed in' do
       before do
         users = create_list(:user, 8, :no_image)
-        users.each do |user|
-          create_list :recipe, 3, :no_image, user: user, updated_at: rand(1..100).minutes.ago
-        end
+        users.each { |user| create_list(:recipe, 3, :no_image, user: user) }
       end
 
       it 'returns a 200 response' do
@@ -28,20 +26,17 @@ RSpec.describe 'Home', type: :request do
 
     context 'when signed in' do
       let(:alice) { create :user, :no_image }
-      let(:feeds) { alice.feed.order(updated_at: :DESC) }
-      let(:not_feed) { (Recipe.all - feeds).first }
+      let(:feed) { alice.feed }
+      let(:not_feed) { Recipe.where.not(id: feed.ids).first }
 
       before do
-        users = create_list(:user, 9, :no_image)
-        users.each do |user|
-        end
-        random_users = User.all.sample(3)
+        create(:recipe, :no_image)
+        random_users = create_list(:user, 9, :no_image).sample(3)
         random_users.each do |user|
           alice.relationships.create(follow_id: user.id)
-          create_list(:recipe, 6, :no_image, user: user, updated_at: rand(1..100).minutes.ago)
+          create_list(:recipe, 6, :no_image, user: user)
         end
-        create_list(:recipe, 3, :no_image, user: alice, updated_at: rand(1..100).minutes.ago)
-        create :recipe, :no_image
+        create_list(:recipe, 3, :no_image, user: alice)
         sign_in alice
       end
 
@@ -52,9 +47,9 @@ RSpec.describe 'Home', type: :request do
 
       it 'renders correct recipe links' do
         get root_path
-        expect(response.body).to include "/recipes/#{feeds[0].id}"
-        expect(response.body).to include "/recipes/#{feeds[19].id}"
-        expect(response.body).not_to include "/recipes/#{feeds[20].id}"
+        expect(response.body).to include "/recipes/#{feed[0].id}"
+        expect(response.body).to include "/recipes/#{feed[19].id}"
+        expect(response.body).not_to include "/recipes/#{feed[20].id}"
         expect(response.body).not_to include "/recipes/#{not_feed.id}"
       end
 

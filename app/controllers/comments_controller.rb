@@ -8,7 +8,7 @@ class CommentsController < ApplicationController
     else
       @recipe = Recipe.find(params[:recipe_id])
       @other_recipes = @recipe.others(3)
-      @comments = @recipe.comments.eager_load(:user).order(:id)
+      @comments = @recipe.comments.preload(:user).order(:id)
       render 'recipes/show'
     end
   end

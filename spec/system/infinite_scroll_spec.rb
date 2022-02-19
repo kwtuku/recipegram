@@ -21,38 +21,38 @@ RSpec.describe 'InfiniteScroll', type: :system do
 
     context 'when signed in' do
       let(:alice) { create :user, :no_image }
-      let(:feeds) { alice.feed.order(updated_at: :DESC) }
+      let(:feed) { alice.feed }
 
       before do
         users = create_list(:user, 3, :no_image)
         users.each do |user|
-          create_list(:recipe, 15, :no_image, user: user, updated_at: rand(1..100).minutes.ago)
+          create_list(:recipe, 15, :no_image, user: user)
+          alice.relationships.create(follow_id: user.id)
         end
-        User.all.each { |user| alice.relationships.create(follow_id: user.id) }
-        create_list(:recipe, 16, :no_image, user: alice, updated_at: rand(1..100).minutes.ago)
+        create_list(:recipe, 16, :no_image, user: alice)
       end
 
       it 'can infinite scroll', js: true do
         sign_in alice
         visit root_path
-        expect(page).to have_css "[data-rspec=recipe-#{feeds[19].id}]"
-        expect(page).not_to have_css "[data-rspec=recipe-#{feeds[20].id}]"
+        expect(page).to have_css "[data-rspec=recipe-#{feed[19].id}]"
+        expect(page).not_to have_css "[data-rspec=recipe-#{feed[20].id}]"
 
         execute_script('window.scrollBy(0,100000)')
-        expect(page).to have_css "[data-rspec=recipe-#{feeds[20].id}]"
-        expect(page).to have_css "[data-rspec=recipe-#{feeds[39].id}]"
-        expect(page).not_to have_css "[data-rspec=recipe-#{feeds[40].id}]"
+        expect(page).to have_css "[data-rspec=recipe-#{feed[20].id}]"
+        expect(page).to have_css "[data-rspec=recipe-#{feed[39].id}]"
+        expect(page).not_to have_css "[data-rspec=recipe-#{feed[40].id}]"
 
         execute_script('window.scrollBy(0,100000)')
-        expect(page).to have_css "[data-rspec=recipe-#{feeds[40].id}]"
-        expect(page).to have_css "[data-rspec=recipe-#{feeds[59].id}]"
-        expect(page).not_to have_css "[data-rspec=recipe-#{feeds[60].id}]"
+        expect(page).to have_css "[data-rspec=recipe-#{feed[40].id}]"
+        expect(page).to have_css "[data-rspec=recipe-#{feed[59].id}]"
+        expect(page).not_to have_css "[data-rspec=recipe-#{feed[60].id}]"
       end
     end
   end
 
   describe 'recipes#index' do
-    let(:recipes) { Recipe.order(updated_at: :DESC) }
+    let(:recipes) { Recipe.order(id: :desc) }
 
     before do
       users = create_list(:user, 3, :no_image)
@@ -77,7 +77,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
   end
 
   describe 'tags#show' do
-    let(:tagged_recipes) { Recipe.tagged_with('かんたん').order(id: :DESC) }
+    let(:tagged_recipes) { Recipe.tagged_with('かんたん').order(id: :desc) }
 
     before do
       users = create_list(:user, 3, :no_image)
@@ -103,7 +103,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
   end
 
   describe 'users#index' do
-    let(:users) { User.order(id: :DESC) }
+    let(:users) { User.order(id: :desc) }
 
     before { create_list(:user, 121, :no_image) }
 
@@ -126,7 +126,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
 
   describe 'users#show' do
     let(:alice) { create :user, :no_image }
-    let(:posted_recipes) { alice.recipes.order(id: :DESC) }
+    let(:posted_recipes) { alice.recipes.order(id: :desc) }
     let(:not_posted_recipe) { create :recipe, :no_image }
 
     before { create_list(:recipe, 121, :no_image, user: alice) }
@@ -150,7 +150,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
 
   describe 'users#comments' do
     let(:alice) { create :user, :no_image }
-    let(:commented_recipes) { alice.commented_recipes.order('comments.created_at desc') }
+    let(:commented_recipes) { alice.commented_recipes.order('comments.id desc') }
     let(:not_commented_recipe) { (Recipe.all - commented_recipes).first }
 
     before do
@@ -180,7 +180,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
 
   describe 'users#favorites' do
     let(:alice) { create :user, :no_image }
-    let(:favored_recipes) { alice.favored_recipes.order('favorites.created_at desc') }
+    let(:favored_recipes) { alice.favored_recipes.order('favorites.id desc') }
     let(:not_favored_recipe) { (Recipe.all - favored_recipes).first }
 
     before do
@@ -210,7 +210,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
 
   describe 'users#followers' do
     let(:alice) { create :user, :no_image }
-    let(:followers) { alice.followers.order('relationships.created_at desc') }
+    let(:followers) { alice.followers.order('relationships.id desc') }
     let(:not_follower) { (User.all - [alice] - followers).first }
 
     before do
@@ -239,7 +239,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
 
   describe 'users#followings' do
     let(:alice) { create :user, :no_image, username: 'alice' }
-    let(:followings) { alice.followings.order('relationships.created_at desc') }
+    let(:followings) { alice.followings.order('relationships.id desc') }
     let(:not_following) { (User.all - [alice] - followings).first }
 
     before do

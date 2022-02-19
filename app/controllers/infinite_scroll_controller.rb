@@ -15,28 +15,28 @@ class InfiniteScrollController < ApplicationController
     user = User.find_by(username: username) if username
 
     if controller_name == 'recipes'
-      added_items = Recipe.order(updated_at: :DESC)[first..last]
+      added_items = Recipe.order(id: :desc)[first..last]
     elsif controller_name == 'tags'
       decoded_tag_name = URI.decode_www_form_component(path_components[1])
-      added_items = Recipe.tagged_with(decoded_tag_name).order(id: :DESC)[first..last]
+      added_items = Recipe.tagged_with(decoded_tag_name).order(id: :desc)[first..last]
     elsif controller_name == 'users' && action_name == 'comments'
-      added_items = user.commented_recipes.eager_load(:comments).order('comments.created_at desc')[first..last]
+      added_items = user.commented_recipes.eager_load(:comments).order('comments.id desc')[first..last]
     elsif controller_name == 'users' && action_name == 'favorites'
-      added_items = user.favored_recipes.order('favorites.created_at desc')[first..last]
+      added_items = user.favored_recipes.order('favorites.id desc')[first..last]
     elsif controller_name == 'users' && username && action_name.nil?
-      added_items = user.recipes.order(id: :DESC)[first..last]
+      added_items = user.recipes.order(id: :desc)[first..last]
     elsif controller_name == 'users' && username.nil?
       file_path = 'users/user'
       local_value = 'user'
-      added_items = User.order(id: :DESC)[first..last]
+      added_items = User.order(id: :desc)[first..last]
     elsif controller_name == 'users' && username && action_name == 'followers'
       file_path = 'users/follow'
       local_value = 'user'
-      added_items = user.followers.eager_load(:followings).order('relationships.created_at desc')[first..last]
+      added_items = user.followers.order('relationships.id desc')[first..last]
     elsif controller_name == 'users' && username && action_name == 'followings'
       file_path = 'users/follow'
       local_value = 'user'
-      added_items = user.followings.eager_load(:followings).order('relationships.created_at desc')[first..last]
+      added_items = user.followings.order('relationships.id desc')[first..last]
     else
       last = first + 19
       file_path = 'home/feed'
@@ -45,7 +45,7 @@ class InfiniteScrollController < ApplicationController
         if user_signed_in?
           current_user.home_recipes[first..last]
         else
-          Recipe.all.eager_load(:user).sample(20)
+          Recipe.where(id: Recipe.select(:id).order('RANDOM()').limit(20)).preload(:user)
         end
     end
 

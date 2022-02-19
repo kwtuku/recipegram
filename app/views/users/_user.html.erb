@@ -17,7 +17,7 @@
           <% end %>
           <p class="mb-2">
             <span class="has-text-grey-light">@<%= user.username %></span>
-            <% if user.following?(current_user) %>
+            <% if user_signed_in? && current_user_follower_ids.include?(user.id) %>
               <span class="tag is-info is-light">フォローされています</span>
             <% end %>
           </p>

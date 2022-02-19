@@ -2,12 +2,12 @@ class UsersController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show generate_username]
 
   def index
-    @users = User.order(id: :DESC).first(40)
+    @users = User.order(id: :desc).limit(40)
   end
 
   def show
     @user = User.find_by(username: params[:username])
-    @recipes = @user.recipes.order(id: :DESC).limit(40)
+    @recipes = @user.recipes.order(id: :desc).limit(40)
     @followers_you_follow = @user.followers_you_follow(current_user) if user_signed_in?
   end
 
@@ -34,26 +34,26 @@ class UsersController < ApplicationController
 
   def followings
     @user = User.find_by(username: params[:user_username])
-    @follows = @user.followings.eager_load(:followings).order('relationships.created_at desc').limit(40)
+    @follows = @user.followings.order('relationships.id desc').limit(40)
     render 'follows'
   end
 
   def followers
     @user = User.find_by(username: params[:user_username])
-    @follows = @user.followers.eager_load(:followings).order('relationships.created_at desc').limit(40)
+    @follows = @user.followers.order('relationships.id desc').limit(40)
     render 'follows'
   end
 
   def comments
     @user = User.find_by(username: params[:user_username])
-    @recipes = @user.commented_recipes.eager_load(:comments).order('comments.created_at desc').limit(40)
+    @recipes = @user.commented_recipes.eager_load(:comments).order('comments.id desc').limit(40)
     @followers_you_follow = @user.followers_you_follow(current_user)
     render 'show'
   end
 
   def favorites
     @user = User.find_by(username: params[:user_username])
-    @recipes = @user.favored_recipes.order('favorites.created_at desc').limit(40)
+    @recipes = @user.favored_recipes.order('favorites.id desc').limit(40)
     @followers_you_follow = @user.followers_you_follow(current_user)
     render 'show'
   end

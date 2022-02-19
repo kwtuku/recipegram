@@ -57,28 +57,24 @@ class User < ApplicationRecord
     relationship&.destroy
   end
 
-  def following?(other_user)
-    followings.include?(other_user)
-  end
-
   def followers_you_follow(you)
-    followers & you.followings
+    followers.where(id: you.following_ids)
   end
 
   def feed
-    Recipe.includes(:user).where('user_id IN (?) OR user_id = ?', following_ids, id).order(updated_at: :DESC)
+    Recipe.preload(:user).where('user_id IN (?) OR user_id = ?', following_ids, id).order(id: :desc)
   end
 
   def recommended_recipes
-    Recipe.all.eager_load(:user).shuffle - feed
+    Recipe.where.not(id: feed.ids).preload(:user).order('RANDOM()')
   end
 
   def home_recipes
     feed + recommended_recipes
   end
 
-  def recommended_users
-    User.all - [self] - followings
+  def recommended_users(count)
+    User.where(id: User.select(:id).where.not(id: following_ids.push(id)).order('RANDOM()').limit(count))
   end
 
   def self.guest

@@ -6,16 +6,16 @@ class HomeController < ApplicationController
       @feeds = current_user.home_recipes.first(20)
       @recommended_users =
         Rails.cache.fetch("cache_recommended_users_#{current_user.id}", expires_in: 1.hour) do
-          current_user.recommended_users.sample(5)
+          current_user.recommended_users(5)
         end
     else
       @feeds =
         Rails.cache.fetch('cache_recommended_recipes', expires_in: 1.hour) do
-          Recipe.all.eager_load(:user).sample(20)
+          Recipe.where(id: Recipe.select(:id).order('RANDOM()').limit(20)).preload(:user)
         end
       @recommended_users =
         Rails.cache.fetch('cache_recommended_users', expires_in: 1.hour) do
-          User.all.sample(7)
+          User.where(id: User.select(:id).order('RANDOM()').limit(7))
         end
     end
   end
@@ -29,8 +29,8 @@ class HomeController < ApplicationController
     sort = { '0' => { name: params[:sort], dir: params[:order] } }
 
     results = {
-      recipe_title: Recipe.ransack({ title_has_every_term: @q_value, s: sort }).result.eager_load(:tags, :tag_taggings),
-      recipe_body: Recipe.ransack({ body_has_every_term: @q_value, s: sort }).result.eager_load(:tags, :tag_taggings),
+      recipe_title: Recipe.ransack({ title_has_every_term: @q_value, s: sort }).result.preload(:tags, :tag_taggings),
+      recipe_body: Recipe.ransack({ body_has_every_term: @q_value, s: sort }).result.preload(:tags, :tag_taggings),
       user_nickname: User.ransack({ nickname_has_every_term: @q_value, s: sort }).result,
       user_profile: User.ransack({ profile_has_every_term: @q_value, s: sort }).result,
       tag_name: Tag.ransack({ name_has_every_term: @q_value, taggings_count_gteq: '1', s: sort }).result
@@ -50,7 +50,7 @@ class HomeController < ApplicationController
 
     @tagged_recipes = {}
     @results.each do |tag|
-      @tagged_recipes.store(tag.name, Recipe.tagged_with(tag.name).first(6))
+      @tagged_recipes.store(tag.name, Recipe.tagged_with(tag.name).limit(6))
     end
   end
 end

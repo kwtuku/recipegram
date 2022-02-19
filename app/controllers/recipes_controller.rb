@@ -2,14 +2,14 @@ class RecipesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show]
 
   def index
-    @recipes = Recipe.order(updated_at: :DESC).first(40)
+    @recipes = Recipe.order(id: :desc).limit(40)
   end
 
   def show
     @recipe = Recipe.find(params[:id])
     @other_recipes = @recipe.others(3)
     @comment = Comment.new
-    @comments = @recipe.comments.eager_load(:user).order(:id)
+    @comments = @recipe.comments.preload(:user).order(:id)
   end
 
   def new
