@@ -34,26 +34,26 @@ class UsersController < ApplicationController
 
   def followings
     @user = User.find_by(username: params[:user_username])
-    @follows = @user.followings.order('relationships.created_at desc').limit(40)
+    @follows = @user.followings.order('relationships.id desc').limit(40)
     render 'follows'
   end
 
   def followers
     @user = User.find_by(username: params[:user_username])
-    @follows = @user.followers.order('relationships.created_at desc').limit(40)
+    @follows = @user.followers.order('relationships.id desc').limit(40)
     render 'follows'
   end
 
   def comments
     @user = User.find_by(username: params[:user_username])
-    @recipes = @user.commented_recipes.eager_load(:comments).order('comments.created_at desc').limit(40)
+    @recipes = @user.commented_recipes.eager_load(:comments).order('comments.id desc').limit(40)
     @followers_you_follow = @user.followers_you_follow(current_user)
     render 'show'
   end
 
   def favorites
     @user = User.find_by(username: params[:user_username])
-    @recipes = @user.favored_recipes.order('favorites.created_at desc').limit(40)
+    @recipes = @user.favored_recipes.order('favorites.id desc').limit(40)
     @followers_you_follow = @user.followers_you_follow(current_user)
     render 'show'
   end

@@ -150,7 +150,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
 
   describe 'users#comments' do
     let(:alice) { create :user, :no_image }
-    let(:commented_recipes) { alice.commented_recipes.order('comments.created_at desc') }
+    let(:commented_recipes) { alice.commented_recipes.order('comments.id desc') }
     let(:not_commented_recipe) { (Recipe.all - commented_recipes).first }
 
     before do
@@ -180,7 +180,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
 
   describe 'users#favorites' do
     let(:alice) { create :user, :no_image }
-    let(:favored_recipes) { alice.favored_recipes.order('favorites.created_at desc') }
+    let(:favored_recipes) { alice.favored_recipes.order('favorites.id desc') }
     let(:not_favored_recipe) { (Recipe.all - favored_recipes).first }
 
     before do
@@ -210,7 +210,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
 
   describe 'users#followers' do
     let(:alice) { create :user, :no_image }
-    let(:followers) { alice.followers.order('relationships.created_at desc') }
+    let(:followers) { alice.followers.order('relationships.id desc') }
     let(:not_follower) { (User.all - [alice] - followers).first }
 
     before do
@@ -239,7 +239,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
 
   describe 'users#followings' do
     let(:alice) { create :user, :no_image, username: 'alice' }
-    let(:followings) { alice.followings.order('relationships.created_at desc') }
+    let(:followings) { alice.followings.order('relationships.id desc') }
     let(:not_following) { (User.all - [alice] - followings).first }
 
     before do
