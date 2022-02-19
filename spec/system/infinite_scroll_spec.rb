@@ -21,38 +21,38 @@ RSpec.describe 'InfiniteScroll', type: :system do
 
     context 'when signed in' do
       let(:alice) { create :user, :no_image }
-      let(:feeds) { alice.feed.order(updated_at: :desc) }
+      let(:feed) { alice.feed }
 
       before do
         users = create_list(:user, 3, :no_image)
         users.each do |user|
-          create_list(:recipe, 15, :no_image, user: user, updated_at: rand(1..100).minutes.ago)
+          create_list(:recipe, 15, :no_image, user: user)
+          alice.relationships.create(follow_id: user.id)
         end
-        User.all.each { |user| alice.relationships.create(follow_id: user.id) }
-        create_list(:recipe, 16, :no_image, user: alice, updated_at: rand(1..100).minutes.ago)
+        create_list(:recipe, 16, :no_image, user: alice)
       end
 
       it 'can infinite scroll', js: true do
         sign_in alice
         visit root_path
-        expect(page).to have_css "[data-rspec=recipe-#{feeds[19].id}]"
-        expect(page).not_to have_css "[data-rspec=recipe-#{feeds[20].id}]"
+        expect(page).to have_css "[data-rspec=recipe-#{feed[19].id}]"
+        expect(page).not_to have_css "[data-rspec=recipe-#{feed[20].id}]"
 
         execute_script('window.scrollBy(0,100000)')
-        expect(page).to have_css "[data-rspec=recipe-#{feeds[20].id}]"
-        expect(page).to have_css "[data-rspec=recipe-#{feeds[39].id}]"
-        expect(page).not_to have_css "[data-rspec=recipe-#{feeds[40].id}]"
+        expect(page).to have_css "[data-rspec=recipe-#{feed[20].id}]"
+        expect(page).to have_css "[data-rspec=recipe-#{feed[39].id}]"
+        expect(page).not_to have_css "[data-rspec=recipe-#{feed[40].id}]"
 
         execute_script('window.scrollBy(0,100000)')
-        expect(page).to have_css "[data-rspec=recipe-#{feeds[40].id}]"
-        expect(page).to have_css "[data-rspec=recipe-#{feeds[59].id}]"
-        expect(page).not_to have_css "[data-rspec=recipe-#{feeds[60].id}]"
+        expect(page).to have_css "[data-rspec=recipe-#{feed[40].id}]"
+        expect(page).to have_css "[data-rspec=recipe-#{feed[59].id}]"
+        expect(page).not_to have_css "[data-rspec=recipe-#{feed[60].id}]"
       end
     end
   end
 
   describe 'recipes#index' do
-    let(:recipes) { Recipe.order(updated_at: :desc) }
+    let(:recipes) { Recipe.order(id: :desc) }
 
     before do
       users = create_list(:user, 3, :no_image)

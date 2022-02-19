@@ -15,7 +15,7 @@ class InfiniteScrollController < ApplicationController
     user = User.find_by(username: username) if username
 
     if controller_name == 'recipes'
-      added_items = Recipe.order(updated_at: :desc)[first..last]
+      added_items = Recipe.order(id: :desc)[first..last]
     elsif controller_name == 'tags'
       decoded_tag_name = URI.decode_www_form_component(path_components[1])
       added_items = Recipe.tagged_with(decoded_tag_name).order(id: :desc)[first..last]

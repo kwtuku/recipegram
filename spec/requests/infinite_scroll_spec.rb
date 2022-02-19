@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'InfiniteScroll', type: :request do
   describe 'home#home' do
     let(:alice) { create :user, :no_image }
-    let(:feeds) { alice.feed.order(updated_at: :desc) }
+    let(:feed) { alice.feed }
     let(:not_feed) { create :recipe, :no_image }
 
     context 'when not signed in and 20 items are already displayed' do
@@ -48,10 +48,10 @@ RSpec.describe 'InfiniteScroll', type: :request do
       before do
         users = create_list(:user, 3, :no_image)
         users.each do |user|
-          create_list(:recipe, 10, :no_image, user: user, updated_at: rand(1..100).minutes.ago)
+          create_list(:recipe, 10, :no_image, user: user)
+          alice.relationships.create(follow_id: user.id)
         end
-        User.all.each { |user| alice.relationships.create(follow_id: user.id) }
-        create_list(:recipe, 11, :no_image, user: alice, updated_at: rand(1..100).minutes.ago)
+        create_list(:recipe, 11, :no_image, user: alice)
 
         sign_in alice
       end
@@ -65,10 +65,10 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       it 'renders correct links' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.body).not_to include "/recipes/#{feeds[19].id}"
-        expect(response.body).to include "/recipes/#{feeds[20].id}"
-        expect(response.body).to include "/recipes/#{feeds[39].id}"
-        expect(response.body).not_to include "/recipes/#{feeds[40].id}"
+        expect(response.body).not_to include "/recipes/#{feed[19].id}"
+        expect(response.body).to include "/recipes/#{feed[20].id}"
+        expect(response.body).to include "/recipes/#{feed[39].id}"
+        expect(response.body).not_to include "/recipes/#{feed[40].id}"
         expect(response.body).not_to include "/recipes/#{not_feed.id}"
       end
     end
@@ -77,10 +77,10 @@ RSpec.describe 'InfiniteScroll', type: :request do
       before do
         users = create_list(:user, 3, :no_image)
         users.each do |user|
-          create_list(:recipe, 17, :no_image, user: user, updated_at: rand(1..100).minutes.ago)
+          create_list(:recipe, 17, :no_image, user: user)
+          alice.relationships.create(follow_id: user.id)
         end
-        User.all.each { |user| alice.relationships.create(follow_id: user.id) }
-        create_list(:recipe, 11, :no_image, user: alice, updated_at: rand(1..100).minutes.ago)
+        create_list(:recipe, 11, :no_image, user: alice)
 
         sign_in alice
       end
@@ -94,17 +94,17 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       it 'renders correct links' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.body).not_to include "/recipes/#{feeds[39].id}"
-        expect(response.body).to include "/recipes/#{feeds[40].id}"
-        expect(response.body).to include "/recipes/#{feeds[59].id}"
-        expect(response.body).not_to include "/recipes/#{feeds[60].id}"
+        expect(response.body).not_to include "/recipes/#{feed[39].id}"
+        expect(response.body).to include "/recipes/#{feed[40].id}"
+        expect(response.body).to include "/recipes/#{feed[59].id}"
+        expect(response.body).not_to include "/recipes/#{feed[60].id}"
         expect(response.body).not_to include "/recipes/#{not_feed.id}"
       end
     end
   end
 
   describe 'recipes#index' do
-    let(:recipes) { Recipe.order(updated_at: :desc) }
+    let(:recipes) { Recipe.order(id: :desc) }
 
     context 'when 40 items are already displayed' do
       before do

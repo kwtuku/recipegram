@@ -2,7 +2,7 @@ class RecipesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show]
 
   def index
-    @recipes = Recipe.order(updated_at: :desc).limit(40)
+    @recipes = Recipe.order(id: :desc).limit(40)
   end
 
   def show

@@ -62,7 +62,7 @@ class User < ApplicationRecord
   end
 
   def feed
-    Recipe.preload(:user).where('user_id IN (?) OR user_id = ?', following_ids, id).order(updated_at: :desc)
+    Recipe.preload(:user).where('user_id IN (?) OR user_id = ?', following_ids, id).order(id: :desc)
   end
 
   def recommended_recipes
