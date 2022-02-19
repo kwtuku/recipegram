@@ -21,7 +21,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
 
     context 'when signed in' do
       let(:alice) { create :user, :no_image }
-      let(:feeds) { alice.feed.order(updated_at: :DESC) }
+      let(:feeds) { alice.feed.order(updated_at: :desc) }
 
       before do
         users = create_list(:user, 3, :no_image)
@@ -52,7 +52,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
   end
 
   describe 'recipes#index' do
-    let(:recipes) { Recipe.order(updated_at: :DESC) }
+    let(:recipes) { Recipe.order(updated_at: :desc) }
 
     before do
       users = create_list(:user, 3, :no_image)
@@ -77,7 +77,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
   end
 
   describe 'tags#show' do
-    let(:tagged_recipes) { Recipe.tagged_with('かんたん').order(id: :DESC) }
+    let(:tagged_recipes) { Recipe.tagged_with('かんたん').order(id: :desc) }
 
     before do
       users = create_list(:user, 3, :no_image)
@@ -103,7 +103,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
   end
 
   describe 'users#index' do
-    let(:users) { User.order(id: :DESC) }
+    let(:users) { User.order(id: :desc) }
 
     before { create_list(:user, 121, :no_image) }
 
@@ -126,7 +126,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
 
   describe 'users#show' do
     let(:alice) { create :user, :no_image }
-    let(:posted_recipes) { alice.recipes.order(id: :DESC) }
+    let(:posted_recipes) { alice.recipes.order(id: :desc) }
     let(:not_posted_recipe) { create :recipe, :no_image }
 
     before { create_list(:recipe, 121, :no_image, user: alice) }

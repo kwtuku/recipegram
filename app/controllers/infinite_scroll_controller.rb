@@ -15,20 +15,20 @@ class InfiniteScrollController < ApplicationController
     user = User.find_by(username: username) if username
 
     if controller_name == 'recipes'
-      added_items = Recipe.order(updated_at: :DESC)[first..last]
+      added_items = Recipe.order(updated_at: :desc)[first..last]
     elsif controller_name == 'tags'
       decoded_tag_name = URI.decode_www_form_component(path_components[1])
-      added_items = Recipe.tagged_with(decoded_tag_name).order(id: :DESC)[first..last]
+      added_items = Recipe.tagged_with(decoded_tag_name).order(id: :desc)[first..last]
     elsif controller_name == 'users' && action_name == 'comments'
       added_items = user.commented_recipes.eager_load(:comments).order('comments.created_at desc')[first..last]
     elsif controller_name == 'users' && action_name == 'favorites'
       added_items = user.favored_recipes.order('favorites.created_at desc')[first..last]
     elsif controller_name == 'users' && username && action_name.nil?
-      added_items = user.recipes.order(id: :DESC)[first..last]
+      added_items = user.recipes.order(id: :desc)[first..last]
     elsif controller_name == 'users' && username.nil?
       file_path = 'users/user'
       local_value = 'user'
-      added_items = User.order(id: :DESC)[first..last]
+      added_items = User.order(id: :desc)[first..last]
     elsif controller_name == 'users' && username && action_name == 'followers'
       file_path = 'users/follow'
       local_value = 'user'

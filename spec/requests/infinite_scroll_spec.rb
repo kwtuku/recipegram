@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'InfiniteScroll', type: :request do
   describe 'home#home' do
     let(:alice) { create :user, :no_image }
-    let(:feeds) { alice.feed.order(updated_at: :DESC) }
+    let(:feeds) { alice.feed.order(updated_at: :desc) }
     let(:not_feed) { create :recipe, :no_image }
 
     context 'when not signed in and 20 items are already displayed' do
@@ -104,7 +104,7 @@ RSpec.describe 'InfiniteScroll', type: :request do
   end
 
   describe 'recipes#index' do
-    let(:recipes) { Recipe.order(updated_at: :DESC) }
+    let(:recipes) { Recipe.order(updated_at: :desc) }
 
     context 'when 40 items are already displayed' do
       before do
@@ -153,7 +153,7 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
   describe 'tags#show' do
     context 'when the tag name contains japanese' do
-      let(:recipes_with_japanese_tag) { Recipe.tagged_with(tag_name_with_japanese).order(id: :DESC) }
+      let(:recipes_with_japanese_tag) { Recipe.tagged_with(tag_name_with_japanese).order(id: :desc) }
       let(:tag_name_with_japanese) { 'かんたん' }
       let(:encoded_tag_name) { URI.encode_www_form_component(tag_name_with_japanese) }
       let(:params) { { displayed_item_count: '40', path: "tags/#{encoded_tag_name}" } }
@@ -178,7 +178,7 @@ RSpec.describe 'InfiniteScroll', type: :request do
     end
 
     context 'when 40 items are already displayed' do
-      let(:tagged_recipes) { Recipe.tagged_with(tag_name).order(id: :DESC) }
+      let(:tagged_recipes) { Recipe.tagged_with(tag_name).order(id: :desc) }
       let(:tag_name) { 'easy' }
       let(:params) { { displayed_item_count: '40', path: "tags/#{tag_name}" } }
 
@@ -202,7 +202,7 @@ RSpec.describe 'InfiniteScroll', type: :request do
     end
 
     context 'when 80 items are already displayed' do
-      let(:tagged_recipes) { Recipe.tagged_with(tag_name).order(id: :DESC) }
+      let(:tagged_recipes) { Recipe.tagged_with(tag_name).order(id: :desc) }
       let(:tag_name) { 'easy' }
       let(:params) { { displayed_item_count: '80', path: "tags/#{tag_name}" } }
 
@@ -227,7 +227,7 @@ RSpec.describe 'InfiniteScroll', type: :request do
   end
 
   describe 'users#index' do
-    let(:users) { User.order(id: :DESC) }
+    let(:users) { User.order(id: :desc) }
 
     context 'when 40 items are already displayed' do
       before { create_list(:user, 81, :no_image) }
@@ -270,7 +270,7 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
   describe 'users#show' do
     let(:alice) { create :user, :no_image }
-    let(:posted_recipes) { alice.recipes.order(id: :DESC) }
+    let(:posted_recipes) { alice.recipes.order(id: :desc) }
     let(:not_posted_recipe) { create :recipe, :no_image }
 
     context 'when 40 items are already displayed' do

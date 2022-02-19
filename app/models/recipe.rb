@@ -20,7 +20,7 @@ class Recipe < ApplicationRecord
   TAG_MAX_COUNT = 5
 
   def others(count)
-    user.recipes.where.not(id: id).order(id: :DESC).limit(count)
+    user.recipes.where.not(id: id).order(id: :desc).limit(count)
   end
 
   def self.ransackable_attributes(_auth_object = nil)

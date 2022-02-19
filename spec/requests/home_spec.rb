@@ -28,7 +28,7 @@ RSpec.describe 'Home', type: :request do
 
     context 'when signed in' do
       let(:alice) { create :user, :no_image }
-      let(:feeds) { alice.feed.order(updated_at: :DESC) }
+      let(:feeds) { alice.feed.order(updated_at: :desc) }
       let(:not_feed) { (Recipe.all - feeds).first }
 
       before do

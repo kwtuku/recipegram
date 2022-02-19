@@ -2,12 +2,12 @@ class UsersController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show generate_username]
 
   def index
-    @users = User.order(id: :DESC).limit(40)
+    @users = User.order(id: :desc).limit(40)
   end
 
   def show
     @user = User.find_by(username: params[:username])
-    @recipes = @user.recipes.order(id: :DESC).limit(40)
+    @recipes = @user.recipes.order(id: :desc).limit(40)
     @followers_you_follow = @user.followers_you_follow(current_user) if user_signed_in?
   end
 
