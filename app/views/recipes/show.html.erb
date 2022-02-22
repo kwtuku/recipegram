@@ -66,13 +66,15 @@
             <p class="title is-spaced"><%= @recipe.title %></p>
             <p class="subtitle">作り方</p>
             <%= simple_format h(@recipe.body), class: 'content text-break' %>
-            <p class="content">
-              <% @recipe.tags.each do |tag| %>
-                <%= link_to tag_path(tag.name) do %>
-                  <span class="tag is-medium tag-link"><%= tag %></span>
+            <% unless @recipe.tags.blank? %>
+              <div class="tags are-medium">
+                <% @recipe.tags.each do |tag| %>
+                  <%= link_to tag_path(tag.name) do %>
+                    <span class="tag tag-link mr-2"><%= tag %></span>
+                  <% end %>
                 <% end %>
-              <% end %>
-            </p>
+              </div>
+            <% end %>
             <p class="has-text-right has-text-grey-light">
               <time datetime="<%= @recipe.created_at %>">投稿日：<%= l @recipe.created_at, format: :ymd %></time>
               <time class="ml-2" datetime="<%= @recipe.updated_at %>">更新日：<%= l @recipe.updated_at, format: :ymd %></time>

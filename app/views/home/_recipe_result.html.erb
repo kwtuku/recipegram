@@ -15,13 +15,15 @@
         <span class="has-text-grey-dark text-truncate-3"><%= recipe.body %></span>
       </p>
     <% end %>
-    <p class="content">
-      <% recipe.tags.each do |tag| %>
-        <%= link_to tag_path(tag.name) do %>
-          <span class="tag is-medium tag-link"><%= tag %></span>
+    <% unless recipe.tags.blank? %>
+      <div class="tags are-medium">
+        <% recipe.tags.each do |tag| %>
+          <%= link_to tag_path(tag.name) do %>
+            <span class="tag tag-link mr-2"><%= tag %></span>
+          <% end %>
         <% end %>
-      <% end %>
-    </p>
+      </div>
+    <% end %>
     <p>
       <span class="icon-text mr-5">
         <span class="icon">
