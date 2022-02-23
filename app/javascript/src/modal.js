@@ -52,7 +52,8 @@ export default () => {
     if (signInModal) {
       const signInModalTriggers = [].slice.call(document.querySelectorAll('.js-show-sign-in-modal'), 0);
       signInModalTriggers.forEach((signInModalTrigger) => {
-        signInModalTrigger.addEventListener('click', () => {
+        signInModalTrigger.addEventListener('click', (e) => {
+          e.preventDefault();
           showModal(signInModal);
           signInModalTrigger.blur();
         });
