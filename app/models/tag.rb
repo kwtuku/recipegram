@@ -1,6 +1,9 @@
 class Tag < ActsAsTaggableOn::Tag
   before_save { self.name = name.downcase }
 
+  has_many :tag_followings, dependent: :destroy
+  has_many :followers, through: :tag_followings, source: :follower
+
   validate :validate_name
 
   TAG_NAME_MAX_LENGTH = 20

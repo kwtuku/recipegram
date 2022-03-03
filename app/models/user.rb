@@ -20,6 +20,9 @@ class User < ApplicationRecord
   has_many :commented_recipes, through: :comments, source: :recipe
   has_many :favored_recipes, through: :favorites, source: :recipe
 
+  has_many :tag_followings, foreign_key: 'follower_id', inverse_of: 'follower', dependent: :destroy
+  has_many :following_tags, through: :tag_followings, source: :tag
+
   mount_uploader :user_image, UserImageUploader
 
   RESERVED_WORDS = %w[
