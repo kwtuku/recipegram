@@ -13,7 +13,9 @@ Rails.application.routes.draw do
 
   resources :notifications, only: %i[index]
 
-  resources :tags, only: %i[index show], param: :name
+  resources :tags, only: %i[index show], param: :name do
+    resource :followers, only: %i[create destroy], controller: 'tags/followers'
+  end
 
   resources :relationships, only: %i[create destroy]
 
