@@ -184,8 +184,16 @@ RSpec.describe User, type: :model do
     let(:alice) { create(:user, :has_5_recipes, :no_image) }
     let(:bob) { create(:user, :has_5_recipes, :no_image) }
     let(:carol) { create(:user, :has_5_recipes, :no_image) }
+    let(:following_tag) { create(:tag) }
+    let(:not_following_tag) { create(:tag) }
 
-    before { alice.relationships.create!(follow_id: bob.id) }
+    before do
+      alice.relationships.create!(follow_id: bob.id)
+      create(:recipe, :no_image, tag_list: following_tag.name)
+      create(:recipe, :no_image, tag_list: not_following_tag.name)
+      alice.tag_followings.create!(tag_id: following_tag.id)
+      bob.recipes.order('RANDOM()').limit(1).update(tag_list: following_tag.name)
+    end
 
     it 'has self recipes' do
       alice.recipes.each do |recipe_self|
@@ -203,6 +211,22 @@ RSpec.describe User, type: :model do
       carol.recipes.each do |recipe_unfollowing|
         expect(alice.feed.include?(recipe_unfollowing)).to eq false
       end
+    end
+
+    it 'has following tag recipes' do
+      Recipe.tagged_with(following_tag.name).each do |recipe_following|
+        expect(alice.feed.include?(recipe_following)).to eq true
+      end
+    end
+
+    it 'does not have unfollowing tag recipes' do
+      Recipe.tagged_with(not_following_tag.name).each do |recipe_not_following|
+        expect(alice.feed.include?(recipe_not_following)).to eq false
+      end
+    end
+
+    it 'has correct count' do
+      expect(alice.feed.size).to eq 11
     end
   end
 
