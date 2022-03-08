@@ -1,0 +1,24 @@
+<section class="section">
+  <div class="container">
+    <h1 class="title has-text-centered">
+      <span class="icon-text">
+        <%= link_to user_path(@user), class: 'has-text-grey-darker hover-underline' do %>
+          <span class="icon">
+            <i class="fas fa-arrow-left"></i>
+          </span>
+          <span><%= @user.nickname %>さん</span>
+        <% end %>
+        <span>がフォローしているタグ</span>
+      </span>
+    </h1>
+    <div class="columns is-centered is-multiline">
+      <div class="column is-9">
+        <% if @tags.exists? %>
+          <%= render partial: 'users/following_tags/tag', collection: @tags %>
+        <% else %>
+          <p class="has-text-centered">フォローしているタグはありません</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

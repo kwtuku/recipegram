@@ -1,0 +1,37 @@
+<div class="media">
+  <div class="media-content">
+    <div class="content">
+      <%= link_to tag_path(tag.name), class: 'is-flex is-align-items-center' do %>
+        <span class="tag is-large tag-link has-text-weight-bold has-text-grey-darker"><%= tag %></span>
+        <p class="ml-5 has-text-grey-dark"><%= tag.taggings_count %>件の投稿</p>
+      <% end %>
+    </div>
+    <div class="columns is-multiline is-mobile is-variable is-1">
+      <% @tagged_recipes_collection[tag.name].each do |recipe| %>
+        <div class="column is-2">
+          <div class="card">
+            <div class="card-image">
+              <%= link_to recipe_path(recipe) do %>
+                <figure class="image is-1by1 mask-container">
+                  <%= image_tag recipe.recipe_image.thumb.url %>
+                  <div class="mask has-text-centered">
+                    <p class="has-text-white mask-text">
+                      <span class="icon is-small">
+                        <i class="far fa-heart"></i>
+                      </span>
+                      <span class="is-size-6"><%= recipe.favorites_count %></span>
+                      <span class="icon is-small ml-3">
+                        <i class="far fa-comment"></i>
+                      </span>
+                      <span class="is-size-6"><%= recipe.comments_count %></span>
+                    </p>
+                  </div>
+                </figure>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

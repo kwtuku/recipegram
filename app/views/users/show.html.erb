@@ -53,12 +53,13 @@
               <p><%= @user.profile %></p>
               <p class="is-size-7-mobile">
                 <span class="mr-5">投稿<span class="has-text-weight-bold"><%= @user.recipes_count %></span>件</span>
-                <%= link_to user_followers_path(@user), class: "has-text-grey-dark hover-underline mr-5 #{'js-show-sign-in-modal' unless user_signed_in?}" do %>
+                <%= link_to user_followers_path(@user), class: "has-text-grey-dark hover-underline #{'js-show-sign-in-modal' unless user_signed_in?}" do %>
                   フォロワー<span class="has-text-weight-bold" id="recount-followers"><%= @user.followers_count %></span>人
                 <% end %>
-                <%= link_to user_followings_path(@user), class: "has-text-grey-dark hover-underline mr-5 #{'js-show-sign-in-modal' unless user_signed_in?}" do %>
+                <%= link_to user_followings_path(@user), class: "has-text-grey-dark hover-underline ml-5 #{'js-show-sign-in-modal' unless user_signed_in?}" do %>
                   フォロー中<span class="has-text-weight-bold"><%= @user.followings_count %></span>人
                 <% end %>
+                <%= link_to 'フォロー中のタグ', user_following_tags_path(@user), class: "has-text-grey-dark hover-underline ml-5 #{'js-show-sign-in-modal' unless user_signed_in?}" %>
               </p>
             </div>
             <% if @user != current_user && @followers_you_follow.present? %>
