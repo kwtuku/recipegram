@@ -14,6 +14,9 @@
             <h1 class="title"><%= @tag.name %></h1>
             <p><%= @tag.taggings_count %>件の投稿</p>
           </div>
+          <div class="media-right is-align-self-center" id="tag-follow-button-container">
+            <%= render 'follow_button', tag: @tag %>
+          </div>
         </div>
       </div>
     </div>

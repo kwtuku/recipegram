@@ -20,6 +20,9 @@ class User < ApplicationRecord
   has_many :commented_recipes, through: :comments, source: :recipe
   has_many :favored_recipes, through: :favorites, source: :recipe
 
+  has_many :tag_followings, foreign_key: 'follower_id', inverse_of: 'follower', dependent: :destroy
+  has_many :following_tags, through: :tag_followings, source: :tag
+
   mount_uploader :user_image, UserImageUploader
 
   RESERVED_WORDS = %w[
@@ -62,7 +65,10 @@ class User < ApplicationRecord
   end
 
   def feed
-    Recipe.preload(:user).where('user_id IN (?) OR user_id = ?', following_ids, id).order(id: :desc)
+    Recipe.preload(:user)
+      .where(id: Recipe.where('user_id IN (?) OR user_id = ?', followings.select(:id), id).select(:id))
+      .or(Recipe.where(id: Recipe.joins(:tags).merge(Tag.where(id: following_tags.select(:id))).select(:id)))
+      .order(id: :desc)
   end
 
   def recommended_recipes
