@@ -15,8 +15,6 @@ RSpec.describe 'Relationships', type: :request do
         expect do
           post relationships_path, params: { follow_id: bob.id }, xhr: true
         end.to change(Relationship, :count).by(0)
-          .and change(bob.followers, :count).by(0)
-          .and change(alice.followings, :count).by(0)
       end
     end
 
@@ -32,8 +30,6 @@ RSpec.describe 'Relationships', type: :request do
         expect do
           post relationships_path, params: { follow_id: bob.id }, xhr: true
         end.to change(Relationship, :count).by(1)
-          .and change(bob.followers, :count).by(1)
-          .and change(alice.followings, :count).by(1)
       end
     end
   end
@@ -53,8 +49,6 @@ RSpec.describe 'Relationships', type: :request do
         expect do
           delete relationship_path(relationship), params: { follow_id: bob.id }, xhr: true
         end.to change(Relationship, :count).by(0)
-          .and change(bob.followers, :count).by(0)
-          .and change(alice.followings, :count).by(0)
       end
     end
 
@@ -70,8 +64,6 @@ RSpec.describe 'Relationships', type: :request do
         expect do
           delete relationship_path(relationship), params: { follow_id: bob.id }, xhr: true
         end.to change(Relationship, :count).by(-1)
-          .and change(bob.followers, :count).by(-1)
-          .and change(alice.followings, :count).by(-1)
       end
     end
   end

@@ -16,9 +16,6 @@ RSpec.describe 'Favorites', type: :request do
         expect do
           post recipe_favorites_path(bob_recipe), xhr: true
         end.to change(Favorite, :count).by(0)
-          .and change(bob_recipe.favorites, :count).by(0)
-          .and change(alice.favorites, :count).by(0)
-          .and change(alice.favored_recipes, :count).by(0)
       end
     end
 
@@ -34,9 +31,6 @@ RSpec.describe 'Favorites', type: :request do
         expect do
           post recipe_favorites_path(bob_recipe), xhr: true
         end.to change(Favorite, :count).by(1)
-          .and change(bob_recipe.favorites, :count).by(1)
-          .and change(alice.favorites, :count).by(1)
-          .and change(alice.favored_recipes, :count).by(1)
       end
     end
   end
@@ -58,9 +52,6 @@ RSpec.describe 'Favorites', type: :request do
         expect do
           delete recipe_favorites_path(bob_recipe), xhr: true
         end.to change(Favorite, :count).by(0)
-          .and change(bob_recipe.favorites, :count).by(0)
-          .and change(alice.favorites, :count).by(0)
-          .and change(alice.favored_recipes, :count).by(0)
       end
     end
 
@@ -76,9 +67,6 @@ RSpec.describe 'Favorites', type: :request do
         expect do
           delete recipe_favorites_path(bob_recipe), xhr: true
         end.to change(Favorite, :count).by(-1)
-          .and change(bob_recipe.favorites, :count).by(-1)
-          .and change(alice.favorites, :count).by(-1)
-          .and change(alice.favored_recipes, :count).by(-1)
       end
     end
   end

@@ -22,9 +22,6 @@ RSpec.describe 'Comments', type: :request do
         expect do
           post recipe_comments_path(bob_recipe), params: { comment: comment_params }
         end.to change(Comment, :count).by(0)
-          .and change(bob_recipe.comments, :count).by(0)
-          .and change(alice.comments, :count).by(0)
-          .and change(alice.commented_recipes, :count).by(0)
       end
     end
 
@@ -45,9 +42,6 @@ RSpec.describe 'Comments', type: :request do
         expect do
           post recipe_comments_path(bob_recipe), params: { comment: comment_params }
         end.to change(Comment, :count).by(1)
-          .and change(bob_recipe.comments, :count).by(1)
-          .and change(alice.comments, :count).by(1)
-          .and change(alice.commented_recipes, :count).by(1)
       end
     end
   end
@@ -73,9 +67,6 @@ RSpec.describe 'Comments', type: :request do
         expect do
           delete recipe_comment_path(bob_recipe, alice_comment)
         end.to change(Comment, :count).by(0)
-          .and change(bob_recipe.comments, :count).by(0)
-          .and change(alice.comments, :count).by(0)
-          .and change(alice.commented_recipes, :count).by(0)
       end
     end
 
@@ -101,9 +92,6 @@ RSpec.describe 'Comments', type: :request do
         expect do
           delete recipe_comment_path(bob_recipe, alice_comment)
         end.to change(Comment, :count).by(0)
-          .and change(bob_recipe.comments, :count).by(0)
-          .and change(alice.comments, :count).by(0)
-          .and change(alice.commented_recipes, :count).by(0)
       end
     end
 
@@ -124,9 +112,6 @@ RSpec.describe 'Comments', type: :request do
         expect do
           delete recipe_comment_path(bob_recipe, alice_comment)
         end.to change(Comment, :count).by(-1)
-          .and change(bob_recipe.comments, :count).by(-1)
-          .and change(alice.comments, :count).by(-1)
-          .and change(alice.commented_recipes, :count).by(-1)
       end
     end
   end

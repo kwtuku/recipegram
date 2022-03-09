@@ -138,7 +138,6 @@ RSpec.describe 'Recipes', type: :request do
         expect do
           post recipes_path, params: { recipe: recipe_params }
         end.to change(Recipe, :count).by(1)
-          .and change { alice.recipes.count }.by(1)
       end
     end
   end
@@ -301,7 +300,6 @@ RSpec.describe 'Recipes', type: :request do
         expect do
           delete recipe_path(alice_recipe)
         end.to change(Recipe, :count).by(0)
-          .and change(alice.recipes, :count).by(0)
       end
     end
 
@@ -327,7 +325,6 @@ RSpec.describe 'Recipes', type: :request do
         expect do
           delete recipe_path(alice_recipe)
         end.to change(Recipe, :count).by(0)
-          .and change(alice.recipes, :count).by(0)
       end
     end
 
@@ -348,7 +345,6 @@ RSpec.describe 'Recipes', type: :request do
         expect do
           delete recipe_path(alice_recipe)
         end.to change(Recipe, :count).by(-1)
-          .and change(alice.recipes, :count).by(-1)
       end
     end
   end
