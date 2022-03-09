@@ -15,12 +15,12 @@ RSpec.describe 'Tags', type: :request do
     end
 
     context 'when signed in' do
-      let(:alice) { create :user, :no_image }
+      let(:alice) { create(:user, :no_image) }
 
       before do
-        create :tag, name: '手軽'
-        create :tag, name: 'お手軽'
-        create :tag, name: 'かんたん'
+        create(:tag, name: '手軽')
+        create(:tag, name: 'お手軽')
+        create(:tag, name: 'かんたん')
         sign_in alice
       end
 
@@ -38,8 +38,8 @@ RSpec.describe 'Tags', type: :request do
   end
 
   describe '#show' do
-    let(:alice) { create :user, :no_image }
-    let!(:tagged_recipe) { create :recipe, :no_image, tag_list: 'かんたん' }
+    let(:alice) { create(:user, :no_image) }
+    let!(:tagged_recipe) { create(:recipe, :no_image, tag_list: 'かんたん') }
     let!(:tag_kantan) { Tag.find_or_create_by(name: 'かんたん') }
 
     context 'when not signed in' do

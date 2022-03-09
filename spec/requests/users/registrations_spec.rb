@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Registrations', type: :request do
   describe '#confirm_destroy' do
-    let(:alice) { create :user, :no_image }
+    let(:alice) { create(:user, :no_image) }
 
     context 'when not signed in' do
       it 'returns a 302 response' do
@@ -26,7 +26,7 @@ RSpec.describe 'Registrations', type: :request do
   end
 
   describe '#destroy' do
-    let(:alice) { create :user, :no_image }
+    let(:alice) { create(:user, :no_image) }
 
     context 'when not signed in' do
       it 'returns a 302 response' do

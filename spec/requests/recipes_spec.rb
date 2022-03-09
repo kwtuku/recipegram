@@ -5,11 +5,11 @@ RSpec.describe 'Recipes', type: :request do
     before do
       users = create_list(:user, 5, :no_image)
       users.each do |user|
-        create :recipe, :no_image, user: user
+        create(:recipe, :no_image, user: user)
       end
     end
 
-    let(:alice) { create :user, :no_image }
+    let(:alice) { create(:user, :no_image) }
 
     it 'returns a 200 response when not signed in' do
       get recipes_path
@@ -24,9 +24,9 @@ RSpec.describe 'Recipes', type: :request do
   end
 
   describe '#show' do
-    let(:alice) { create :user, :no_image }
-    let(:bob) { create :user, :no_image }
-    let(:bob_recipe) { create :recipe, :no_image, user: bob }
+    let(:alice) { create(:user, :no_image) }
+    let(:bob) { create(:user, :no_image) }
+    let(:bob_recipe) { create(:recipe, :no_image, user: bob) }
 
     context 'when not signed in and other recipes exist' do
       before { create_list(:recipe, 4, :no_image, user: bob) }
@@ -76,7 +76,7 @@ RSpec.describe 'Recipes', type: :request do
   end
 
   describe '#new' do
-    let(:alice) { create :user, :no_image }
+    let(:alice) { create(:user, :no_image) }
 
     context 'when not signed in' do
       it 'returns a 302 response' do
@@ -100,7 +100,7 @@ RSpec.describe 'Recipes', type: :request do
   end
 
   describe '#create' do
-    let(:alice) { create :user, :no_image }
+    let(:alice) { create(:user, :no_image) }
     let(:recipe_params) { attributes_for(:recipe) }
 
     context 'when not signed in' do
@@ -144,9 +144,9 @@ RSpec.describe 'Recipes', type: :request do
   end
 
   describe '#edit' do
-    let(:alice) { create :user, :no_image }
-    let(:bob) { create :user, :no_image }
-    let(:alice_recipe) { create :recipe, :no_image, user: alice }
+    let(:alice) { create(:user, :no_image) }
+    let(:bob) { create(:user, :no_image) }
+    let(:alice_recipe) { create(:recipe, :no_image, user: alice) }
 
     context 'when not signed in' do
       it 'returns a 302 response' do
@@ -189,9 +189,9 @@ RSpec.describe 'Recipes', type: :request do
   end
 
   describe '#update' do
-    let(:alice) { create :user, :no_image }
-    let(:bob) { create :user, :no_image }
-    let(:alice_recipe) { create :recipe, title: 'カレー', user: alice }
+    let(:alice) { create(:user, :no_image) }
+    let(:bob) { create(:user, :no_image) }
+    let(:alice_recipe) { create(:recipe, title: 'カレー', user: alice) }
     let(:recipe_params) { { title: 'ラーメン' } }
 
     context 'when not signed in' do
@@ -282,9 +282,9 @@ RSpec.describe 'Recipes', type: :request do
   end
 
   describe '#destroy' do
-    let(:alice) { create :user, :no_image }
-    let(:bob) { create :user, :no_image }
-    let!(:alice_recipe) { create :recipe, :no_image, user: alice }
+    let(:alice) { create(:user, :no_image) }
+    let(:bob) { create(:user, :no_image) }
+    let!(:alice_recipe) { create(:recipe, :no_image, user: alice) }
 
     context 'when not signed in' do
       it 'returns a 302 response' do

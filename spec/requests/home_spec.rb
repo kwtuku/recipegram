@@ -25,7 +25,7 @@ RSpec.describe 'Home', type: :request do
     end
 
     context 'when signed in' do
-      let(:alice) { create :user, :no_image }
+      let(:alice) { create(:user, :no_image) }
       let(:feed) { alice.feed }
       let(:not_feed) { Recipe.where.not(id: feed.ids).first }
 
@@ -61,7 +61,7 @@ RSpec.describe 'Home', type: :request do
   end
 
   describe '#privacy' do
-    let(:alice) { create :user, :no_image }
+    let(:alice) { create(:user, :no_image) }
 
     it 'returns a 200 response when not signed in' do
       get privacy_path

@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Recipes', type: :system do
-  let(:alice) { create :user, :no_image }
-  let(:bob) { create :user, :no_image }
+  let(:alice) { create(:user, :no_image) }
+  let(:bob) { create(:user, :no_image) }
 
   it 'creates a recipe', js: true do
     sign_in alice
@@ -19,7 +19,7 @@ RSpec.describe 'Recipes', type: :system do
   end
 
   describe 'updates the recipe' do
-    let(:alice_recipe) { create :recipe, user: alice }
+    let(:alice_recipe) { create(:recipe, user: alice) }
 
     context 'when user is not the author' do
       it 'redirects to root_path', js: true do
@@ -65,8 +65,8 @@ RSpec.describe 'Recipes', type: :system do
       end
 
       it 'updates tags', js: true do
-        tag_otegaru = create :tag, name: 'お手軽'
-        tag_kantan = create :tag, name: 'かんたん'
+        tag_otegaru = create(:tag, name: 'お手軽')
+        tag_kantan = create(:tag, name: 'かんたん')
         sign_in alice
         visit edit_recipe_path(alice_recipe)
         expect(page).to have_button 'update_recipe', disabled: true
@@ -79,7 +79,7 @@ RSpec.describe 'Recipes', type: :system do
   end
 
   it 'destroys the recipe', js: true do
-    alice_recipe = create :recipe, :no_image, user: alice
+    alice_recipe = create(:recipe, :no_image, user: alice)
     expect(alice.recipes.count).to eq 1
     sign_in alice
     visit recipe_path(alice_recipe)

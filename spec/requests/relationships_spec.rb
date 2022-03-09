@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'Relationships', type: :request do
   describe '#create' do
-    let(:alice) { create :user, :no_image }
-    let(:bob) { create :user, :no_image }
+    let(:alice) { create(:user, :no_image) }
+    let(:bob) { create(:user, :no_image) }
 
     context 'when not signed in' do
       it 'returns a 401 response' do
@@ -39,8 +39,8 @@ RSpec.describe 'Relationships', type: :request do
   end
 
   describe '#destroy' do
-    let(:alice) { create :user, :no_image }
-    let(:bob) { create :user, :no_image }
+    let(:alice) { create(:user, :no_image) }
+    let(:bob) { create(:user, :no_image) }
     let!(:relationship) { alice.relationships.create(follow_id: bob.id) }
 
     context 'when not signed in' do

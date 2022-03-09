@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe 'InfiniteScroll', type: :request do
   describe 'home#home' do
-    let(:alice) { create :user, :no_image }
+    let(:alice) { create(:user, :no_image) }
     let(:feed) { alice.feed }
-    let(:not_feed) { create :recipe, :no_image }
+    let(:not_feed) { create(:recipe, :no_image) }
 
     context 'when not signed in and 20 items are already displayed' do
       before do
@@ -269,9 +269,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
   end
 
   describe 'users#show' do
-    let(:alice) { create :user, :no_image }
+    let(:alice) { create(:user, :no_image) }
     let(:posted_recipes) { alice.recipes.order(id: :desc) }
-    let(:not_posted_recipe) { create :recipe, :no_image }
+    let(:not_posted_recipe) { create(:recipe, :no_image) }
 
     context 'when 40 items are already displayed' do
       before { create_list(:recipe, 81, :no_image, user: alice) }
@@ -315,7 +315,7 @@ RSpec.describe 'InfiniteScroll', type: :request do
   end
 
   describe 'users#comments' do
-    let(:alice) { create :user, :no_image }
+    let(:alice) { create(:user, :no_image) }
     let(:commented_recipes) { alice.commented_recipes.order('comments.id desc') }
     let(:not_commented_recipe) { (Recipe.all - commented_recipes).first }
 
@@ -324,7 +324,7 @@ RSpec.describe 'InfiniteScroll', type: :request do
         users = create_list(:user, 3, :no_image)
         users.each { |user| create_list(:recipe, 28, :no_image, user: user) }
         random_recipes = Recipe.all.sample(81)
-        random_recipes.each { |recipe| create :comment, user: alice, recipe: recipe }
+        random_recipes.each { |recipe| create(:comment, user: alice, recipe: recipe) }
       end
 
       let(:params) { { displayed_item_count: '40', path: "users/#{alice.username}/comments" } }
@@ -349,7 +349,7 @@ RSpec.describe 'InfiniteScroll', type: :request do
         users = create_list(:user, 3, :no_image)
         users.each { |user| create_list(:recipe, 41, :no_image, user: user) }
         random_recipes = Recipe.all.sample(121)
-        random_recipes.each { |recipe| create :comment, user: alice, recipe: recipe }
+        random_recipes.each { |recipe| create(:comment, user: alice, recipe: recipe) }
       end
 
       let(:params) { { displayed_item_count: '80', path: "users/#{alice.username}/comments" } }
@@ -371,7 +371,7 @@ RSpec.describe 'InfiniteScroll', type: :request do
   end
 
   describe 'users#favorites' do
-    let(:alice) { create :user, :no_image, username: 'alice' }
+    let(:alice) { create(:user, :no_image, username: 'alice') }
     let(:favored_recipes) { alice.favored_recipes.order('favorites.id desc') }
     let(:not_favored_recipe) { (Recipe.all - favored_recipes).first }
 
@@ -427,7 +427,7 @@ RSpec.describe 'InfiniteScroll', type: :request do
   end
 
   describe 'users#followers' do
-    let(:alice) { create :user, :no_image }
+    let(:alice) { create(:user, :no_image) }
     let(:followers) { alice.followers.order('relationships.id desc') }
     let(:not_follower) { (User.all - [alice] - followers).first }
 
@@ -481,7 +481,7 @@ RSpec.describe 'InfiniteScroll', type: :request do
   end
 
   describe 'users#followings' do
-    let(:alice) { create :user, :no_image, username: 'alice' }
+    let(:alice) { create(:user, :no_image, username: 'alice') }
     let(:followings) { alice.followings.order('relationships.id desc') }
     let(:not_following) { (User.all - [alice] - followings).first }
 

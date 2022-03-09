@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe 'Favorites', type: :request do
   describe '#create' do
-    let(:alice) { create :user, :no_image }
-    let(:bob) { create :user, :no_image }
-    let(:bob_recipe) { create :recipe, :no_image, user: bob }
+    let(:alice) { create(:user, :no_image) }
+    let(:bob) { create(:user, :no_image) }
+    let(:bob_recipe) { create(:recipe, :no_image, user: bob) }
 
     context 'when not signed in' do
       it 'returns a 401 response' do
@@ -42,9 +42,9 @@ RSpec.describe 'Favorites', type: :request do
   end
 
   describe '#destroy' do
-    let(:alice) { create :user, :no_image }
-    let(:bob) { create :user, :no_image }
-    let(:bob_recipe) { create :recipe, :no_image, user: bob }
+    let(:alice) { create(:user, :no_image) }
+    let(:bob) { create(:user, :no_image) }
+    let(:bob_recipe) { create(:recipe, :no_image, user: bob) }
 
     before { alice.favorites.create(recipe_id: bob_recipe.id) }
 

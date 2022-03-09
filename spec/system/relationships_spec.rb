@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Relationships', type: :system do
-  let(:alice) { create :user, :no_image }
-  let(:bob) { create :user, :no_image }
+  let(:alice) { create(:user, :no_image) }
+  let(:bob) { create(:user, :no_image) }
 
   it 'creates a relationship', js: true do
     expect(Relationship.count).to eq 0
