@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Recipes', type: :request do
-  describe '#index' do
+  describe 'GET /recipes' do
     before do
       users = create_list(:user, 5, :no_image)
       users.each do |user|
@@ -23,7 +23,7 @@ RSpec.describe 'Recipes', type: :request do
     end
   end
 
-  describe '#show' do
+  describe 'GET /recipes/:id' do
     let(:alice) { create(:user, :no_image) }
     let(:bob) { create(:user, :no_image) }
     let(:bob_recipe) { create(:recipe, :no_image, user: bob) }
@@ -75,7 +75,7 @@ RSpec.describe 'Recipes', type: :request do
     end
   end
 
-  describe '#new' do
+  describe 'GET /recipes/new' do
     let(:alice) { create(:user, :no_image) }
 
     context 'when not signed in' do
@@ -99,7 +99,7 @@ RSpec.describe 'Recipes', type: :request do
     end
   end
 
-  describe '#create' do
+  describe 'POST /recipes' do
     let(:alice) { create(:user, :no_image) }
     let(:recipe_params) { attributes_for(:recipe) }
 
@@ -142,7 +142,7 @@ RSpec.describe 'Recipes', type: :request do
     end
   end
 
-  describe '#edit' do
+  describe 'GET /recipes/:id/edit' do
     let(:alice) { create(:user, :no_image) }
     let(:bob) { create(:user, :no_image) }
     let(:alice_recipe) { create(:recipe, :no_image, user: alice) }
@@ -187,7 +187,7 @@ RSpec.describe 'Recipes', type: :request do
     end
   end
 
-  describe '#update' do
+  describe 'PATCH /recipes/:id' do
     let(:alice) { create(:user, :no_image) }
     let(:bob) { create(:user, :no_image) }
     let(:alice_recipe) { create(:recipe, title: 'カレー', user: alice) }
@@ -280,7 +280,7 @@ RSpec.describe 'Recipes', type: :request do
     end
   end
 
-  describe '#destroy' do
+  describe 'DELETE /recipes/:id' do
     let(:alice) { create(:user, :no_image) }
     let(:bob) { create(:user, :no_image) }
     let!(:alice_recipe) { create(:recipe, :no_image, user: alice) }

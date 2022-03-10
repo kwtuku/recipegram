@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Tags', type: :request do
-  describe '#index' do
+  describe 'GET /tags' do
     context 'when not signed in' do
       it 'returns found' do
         get tags_path(name: '手軽')
@@ -37,7 +37,7 @@ RSpec.describe 'Tags', type: :request do
     end
   end
 
-  describe '#show' do
+  describe 'GET /tags/:name' do
     let(:alice) { create(:user, :no_image) }
     let!(:tagged_recipe) { create(:recipe, :no_image, tag_list: 'かんたん') }
     let!(:tag_kantan) { Tag.find_or_create_by(name: 'かんたん') }

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Users', type: :request do
-  describe '#index' do
+  describe 'GET /users' do
     before { create_list(:user, 5, :no_image) }
 
     let(:alice) { create(:user, :no_image) }
@@ -18,7 +18,7 @@ RSpec.describe 'Users', type: :request do
     end
   end
 
-  describe '#show' do
+  describe 'GET /users/:username' do
     let(:alice) { create(:user, :no_image) }
 
     it 'returns ok when not signed in' do
@@ -33,7 +33,7 @@ RSpec.describe 'Users', type: :request do
     end
   end
 
-  describe '#edit' do
+  describe 'GET /users/edit/profile' do
     let(:alice) { create(:user, :no_image) }
 
     context 'when not signed in' do
@@ -57,7 +57,7 @@ RSpec.describe 'Users', type: :request do
     end
   end
 
-  describe '#update' do
+  describe 'PATCH /users/:username' do
     let(:alice) { create(:user, :no_image, nickname: 'アリス', profile: 'アリスです。') }
     let(:bob) { create(:user, :no_image, nickname: 'ボブ', profile: 'ボブだよ。') }
     let(:user_params) { { nickname: 'ありす', profile: 'ありすです。' } }
@@ -147,7 +147,7 @@ RSpec.describe 'Users', type: :request do
     end
   end
 
-  describe '#followings' do
+  describe 'GET /users/:user_username/followings' do
     let(:alice) { create(:user, :no_image) }
     let(:bob) { create(:user, :no_image) }
     let(:carol) { create(:user, :no_image) }
@@ -184,7 +184,7 @@ RSpec.describe 'Users', type: :request do
     end
   end
 
-  describe '#followers' do
+  describe 'GET /users/:user_username/followers' do
     let(:alice) { create(:user, :no_image) }
     let(:bob) { create(:user, :no_image) }
     let(:carol) { create(:user, :no_image) }
@@ -221,7 +221,7 @@ RSpec.describe 'Users', type: :request do
     end
   end
 
-  describe '#comments' do
+  describe 'GET /users/:user_username/comments' do
     let(:alice) { create(:user, :no_image) }
     let(:bob) { create(:user, :no_image) }
     let(:carol) { create(:user, :no_image) }
@@ -260,7 +260,7 @@ RSpec.describe 'Users', type: :request do
     end
   end
 
-  describe '#favorites' do
+  describe 'GET /users/:user_username/favorites' do
     let(:alice) { create(:user, :no_image) }
     let(:bob) { create(:user, :no_image) }
     let(:carol) { create(:user, :no_image) }
@@ -299,7 +299,7 @@ RSpec.describe 'Users', type: :request do
     end
   end
 
-  describe '#generate_username' do
+  describe 'GET /generate_username' do
     it 'returns ok' do
       get generate_username_path, xhr: true
       expect(response).to have_http_status(:ok)

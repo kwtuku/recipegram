@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Home', type: :request do
-  describe '#home' do
+  describe 'GET /' do
     context 'when not signed in' do
       before do
         users = create_list(:user, 8, :no_image)
@@ -60,7 +60,7 @@ RSpec.describe 'Home', type: :request do
     end
   end
 
-  describe '#privacy' do
+  describe 'GET /privacy' do
     let(:alice) { create(:user, :no_image) }
 
     it 'returns ok when not signed in' do

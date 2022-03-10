@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Relationships', type: :request do
-  describe '#create' do
+  describe 'POST /relationships' do
     let(:alice) { create(:user, :no_image) }
     let(:bob) { create(:user, :no_image) }
 
@@ -34,7 +34,7 @@ RSpec.describe 'Relationships', type: :request do
     end
   end
 
-  describe '#destroy' do
+  describe 'DELETE /relationships/:id' do
     let(:alice) { create(:user, :no_image) }
     let(:bob) { create(:user, :no_image) }
     let!(:relationship) { alice.relationships.create(follow_id: bob.id) }

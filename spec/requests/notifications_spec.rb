@@ -6,7 +6,7 @@ RSpec.describe 'Notifications', type: :request do
   let(:bob) { create(:user, :no_image) }
   let(:comment_params) { attributes_for(:comment) }
 
-  describe '#index' do
+  describe 'GET /notifications' do
     before do
       sign_in bob
       post recipe_comments_path(alice_recipe), params: { comment: comment_params }
@@ -58,7 +58,7 @@ RSpec.describe 'Notifications', type: :request do
     end
   end
 
-  describe 'comments#create' do
+  describe 'POST /recipes/:recipe_id/comments' do
     context 'when a comment is saved' do
       it 'increases recipe user notification count' do
         sign_in bob
@@ -110,7 +110,7 @@ RSpec.describe 'Notifications', type: :request do
     end
   end
 
-  describe 'favorites#create' do
+  describe 'POST /recipes/:recipe_id/favorites' do
     context 'when user makes a favorite on other user recipe' do
       it 'increases recipe user notification count' do
         sign_in bob
@@ -130,7 +130,7 @@ RSpec.describe 'Notifications', type: :request do
     end
   end
 
-  describe 'relationships#create' do
+  describe 'POST /relationships' do
     it 'increases followed user notification count' do
       sign_in bob
       expect do

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Comments', type: :request do
-  describe '#create' do
+  describe 'POST /recipes/:recipe_id/comments' do
     let(:alice) { create(:user, :no_image) }
     let(:bob) { create(:user, :no_image) }
     let(:bob_recipe) { create(:recipe, :no_image, user: bob) }
@@ -46,7 +46,7 @@ RSpec.describe 'Comments', type: :request do
     end
   end
 
-  describe '#destroy' do
+  describe 'DELETE /recipes/:recipe_id/comments/:id' do
     let(:alice) { create(:user, :no_image) }
     let(:bob) { create(:user, :no_image) }
     let(:bob_recipe) { create(:recipe, :no_image, user: bob) }

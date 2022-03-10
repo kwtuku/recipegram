@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'InfiniteScroll', type: :request do
-  describe 'home#home' do
+  describe 'GET /' do
     let(:alice) { create(:user, :no_image) }
     let(:feed) { alice.feed }
     let(:not_feed) { create(:recipe, :no_image) }
@@ -103,7 +103,7 @@ RSpec.describe 'InfiniteScroll', type: :request do
     end
   end
 
-  describe 'recipes#index' do
+  describe 'GET /recipes' do
     let(:recipes) { Recipe.order(id: :desc) }
 
     context 'when 40 items are already displayed' do
@@ -151,7 +151,7 @@ RSpec.describe 'InfiniteScroll', type: :request do
     end
   end
 
-  describe 'tags#show' do
+  describe 'GET /tags/:name' do
     context 'when the tag name contains japanese' do
       let(:recipes_with_japanese_tag) { Recipe.tagged_with(tag_name_with_japanese).order(id: :desc) }
       let(:tag_name_with_japanese) { 'かんたん' }
@@ -226,7 +226,7 @@ RSpec.describe 'InfiniteScroll', type: :request do
     end
   end
 
-  describe 'users#index' do
+  describe 'GET /users' do
     let(:users) { User.order(id: :desc) }
 
     context 'when 40 items are already displayed' do
@@ -268,7 +268,7 @@ RSpec.describe 'InfiniteScroll', type: :request do
     end
   end
 
-  describe 'users#show' do
+  describe 'GET /users/:username' do
     let(:alice) { create(:user, :no_image) }
     let(:posted_recipes) { alice.recipes.order(id: :desc) }
     let(:not_posted_recipe) { create(:recipe, :no_image) }
@@ -314,7 +314,7 @@ RSpec.describe 'InfiniteScroll', type: :request do
     end
   end
 
-  describe 'users#comments' do
+  describe 'GET /users/:user_username/comments' do
     let(:alice) { create(:user, :no_image) }
     let(:commented_recipes) { alice.commented_recipes.order('comments.id desc') }
     let(:not_commented_recipe) { (Recipe.all - commented_recipes).first }
@@ -370,7 +370,7 @@ RSpec.describe 'InfiniteScroll', type: :request do
     end
   end
 
-  describe 'users#favorites' do
+  describe 'GET /users/:user_username/favorites' do
     let(:alice) { create(:user, :no_image, username: 'alice') }
     let(:favored_recipes) { alice.favored_recipes.order('favorites.id desc') }
     let(:not_favored_recipe) { (Recipe.all - favored_recipes).first }
@@ -426,7 +426,7 @@ RSpec.describe 'InfiniteScroll', type: :request do
     end
   end
 
-  describe 'users#followers' do
+  describe 'GET /users/:user_username/followers' do
     let(:alice) { create(:user, :no_image) }
     let(:followers) { alice.followers.order('relationships.id desc') }
     let(:not_follower) { (User.all - [alice] - followers).first }
@@ -480,7 +480,7 @@ RSpec.describe 'InfiniteScroll', type: :request do
     end
   end
 
-  describe 'users#followings' do
+  describe 'GET /users/:user_username/followings' do
     let(:alice) { create(:user, :no_image, username: 'alice') }
     let(:followings) { alice.followings.order('relationships.id desc') }
     let(:not_following) { (User.all - [alice] - followings).first }

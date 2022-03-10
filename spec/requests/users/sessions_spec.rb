@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Sessions', type: :request do
-  describe '#guest_sign_in' do
+  describe 'POST /users/guest_sign_in' do
     it 'returns found' do
       post users_guest_sign_in_path
       expect(response).to have_http_status(:found)
