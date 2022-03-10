@@ -7,9 +7,9 @@ RSpec.describe 'Favorites', type: :request do
     let(:bob_recipe) { create(:recipe, :no_image, user: bob) }
 
     context 'when not signed in' do
-      it 'returns a 401 response' do
+      it 'returns unauthorized' do
         post recipe_favorites_path(bob_recipe), xhr: true
-        expect(response.status).to eq 401
+        expect(response).to have_http_status(:unauthorized)
       end
 
       it 'does not increase Favorite count' do
@@ -22,9 +22,9 @@ RSpec.describe 'Favorites', type: :request do
     context 'when signed in' do
       before { sign_in alice }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         post recipe_favorites_path(bob_recipe), xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'increases Favorite count' do
@@ -43,9 +43,9 @@ RSpec.describe 'Favorites', type: :request do
     before { alice.favorites.create(recipe_id: bob_recipe.id) }
 
     context 'when not signed in' do
-      it 'returns a 401 response' do
+      it 'returns unauthorized' do
         delete recipe_favorites_path(bob_recipe), xhr: true
-        expect(response.status).to eq 401
+        expect(response).to have_http_status(:unauthorized)
       end
 
       it 'does not decrease Favorite count' do
@@ -58,9 +58,9 @@ RSpec.describe 'Favorites', type: :request do
     context 'when signed in' do
       before { sign_in alice }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         delete recipe_favorites_path(bob_recipe), xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'decreases Favorite count' do

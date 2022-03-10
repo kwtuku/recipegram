@@ -14,9 +14,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '20', path: '' } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'returns correct link size' do
@@ -33,9 +33,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '40', path: '' } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'returns correct link size' do
@@ -58,9 +58,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '20', path: '' } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -87,9 +87,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '40', path: '' } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -114,9 +114,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '40', path: 'recipes' } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -136,9 +136,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '80', path: 'recipes' } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -163,9 +163,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
         users.each { |user| create_list(:recipe, 27, :no_image, user: user, tag_list: tag_name_with_japanese) }
       end
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -187,9 +187,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
         users.each { |user| create_list(:recipe, 27, :no_image, user: user, tag_list: tag_name) }
       end
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -211,9 +211,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
         users.each { |user| create_list(:recipe, 41, :no_image, user: user, tag_list: tag_name) }
       end
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -234,9 +234,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '40', path: 'users' } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -253,9 +253,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '80', path: 'users' } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -278,9 +278,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '40', path: "users/#{alice.username}" } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -298,9 +298,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '80', path: "users/#{alice.username}" } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -329,9 +329,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '40', path: "users/#{alice.username}/comments" } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -354,9 +354,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '80', path: "users/#{alice.username}/comments" } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -385,9 +385,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '40', path: "users/#{alice.username}/favorites" } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -410,9 +410,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '80', path: "users/#{alice.username}/favorites" } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -440,9 +440,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '40', path: "users/#{alice.username}/followers" } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -464,9 +464,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '80', path: "users/#{alice.username}/followers" } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -494,9 +494,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '40', path: "users/#{alice.username}/followings" } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -518,9 +518,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '80', path: "users/#{alice.username}/followings" } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do

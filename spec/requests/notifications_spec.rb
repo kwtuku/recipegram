@@ -16,9 +16,9 @@ RSpec.describe 'Notifications', type: :request do
     end
 
     context 'when not signed in' do
-      it 'returns a 302 response' do
+      it 'returns found' do
         get notifications_path
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to new_user_session_path' do
@@ -36,9 +36,9 @@ RSpec.describe 'Notifications', type: :request do
     context 'when signed in' do
       before { sign_in alice }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get notifications_path
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders notifications' do

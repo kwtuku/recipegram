@@ -8,9 +8,9 @@ RSpec.describe 'Comments', type: :request do
     let(:comment_params) { attributes_for(:comment) }
 
     context 'when not signed in' do
-      it 'returns a 302 response' do
+      it 'returns found' do
         post recipe_comments_path(bob_recipe), params: { comment: comment_params }
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to new_user_session_path' do
@@ -28,9 +28,9 @@ RSpec.describe 'Comments', type: :request do
     context 'when signed in' do
       before { sign_in alice }
 
-      it 'returns a 302 response' do
+      it 'returns found' do
         post recipe_comments_path(bob_recipe), params: { comment: comment_params }
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to recipe_path(commented recipe)' do
@@ -53,9 +53,9 @@ RSpec.describe 'Comments', type: :request do
     let!(:alice_comment) { create(:comment, user: alice, recipe: bob_recipe) }
 
     context 'when not signed in' do
-      it 'returns a 302 response' do
+      it 'returns found' do
         delete recipe_comment_path(bob_recipe, alice_comment)
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to new_user_session_path' do
@@ -73,9 +73,9 @@ RSpec.describe 'Comments', type: :request do
     context 'when user is not the author' do
       before { sign_in bob }
 
-      it 'returns a 302 response' do
+      it 'returns found' do
         delete recipe_comment_path(bob_recipe, alice_comment)
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to request.referer or root_path' do
@@ -98,9 +98,9 @@ RSpec.describe 'Comments', type: :request do
     context 'when user is the author' do
       before { sign_in alice }
 
-      it 'returns a 302 response' do
+      it 'returns found' do
         delete recipe_comment_path(bob_recipe, alice_comment)
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to recipe_path(commented recipe)' do

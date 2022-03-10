@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe 'Tags', type: :request do
   describe '#index' do
     context 'when not signed in' do
-      it 'returns a 302 response' do
+      it 'returns found' do
         get tags_path(name: '手軽')
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to new_user_session_path' do
@@ -24,9 +24,9 @@ RSpec.describe 'Tags', type: :request do
         sign_in alice
       end
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get tags_path(name: '手軽')
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'returns correct tag count' do
@@ -43,9 +43,9 @@ RSpec.describe 'Tags', type: :request do
     let!(:tag_kantan) { Tag.find_or_create_by(name: 'かんたん') }
 
     context 'when not signed in' do
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get tag_path(tag_kantan.name)
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders tagged recipes' do
@@ -57,9 +57,9 @@ RSpec.describe 'Tags', type: :request do
     context 'when signed in' do
       before { sign_in alice }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get tag_path(tag_kantan.name)
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders tagged recipes' do

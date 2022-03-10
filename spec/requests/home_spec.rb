@@ -8,9 +8,9 @@ RSpec.describe 'Home', type: :request do
         users.each { |user| create_list(:recipe, 3, :no_image, user: user) }
       end
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get root_path
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders 20 recipe links' do
@@ -40,9 +40,9 @@ RSpec.describe 'Home', type: :request do
         sign_in alice
       end
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get root_path
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct recipe links' do
@@ -63,15 +63,15 @@ RSpec.describe 'Home', type: :request do
   describe '#privacy' do
     let(:alice) { create(:user, :no_image) }
 
-    it 'returns a 200 response when not signed in' do
+    it 'returns ok when not signed in' do
       get privacy_path
-      expect(response.status).to eq 200
+      expect(response).to have_http_status(:ok)
     end
 
-    it 'returns a 200 response when signed in' do
+    it 'returns ok when signed in' do
       sign_in alice
       get privacy_path
-      expect(response.status).to eq 200
+      expect(response).to have_http_status(:ok)
     end
   end
 end

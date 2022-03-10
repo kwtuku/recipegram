@@ -6,30 +6,30 @@ RSpec.describe 'Users', type: :request do
 
     let(:alice) { create(:user, :no_image) }
 
-    it 'returns a 200 response when not signed in' do
+    it 'returns ok when not signed in' do
       get users_path
-      expect(response.status).to eq 200
+      expect(response).to have_http_status(:ok)
     end
 
-    it 'returns a 200 response when signed in' do
+    it 'returns ok when signed in' do
       sign_in alice
       get users_path
-      expect(response.status).to eq 200
+      expect(response).to have_http_status(:ok)
     end
   end
 
   describe '#show' do
     let(:alice) { create(:user, :no_image) }
 
-    it 'returns a 200 response when not signed in' do
+    it 'returns ok when not signed in' do
       get user_path(alice)
-      expect(response.status).to eq 200
+      expect(response).to have_http_status(:ok)
     end
 
-    it 'returns a 200 response when signed in' do
+    it 'returns ok when signed in' do
       sign_in alice
       get user_path(alice)
-      expect(response.status).to eq 200
+      expect(response).to have_http_status(:ok)
     end
   end
 
@@ -37,9 +37,9 @@ RSpec.describe 'Users', type: :request do
     let(:alice) { create(:user, :no_image) }
 
     context 'when not signed in' do
-      it 'returns a 302 response' do
+      it 'returns found' do
         get edit_users_path
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to new_user_session_path' do
@@ -49,10 +49,10 @@ RSpec.describe 'Users', type: :request do
     end
 
     context 'when signed in' do
-      it 'returns a 200 response' do
+      it 'returns ok' do
         sign_in alice
         get edit_users_path
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
     end
   end
@@ -63,9 +63,9 @@ RSpec.describe 'Users', type: :request do
     let(:user_params) { { nickname: 'ありす', profile: 'ありすです。' } }
 
     context 'when not signed in' do
-      it 'returns a 302 response' do
+      it 'returns found' do
         patch user_path(alice), params: { user: user_params }
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to new_user_session_path' do
@@ -83,9 +83,9 @@ RSpec.describe 'Users', type: :request do
     context 'when signed in as wrong user' do
       before { sign_in bob }
 
-      it 'returns a 302 response' do
+      it 'returns found' do
         patch user_path(alice), params: { user: user_params }
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to user_path(wrong user)' do
@@ -103,9 +103,9 @@ RSpec.describe 'Users', type: :request do
     context 'when signed in as correct user and user_params[:user_image] is not present' do
       before { sign_in alice }
 
-      it 'returns a 302 response' do
+      it 'returns found' do
         patch user_path(alice), params: { user: user_params }
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to user_path(correct user)' do
@@ -128,9 +128,9 @@ RSpec.describe 'Users', type: :request do
 
       before { sign_in alice }
 
-      it 'returns a 302 response' do
+      it 'returns found' do
         patch user_path(alice), params: { user: user_params_with_image }
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to user_path(correct user)' do
@@ -158,9 +158,9 @@ RSpec.describe 'Users', type: :request do
     end
 
     context 'when not signed in' do
-      it 'returns a 302 response' do
+      it 'returns found' do
         get user_followings_path(alice)
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to new_user_session_path' do
@@ -172,9 +172,9 @@ RSpec.describe 'Users', type: :request do
     context 'when signed in' do
       before { sign_in alice }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get user_followings_path(alice)
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders following links' do
@@ -195,9 +195,9 @@ RSpec.describe 'Users', type: :request do
     end
 
     context 'when not signed in' do
-      it 'returns a 302 response' do
+      it 'returns found' do
         get user_followers_path(alice)
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to new_user_session_path' do
@@ -209,9 +209,9 @@ RSpec.describe 'Users', type: :request do
     context 'when signed in' do
       before { sign_in bob }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get user_followers_path(alice)
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders follower links' do
@@ -234,9 +234,9 @@ RSpec.describe 'Users', type: :request do
     end
 
     context 'when not signed in' do
-      it 'returns a 302 response' do
+      it 'returns found' do
         get user_comments_path(alice)
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to new_user_session_path' do
@@ -248,9 +248,9 @@ RSpec.describe 'Users', type: :request do
     context 'when signed in' do
       before { sign_in bob }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get user_comments_path(alice)
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders commented recipe links' do
@@ -273,9 +273,9 @@ RSpec.describe 'Users', type: :request do
     end
 
     context 'when not signed in' do
-      it 'returns a 302 response' do
+      it 'returns found' do
         get user_favorites_path(alice)
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to new_user_session_path' do
@@ -287,9 +287,9 @@ RSpec.describe 'Users', type: :request do
     context 'when signed in' do
       before { sign_in bob }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get user_favorites_path(alice)
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders favored recipe links' do
@@ -300,9 +300,9 @@ RSpec.describe 'Users', type: :request do
   end
 
   describe '#generate_username' do
-    it 'returns a 200 response' do
+    it 'returns ok' do
       get generate_username_path, xhr: true
-      expect(response.status).to eq 200
+      expect(response).to have_http_status(:ok)
     end
   end
 end
