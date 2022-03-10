@@ -9,7 +9,7 @@ RSpec.describe User, type: :model do
     context 'when user comments on a recipe' do
       it 'increases commented_recipes count' do
         expect do
-          create :comment, recipe: bob_recipe, user: alice
+          create(:comment, recipe: bob_recipe, user: alice)
         end.to change(Comment, :count).by(1).and change(alice.commented_recipes, :count).by(1)
       end
     end
@@ -154,11 +154,11 @@ RSpec.describe User, type: :model do
   end
 
   describe 'followers_you_follow(you)' do
-    let(:alice) { create :user, :no_image }
-    let(:bob) { create :user, :no_image }
-    let(:carol) { create :user, :no_image }
-    let(:dave) { create :user, :no_image }
-    let(:ellen) { create :user, :no_image }
+    let(:alice) { create(:user, :no_image) }
+    let(:bob) { create(:user, :no_image) }
+    let(:carol) { create(:user, :no_image) }
+    let(:dave) { create(:user, :no_image) }
+    let(:ellen) { create(:user, :no_image) }
 
     before do
       alice.relationships.create!(follow_id: carol.id)
@@ -295,7 +295,7 @@ RSpec.describe User, type: :model do
 
   describe 'self.guest' do
     context 'when guest exists' do
-      before { create :user, email: 'guest@example.com' }
+      before { create(:user, email: 'guest@example.com') }
 
       it 'is valid' do
         expect(described_class.guest).to be_valid
@@ -322,9 +322,7 @@ RSpec.describe User, type: :model do
   end
 
   describe 'self.generate_username' do
-    before do
-      create_list :user, 10, :no_image
-    end
+    before { create_list(:user, 10, :no_image) }
 
     it 'is saved as lower-case' do
       username = described_class.generate_username
@@ -338,9 +336,7 @@ RSpec.describe User, type: :model do
   end
 
   describe 'self.vary_from_usernames!(tmp_username)' do
-    before do
-      create_list :user, 10, :no_image
-    end
+    before { create_list(:user, 10, :no_image) }
 
     it 'is saved as lower-case' do
       tmp_username = described_class.all.sample.username

@@ -10,7 +10,7 @@ RSpec.describe Recipe, type: :model do
   end
 
   describe 'validate_tag' do
-    let(:alice) { create :user, :no_image }
+    let(:alice) { create(:user, :no_image) }
 
     context 'when recipe has no tags' do
       it 'is valid' do
@@ -75,7 +75,7 @@ RSpec.describe Recipe, type: :model do
   end
 
   context 'when tag_list has duplicated words' do
-    let(:alice) { create :user, :no_image }
+    let(:alice) { create(:user, :no_image) }
 
     it 'dose not have duplicated tags' do
       recipe = create(:recipe, :no_image, tag_list: 'easy, easy, Easy', user: alice)
@@ -84,10 +84,10 @@ RSpec.describe Recipe, type: :model do
   end
 
   describe 'others(count)' do
-    let(:alice) { create :user, :no_image }
-    let(:bob) { create :user, :no_image }
-    let(:pizza) { create :recipe, :no_image, user: alice }
-    let(:salad) { create :recipe, :no_image, user: bob }
+    let(:alice) { create(:user, :no_image) }
+    let(:bob) { create(:user, :no_image) }
+    let(:pizza) { create(:recipe, :no_image, user: alice) }
+    let(:salad) { create(:recipe, :no_image, user: bob) }
 
     before { create_list(:recipe, 5, :no_image, user: alice) }
 

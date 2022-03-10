@@ -1,16 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe 'Comments', type: :request do
-  describe '#create' do
-    let(:alice) { create :user, :no_image }
-    let(:bob) { create :user, :no_image }
-    let(:bob_recipe) { create :recipe, :no_image, user: bob }
+  describe 'POST /recipes/:recipe_id/comments' do
+    let(:alice) { create(:user, :no_image) }
+    let(:bob) { create(:user, :no_image) }
+    let(:bob_recipe) { create(:recipe, :no_image, user: bob) }
     let(:comment_params) { attributes_for(:comment) }
 
     context 'when not signed in' do
-      it 'returns a 302 response' do
+      it 'returns found' do
         post recipe_comments_path(bob_recipe), params: { comment: comment_params }
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to new_user_session_path' do
@@ -22,18 +22,15 @@ RSpec.describe 'Comments', type: :request do
         expect do
           post recipe_comments_path(bob_recipe), params: { comment: comment_params }
         end.to change(Comment, :count).by(0)
-          .and change(bob_recipe.comments, :count).by(0)
-          .and change(alice.comments, :count).by(0)
-          .and change(alice.commented_recipes, :count).by(0)
       end
     end
 
     context 'when signed in' do
       before { sign_in alice }
 
-      it 'returns a 302 response' do
+      it 'returns found' do
         post recipe_comments_path(bob_recipe), params: { comment: comment_params }
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to recipe_path(commented recipe)' do
@@ -45,23 +42,20 @@ RSpec.describe 'Comments', type: :request do
         expect do
           post recipe_comments_path(bob_recipe), params: { comment: comment_params }
         end.to change(Comment, :count).by(1)
-          .and change(bob_recipe.comments, :count).by(1)
-          .and change(alice.comments, :count).by(1)
-          .and change(alice.commented_recipes, :count).by(1)
       end
     end
   end
 
-  describe '#destroy' do
-    let(:alice) { create :user, :no_image }
-    let(:bob) { create :user, :no_image }
-    let(:bob_recipe) { create :recipe, :no_image, user: bob }
-    let!(:alice_comment) { create :comment, user: alice, recipe: bob_recipe }
+  describe 'DELETE /recipes/:recipe_id/comments/:id' do
+    let(:alice) { create(:user, :no_image) }
+    let(:bob) { create(:user, :no_image) }
+    let(:bob_recipe) { create(:recipe, :no_image, user: bob) }
+    let!(:alice_comment) { create(:comment, user: alice, recipe: bob_recipe) }
 
     context 'when not signed in' do
-      it 'returns a 302 response' do
+      it 'returns found' do
         delete recipe_comment_path(bob_recipe, alice_comment)
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to new_user_session_path' do
@@ -73,18 +67,15 @@ RSpec.describe 'Comments', type: :request do
         expect do
           delete recipe_comment_path(bob_recipe, alice_comment)
         end.to change(Comment, :count).by(0)
-          .and change(bob_recipe.comments, :count).by(0)
-          .and change(alice.comments, :count).by(0)
-          .and change(alice.commented_recipes, :count).by(0)
       end
     end
 
     context 'when user is not the author' do
       before { sign_in bob }
 
-      it 'returns a 302 response' do
+      it 'returns found' do
         delete recipe_comment_path(bob_recipe, alice_comment)
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to request.referer or root_path' do
@@ -101,18 +92,15 @@ RSpec.describe 'Comments', type: :request do
         expect do
           delete recipe_comment_path(bob_recipe, alice_comment)
         end.to change(Comment, :count).by(0)
-          .and change(bob_recipe.comments, :count).by(0)
-          .and change(alice.comments, :count).by(0)
-          .and change(alice.commented_recipes, :count).by(0)
       end
     end
 
     context 'when user is the author' do
       before { sign_in alice }
 
-      it 'returns a 302 response' do
+      it 'returns found' do
         delete recipe_comment_path(bob_recipe, alice_comment)
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to recipe_path(commented recipe)' do
@@ -124,9 +112,6 @@ RSpec.describe 'Comments', type: :request do
         expect do
           delete recipe_comment_path(bob_recipe, alice_comment)
         end.to change(Comment, :count).by(-1)
-          .and change(bob_recipe.comments, :count).by(-1)
-          .and change(alice.comments, :count).by(-1)
-          .and change(alice.commented_recipes, :count).by(-1)
       end
     end
   end

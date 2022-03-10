@@ -20,7 +20,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
     end
 
     context 'when signed in' do
-      let(:alice) { create :user, :no_image }
+      let(:alice) { create(:user, :no_image) }
       let(:feed) { alice.feed }
 
       before do
@@ -125,9 +125,9 @@ RSpec.describe 'InfiniteScroll', type: :system do
   end
 
   describe 'users#show' do
-    let(:alice) { create :user, :no_image }
+    let(:alice) { create(:user, :no_image) }
     let(:posted_recipes) { alice.recipes.order(id: :desc) }
-    let(:not_posted_recipe) { create :recipe, :no_image }
+    let(:not_posted_recipe) { create(:recipe, :no_image) }
 
     before { create_list(:recipe, 121, :no_image, user: alice) }
 
@@ -149,7 +149,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
   end
 
   describe 'users#comments' do
-    let(:alice) { create :user, :no_image }
+    let(:alice) { create(:user, :no_image) }
     let(:commented_recipes) { alice.commented_recipes.order('comments.id desc') }
     let(:not_commented_recipe) { (Recipe.all - commented_recipes).first }
 
@@ -157,7 +157,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
       users = create_list(:user, 3, :no_image)
       users.each { |user| create_list(:recipe, 41, :no_image, user: user) }
       random_recipes = Recipe.all.sample(121)
-      random_recipes.each { |recipe| create :comment, user: alice, recipe: recipe }
+      random_recipes.each { |recipe| create(:comment, user: alice, recipe: recipe) }
     end
 
     it 'can infinite scroll', js: true do
@@ -179,7 +179,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
   end
 
   describe 'users#favorites' do
-    let(:alice) { create :user, :no_image }
+    let(:alice) { create(:user, :no_image) }
     let(:favored_recipes) { alice.favored_recipes.order('favorites.id desc') }
     let(:not_favored_recipe) { (Recipe.all - favored_recipes).first }
 
@@ -209,7 +209,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
   end
 
   describe 'users#followers' do
-    let(:alice) { create :user, :no_image }
+    let(:alice) { create(:user, :no_image) }
     let(:followers) { alice.followers.order('relationships.id desc') }
     let(:not_follower) { (User.all - [alice] - followers).first }
 
@@ -238,7 +238,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
   end
 
   describe 'users#followings' do
-    let(:alice) { create :user, :no_image, username: 'alice' }
+    let(:alice) { create(:user, :no_image, username: 'alice') }
     let(:followings) { alice.followings.order('relationships.id desc') }
     let(:not_following) { (User.all - [alice] - followings).first }
 

@@ -4,7 +4,7 @@ require 'carrierwave/test/matchers'
 describe RecipeImageUploader do
   include CarrierWave::Test::Matchers
 
-  let(:recipe) { create :recipe }
+  let(:recipe) { create(:recipe) }
   let(:uploader) { described_class.new(recipe, :recipe_image) }
 
   before do

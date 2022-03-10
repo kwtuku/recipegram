@@ -1,39 +1,39 @@
 require 'rails_helper'
 
 RSpec.describe 'Recipes', type: :request do
-  describe '#index' do
+  describe 'GET /recipes' do
     before do
       users = create_list(:user, 5, :no_image)
       users.each do |user|
-        create :recipe, :no_image, user: user
+        create(:recipe, :no_image, user: user)
       end
     end
 
-    let(:alice) { create :user, :no_image }
+    let(:alice) { create(:user, :no_image) }
 
-    it 'returns a 200 response when not signed in' do
+    it 'returns ok when not signed in' do
       get recipes_path
-      expect(response.status).to eq 200
+      expect(response).to have_http_status(:ok)
     end
 
-    it 'returns a 200 response when signed in' do
+    it 'returns ok when signed in' do
       sign_in alice
       get recipes_path
-      expect(response.status).to eq 200
+      expect(response).to have_http_status(:ok)
     end
   end
 
-  describe '#show' do
-    let(:alice) { create :user, :no_image }
-    let(:bob) { create :user, :no_image }
-    let(:bob_recipe) { create :recipe, :no_image, user: bob }
+  describe 'GET /recipes/:id' do
+    let(:alice) { create(:user, :no_image) }
+    let(:bob) { create(:user, :no_image) }
+    let(:bob_recipe) { create(:recipe, :no_image, user: bob) }
 
     context 'when not signed in and other recipes exist' do
       before { create_list(:recipe, 4, :no_image, user: bob) }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get recipe_path(bob_recipe)
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders other recipe link' do
@@ -43,9 +43,9 @@ RSpec.describe 'Recipes', type: :request do
     end
 
     context 'when not signed in and other recipes do not exist' do
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get recipe_path(bob_recipe)
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
     end
 
@@ -55,9 +55,9 @@ RSpec.describe 'Recipes', type: :request do
         sign_in alice
       end
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get recipe_path(bob_recipe)
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders other recipe link' do
@@ -67,21 +67,21 @@ RSpec.describe 'Recipes', type: :request do
     end
 
     context 'when signed in and other recipes do not exist' do
-      it 'returns a 200 response' do
+      it 'returns ok' do
         sign_in alice
         get recipe_path(bob_recipe)
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
     end
   end
 
-  describe '#new' do
-    let(:alice) { create :user, :no_image }
+  describe 'GET /recipes/new' do
+    let(:alice) { create(:user, :no_image) }
 
     context 'when not signed in' do
-      it 'returns a 302 response' do
+      it 'returns found' do
         get new_recipe_path
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to new_user_session_path' do
@@ -91,22 +91,22 @@ RSpec.describe 'Recipes', type: :request do
     end
 
     context 'when signed in' do
-      it 'returns a 200 response' do
+      it 'returns ok' do
         sign_in alice
         get new_recipe_path
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
     end
   end
 
-  describe '#create' do
-    let(:alice) { create :user, :no_image }
+  describe 'POST /recipes' do
+    let(:alice) { create(:user, :no_image) }
     let(:recipe_params) { attributes_for(:recipe) }
 
     context 'when not signed in' do
-      it 'returns a 302 response' do
+      it 'returns found' do
         post recipes_path, params: { recipe: recipe_params }
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to new_user_session_path' do
@@ -124,9 +124,9 @@ RSpec.describe 'Recipes', type: :request do
     context 'when signed in' do
       before { sign_in alice }
 
-      it 'returns a 302 response' do
+      it 'returns found' do
         post recipes_path, params: { recipe: recipe_params }
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to recipe_path(new_recipe)' do
@@ -138,20 +138,19 @@ RSpec.describe 'Recipes', type: :request do
         expect do
           post recipes_path, params: { recipe: recipe_params }
         end.to change(Recipe, :count).by(1)
-          .and change { alice.recipes.count }.by(1)
       end
     end
   end
 
-  describe '#edit' do
-    let(:alice) { create :user, :no_image }
-    let(:bob) { create :user, :no_image }
-    let(:alice_recipe) { create :recipe, :no_image, user: alice }
+  describe 'GET /recipes/:id/edit' do
+    let(:alice) { create(:user, :no_image) }
+    let(:bob) { create(:user, :no_image) }
+    let(:alice_recipe) { create(:recipe, :no_image, user: alice) }
 
     context 'when not signed in' do
-      it 'returns a 302 response' do
+      it 'returns found' do
         get edit_recipe_path(alice_recipe)
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to new_user_session_path' do
@@ -163,9 +162,9 @@ RSpec.describe 'Recipes', type: :request do
     context 'when user is not the author' do
       before { sign_in bob }
 
-      it 'returns a 302 response' do
+      it 'returns found' do
         get edit_recipe_path(alice_recipe)
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to request.referer or root_path' do
@@ -180,24 +179,24 @@ RSpec.describe 'Recipes', type: :request do
     end
 
     context 'when user is the author' do
-      it 'returns a 200 response' do
+      it 'returns ok' do
         sign_in alice
         get edit_recipe_path(alice_recipe)
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
     end
   end
 
-  describe '#update' do
-    let(:alice) { create :user, :no_image }
-    let(:bob) { create :user, :no_image }
-    let(:alice_recipe) { create :recipe, title: 'カレー', user: alice }
+  describe 'PATCH /recipes/:id' do
+    let(:alice) { create(:user, :no_image) }
+    let(:bob) { create(:user, :no_image) }
+    let(:alice_recipe) { create(:recipe, title: 'カレー', user: alice) }
     let(:recipe_params) { { title: 'ラーメン' } }
 
     context 'when not signed in' do
-      it 'returns a 302 response' do
+      it 'returns found' do
         patch recipe_path(alice_recipe), params: { recipe: recipe_params }
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to new_user_session_path' do
@@ -214,9 +213,9 @@ RSpec.describe 'Recipes', type: :request do
     context 'when user is not the author' do
       before { sign_in bob }
 
-      it 'returns a 302 response' do
+      it 'returns found' do
         patch recipe_path(alice_recipe), params: { recipe: recipe_params }
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to request.referer or root_path' do
@@ -238,9 +237,9 @@ RSpec.describe 'Recipes', type: :request do
     context 'when user is the author and recipe_params[:recipe_image] is not present' do
       before { sign_in alice }
 
-      it 'returns a 302 response' do
+      it 'returns found' do
         patch recipe_path(alice_recipe), params: { recipe: recipe_params }
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to recipe_path(alice_recipe)' do
@@ -262,9 +261,9 @@ RSpec.describe 'Recipes', type: :request do
 
       before { sign_in alice }
 
-      it 'returns a 302 response' do
+      it 'returns found' do
         patch recipe_path(alice_recipe), params: { recipe: recipe_params_with_image }
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to recipe_path(alice_recipe)' do
@@ -281,15 +280,15 @@ RSpec.describe 'Recipes', type: :request do
     end
   end
 
-  describe '#destroy' do
-    let(:alice) { create :user, :no_image }
-    let(:bob) { create :user, :no_image }
-    let!(:alice_recipe) { create :recipe, :no_image, user: alice }
+  describe 'DELETE /recipes/:id' do
+    let(:alice) { create(:user, :no_image) }
+    let(:bob) { create(:user, :no_image) }
+    let!(:alice_recipe) { create(:recipe, :no_image, user: alice) }
 
     context 'when not signed in' do
-      it 'returns a 302 response' do
+      it 'returns found' do
         delete recipe_path(alice_recipe)
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to new_user_session_path' do
@@ -301,16 +300,15 @@ RSpec.describe 'Recipes', type: :request do
         expect do
           delete recipe_path(alice_recipe)
         end.to change(Recipe, :count).by(0)
-          .and change(alice.recipes, :count).by(0)
       end
     end
 
     context 'when user is not the author' do
       before { sign_in bob }
 
-      it 'returns a 302 response' do
+      it 'returns found' do
         delete recipe_path(alice_recipe)
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to request.referer or root_path' do
@@ -327,16 +325,15 @@ RSpec.describe 'Recipes', type: :request do
         expect do
           delete recipe_path(alice_recipe)
         end.to change(Recipe, :count).by(0)
-          .and change(alice.recipes, :count).by(0)
       end
     end
 
     context 'when user is the author' do
       before { sign_in alice }
 
-      it 'returns a 302 response' do
+      it 'returns found' do
         delete recipe_path(alice_recipe)
-        expect(response.status).to eq 302
+        expect(response).to have_http_status(:found)
       end
 
       it 'redirects to recipes_path' do
@@ -348,7 +345,6 @@ RSpec.describe 'Recipes', type: :request do
         expect do
           delete recipe_path(alice_recipe)
         end.to change(Recipe, :count).by(-1)
-          .and change(alice.recipes, :count).by(-1)
       end
     end
   end

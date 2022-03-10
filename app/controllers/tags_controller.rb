@@ -7,9 +7,7 @@ class TagsController < ApplicationController
   end
 
   def show
-    @tag = Tag.find_by(name: params[:name])
-    raise ActiveRecord::RecordNotFound unless @tag
-
+    @tag = Tag.find_by!(name: params[:name])
     @tagged_recipes = Recipe.tagged_with(@tag.name).order(id: :desc).limit(40)
   end
 end

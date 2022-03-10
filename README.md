@@ -3,7 +3,6 @@
 <p>
   <img alt="ruby version" src="https://img.shields.io/badge/Ruby-v2.7.3-701516">
   <img alt="rails version" src="https://img.shields.io/badge/Rails-v6.1.3.1-cc0000">
-  <img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/kwtuku/recipegram">
   <img alt="GitHub deployments" src="https://img.shields.io/github/deployments/kwtuku/recipegram/recipegram-kwtuku">
   <img alt="CircleCI" src="https://circleci.com/gh/kwtuku/recipegram/tree/master.svg?style=svg">
 </p>
@@ -13,7 +12,7 @@
 Instagramのクローンアプリで、画像付きのレシピを投稿するSNSです。<br>
 **通知**、**検索**、**無限スクロール**、**タグ**機能などがあり、RSpecでテストコードを書いていて、400件近くのexampleがあります。
 
-https://recipegram-kwtuku.herokuapp.com/<br>
+<https://recipegram-kwtuku.herokuapp.com/><br>
 アプリのURLはこちらです。ゲストログインというボタンから簡単にログインできます。<br>
 HerokuにデプロイしていますがGASで定期的にアクセスをしているので表示は早いです。
 
@@ -148,44 +147,51 @@ Googleアナリティクスを導入しています。
 
 ## ER図
 
-![ER図](er_diagram.drawio.svg)
+<https://dbdiagram.io/d/61fd1f7b85022f4ee53c2835>
 
 ## 使用技術
 
 ### 開発環境
 
-* Windows 10 Home
-* Docker
-* Docker Compose
+- Windows 10 Home
+- Docker
+- Docker Compose
 
 ### フロントエンド
 
-* HTML
-* SCSS
-* JavaScript
-* 主要モジュール
-  * Bulma
-  * Tagify
+- HTML
+- SCSS
+- JavaScript
+- Node.js 14.18.1
+- Yarn 1.22.10
+- 主要Package
+  - Bulma
+  - ESLint
+  - Jest
+  - Prettier
+  - Tagify
 
 ### バックエンド
 
-* Ruby 2.7.3
-* Ruby on Rails 6.1.3.1
-* 主要Gem
-  * ActsAsTaggableOn
-  * Bullet
-  * CarrierWave
-  * Devise
-  * Kaminari
-  * Ransack
-  * RSpec
-  * RuboCop
+- Ruby 2.7.3
+- Ruby on Rails 6.1.3.1
+- 主要Gem
+  - ActsAsTaggableOn
+  - Bullet
+  - CarrierWave
+  - counter_culture
+  - Devise
+  - Kaminari
+  - Pundit
+  - Ransack
+  - RSpec
+  - RuboCop
 
 ### DB、インフラなど
 
-* CircleCI
-* Cloudinary
-* Heroku
-* PostgreSQL 13.3
-* Puma
-* Redis 6.2.6
+- CircleCI
+- Cloudinary
+- Heroku
+- PostgreSQL 13.3
+- Puma
+- Redis 6.2.6

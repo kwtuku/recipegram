@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'InfiniteScroll', type: :request do
-  describe 'home#home' do
-    let(:alice) { create :user, :no_image }
+  describe 'GET /' do
+    let(:alice) { create(:user, :no_image) }
     let(:feed) { alice.feed }
-    let(:not_feed) { create :recipe, :no_image }
+    let(:not_feed) { create(:recipe, :no_image) }
 
     context 'when not signed in and 20 items are already displayed' do
       before do
@@ -14,9 +14,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '20', path: '' } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'returns correct link size' do
@@ -33,9 +33,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '40', path: '' } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'returns correct link size' do
@@ -58,9 +58,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '20', path: '' } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -87,9 +87,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '40', path: '' } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -103,7 +103,7 @@ RSpec.describe 'InfiniteScroll', type: :request do
     end
   end
 
-  describe 'recipes#index' do
+  describe 'GET /recipes' do
     let(:recipes) { Recipe.order(id: :desc) }
 
     context 'when 40 items are already displayed' do
@@ -114,9 +114,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '40', path: 'recipes' } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -136,9 +136,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '80', path: 'recipes' } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -151,7 +151,7 @@ RSpec.describe 'InfiniteScroll', type: :request do
     end
   end
 
-  describe 'tags#show' do
+  describe 'GET /tags/:name' do
     context 'when the tag name contains japanese' do
       let(:recipes_with_japanese_tag) { Recipe.tagged_with(tag_name_with_japanese).order(id: :desc) }
       let(:tag_name_with_japanese) { 'かんたん' }
@@ -163,9 +163,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
         users.each { |user| create_list(:recipe, 27, :no_image, user: user, tag_list: tag_name_with_japanese) }
       end
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -187,9 +187,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
         users.each { |user| create_list(:recipe, 27, :no_image, user: user, tag_list: tag_name) }
       end
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -211,9 +211,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
         users.each { |user| create_list(:recipe, 41, :no_image, user: user, tag_list: tag_name) }
       end
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -226,7 +226,7 @@ RSpec.describe 'InfiniteScroll', type: :request do
     end
   end
 
-  describe 'users#index' do
+  describe 'GET /users' do
     let(:users) { User.order(id: :desc) }
 
     context 'when 40 items are already displayed' do
@@ -234,9 +234,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '40', path: 'users' } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -253,9 +253,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '80', path: 'users' } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -268,19 +268,19 @@ RSpec.describe 'InfiniteScroll', type: :request do
     end
   end
 
-  describe 'users#show' do
-    let(:alice) { create :user, :no_image }
+  describe 'GET /users/:username' do
+    let(:alice) { create(:user, :no_image) }
     let(:posted_recipes) { alice.recipes.order(id: :desc) }
-    let(:not_posted_recipe) { create :recipe, :no_image }
+    let(:not_posted_recipe) { create(:recipe, :no_image) }
 
     context 'when 40 items are already displayed' do
       before { create_list(:recipe, 81, :no_image, user: alice) }
 
       let(:params) { { displayed_item_count: '40', path: "users/#{alice.username}" } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -298,9 +298,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '80', path: "users/#{alice.username}" } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -314,8 +314,8 @@ RSpec.describe 'InfiniteScroll', type: :request do
     end
   end
 
-  describe 'users#comments' do
-    let(:alice) { create :user, :no_image }
+  describe 'GET /users/:user_username/comments' do
+    let(:alice) { create(:user, :no_image) }
     let(:commented_recipes) { alice.commented_recipes.order('comments.id desc') }
     let(:not_commented_recipe) { (Recipe.all - commented_recipes).first }
 
@@ -324,14 +324,14 @@ RSpec.describe 'InfiniteScroll', type: :request do
         users = create_list(:user, 3, :no_image)
         users.each { |user| create_list(:recipe, 28, :no_image, user: user) }
         random_recipes = Recipe.all.sample(81)
-        random_recipes.each { |recipe| create :comment, user: alice, recipe: recipe }
+        random_recipes.each { |recipe| create(:comment, user: alice, recipe: recipe) }
       end
 
       let(:params) { { displayed_item_count: '40', path: "users/#{alice.username}/comments" } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -349,14 +349,14 @@ RSpec.describe 'InfiniteScroll', type: :request do
         users = create_list(:user, 3, :no_image)
         users.each { |user| create_list(:recipe, 41, :no_image, user: user) }
         random_recipes = Recipe.all.sample(121)
-        random_recipes.each { |recipe| create :comment, user: alice, recipe: recipe }
+        random_recipes.each { |recipe| create(:comment, user: alice, recipe: recipe) }
       end
 
       let(:params) { { displayed_item_count: '80', path: "users/#{alice.username}/comments" } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -370,8 +370,8 @@ RSpec.describe 'InfiniteScroll', type: :request do
     end
   end
 
-  describe 'users#favorites' do
-    let(:alice) { create :user, :no_image, username: 'alice' }
+  describe 'GET /users/:user_username/favorites' do
+    let(:alice) { create(:user, :no_image, username: 'alice') }
     let(:favored_recipes) { alice.favored_recipes.order('favorites.id desc') }
     let(:not_favored_recipe) { (Recipe.all - favored_recipes).first }
 
@@ -385,9 +385,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '40', path: "users/#{alice.username}/favorites" } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -410,9 +410,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '80', path: "users/#{alice.username}/favorites" } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -426,8 +426,8 @@ RSpec.describe 'InfiniteScroll', type: :request do
     end
   end
 
-  describe 'users#followers' do
-    let(:alice) { create :user, :no_image }
+  describe 'GET /users/:user_username/followers' do
+    let(:alice) { create(:user, :no_image) }
     let(:followers) { alice.followers.order('relationships.id desc') }
     let(:not_follower) { (User.all - [alice] - followers).first }
 
@@ -440,9 +440,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '40', path: "users/#{alice.username}/followers" } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -464,9 +464,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '80', path: "users/#{alice.username}/followers" } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -480,8 +480,8 @@ RSpec.describe 'InfiniteScroll', type: :request do
     end
   end
 
-  describe 'users#followings' do
-    let(:alice) { create :user, :no_image, username: 'alice' }
+  describe 'GET /users/:user_username/followings' do
+    let(:alice) { create(:user, :no_image, username: 'alice') }
     let(:followings) { alice.followings.order('relationships.id desc') }
     let(:not_following) { (User.all - [alice] - followings).first }
 
@@ -494,9 +494,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '40', path: "users/#{alice.username}/followings" } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
@@ -518,9 +518,9 @@ RSpec.describe 'InfiniteScroll', type: :request do
 
       let(:params) { { displayed_item_count: '80', path: "users/#{alice.username}/followings" } }
 
-      it 'returns a 200 response' do
+      it 'returns ok' do
         get infinite_scroll_path, params: params, xhr: true
-        expect(response.status).to eq 200
+        expect(response).to have_http_status(:ok)
       end
 
       it 'renders correct links' do
