@@ -8,37 +8,40 @@ RSpec.describe Notification, type: :model do
     let(:alice_recipe) { create(:recipe, :no_image, user: alice) }
 
     context 'when other user comments' do
-      it 'increases Notification count' do
+      it 'increases recipe user notification count' do
         bob_comment = create(:comment, user: bob, recipe: alice_recipe)
         expect do
           described_class.create_comment_notification(bob_comment)
-        end.to change(described_class, :count).by(1)
-          .and change(alice.notifications, :count).by(1)
+        end.to change(alice.notifications, :count).by(1)
       end
     end
 
     context 'when other user comments on commented recipe' do
       let(:carol) { create(:user, :no_image) }
+      let(:carol_comment) { create(:comment, user: carol, recipe: alice_recipe) }
 
-      it 'increases Notification count' do
-        create(:comment, user: bob, recipe: alice_recipe)
-        carol_comment = create(:comment, user: carol, recipe: alice_recipe)
+      before { create(:comment, user: bob, recipe: alice_recipe) }
+
+      it 'increases recipe user notification count' do
         expect do
           described_class.create_comment_notification(carol_comment)
-        end.to change(described_class, :count).by(2)
-          .and change(alice.notifications, :count).by(1)
-          .and change(bob.notifications, :count).by(1)
+        end.to change(alice.notifications, :count).by(1)
+      end
+
+      it 'increases other commented user notification count' do
+        expect do
+          described_class.create_comment_notification(carol_comment)
+        end.to change(bob.notifications, :count).by(1)
       end
     end
 
     context 'when other user comments on the recipe which user owns and commented' do
-      it 'increases Notification count by 1' do
+      it 'increases recipe user notification count by 1' do
         create(:comment, user: alice, recipe: alice_recipe)
         bob_comment = create(:comment, user: bob, recipe: alice_recipe)
         expect do
           described_class.create_comment_notification(bob_comment)
-        end.to change(described_class, :count).by(1)
-          .and change(alice.notifications, :count).by(1)
+        end.to change(alice.notifications, :count).by(1)
       end
     end
 
@@ -48,7 +51,6 @@ RSpec.describe Notification, type: :model do
         expect do
           described_class.create_comment_notification(alice_comment)
         end.to change(described_class, :count).by(0)
-          .and change(alice.notifications, :count).by(0)
       end
     end
   end
@@ -131,33 +133,30 @@ RSpec.describe Notification, type: :model do
     let(:alice_recipe) { create(:recipe, :no_image, user: alice) }
 
     context 'when other user makes a favorite' do
-      it 'creates favorite notification' do
+      it 'increases recipe user notification count' do
         favorite = bob.favorites.create(recipe_id: alice_recipe.id)
         expect do
           described_class.create_favorite_notification(favorite)
-        end.to change(described_class, :count).by(1)
-          .and change(alice.notifications, :count).by(1)
+        end.to change(alice.notifications, :count).by(1)
       end
     end
 
     context 'when user makes a favorite on own recipe' do
-      it 'does not create favorite notification' do
+      it 'does not increase Notification count' do
         favorite = alice.favorites.create(recipe_id: alice_recipe.id)
         expect do
           described_class.create_favorite_notification(favorite)
         end.to change(described_class, :count).by(0)
-          .and change(alice.notifications, :count).by(0)
       end
     end
   end
 
   describe 'self.create_relationship_notification(relationship)' do
-    it 'creates relationship notification' do
+    it 'increases followed user notification count' do
       relationship = bob.relationships.create(follow_id: alice.id)
       expect do
         described_class.create_relationship_notification(relationship)
-      end.to change(described_class, :count).by(1)
-        .and change(alice.notifications, :count).by(1)
+      end.to change(alice.notifications, :count).by(1)
     end
   end
 end

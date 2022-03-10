@@ -6,96 +6,74 @@ RSpec.describe 'Notifications', type: :system do
   let(:alice_recipe) { create(:recipe, :no_image, user: alice) }
 
   describe 'comment notification' do
-    let(:carol) { create(:user, :no_image) }
+    before { create(:comment, user: bob, recipe: alice_recipe) }
 
-    before do
-      create(:comment, user: bob, recipe: alice_recipe)
-      create(:comment, user: carol, recipe: alice_recipe)
-    end
-
-    context 'when comment user != recipe user' do
-      let(:dave) { create(:user, :no_image) }
+    context 'when comment user is not recipe user' do
+      let(:carol) { create(:user, :no_image) }
 
       before do
-        sign_in dave
+        sign_in carol
         visit recipe_path(alice_recipe)
         fill_in 'comment[body]', with: 'いいレシピですね！'
       end
 
-      it 'creates comment notification for recipe user', js: true do
+      it 'creates recipe user notification', js: true do
         expect do
           click_button 'create_comment'
-        end.to change(alice_recipe.comments, :count).by(1)
-          .and change(alice.notifications, :count).by(1)
-          .and change(bob.notifications, :count).by(1)
-          .and change(carol.notifications, :count).by(1)
-          .and change(dave.notifications, :count).by(0)
+        end.to change(alice.notifications, :count).by(1)
+
         sign_out
         sign_in alice
         expect(page).to have_css '.has-unchecked-notification'
         click_link href: notifications_path
-        comment = Comment.find_by(user_id: dave.id, recipe_id: alice_recipe.id)
+        comment = Comment.find_by(user_id: carol.id, recipe_id: alice_recipe.id)
         expect(page).to have_link comment.user.nickname
         expect(page).to have_link "あなたの投稿「#{alice_recipe.title}」"
         expect(page).to have_content 'にコメントしました。'
       end
 
-      it 'creates comment notification for other comment user', js: true do
+      it 'creates other comment user notification', js: true do
         expect do
           click_button 'create_comment'
-        end.to change(alice_recipe.comments, :count).by(1)
-          .and change(alice.notifications, :count).by(1)
-          .and change(bob.notifications, :count).by(1)
-          .and change(carol.notifications, :count).by(1)
-          .and change(dave.notifications, :count).by(0)
+        end.to change(bob.notifications, :count).by(1)
+
         sign_out
         sign_in bob
         expect(page).to have_css '.has-unchecked-notification'
         click_link href: notifications_path
-        comment = Comment.find_by(user_id: dave.id, recipe_id: alice_recipe.id)
+        comment = Comment.find_by(user_id: carol.id, recipe_id: alice_recipe.id)
         expect(page).to have_link comment.user.nickname
         expect(page).to have_link "あなたがコメントした投稿「#{alice_recipe.title}」"
         expect(page).to have_content 'にコメントしました。'
       end
 
-      it 'does not create comment notification for comment user', js: true do
+      it 'does not create comment user notification', js: true do
         expect do
           click_button 'create_comment'
-        end.to change(alice_recipe.comments, :count).by(1)
-          .and change(alice.notifications, :count).by(1)
-          .and change(bob.notifications, :count).by(1)
-          .and change(carol.notifications, :count).by(1)
-          .and change(dave.notifications, :count).by(0)
+        end.to change(carol.notifications, :count).by(0)
         expect(page).to have_no_css '.has-unchecked-notification'
       end
     end
 
-    context 'when comment user == recipe user' do
+    context 'when comment user is recipe user' do
       before do
         sign_in alice
         visit recipe_path(alice_recipe)
         fill_in 'comment[body]', with: 'いいレシピですね！'
       end
 
-      it 'does not create comment notification for recipe user', js: true do
+      it 'does not create recipe user notification', js: true do
         expect do
           click_button 'create_comment'
-        end.to change(alice_recipe.comments, :count).by(1)
-          .and change(alice.notifications, :count).by(0)
-          .and change(bob.notifications, :count).by(1)
-          .and change(carol.notifications, :count).by(1)
-        sign_out
-        sign_in alice
+        end.to change(alice.notifications, :count).by(0)
         expect(page).to have_no_css '.has-unchecked-notification'
       end
 
-      it 'creates comment notification for other comment user', js: true do
+      it 'creates other comment user notification', js: true do
         expect do
           click_button 'create_comment'
-        end.to change(alice_recipe.comments, :count).by(1)
-          .and change(alice.notifications, :count).by(0)
-          .and change(bob.notifications, :count).by(1)
-          .and change(carol.notifications, :count).by(1)
+        end.to change(bob.notifications, :count).by(1)
+
         sign_out
         sign_in bob
         expect(page).to have_css '.has-unchecked-notification'
@@ -110,14 +88,14 @@ RSpec.describe 'Notifications', type: :system do
 
   describe 'favorite notification' do
     context 'when user makes a favorite on other user recipe' do
-      it 'creates favorite notification', js: true do
+      it 'creates a notification of recipe user', js: true do
+        expect(alice.notifications.count).to eq 0
         sign_in bob
         visit recipe_path(alice_recipe)
         click_link href: recipe_favorites_path(alice_recipe)
         expect(page).to have_selector '.rspec_destroy_favorite'
-        expect(alice_recipe.favorites.count).to eq 1
-        expect(Notification.count).to eq 1
         expect(alice.notifications.count).to eq 1
+
         sign_out
         sign_in alice
         click_link href: notifications_path
@@ -129,27 +107,26 @@ RSpec.describe 'Notifications', type: :system do
     end
 
     context 'when user makes a favorite on own recipe' do
-      it 'does not create favorite notification', js: true do
+      it 'does not create Notification', js: true do
+        expect(Notification.count).to eq 0
         sign_in alice
         visit recipe_path(alice_recipe)
         click_link href: recipe_favorites_path(alice_recipe)
         expect(page).to have_selector '.rspec_destroy_favorite'
-        expect(alice_recipe.favorites.count).to eq 1
         expect(Notification.count).to eq 0
-        expect(alice.notifications.count).to eq 0
       end
     end
   end
 
   describe 'relationship notification' do
-    it 'creates relationship notification', js: true do
+    it 'creates a notification of followed user', js: true do
+      expect(alice.notifications.count).to eq 0
       sign_in bob
       visit user_path(alice)
       click_button 'フォロー'
       expect(page).to have_button 'フォロー解除'
-      expect(Notification.count).to eq 1
-      expect(alice.followers.count).to eq 1
       expect(alice.notifications.count).to eq 1
+
       sign_out
       sign_in alice
       click_link href: notifications_path
