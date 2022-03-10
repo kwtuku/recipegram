@@ -67,13 +67,5 @@ RSpec.describe 'Tags', type: :request do
         expect(response.body).to include recipe_path(tagged_recipe)
       end
     end
-
-    context 'when a tag is nil' do
-      it 'raises ActiveRecord::RecordNotFound' do
-        expect do
-          get tag_path(SecureRandom.urlsafe_base64)
-        end.to raise_error ActiveRecord::RecordNotFound
-      end
-    end
   end
 end
