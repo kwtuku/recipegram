@@ -1,28 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  describe 'associations' do
-    let(:alice) { create(:user, :no_image) }
-    let(:bob) { create(:user, :no_image) }
-    let(:bob_recipe) { create(:recipe, :no_image, user: bob) }
-
-    context 'when user comments on a recipe' do
-      it 'increases commented_recipes count' do
-        expect do
-          create(:comment, recipe: bob_recipe, user: alice)
-        end.to change(Comment, :count).by(1).and change(alice.commented_recipes, :count).by(1)
-      end
-    end
-
-    context 'when user makes a favorite on a recipe' do
-      it 'increases favored_recipes count' do
-        expect do
-          alice.favorites.create(recipe_id: bob_recipe.id)
-        end.to change(Favorite, :count).by(1).and change(alice.favored_recipes, :count).by(1)
-      end
-    end
-  end
-
   describe 'validations' do
     it { is_expected.to validate_presence_of(:nickname) }
     it { is_expected.to validate_length_of(:nickname).is_at_most(30) }
@@ -349,6 +327,18 @@ RSpec.describe User, type: :model do
       username = described_class.vary_from_usernames!(tmp_username)
       expect(username).not_to eq tmp_username
       expect(described_class.all.pluck(:username)).not_to include username
+    end
+  end
+
+  describe 'commented_recipes' do
+    context 'when user creates comments on the same recipe more than once' do
+      it 'returns uniq recipes' do
+        alice = create(:user, :no_image)
+        recipe = create(:recipe, :no_image)
+        create_list(:comment, 2, recipe: recipe, user: alice)
+        create_list(:comment, 2, user: alice)
+        expect(alice.commented_recipes.size).to eq 3
+      end
     end
   end
 end
