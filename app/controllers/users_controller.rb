@@ -46,7 +46,7 @@ class UsersController < ApplicationController
 
   def comments
     @user = User.find_by!(username: params[:user_username])
-    @recipes = @user.commented_recipes.eager_load(:comments).order('comments.id desc').limit(40)
+    @recipes = @user.commented_recipes.order('comments.id desc').limit(40)
     @followers_you_follow = @user.followers_you_follow(current_user)
     render 'show'
   end

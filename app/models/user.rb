@@ -17,7 +17,6 @@ class User < ApplicationRecord
   has_many :followings, through: :relationships, source: :follow
   has_many :followers, through: :reverse_of_relationships, source: :user
 
-  has_many :commented_recipes, through: :comments, source: :recipe
   has_many :favored_recipes, through: :favorites, source: :recipe
 
   has_many :tag_followings, foreign_key: 'follower_id', inverse_of: 'follower', dependent: :destroy
@@ -112,6 +111,10 @@ class User < ApplicationRecord
 
   def self.ransortable_attributes(_auth_object = nil)
     %w[followers_count recipes_count]
+  end
+
+  def commented_recipes
+    Recipe.joins(:comments).where(comments: { id: comments.group(:recipe_id).select('MAX(id)') })
   end
 
   private
