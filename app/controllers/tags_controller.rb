@@ -8,6 +8,6 @@ class TagsController < ApplicationController
 
   def show
     @tag = Tag.find_by!(name: params[:name])
-    @tagged_recipes = Recipe.tagged_with(@tag.name).order(id: :desc).limit(40)
+    @tagged_recipes = Recipe.tagged_with(@tag.name).order(id: :desc).page(params[:page]).per(40).without_count
   end
 end
