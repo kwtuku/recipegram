@@ -1,19 +1,24 @@
 <section class="section p-0-mobile">
   <div class="container">
     <div class="columns is-centered m-0-mobile is-multiline">
-      <div class="column is-10-tablet is-6-desktop p-0-mobile" id="infinite-scroll-container" data-infinite-scroll="<%= @feeds.size == 20 %>">
-        <% if @feeds.blank? %>
+      <div class="column is-10-tablet is-6-desktop p-0-mobile">
+        <% if @feeds.exists? %>
+          <div id="pageables-container">
+            <%= render partial: 'home/feed', collection: @feeds %>
+          </div>
+        <% else %>
           <div class="content m-6">
             <div class="title is-4 has-text-centered">Recipegramへようこそ</div>
             <p class="mb-0">興味のあるユーザーやタグをフォローしましょう。</p>
             <p>フォローしているユーザーの投稿とタグがつけられている投稿がここに表示されます。</p>
           </div>
-        <% else %>
-          <%= render partial: 'home/feed', collection: @feeds %>
-          <% if @feeds.size == 20 %>
-            <div class="column is-12" id="remove-after-loading"><div class="loading-animation"></div></div>
-          <% end %>
         <% end %>
+        <% if @feeds.size == 20 %>
+          <div class="loading-animation" id="loading-animation"></div>
+        <% end %>
+        <div id="next-page-link-container">
+          <%= render 'shared/next_page_link', pageables: @feeds %>
+        </div>
       </div>
       <div class="column is-4 is-hidden-touch">
         <div class="sticky">

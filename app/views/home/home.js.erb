@@ -1,0 +1,9 @@
+var container = document.getElementById('pageables-container');
+container.insertAdjacentHTML('beforeend', "<%= j(render partial: 'home/feed', collection: @feeds) %>");
+
+var linkContainer = document.getElementById('next-page-link-container');
+linkContainer.innerHTML = "<%= j(render 'shared/next_page_link', pageables: @feeds) %>";
+
+if (<%= @feeds.size %> !== 20) document.getElementById('loading-animation').remove();
+
+container.dataset.rspec = 'done';

@@ -3,16 +3,13 @@ class HomeController < ApplicationController
 
   def home
     if user_signed_in?
-      @feeds = current_user.feed.preload(:user).order(id: :desc).limit(20)
+      @feeds = current_user.feed.preload(:user).order(id: :desc).page(params[:page]).per(20).without_count
       @recommended_users =
         Rails.cache.fetch("cache_recommended_users_#{current_user.id}", expires_in: 1.hour) do
           current_user.recommended_users(5)
         end
     else
-      @feeds =
-        Rails.cache.fetch('cache_recommended_recipes', expires_in: 1.hour) do
-          Recipe.where(id: Recipe.select(:id).order('RANDOM()').limit(20)).preload(:user)
-        end
+      @feeds = Recipe.preload(:user).order('RANDOM()').page(params[:page]).per(20).without_count
       @recommended_users =
         Rails.cache.fetch('cache_recommended_users', expires_in: 1.hour) do
           User.where(id: User.select(:id).order('RANDOM()').limit(7))
