@@ -13,6 +13,7 @@ import countCharacters from '../src/countCharacters';
 import deleteNotification from '../src/deleteNotification';
 import dropdown from '../src/dropdown';
 import handleSearchInput from '../src/handleSearchInput';
+import handlePagination from '../src/handlePagination';
 import handlePasswordMask from '../src/handlePasswordMask';
 import handleTag from '../src/handleTag';
 import imagePreview from '../src/imagePreview';
@@ -34,6 +35,7 @@ document.addEventListener('turbolinks:load', () => {
   dropdown();
   handleSearchInput();
   handleTag();
+  handlePagination();
   imagePreview();
   infiniteScroll();
   modal();
