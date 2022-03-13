@@ -64,10 +64,8 @@ class User < ApplicationRecord
   end
 
   def feed
-    Recipe.preload(:user)
-      .where(id: Recipe.where('user_id IN (?) OR user_id = ?', followings.select(:id), id).select(:id))
+    Recipe.where(id: Recipe.where('user_id IN (?) OR user_id = ?', followings.select(:id), id).select(:id))
       .or(Recipe.where(id: Recipe.joins(:tags).merge(Tag.where(id: following_tags.select(:id))).select(:id)))
-      .order(id: :desc)
   end
 
   def recommended_recipes

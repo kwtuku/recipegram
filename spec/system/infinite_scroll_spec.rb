@@ -21,7 +21,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
 
     context 'when signed in' do
       let(:alice) { create(:user, :no_image) }
-      let(:feed) { alice.feed }
+      let(:feed) { alice.feed.order(id: :desc) }
 
       before do
         users = create_list(:user, 3, :no_image)

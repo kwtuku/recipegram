@@ -43,7 +43,7 @@ class InfiniteScrollController < ApplicationController
       local_value = 'feed'
       added_items =
         if user_signed_in?
-          current_user.home_recipes[first..last]
+          current_user.feed.preload(:user).order(id: :desc)[first..last]
         else
           Recipe.where(id: Recipe.select(:id).order('RANDOM()').limit(20)).preload(:user)
         end

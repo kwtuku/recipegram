@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'InfiniteScroll', type: :request do
   describe 'GET /' do
     let(:alice) { create(:user, :no_image) }
-    let(:feed) { alice.feed }
+    let(:feed) { alice.feed.order(id: :desc) }
     let(:not_feed) { create(:recipe, :no_image) }
 
     context 'when not signed in and 20 items are already displayed' do

@@ -1,4 +1,6 @@
-<p class="has-text-grey-light"><%= feed_description(feed) %></p>
+<% unless user_signed_in? %>
+  <p class="has-text-grey-light">おすすめ</p>
+<% end %>
 
 <div class="card mb-5" data-infinite-scroll-item="" data-rspec="recipe-<%= feed.id %>">
   <div class="card-content">

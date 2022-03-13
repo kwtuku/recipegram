@@ -3,7 +3,7 @@ class HomeController < ApplicationController
 
   def home
     if user_signed_in?
-      @feeds = current_user.home_recipes.first(20)
+      @feeds = current_user.feed.preload(:user).order(id: :desc).limit(20)
       @recommended_users =
         Rails.cache.fetch("cache_recommended_users_#{current_user.id}", expires_in: 1.hour) do
           current_user.recommended_users(5)
