@@ -68,14 +68,6 @@ class User < ApplicationRecord
       .or(Recipe.where(id: Recipe.joins(:tags).merge(Tag.where(id: following_tags.select(:id))).select(:id)))
   end
 
-  def recommended_recipes
-    Recipe.where.not(id: feed.ids).preload(:user).order('RANDOM()')
-  end
-
-  def home_recipes
-    feed + recommended_recipes
-  end
-
   def recommended_users(count)
     User.where(id: User.select(:id).where.not(id: following_ids.push(id)).order('RANDOM()').limit(count))
   end

@@ -208,69 +208,6 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe 'home_recipes' do
-    let(:alice) { create(:user, :no_image) }
-    let(:bob) { create(:user, :no_image) }
-    let(:carol) { create(:user, :no_image) }
-    let(:dave) { create(:user, :no_image) }
-    let(:ellen) { create(:user, :no_image) }
-
-    context 'when feed is present' do
-      before do
-        [alice, bob, carol, dave, ellen].each { |user| create_list(:recipe, 3, :no_image, user: user) }
-        alice.relationships.create!(follow_id: bob.id)
-        alice.relationships.create!(follow_id: dave.id)
-      end
-
-      it 'has feed at the beginning' do
-        feed_count = alice.feed.size
-        alice.feed.each do |feed|
-          expect(alice.home_recipes[0..(feed_count - 1)].include?(feed)).to eq true
-        end
-      end
-
-      it 'does not have unfollowing user recipes at the beginning' do
-        feed_count = alice.feed.size
-        carol.recipes.each do |carol_recipe|
-          expect(alice.home_recipes[0..(feed_count - 1)].include?(carol_recipe)).to eq false
-        end
-        ellen.recipes.each do |ellen_recipe|
-          expect(alice.home_recipes[0..(feed_count - 1)].include?(ellen_recipe)).to eq false
-        end
-      end
-
-      it 'does not have feed after feed' do
-        feed_count = alice.feed.size
-        alice.feed.each do |feed|
-          expect(alice.home_recipes[feed_count..].include?(feed)).to eq false
-        end
-      end
-
-      it 'has unfollowing user recipes after feed' do
-        feed_count = alice.feed.size
-        carol.recipes.each do |carol_recipe|
-          expect(alice.home_recipes[feed_count..].include?(carol_recipe)).to eq true
-        end
-        ellen.recipes.each do |ellen_recipe|
-          expect(alice.home_recipes[feed_count..].include?(ellen_recipe)).to eq true
-        end
-      end
-    end
-
-    context 'when feed is blank' do
-      before { [bob, carol, dave, ellen].each { |user| create_list(:recipe, 3, :no_image, user: user) } }
-
-      it 'has unfollowing user recipes' do
-        expect(alice.feed.count).to eq 0
-        [bob, carol, dave, ellen].each do |user|
-          user.recipes.each do |unfollowing_user_recipe|
-            expect(alice.home_recipes.include?(unfollowing_user_recipe)).to eq true
-          end
-        end
-      end
-    end
-  end
-
   describe 'self.guest' do
     context 'when guest exists' do
       before { create(:user, email: 'guest@example.com') }
