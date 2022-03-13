@@ -3,11 +3,14 @@
 <section class="section p-0-mobile">
   <div class="container">
     <h1 class="title has-text-centered">ユーザー一覧</h1>
-    <div class="columns is-multiline is-mobile m-0-mobile" id="infinite-scroll-container" data-infinite-scroll="<%= @users.size == 40 %>">
+    <div class="columns is-multiline is-mobile m-0-mobile" id="pageables-container">
       <%= render @users %>
-      <% if @users.size == 40 %>
-        <div class="column is-12" id="remove-after-loading"><div class="loading-animation"></div></div>
-      <% end %>
+    </div>
+    <% if @users.size == 40 %>
+      <div class="loading-animation" id="loading-animation"></div>
+    <% end %>
+    <div id="next-page-link-container">
+      <%= render 'shared/next_page_link', pageables: @users %>
     </div>
   </div>
 </section>
