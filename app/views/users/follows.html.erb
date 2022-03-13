@@ -15,16 +15,19 @@
       </span>
     </h1>
     <div class="columns is-centered is-multiline">
-      <div class="column is-9" id="infinite-scroll-container" data-infinite-scroll="<%= @follows.size == 40 %>">
+      <div class="column is-9" id="pageables-container">
         <% if @follows.exists? %>
           <%= render partial: 'users/follow', collection: @follows, as: 'user' %>
         <% else %>
           <p class="has-text-centered"><%= no_follows_description(@user) %></p>
         <% end %>
       </div>
-      <% if @follows.size == 40 %>
-        <div class="column is-12" id="remove-after-loading"><div class="loading-animation"></div></div>
-      <% end %>
+    </div>
+    <% if @follows.size == 40 %>
+      <div class="loading-animation" id="loading-animation"></div>
+    <% end %>
+    <div id="next-page-link-container">
+      <%= render 'shared/next_page_link', pageables: @follows %>
     </div>
   </div>
 </div>

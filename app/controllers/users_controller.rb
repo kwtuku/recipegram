@@ -34,13 +34,13 @@ class UsersController < ApplicationController
 
   def followings
     @user = User.find_by!(username: params[:user_username])
-    @follows = @user.followings.order('relationships.id desc').limit(40)
+    @follows = @user.followings.order('relationships.id desc').page(params[:page]).per(40).without_count
     render 'follows'
   end
 
   def followers
     @user = User.find_by!(username: params[:user_username])
-    @follows = @user.followers.order('relationships.id desc').limit(40)
+    @follows = @user.followers.order('relationships.id desc').page(params[:page]).per(40).without_count
     render 'follows'
   end
 
