@@ -5,23 +5,22 @@ RSpec.describe 'InfiniteScroll', type: :system do
     context 'when not signed in' do
       before do
         users = create_list(:user, 3, :no_image)
-        users.each { |user| create_list(:recipe, 12, :no_image, user: user) }
+        users.each { |user| create_list(:recipe, 14, :no_image, user: user) }
       end
 
       it 'can infinite scroll', js: true do
         visit root_path
         expect(all('[data-rspec^=recipe-]').size).to eq 20
-        expect(page).to have_css '#remove-after-loading'
 
         execute_script('window.scrollBy(0,100000)')
-        expect(page).to have_css '[data-rspec=inserted-loading-animation]'
+        expect(page).to have_css '[data-rspec=done]'
         expect(all('[data-rspec^=recipe-]').size).to eq 40
       end
     end
 
     context 'when signed in' do
       let(:alice) { create(:user, :no_image) }
-      let(:feed) { alice.feed }
+      let(:feed) { alice.feed.order(id: :desc) }
 
       before do
         users = create_list(:user, 3, :no_image)

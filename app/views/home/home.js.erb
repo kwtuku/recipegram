@@ -1,0 +1,11 @@
+var container = document.getElementById('pageables-container');
+container.insertAdjacentHTML('beforeend', "<%= j(render partial: 'home/feed', collection: @feeds) %>");
+
+var linkContainer = document.getElementById('next-page-link-container');
+linkContainer.innerHTML = "<%= j(render 'shared/next_page_link', pageables: @feeds) %>";
+
+<% unless @feeds.next_page %>
+  document.getElementById('loading-animation').remove();
+<% end %>
+
+container.dataset.rspec = 'done';

@@ -1,0 +1,9 @@
+var container = document.getElementById('pageables-container');
+container.insertAdjacentHTML('beforeend', "<%= j(render partial: 'users/follow', collection: @follows, as: 'user') %>");
+
+var link = document.getElementById('next-page-link-container');
+link.innerHTML = "<%= j(render 'shared/next_page_link', pageables: @follows) %>";
+
+<% unless @follows.next_page %>
+  document.getElementById('loading-animation').remove();
+<% end %>

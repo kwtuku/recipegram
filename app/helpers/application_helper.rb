@@ -72,12 +72,6 @@ module ApplicationHelper
     end
   end
 
-  def feed_description(feed)
-    return 'おすすめ' unless user_signed_in?
-
-    'おすすめ' if feed.user_id != current_user.id && !current_user.feed.ids.include?(feed.id)
-  end
-
   def sort_order?(sort, order)
     request.query_parameters[:sort] == sort && request.query_parameters[:order] == order
   end

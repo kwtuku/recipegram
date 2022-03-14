@@ -1,0 +1,9 @@
+var container = document.getElementById('pageables-container');
+container.insertAdjacentHTML('beforeend', '<%= j(render @tagged_recipes) %>');
+
+var linkContainer = document.getElementById('next-page-link-container');
+linkContainer.innerHTML = "<%= j(render 'shared/next_page_link', pageables: @tagged_recipes) %>";
+
+<% unless @tagged_recipes.next_page %>
+  document.getElementById('loading-animation').remove();
+<% end %>
