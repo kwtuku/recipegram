@@ -13,12 +13,12 @@
             <p>フォローしているユーザーの投稿とタグがつけられている投稿がここに表示されます。</p>
           </div>
         <% end %>
-        <% if @feeds.size == 20 %>
+        <% unless @feeds.last_page? %>
           <div class="loading-animation" id="loading-animation"></div>
+          <div id="next-page-link-container">
+            <%= render 'shared/next_page_link', pageables: @feeds %>
+          </div>
         <% end %>
-        <div id="next-page-link-container">
-          <%= render 'shared/next_page_link', pageables: @feeds %>
-        </div>
       </div>
       <div class="column is-4 is-hidden-touch">
         <div class="sticky">

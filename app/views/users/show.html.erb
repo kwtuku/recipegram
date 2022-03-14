@@ -124,11 +124,11 @@
         </div>
       <% end %>
     </div>
-    <% if @recipes.size == 40 %>
+    <% unless @recipes.last_page? %>
       <div class="loading-animation" id="loading-animation"></div>
+      <div id="next-page-link-container">
+        <%= render 'shared/next_page_link', pageables: @recipes %>
+      </div>
     <% end %>
-    <div id="next-page-link-container">
-      <%= render 'shared/next_page_link', pageables: @recipes %>
-    </div>
   </div>
 </section>

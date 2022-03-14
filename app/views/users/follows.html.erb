@@ -23,11 +23,11 @@
         <% end %>
       </div>
     </div>
-    <% if @follows.size == 40 %>
+    <% unless @follows.last_page? %>
       <div class="loading-animation" id="loading-animation"></div>
+      <div id="next-page-link-container">
+        <%= render 'shared/next_page_link', pageables: @follows %>
+      </div>
     <% end %>
-    <div id="next-page-link-container">
-      <%= render 'shared/next_page_link', pageables: @follows %>
-    </div>
   </div>
 </div>

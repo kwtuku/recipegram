@@ -6,11 +6,11 @@
     <div class="columns is-multiline is-mobile m-0-mobile" id="pageables-container">
       <%= render @users %>
     </div>
-    <% if @users.size == 40 %>
+    <% unless @users.last_page? %>
       <div class="loading-animation" id="loading-animation"></div>
+      <div id="next-page-link-container">
+        <%= render 'shared/next_page_link', pageables: @users %>
+      </div>
     <% end %>
-    <div id="next-page-link-container">
-      <%= render 'shared/next_page_link', pageables: @users %>
-    </div>
   </div>
 </section>

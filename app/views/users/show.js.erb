@@ -4,4 +4,6 @@ container.insertAdjacentHTML('beforeend', '<%= j(render @recipes) %>');
 var linkContainer = document.getElementById('next-page-link-container');
 linkContainer.innerHTML = "<%= j(render 'shared/next_page_link', pageables: @recipes) %>";
 
-if (<%= @recipes.size %> !== 40) document.getElementById('loading-animation').remove();
+<% if @recipes.last_page? %>
+  document.getElementById('loading-animation').remove();
+<% end %>
