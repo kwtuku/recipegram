@@ -6,7 +6,7 @@
     <div class="columns is-multiline is-mobile m-0-mobile" id="pageables-container">
       <%= render @users %>
     </div>
-    <% unless @users.last_page? %>
+    <% if @users.next_page %>
       <div class="loading-animation" id="loading-animation"></div>
       <div id="next-page-link-container">
         <%= render 'shared/next_page_link', pageables: @users %>

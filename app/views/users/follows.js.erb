@@ -4,6 +4,6 @@ container.insertAdjacentHTML('beforeend', "<%= j(render partial: 'users/follow',
 var link = document.getElementById('next-page-link-container');
 link.innerHTML = "<%= j(render 'shared/next_page_link', pageables: @follows) %>";
 
-<% if @follows.last_page? %>
+<% unless @follows.next_page %>
   document.getElementById('loading-animation').remove();
 <% end %>

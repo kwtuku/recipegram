@@ -24,7 +24,7 @@
     <div class="columns is-multiline is-mobile" id="pageables-container">
       <%= render @tagged_recipes %>
     </div>
-    <% unless @tagged_recipes.last_page? %>
+    <% if @tagged_recipes.next_page %>
       <div class="loading-animation" id="loading-animation"></div>
       <div id="next-page-link-container">
         <%= render 'shared/next_page_link', pageables: @tagged_recipes %>
