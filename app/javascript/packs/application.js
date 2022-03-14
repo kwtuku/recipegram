@@ -17,7 +17,6 @@ import handlePagination from '../src/handlePagination';
 import handlePasswordMask from '../src/handlePasswordMask';
 import handleTag from '../src/handleTag';
 import imagePreview from '../src/imagePreview';
-import infiniteScroll from '../src/infiniteScroll';
 import modal from '../src/modal';
 import moveConfirmation from '../src/moveConfirmation';
 import readmore from '../src/readmore';
@@ -37,7 +36,6 @@ document.addEventListener('turbolinks:load', () => {
   handleTag();
   handlePagination();
   imagePreview();
-  infiniteScroll();
   modal();
   moveConfirmation();
   readmore();
