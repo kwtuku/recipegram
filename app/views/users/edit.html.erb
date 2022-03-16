@@ -26,7 +26,11 @@
 
               <div class="file is-info is-inline-flex is-justify-content-center mt-3">
                 <label class="file-label">
-                  <%= f.cl_image_upload :user_image, html: { class: 'file-input', accept: 'image/jpg, image/jpeg, image/png, image/webp' } %>
+                  <% if Rails.env.test? %>
+                    <%= f.file_field :user_image, html: { class: 'file-input', accept: 'image/jpg, image/jpeg, image/png, image/webp' } %>
+                  <% else %>
+                    <%= f.cl_image_upload :user_image, html: { class: 'file-input', accept: 'image/jpg, image/jpeg, image/png, image/webp' } %>
+                  <% end %>
                   <span class="file-cta">
                     <span class="file-label">
                       画像を選択する

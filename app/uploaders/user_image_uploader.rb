@@ -2,8 +2,7 @@ class UserImageUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
   include CarrierWave::MiniMagick
-
-  include Cloudinary::CarrierWave unless Rails.env.test?
+  include Cloudinary::CarrierWave
 
   def public_id
     "#{Rails.env}/user/#{Cloudinary::Utils.random_public_id}"
