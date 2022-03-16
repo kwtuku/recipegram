@@ -39,6 +39,9 @@ class RecipeImageUploader < CarrierWave::Uploader::Base
     process resize_to_fill: [1200, 1200]
     cloudinary_transformation quality: 'auto', fetch_format: :auto unless Rails.env.test?
   end
+  version :preview do
+    cloudinary_transformation crop: :fill, width: 800, height: 800, quality: :auto, fetch_format: :auto
+  end
 
   # Add an allowlist of extensions which are allowed to be uploaded.
   # For images you might use something like this:

@@ -21,6 +21,7 @@ class RecipesController < ApplicationController
     if @recipe.save
       redirect_to recipe_path(@recipe), notice: 'レシピを投稿しました。'
     else
+      @recipe.recipe_image.cache!(recipe_params[:recipe_image]) if recipe_params[:recipe_image]
       render :new
     end
   end
@@ -33,17 +34,10 @@ class RecipesController < ApplicationController
   def update
     @recipe = Recipe.find(params[:id])
     authorize @recipe
-    if recipe_params[:recipe_image]
-      tmp_image = @recipe.recipe_image
-      if @recipe.update(recipe_params)
-        tmp_image.remove!
-        redirect_to recipe_path(@recipe), notice: 'レシピを編集しました。'
-      else
-        render :edit
-      end
-    elsif @recipe.update(recipe_params)
+    if @recipe.update(recipe_params)
       redirect_to recipe_path(@recipe), notice: 'レシピを編集しました。'
     else
+      @recipe.recipe_image.cache!(recipe_params[:recipe_image]) if recipe_params[:recipe_image]
       render :edit
     end
   end
@@ -58,6 +52,6 @@ class RecipesController < ApplicationController
   private
 
   def recipe_params
-    params.require(:recipe).permit(:title, :body, :recipe_image, :tag_list)
+    params.require(:recipe).permit(:title, :body, :recipe_image, :recipe_image_cache, :tag_list)
   end
 end

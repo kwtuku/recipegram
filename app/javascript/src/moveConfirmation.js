@@ -50,10 +50,9 @@ export default () => {
   if (createRecipeButton || updateRecipeButton) {
     const title = document.getElementById('recipe_title');
     const body = document.getElementById('recipe_body');
-    const image = document.getElementById('recipe_recipe_image');
     const tagList = document.getElementById('recipe_tag_list');
 
-    const inputs = [title, body, image, tagList];
+    const inputs = [title, body, tagList];
     const currentInputTrimmedValues = inputs.map((input) => input.value.trim());
 
     moveConfirmation(currentInputTrimmedValues, inputs);
