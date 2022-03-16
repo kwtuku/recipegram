@@ -39,6 +39,9 @@ class UserImageUploader < CarrierWave::Uploader::Base
     process resize_to_fill: [320, 320, 'Center']
     cloudinary_transformation quality: 'auto', fetch_format: :auto unless Rails.env.test?
   end
+  version :preview do
+    cloudinary_transformation crop: :fill, width: 400, height: 400, quality: :auto, fetch_format: :auto
+  end
 
   # Add an allowlist of extensions which are allowed to be uploaded.
   # For images you might use something like this:

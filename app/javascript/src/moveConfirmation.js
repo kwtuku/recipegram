@@ -40,9 +40,8 @@ export default () => {
   if (updateUserButton) {
     const nickname = document.getElementById('user_nickname');
     const profile = document.getElementById('user_profile');
-    const image = document.getElementById('user_user_image');
 
-    const inputs = [nickname, profile, image];
+    const inputs = [nickname, profile];
     const currentInputTrimmedValues = inputs.map((input) => input.value.trim());
 
     moveConfirmation(currentInputTrimmedValues, inputs);

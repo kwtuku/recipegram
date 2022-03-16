@@ -17,17 +17,10 @@ class UsersController < ApplicationController
 
   def update
     @user = current_user
-    if user_params[:user_image]
-      tmp_image = @user.user_image
-      if @user.update(user_params)
-        tmp_image.remove!
-        redirect_to user_url(@user), notice: 'プロフィールを変更しました。'
-      else
-        render :edit
-      end
-    elsif @user.update(user_params)
+    if @user.update(user_params)
       redirect_to user_url(@user), notice: 'プロフィールを変更しました。'
     else
+      @user.user_image.cache!(user_params[:user_image]) if user_params[:user_image]
       render :edit
     end
   end
@@ -65,6 +58,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:username, :nickname, :profile, :user_image)
+    params.require(:user).permit(:nickname, :profile, :user_image, :user_image_cache)
   end
 end
