@@ -16,7 +16,6 @@ import handleSearchInput from '../src/handleSearchInput';
 import handlePagination from '../src/handlePagination';
 import handlePasswordMask from '../src/handlePasswordMask';
 import handleTag from '../src/handleTag';
-import imagePreview from '../src/imagePreview';
 import modal from '../src/modal';
 import moveConfirmation from '../src/moveConfirmation';
 import readmore from '../src/readmore';
@@ -35,7 +34,6 @@ document.addEventListener('turbolinks:load', () => {
   handleSearchInput();
   handleTag();
   handlePagination();
-  imagePreview();
   modal();
   moveConfirmation();
   readmore();
