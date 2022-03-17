@@ -7,65 +7,74 @@
   <div class="container">
     <h1 class="title has-text-centered">プロフィール編集</h1>
     <%= form_with model: @user, class: 'box p-6' do |f| %>
-      <div class="columns is-centered">
-        <div class="column is-6">
-          <div class="field">
-            <label class="label">画像</label>
-            <p class='help has-text-dark mb-5'>2MB以下でjpgまたはjpeg、png、webp形式のファイルをアップロードすることができます。</p>
+      <div class="field">
+        <label class="label">画像</label>
+        <p class='help has-text-dark mb-3'>2MB以下でjpgまたはjpeg、png、webp形式のファイルをアップロードすることができます。</p>
 
-            <% if @user.user_image.cached? %>
-              <figure class="image is-256x256 mx-auto" id="file-preview-container">
-                <%= image_tag "/#{@user.user_image.cache_path}", class: 'is-256x256 round' %>
-              </figure>
-            <% else %>
-              <figure class="image is-256x256 mx-auto" id="file-preview-container">
-                <%= image_tag @user.user_image.thumb.url, class: 'is-rounded' %>
-              </figure>
-            <% end %>
-
-            <div class="file is-centered my-5">
-              <%= f.label :user_image, class: 'file-label' do %>
-                <%= f.file_field :user_image, class: 'file-input', accept: 'image/jpg, image/jpeg, image/png, image/webp' %>
-                <span class="file-cta border_red_with_errors">
-                  <span class="file-icon">
-                    <i class="far fa-image"></i>
-                  </span>
-                  <span class="file-label">
-                    画像を選択する
-                  </span>
-                </span>
-              <% end %>
-            </div>
-            <%= render 'shared/full_error_messages', model: @user, attribute: :user_image %>
-          </div>
+        <div id="image-preview-container">
+          <figure class="image is-200x200 mx-auto">
+            <%= image_tag @user.user_image_url(:preview), class: 'is-rounded', width: 200, height: 200 %>
+          </figure>
         </div>
 
-        <div class="column is-6">
-          <div class="field">
-            <%= f.label :nickname, class: 'label' %>
-            <div class="control">
-              <%= f.text_field :nickname, required: true, class: 'input' %>
-            </div>
-            <p class="help has-text-right">
-              <span class="<%= 'has-text-danger' if @user.errors[:nickname].any? %>" id="count-nickname-characters"><%= @user.nickname.size.presence || 0 %></span>/30字
-            </p>
-            <%= render 'shared/full_error_messages', model: @user, attribute: :nickname %>
-          </div>
+        <div class="control mt-3">
+          <%= f.hidden_field :user_image_cache %>
+          <div class="box has-text-centered has-background-light p-6 drop-zone" id="drop-zone">
+            <div>
+              <p>ドラッグ＆ドロップ</p>
+              <p class="mt-3">または</p>
 
-          <div class="field">
-            <%= f.label :profile, class: 'label' %>
-            <div class="control">
-              <%= f.text_area :profile, class: 'textarea has-fixed-size resize-textarea js-resize-textarea' %>
+              <div class="file is-info is-inline-flex is-justify-content-center mt-3">
+                <label class="file-label">
+                  <% if Rails.env.test? %>
+                    <%= f.file_field :user_image, html: { class: 'file-input', accept: 'image/jpg, image/jpeg, image/png, image/webp' } %>
+                  <% else %>
+                    <%= f.cl_image_upload :user_image, html: { class: 'file-input', accept: 'image/jpg, image/jpeg, image/png, image/webp' } %>
+                  <% end %>
+                  <span class="file-cta">
+                    <span class="file-label">
+                      画像を選択する
+                    </span>
+                  </span>
+                </label>
+              </div>
             </div>
-            <p class="help has-text-right">
-              <span class="<%= 'has-text-danger' if @user.errors[:profile].any? %>" id="count-profile-characters"><%= @user.profile&.size.presence || 0 %></span>/500字
-            </p>
-            <%= render 'shared/full_error_messages', model: @user, attribute: :profile %>
-          </div>
 
-          <%= f.submit '更新', class: 'button is-rounded is-info', id: 'update_user', disabled: true %>
+            <div class="mt-3 is-hidden" id="status-container">
+              <progress class="progress is-info" value="0" max="100" id="progress-bar"></progress>
+              <span id="status-message"></span>
+            </div>
+          </div>
         </div>
+        <%= render 'shared/full_error_messages', model: @user, attribute: :user_image %>
       </div>
+
+      <div class="field">
+        <%= f.label :nickname, class: 'label' %>
+        <div class="control">
+          <%= f.text_field :nickname, required: true, class: 'input' %>
+        </div>
+        <p class="help has-text-right">
+          <span class="<%= 'has-text-danger' if @user.errors[:nickname].any? %>" id="count-nickname-characters"><%= @user.nickname.size.presence || 0 %></span>/30字
+        </p>
+        <%= render 'shared/full_error_messages', model: @user, attribute: :nickname %>
+      </div>
+
+      <div class="field">
+        <%= f.label :profile, class: 'label' %>
+        <div class="control">
+          <%= f.text_area :profile, class: 'textarea has-fixed-size resize-textarea js-resize-textarea' %>
+        </div>
+        <p class="help has-text-right">
+          <span class="<%= 'has-text-danger' if @user.errors[:profile].any? %>" id="count-profile-characters"><%= @user.profile&.size.presence || 0 %></span>/500字
+        </p>
+        <%= render 'shared/full_error_messages', model: @user, attribute: :profile %>
+      </div>
+
+      <%= f.submit '更新', class: 'button is-rounded is-info', id: 'update_user', disabled: true %>
     <% end %>
   </div>
 </section>
+
+<%= cloudinary_js_config %>
+<%= javascript_pack_tag 'jqueryCloudinaryUpload', 'data-turbolinks-track': 'reload' %>

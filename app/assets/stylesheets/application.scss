@@ -93,9 +93,13 @@
   }
 }
 
-.is-256x256 {
-  height: 256px !important;
-  width: 256px !important;
+.drop-zone {
+  border: 2px dashed rgba(0, 0, 0, 0.2);
+}
+
+.is-200x200 {
+  height: 200px !important;
+  width: 200px !important;
   object-fit: cover;
 }
 
@@ -103,10 +107,6 @@
   height: 400px !important;
   width: 400px !important;
   object-fit: cover;
-}
-
-.round {
-  border-radius: 50%;
 }
 
 .m-0-mobile {

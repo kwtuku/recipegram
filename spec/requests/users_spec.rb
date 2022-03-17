@@ -60,7 +60,10 @@ RSpec.describe 'Users', type: :request do
   describe 'PATCH /users/:username' do
     let(:alice) { create(:user, :no_image, nickname: 'アリス', profile: 'アリスです。') }
     let(:bob) { create(:user, :no_image, nickname: 'ボブ', profile: 'ボブだよ。') }
-    let(:user_params) { { nickname: 'ありす', profile: 'ありすです。' } }
+    let(:user_params) do
+      new_user_image = Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/user_image_sample_after.jpg'))
+      { nickname: 'ありす', profile: 'ありすです。', user_image: new_user_image }
+    end
 
     context 'when not signed in' do
       it 'returns found' do
@@ -100,7 +103,7 @@ RSpec.describe 'Users', type: :request do
       end
     end
 
-    context 'when signed in as correct user and user_params[:user_image] is not present' do
+    context 'when signed in as correct user' do
       before { sign_in alice }
 
       it 'returns found' do
@@ -113,36 +116,16 @@ RSpec.describe 'Users', type: :request do
         expect(response).to redirect_to user_path(alice)
       end
 
-      it 'updates a user' do
+      it 'updates a nickname and a profile' do
         patch user_path(alice), params: { user: user_params }
         expect(alice.reload.nickname).to eq 'ありす'
         expect(alice.reload.profile).to eq 'ありすです。'
       end
-    end
-
-    context 'when signed in as correct user and user_params[:user_image] is present' do
-      let(:user_params_with_image) do
-        new_user_image = Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/user_image_sample_after.jpg'))
-        { user_image: new_user_image }
-      end
-
-      before { sign_in alice }
-
-      it 'returns found' do
-        patch user_path(alice), params: { user: user_params_with_image }
-        expect(response).to have_http_status(:found)
-      end
-
-      it 'redirects to user_path(correct user)' do
-        patch user_path(alice), params: { user: user_params_with_image }
-        expect(response).to redirect_to user_path(alice)
-      end
 
       it 'updates a user_image' do
-        old_image_url = alice.user_image.url
-        patch user_path(alice), params: { user: user_params_with_image }
-        new_image_url = alice.reload.user_image.url
-        expect(new_image_url).not_to eq old_image_url
+        old_image_url = alice.user_image_url
+        patch user_path(alice), params: { user: user_params }
+        expect(alice.reload.user_image_url).not_to eq old_image_url
       end
     end
   end

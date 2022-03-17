@@ -1,9 +1,6 @@
 require 'rails_helper'
-require 'carrierwave/test/matchers'
 
 describe RecipeImageUploader do
-  include CarrierWave::Test::Matchers
-
   let(:recipe) { create(:recipe) }
   let(:uploader) { described_class.new(recipe, :recipe_image) }
 
@@ -42,53 +39,29 @@ describe RecipeImageUploader do
     end
   end
 
-  describe 'versions' do
-    before do
-      image = File.open(Rails.root.join('spec/fixtures/recipe_image_sample.jpg'))
-      uploader.store!(image)
-    end
-
-    describe 'the thumb version' do
-      it 'scales down a image to be exactly 640 by 640 pixels' do
-        expect(uploader.thumb).to have_dimensions(640, 640)
-      end
-    end
-
-    describe 'the main version' do
-      it 'scales down a image to fit within 1200 by 1200 pixels' do
-        expect(uploader.main).to be_no_larger_than(1200, 1200)
-      end
-    end
-  end
-
-  describe 'extension_allowlist' do
+  describe 'formats' do
     it 'permits a set of extensions' do
-      extensions = %w[jpeg jpg png webp]
-      expect(uploader.extension_allowlist).to eq(extensions)
+      expect(uploader.extension_allowlist).to eq(%w[jpeg jpg png webp])
     end
 
-    it 'permits jpegs' do
+    it 'permits jpeg' do
       image_jpeg = File.open(Rails.root.join('spec/fixtures/jpeg_sample.jpeg'))
-      uploader.store!(image_jpeg)
-      expect(uploader).to be_format('jpeg')
+      expect { uploader.store!(image_jpeg) }.not_to raise_error
     end
 
-    it 'permits jpgs' do
+    it 'permits jpg' do
       image_jpg = File.open(Rails.root.join('spec/fixtures/jpg_sample.jpg'))
-      uploader.store!(image_jpg)
-      expect(uploader).to be_format('jpeg')
+      expect { uploader.store!(image_jpg) }.not_to raise_error
     end
 
-    it 'permits pngs' do
+    it 'permits png' do
       image_png = File.open(Rails.root.join('spec/fixtures/png_sample.png'))
-      uploader.store!(image_png)
-      expect(uploader).to be_format('png')
+      expect { uploader.store!(image_png) }.not_to raise_error
     end
 
-    it 'permits webps' do
+    it 'permits webp' do
       image_webp = File.open(Rails.root.join('spec/fixtures/webp_sample.webp'))
-      uploader.store!(image_webp)
-      expect(uploader).to be_format('webp')
+      expect { uploader.store!(image_webp) }.not_to raise_error
     end
 
     it 'rejects unsupported formats like gif' do

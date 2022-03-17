@@ -75,4 +75,10 @@ module ApplicationHelper
   def sort_order?(sort, order)
     request.query_parameters[:sort] == sort && request.query_parameters[:order] == order
   end
+
+  def recipe_image_required?(action, recipe_image)
+    return false if action == 'edit' || recipe_image.cached?
+
+    true
+  end
 end
