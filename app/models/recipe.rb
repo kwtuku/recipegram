@@ -15,7 +15,7 @@ class Recipe < ApplicationRecord
 
   validates :title, length: { maximum: 30 }, presence: true
   validates :body, length: { maximum: 2000 }, presence: true
-  validates :recipe_image, presence: true
+  validates :recipe_image, presence: true, if: -> { validation_context != :recipe_form_save }
   validate :validate_tag
 
   TAG_MAX_COUNT = 5

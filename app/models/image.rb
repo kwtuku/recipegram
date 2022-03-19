@@ -6,7 +6,7 @@ class Image < ApplicationRecord
   mount_uploader :resource, RecipeImageUploader
 
   validates :resource, presence: true
-  validate :validate_max_images_count
+  validate :validate_max_images_count, if: -> { validation_context != :recipe_form_save }
 
   MAX_IMAGES_COUNT = 10
   MIN_IMAGES_COUNT = 1
