@@ -9,23 +9,30 @@
           <figure class="image 128x128px">
             <%= image_tag image.resource_url(:preview), width: 256, height: 256 %>
           </figure>
-          <button type="button" class="delete is-medium"></button>
+          <button type="button" class="delete is-medium js-delete-image-button" data-key="<%= image.id %>"></button>
         </div>
       <% end %>
 
-      <% (recipe_form.image_attributes.presence || {}).values.map { |attrs| attrs['resource'] }.compact.each do |resource| %>
+      <% (recipe_form.image_attributes.presence || {}).select { |_k, attrs| attrs['resource'] }.each do |k, attrs| %>
         <div class="column is-one-fifth is-flex">
           <figure class="image 128x128px">
-            <%= cl_image_tag resource.split(/[\/|.]/)[3], width: 256, height: 256, crop: :fill, quality: :auto, fetch_format: :auto %>
+            <%= cl_image_tag attrs['resource'].split(/[\/|.]/)[3], width: 256, height: 256, crop: :fill, quality: :auto, fetch_format: :auto %>
           </figure>
-          <button type="button" class="delete is-medium"></button>
+          <button type="button" class="delete is-medium js-delete-image-button" data-key="<%= k %>" data-cache="true"></button>
         </div>
       <% end %>
     </div>
 
     <div class="control mt-3">
-      <% (recipe_form.image_attributes.presence || {}).select { |k, attrs| attrs['resource'] }.each do |k, attrs| %>
-        <%= f.hidden_field "image_attributes_#{k}_resource", name: "recipe[image_attributes][#{k}][resource]", value: attrs['resource'] %>
+      <% (recipe_form.image_attributes.presence || {}).select { |_k, attrs| attrs['resource'] }.each do |k, attrs| %>
+        <%= hidden_field_tag "recipe[image_attributes][#{k}][resource]", attrs['resource'] %>
+      <% end %>
+
+      <% recipe_form.images.each do |image| %>
+        <%= f.fields_for :image_attributes, image, index: image.id do |cf| %>
+          <%= cf.hidden_field :id %>
+          <%= cf.hidden_field :_destroy %>
+        <% end %>
       <% end %>
 
       <div class="box has-text-centered has-background-light p-6 drop-zone" id="drop-zone">
@@ -96,3 +103,4 @@
 
 <%= cloudinary_js_config %>
 <%= javascript_pack_tag 'jqueryCloudinaryMultipleUpload', 'data-turbolinks-track': 'reload' %>
+<%= javascript_pack_tag 'removeImage', 'data-turbolinks-track': 'reload' %>
