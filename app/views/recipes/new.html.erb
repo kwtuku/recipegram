@@ -1,11 +1,11 @@
 <% provide(:title, '新規レシピ投稿') %>
 <% provide(:body_attributes) { 'data-turbolinks=false' } %>
 
-<%= render 'shared/error_messages', model: @recipe %>
+<%= render 'shared/error_messages', model: @recipe_form %>
 
 <section class="section">
   <div class="container">
     <h1 class="title has-text-centered">新規レシピ投稿</h1>
-    <%= render 'form', recipe: @recipe, action: 'new' %>
+    <%= render 'form', recipe_form: @recipe_form, action: 'new' %>
   </div>
 </section>

@@ -3,6 +3,7 @@ class RecipeForm
   include ActiveModel::Attributes
 
   attr_accessor :title, :body, :recipe_image, :tag_list
+  attr_reader :images
 
   attribute :image_attributes
 
@@ -17,6 +18,7 @@ class RecipeForm
 
   def initialize(attributes = nil, recipe: Recipe.new)
     @recipe = recipe
+    @images = recipe.images
     attributes ||= default_attributes
     super(attributes)
   end

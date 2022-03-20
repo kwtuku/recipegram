@@ -1,18 +1,33 @@
-<%= form_with model: recipe, class: 'box p-6' do |f| %>
-  <div class="field" id="recipe_image_field">
+<%= form_with model: recipe_form, class: 'box p-6' do |f| %>
+  <div class="field">
     <label class="label">画像</label>
     <p class='help has-text-dark mb-3'>2MB以下でjpgまたはjpeg、png、webp形式のファイルをアップロードすることができます。</p>
 
-    <div id="image-preview-container">
-      <% if action == 'edit' || recipe.recipe_image.cached? %>
-        <figure class="image is-400x400 mx-auto">
-          <%= image_tag @recipe.recipe_image_url(:preview), width: 400, height: 400 %>
-        </figure>
+    <div class="columns is-multiline is-centered" id="image-preview-container">
+      <% recipe_form.images.each do |image| %>
+        <div class="column is-one-fifth is-flex">
+          <figure class="image 128x128px">
+            <%= image_tag image.resource_url(:preview), width: 256, height: 256 %>
+          </figure>
+          <button type="button" class="delete is-medium"></button>
+        </div>
+      <% end %>
+
+      <% (recipe_form.image_attributes.presence || {}).values.map { |attrs| attrs['resource'] }.compact.each do |resource| %>
+        <div class="column is-one-fifth is-flex">
+          <figure class="image 128x128px">
+            <%= cl_image_tag resource.split(/[\/|.]/)[3], width: 256, height: 256, crop: :fill, quality: :auto, fetch_format: :auto %>
+          </figure>
+          <button type="button" class="delete is-medium"></button>
+        </div>
       <% end %>
     </div>
 
     <div class="control mt-3">
-      <%= f.hidden_field :recipe_image_cache %>
+      <% (recipe_form.image_attributes.presence || {}).select { |k, attrs| attrs['resource'] }.each do |k, attrs| %>
+        <%= f.hidden_field "image_attributes_#{k}_resource", name: "recipe[image_attributes][#{k}][resource]", value: attrs['resource'] %>
+      <% end %>
+
       <div class="box has-text-centered has-background-light p-6 drop-zone" id="drop-zone">
         <div>
           <p>ドラッグ＆ドロップ</p>
@@ -21,9 +36,9 @@
           <div class="file is-info is-inline-flex is-justify-content-center mt-3">
             <label class="file-label">
               <% if Rails.env.test? %>
-                <%= f.file_field :recipe_image, html: { class: 'file-input', accept: 'image/jpg, image/jpeg, image/png, image/webp', required: recipe_image_required?(action, recipe.recipe_image) } %>
+                <%= f.file_field :file, return_delete_token: true, html: { class: 'file-input', data: { cloudinary_field: 'recipe[image_attributes][][resource]' }, accept: 'image/jpg, image/jpeg, image/png, image/webp', multiple: true } %>
               <% else %>
-                <%= f.cl_image_upload :recipe_image, html: { class: 'file-input', accept: 'image/jpg, image/jpeg, image/png, image/webp', required: recipe_image_required?(action, recipe.recipe_image) } %>
+                <%= f.cl_image_upload :file, return_delete_token: true, html: { class: 'file-input', data: { cloudinary_field: 'recipe[image_attributes][][resource]' }, accept: 'image/jpg, image/jpeg, image/png, image/webp', multiple: true } %>
               <% end %>
               <span class="file-cta">
                 <span class="file-label">
@@ -40,7 +55,6 @@
         </div>
       </div>
     </div>
-    <%= render 'shared/full_error_messages', model: recipe, attribute: :recipe_image %>
   </div>
 
   <div class="field">
@@ -49,9 +63,9 @@
       <%= f.text_field :title, required: true, class: 'input' %>
     </div>
     <p class="help has-text-right">
-      <span class="<%= 'has-text-danger' if recipe.errors[:title].any? %>" id="count-recipe-title-characters"><%= recipe.title&.size.presence || 0 %></span>/30字
+      <span class="<%= 'has-text-danger' if recipe_form.errors[:title].any? %>" id="count-recipe-title-characters"><%= recipe_form.title&.size.presence || 0 %></span>/30字
     </p>
-    <%= render 'shared/full_error_messages', model: recipe, attribute: :title %>
+    <%= render 'shared/full_error_messages', model: recipe_form, attribute: :title %>
   </div>
 
   <div class="field">
@@ -60,17 +74,17 @@
       <%= f.text_area :body, required: true, class: 'textarea has-fixed-size resize-textarea js-resize-textarea' %>
     </div>
     <p class="help has-text-right">
-      <span class="<%= 'has-text-danger' if recipe.errors[:body].any? %>" id="count-recipe-body-characters"><%= recipe.body&.size.presence || 0 %></span>/2000字
+      <span class="<%= 'has-text-danger' if recipe_form.errors[:body].any? %>" id="count-recipe-body-characters"><%= recipe_form.body&.size.presence || 0 %></span>/2000字
     </p>
-    <%= render 'shared/full_error_messages', model: recipe, attribute: :body %>
+    <%= render 'shared/full_error_messages', model: recipe_form, attribute: :body %>
   </div>
 
   <div class="field">
     <%= f.label :tag_list, class: 'label' %>
     <div class="control" id="tag-input">
-      <%= f.text_field :tag_list, value: f.object.tag_list.join(','), pattern: '^[,a-z0-9一-龠々ぁ-ヶー]+$', class: 'input custom-tagify-look' %>
+      <%= f.text_field :tag_list, value: f.object.tag_list.to_s.gsub(' ', ''), pattern: '^[,a-z0-9一-龠々ぁ-ヶー]+$', class: 'input custom-tagify-look' %>
     </div>
-    <%= render 'shared/full_error_messages', model: recipe, attribute: :tag_list %>
+    <%= render 'shared/full_error_messages', model: recipe_form, attribute: :tag_list %>
   </div>
 
   <% if action == 'new' %>
@@ -81,4 +95,4 @@
 <% end %>
 
 <%= cloudinary_js_config %>
-<%= javascript_pack_tag 'jqueryCloudinaryUpload', 'data-turbolinks-track': 'reload' %>
+<%= javascript_pack_tag 'jqueryCloudinaryMultipleUpload', 'data-turbolinks-track': 'reload' %>
