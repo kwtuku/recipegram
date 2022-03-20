@@ -20,6 +20,8 @@ class Image < ApplicationRecord
   end
 
   def validate_min_images_count
+    return if destroyed_by_association
+
     return if recipe.images.size > MIN_IMAGES_COUNT
 
     errors.add(:base, :require_images, message: "画像が#{MIN_IMAGES_COUNT}枚以上必要です")
