@@ -22,14 +22,6 @@ RSpec.describe Image, type: :model do
 
   describe 'validate_min_images_count' do
     context 'when a recipe has 1 image' do
-      let!(:image) { create(:recipe, :with_images, images_count: 2).images.first }
-
-      it 'decreases image count' do
-        expect { image.destroy }.to change(described_class, :count).by(-1)
-      end
-    end
-
-    context 'when a recipe has 2 images' do
       let!(:image) { create(:image) }
 
       it 'does not decrease image count' do
@@ -39,6 +31,37 @@ RSpec.describe Image, type: :model do
       it 'has the error of require_images' do
         image.destroy
         expect(image.errors).to be_of_kind(:base, :require_images)
+      end
+    end
+
+    context 'when a recipe has 2 images' do
+      it 'decreases image count' do
+        image = create(:recipe, :with_images, images_count: 2).images.first
+        expect { image.destroy }.to change(described_class, :count).by(-1)
+      end
+    end
+
+    context 'when destroying a recipe with 1 image' do
+      let!(:recipe) { create(:recipe, :with_images, images_count: 1) }
+
+      it 'decreases recipe count' do
+        expect { recipe.destroy }.to change(Recipe, :count).by(-1)
+      end
+
+      it 'decreases image count' do
+        expect { recipe.destroy }.to change(described_class, :count).by(-1)
+      end
+    end
+
+    context 'when destroying a recipe with 2 images' do
+      let!(:recipe) { create(:recipe, :with_images, images_count: 2) }
+
+      it 'decreases recipe count' do
+        expect { recipe.destroy }.to change(Recipe, :count).by(-1)
+      end
+
+      it 'decreases image count' do
+        expect { recipe.destroy }.to change(described_class, :count).by(-2)
       end
     end
   end
