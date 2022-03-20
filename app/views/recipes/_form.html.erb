@@ -3,9 +3,9 @@
     <label class="label">画像</label>
     <p class='help has-text-dark mb-3'>2MB以下でjpgまたはjpeg、png、webp形式のファイルをアップロードすることができます。</p>
 
-    <div class="columns is-multiline is-centered" id="image-preview-container">
+    <div class="columns is-multiline is-centered" id="image-preview-container" data-sortable="images">
       <% recipe_form.images.each do |image| %>
-        <div class="column is-one-fifth is-flex">
+        <div class="column is-one-fifth is-flex" data-sortable-key="<%= image.id %>">
           <figure class="image 128x128px">
             <%= image_tag image.resource_url(:preview), width: 256, height: 256 %>
           </figure>
@@ -14,7 +14,7 @@
       <% end %>
 
       <% (recipe_form.image_attributes.presence || {}).select { |_k, attrs| attrs['resource'] }.each do |k, attrs| %>
-        <div class="column is-one-fifth is-flex">
+        <div class="column is-one-fifth is-flex" data-sortable-key="<%= k %>">
           <figure class="image 128x128px">
             <%= cl_image_tag attrs['resource'].split(/[\/|.]/)[3], width: 256, height: 256, crop: :fill, quality: :auto, fetch_format: :auto %>
           </figure>
@@ -104,3 +104,4 @@
 <%= cloudinary_js_config %>
 <%= javascript_pack_tag 'jqueryCloudinaryMultipleUpload', 'data-turbolinks-track': 'reload' %>
 <%= javascript_pack_tag 'removeImage', 'data-turbolinks-track': 'reload' %>
+<%= javascript_pack_tag 'sortPositionInput', 'data-turbolinks-track': 'reload' %>

@@ -68,7 +68,10 @@ $(() => {
     })
     .off('cloudinarydone')
     .on('cloudinarydone', (e, data) => {
-      const preview = $(`<div class="column is-one-fifth is-flex"></div>`).appendTo(previewContainer);
+      const key = new Date().valueOf();
+      const preview = $(`<div class="column is-one-fifth is-flex" data-sortable-key="${key}"></div>`).appendTo(
+        previewContainer,
+      );
       const publicId = data.result.public_id;
 
       $.cloudinary
@@ -80,7 +83,7 @@ $(() => {
         })
         .appendTo($('<figure>').appendTo(preview));
 
-      $(`input[value*="${publicId}"]`).attr('name', `recipe[image_attributes][${new Date().valueOf()}][resource]`);
+      $(`input[value*="${publicId}"]`).attr('name', `recipe[image_attributes][${key}][resource]`);
 
       $('<a/>')
         .addClass('delete_by_token delete is-medium')
