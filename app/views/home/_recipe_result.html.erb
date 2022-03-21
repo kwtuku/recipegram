@@ -3,6 +3,13 @@
     <%= link_to recipe_path(recipe) do %>
       <figure class="image is-128x128">
         <%= image_tag recipe.first_image.url(:thumb) %>
+        <% if recipe.images.size > 2 %>
+          <div class="has-text-white has-text-right p-1 is-overlay">
+            <span class="icon">
+              <i class="fas fa-clone"></i>
+            </span>
+          </div>
+        <% end %>
       </figure>
     <% end %>
   </div>
