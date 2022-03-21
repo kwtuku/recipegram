@@ -105,5 +105,7 @@ $(() => {
               alert('画像が削除できません');
             });
         });
+
+      $('.cloudinary-fileupload').prop('required', false);
     });
 });
