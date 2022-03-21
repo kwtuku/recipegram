@@ -18,6 +18,7 @@ $tabs-link-active-color: hsl(0, 0%, 29%);
 
 @import '~bulma/bulma.sass';
 @import '~@yaireo/tagify/src/tagify.scss';
+@import 'swiper/swiper-bundle.min.css';
 
 .custom-tagify-look {
   height: unset;

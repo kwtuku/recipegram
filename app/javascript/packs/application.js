@@ -13,6 +13,7 @@ import countCharacters from '../src/countCharacters';
 import deleteNotification from '../src/deleteNotification';
 import dropdown from '../src/dropdown';
 import handleSearchInput from '../src/handleSearchInput';
+import handleSwiper from '../src/handleSwiper';
 import handlePagination from '../src/handlePagination';
 import handlePasswordMask from '../src/handlePasswordMask';
 import handleTag from '../src/handleTag';
@@ -32,6 +33,7 @@ document.addEventListener('turbolinks:load', () => {
   deleteNotification();
   dropdown();
   handleSearchInput();
+  handleSwiper();
   handleTag();
   handlePagination();
   modal();
