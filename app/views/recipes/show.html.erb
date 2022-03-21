@@ -59,7 +59,7 @@
         <div class="card">
           <div class="card-image">
             <figure class="image is-1by1 is-clickable" id="show-image-modal">
-              <%= image_tag @recipe.recipe_image.main.url %>
+              <%= image_tag @recipe.first_image.url(:main) %>
             </figure>
           </div>
           <div class="card-content">
@@ -137,7 +137,7 @@
   <div class="modal-background"></div>
   <div class="modal-content">
     <figure class="image is-1by1">
-      <%= image_tag @recipe.recipe_image.main.url %>
+      <%= image_tag @recipe.first_image.url(:main) %>
     </figure>
   </div>
   <button class="modal-close is-large" aria-label="close"></button>

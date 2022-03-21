@@ -7,7 +7,7 @@
         <div class="media mb-6">
           <div class="media-left">
             <figure class="image is-128x128">
-              <%= image_tag @tagged_recipes.sample.recipe_image.thumb.url, class: 'is-rounded' %>
+              <%= image_tag @tagged_recipes.sample.first_image.url(:thumb), class: 'is-rounded' %>
             </figure>
           </div>
           <div class="media-content">

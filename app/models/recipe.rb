@@ -32,6 +32,10 @@ class Recipe < ApplicationRecord
     %w[comments_count favorites_count updated_at]
   end
 
+  def first_image
+    images.order(:position).first&.resource || recipe_image
+  end
+
   private
 
   def remove_image
