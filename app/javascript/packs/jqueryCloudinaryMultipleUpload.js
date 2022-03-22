@@ -69,7 +69,7 @@ $(() => {
     .off('cloudinarydone')
     .on('cloudinarydone', (e, data) => {
       const key = new Date().valueOf();
-      const preview = $(`<div class="column is-one-fifth is-flex" data-sortable-key="${key}"></div>`).appendTo(
+      const preview = $('<div>', { class: 'column is-one-fifth is-flex', 'data-sortable-key': key }).appendTo(
         previewContainer,
       );
       const publicId = data.result.public_id;
@@ -77,19 +77,16 @@ $(() => {
       $.cloudinary
         .image(publicId, {
           format: data.result.format,
-          width: 500,
-          height: 500,
+          width: 256,
+          height: 256,
           crop: 'fill',
         })
-        .appendTo($('<figure>').appendTo(preview));
+        .appendTo($('<figure>', { class: 'image is-128x128' }).appendTo(preview));
 
       $(`input[value*="${publicId}"]`).attr('name', `recipe[image_attributes][${key}][resource]`);
 
-      $('<a/>')
-        .addClass('delete_by_token delete is-medium')
-        .attr({ href: '#' })
+      $('<button>', { class: 'delete_by_token delete is-medium' })
         .data({ delete_token: data.result.delete_token })
-        .html('&times;')
         .appendTo(preview)
         .on('click', function deleteImage(event) {
           event.preventDefault();

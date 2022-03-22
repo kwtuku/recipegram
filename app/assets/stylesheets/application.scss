@@ -103,12 +103,6 @@
   object-fit: cover;
 }
 
-.is-400x400 {
-  height: 400px !important;
-  width: 400px !important;
-  object-fit: cover;
-}
-
 .m-0-mobile {
   @media (max-width: 767px) {
     margin: 0 !important;

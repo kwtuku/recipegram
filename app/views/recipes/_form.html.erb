@@ -6,7 +6,7 @@
     <div class="columns is-multiline is-centered" id="image-preview-container" data-sortable="images">
       <% recipe_form.images.each do |image| %>
         <div class="column is-one-fifth is-flex" data-sortable-key="<%= image.id %>">
-          <figure class="image 128x128px">
+          <figure class="image 128x128">
             <%= image_tag image.resource_url(:preview), width: 256, height: 256 %>
           </figure>
           <button type="button" class="delete is-medium js-delete-image-button" data-key="<%= image.id %>"></button>
@@ -15,7 +15,7 @@
 
       <% (recipe_form.image_attributes.presence || {}).select { |_k, attrs| attrs['resource'] }.each do |k, attrs| %>
         <div class="column is-one-fifth is-flex" data-sortable-key="<%= k %>">
-          <figure class="image 128x128px">
+          <figure class="image 128x128">
             <%= cl_image_tag attrs['resource'].split(/[\/|.]/)[3], width: 256, height: 256, crop: :fill, quality: :auto, fetch_format: :auto %>
           </figure>
           <button type="button" class="delete is-medium js-delete-image-button" data-key="<%= k %>" data-cache="true"></button>
