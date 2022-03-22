@@ -84,7 +84,7 @@
                 </div>
               </div>
             <% else %>
-              <figure class="image is-1by1 is-clickable" id="show-image-modal">
+              <figure class="image is-1by1">
                 <%= image_tag @recipe.first_image.url(:main) %>
               </figure>
             <% end %>
@@ -159,13 +159,3 @@
     </div>
   </div>
 </section>
-
-<div class="modal" id="image-modal">
-  <div class="modal-background"></div>
-  <div class="modal-content">
-    <figure class="image is-1by1">
-      <%= image_tag @recipe.first_image.url(:main) %>
-    </figure>
-  </div>
-  <button class="modal-close is-large" aria-label="close"></button>
-</div>
