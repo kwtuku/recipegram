@@ -2,24 +2,10 @@ require 'rails_helper'
 
 RSpec.describe 'Recipes', type: :system do
   let(:alice) { create(:user, :no_image) }
-  let(:bob) { create(:user, :no_image) }
-
-  it 'creates a recipe', js: true do
-    sign_in alice
-    click_link href: new_recipe_path
-    expect(page).to have_current_path new_recipe_path
-    expect(page).to have_button 'create_recipe', disabled: true
-    image_path = Rails.root.join('spec/fixtures/recipe_image_sample.jpg')
-    attach_file 'recipe[recipe_image]', image_path, visible: false
-    fill_in 'recipe[title]', with: '野菜炒め'
-    fill_in 'recipe[body]', with: '野菜を切って炒める。'
-    fill_in 'recipe[tag_list]', with: 'かんたん,お手軽', visible: false
-    expect { click_button 'create_recipe' }.to change(alice.recipes, :count).by(1)
-    expect(page).to have_content 'レシピを投稿しました。'
-  end
 
   describe 'updates the recipe' do
-    let(:alice_recipe) { create(:recipe, user: alice) }
+    let(:alice_recipe) { create(:recipe, :with_images, user: alice) }
+    let(:bob) { create(:user, :no_image) }
 
     context 'when user is not the author' do
       it 'redirects to root_path', js: true do
@@ -31,49 +17,19 @@ RSpec.describe 'Recipes', type: :system do
     end
 
     context 'when user is the author' do
-      it 'updates title', js: true do
+      it 'updates the recipe', js: true do
         sign_in alice
         visit edit_recipe_path(alice_recipe)
         expect(page).to have_button 'update_recipe', disabled: true
         fill_in 'recipe[title]', with: 'クリームシチュー'
-        click_button 'update_recipe'
-        expect(page).to have_content 'レシピを編集しました。'
-        expect(alice_recipe.reload.title).to eq 'クリームシチュー'
-      end
-
-      it 'updates body', js: true do
-        sign_in alice
-        visit edit_recipe_path(alice_recipe)
-        expect(page).to have_button 'update_recipe', disabled: true
         fill_in 'recipe[body]', with: '切ったにんじん、玉ねぎ、じゃがいも、肉とクリームシチューのルーと水を鍋に入れて煮込む。'
-        click_button 'update_recipe'
-        expect(page).to have_content 'レシピを編集しました。'
-        expect(alice_recipe.reload.body).to eq '切ったにんじん、玉ねぎ、じゃがいも、肉とクリームシチューのルーと水を鍋に入れて煮込む。'
-      end
-
-      it 'updates recipe_image', js: true do
-        sign_in alice
-        before_image_url = alice_recipe.recipe_image.url
-        visit edit_recipe_path(alice_recipe)
-        expect(page).to have_button 'update_recipe', disabled: true
-        image_path = Rails.root.join('spec/fixtures/recipe_image_sample_after.jpg')
-        attach_file 'recipe[recipe_image]', image_path, visible: false
-        click_button 'update_recipe'
-        after_image_url = alice_recipe.reload.recipe_image.url
-        expect(before_image_url).not_to eq after_image_url
-        expect(page).to have_content 'レシピを編集しました。'
-      end
-
-      it 'updates tags', js: true do
-        tag_otegaru = create(:tag, name: 'お手軽')
-        tag_kantan = create(:tag, name: 'かんたん')
-        sign_in alice
-        visit edit_recipe_path(alice_recipe)
-        expect(page).to have_button 'update_recipe', disabled: true
         fill_in 'recipe[tag_list]', with: 'かんたん,お手軽', visible: false
         click_button 'update_recipe'
         expect(page).to have_content 'レシピを編集しました。'
-        expect(alice_recipe.reload.tags).to include tag_kantan, tag_otegaru
+        alice_recipe.reload
+        expect(alice_recipe.title).to eq 'クリームシチュー'
+        expect(alice_recipe.body).to eq '切ったにんじん、玉ねぎ、じゃがいも、肉とクリームシチューのルーと水を鍋に入れて煮込む。'
+        expect(alice_recipe.tag_list).to match_array %w[かんたん お手軽]
       end
     end
   end

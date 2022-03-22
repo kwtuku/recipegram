@@ -42,11 +42,7 @@
 
           <div class="file is-info is-inline-flex is-justify-content-center mt-3">
             <label class="file-label">
-              <% if Rails.env.test? %>
-                <%= f.file_field :file, return_delete_token: true, html: { class: 'file-input', data: { cloudinary_field: 'recipe[image_attributes][][resource]' }, accept: 'image/jpg, image/jpeg, image/png, image/webp', multiple: true, required: recipe_images_required?(action, recipe_form) } %>
-              <% else %>
-                <%= f.cl_image_upload :file, return_delete_token: true, html: { class: 'file-input', data: { cloudinary_field: 'recipe[image_attributes][][resource]' }, accept: 'image/jpg, image/jpeg, image/png, image/webp', multiple: true, required: recipe_images_required?(action, recipe_form) } %>
-              <% end %>
+              <%= f.cl_image_upload :file, return_delete_token: true, html: { class: 'file-input', data: { cloudinary_field: 'recipe[image_attributes][][resource]' }, accept: 'image/jpg, image/jpeg, image/png, image/webp', multiple: true, required: recipe_images_required?(action, recipe_form) } %>
               <span class="file-cta">
                 <span class="file-label">
                   画像を選択する
