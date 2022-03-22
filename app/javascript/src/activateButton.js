@@ -5,8 +5,6 @@ export default () => {
   const destroyAccount = document.getElementById('destroy_account');
   const resetPassword = document.getElementById('reset_password');
   const updateUser = document.getElementById('update_user');
-  const createRecipe = document.getElementById('create_recipe');
-  const updateRecipe = document.getElementById('update_recipe');
   const createComment = document.getElementById('create_comment');
   const searchInput = document.getElementById('q');
 
@@ -96,63 +94,6 @@ export default () => {
     profile.addEventListener('input', () => {
       if (nickname.value.trim()) {
         updateUser.disabled = false;
-      }
-    });
-  }
-
-  const recipeTitle = document.getElementById('recipe_title');
-  const recipeBody = document.getElementById('recipe_body');
-  const recipeImage = document.getElementById('recipe_recipe_image');
-  const tagInput = document.getElementById('tag-input');
-
-  if (createRecipe) {
-    inputs.forEach((input) => {
-      input.addEventListener('input', () => {
-        if (recipeTitle.value.trim() && recipeBody.value.trim() && recipeImage.value) {
-          createRecipe.disabled = false;
-        } else {
-          createRecipe.disabled = true;
-        }
-      });
-    });
-    recipeBody.addEventListener('input', () => {
-      if (recipeTitle.value.trim() && recipeBody.value.trim() && recipeImage.value) {
-        createRecipe.disabled = false;
-      } else {
-        createRecipe.disabled = true;
-      }
-    });
-    tagInput.addEventListener('click', () => {
-      if (recipeTitle.value.trim() && recipeBody.value.trim() && recipeImage.value) {
-        createRecipe.disabled = false;
-      } else {
-        createRecipe.disabled = true;
-      }
-    });
-  }
-
-  if (updateRecipe) {
-    inputs.forEach((input) => {
-      input.addEventListener('input', () => {
-        if (recipeTitle.value.trim() && recipeBody.value.trim()) {
-          updateRecipe.disabled = false;
-        } else {
-          updateRecipe.disabled = true;
-        }
-      });
-    });
-    recipeBody.addEventListener('input', () => {
-      if (recipeTitle.value.trim() && recipeBody.value.trim()) {
-        updateRecipe.disabled = false;
-      } else {
-        updateRecipe.disabled = true;
-      }
-    });
-    tagInput.addEventListener('click', () => {
-      if (recipeTitle.value.trim() && recipeBody.value.trim()) {
-        updateRecipe.disabled = false;
-      } else {
-        updateRecipe.disabled = true;
       }
     });
   }

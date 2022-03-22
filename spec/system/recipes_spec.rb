@@ -20,7 +20,6 @@ RSpec.describe 'Recipes', type: :system do
       it 'updates the recipe', js: true do
         sign_in alice
         visit edit_recipe_path(alice_recipe)
-        expect(page).to have_button 'update_recipe', disabled: true
         fill_in 'recipe[title]', with: 'クリームシチュー'
         fill_in 'recipe[body]', with: '切ったにんじん、玉ねぎ、じゃがいも、肉とクリームシチューのルーと水を鍋に入れて煮込む。'
         fill_in 'recipe[tag_list]', with: 'かんたん,お手軽', visible: false
