@@ -4,7 +4,7 @@
     <p class='help has-text-dark mb-3'>2MB以下でjpgまたはjpeg、png、webp形式のファイルをアップロードすることができます。</p>
 
     <div class="columns is-multiline is-centered" id="image-preview-container" data-sortable="images">
-      <% recipe_form.images.each do |image| %>
+      <% recipe_form.images.order(:position).each do |image| %>
         <div class="column is-one-fifth is-flex" data-sortable-key="<%= image.id %>">
           <figure class="image 128x128">
             <%= image_tag image.resource_url(:preview), width: 256, height: 256 %>
