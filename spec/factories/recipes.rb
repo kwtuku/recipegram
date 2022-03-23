@@ -10,5 +10,15 @@ FactoryBot.define do
       association :user, :no_image
       to_create { |instance| instance.save(validate: false) }
     end
+
+    trait :with_images do
+      transient { images_count { 2 } }
+
+      after(:create) do |recipe, evaluator|
+        create_list(:image, evaluator.images_count, recipe: recipe)
+        recipe.reload.images.shuffle.each.with_index(1) { |image, i| image.update(position: i) }
+        recipe.reload
+      end
+    end
   end
 end

@@ -13,31 +13,31 @@ class RecipesController < ApplicationController
   end
 
   def new
-    @recipe = Recipe.new
+    @recipe_form = RecipeForm.new
   end
 
   def create
-    @recipe = current_user.recipes.new(recipe_params)
-    if @recipe.save
-      redirect_to recipe_path(@recipe), notice: 'レシピを投稿しました。'
+    @recipe_form = RecipeForm.new(recipe_params, recipe: current_user.recipes.new)
+    if @recipe_form.save
+      redirect_to @recipe_form, notice: 'レシピを投稿しました。'
     else
-      @recipe.recipe_image.cache!(recipe_params[:recipe_image]) if recipe_params[:recipe_image]
       render :new
     end
   end
 
   def edit
-    @recipe = Recipe.find(params[:id])
-    authorize @recipe
+    recipe = Recipe.find(params[:id])
+    authorize recipe
+    @recipe_form = RecipeForm.new(recipe: recipe)
   end
 
   def update
-    @recipe = Recipe.find(params[:id])
-    authorize @recipe
-    if @recipe.update(recipe_params)
-      redirect_to recipe_path(@recipe), notice: 'レシピを編集しました。'
+    recipe = Recipe.find(params[:id])
+    authorize recipe
+    @recipe_form = RecipeForm.new(recipe_params, recipe: recipe)
+    if @recipe_form.save
+      redirect_to @recipe_form, notice: 'レシピを編集しました。'
     else
-      @recipe.recipe_image.cache!(recipe_params[:recipe_image]) if recipe_params[:recipe_image]
       render :edit
     end
   end
@@ -52,6 +52,6 @@ class RecipesController < ApplicationController
   private
 
   def recipe_params
-    params.require(:recipe).permit(:title, :body, :recipe_image, :recipe_image_cache, :tag_list)
+    params.require(:recipe).permit(:title, :body, :tag_list, image_attributes: %i[id resource position _destroy])
   end
 end

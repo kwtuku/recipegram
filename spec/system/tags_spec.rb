@@ -4,7 +4,7 @@ RSpec.describe 'Tags', type: :system do
   let(:alice) { create(:user, :no_image) }
   let(:tag) { create(:tag) }
 
-  before { create(:recipe, :no_image, tag_list: tag.name) }
+  before { create(:recipe, :with_images, images_count: 1, tag_list: tag.name) }
 
   it 'follows a tg', js: true do
     expect(TagFollowing.count).to eq 0

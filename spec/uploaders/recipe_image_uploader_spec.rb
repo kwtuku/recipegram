@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe RecipeImageUploader do
-  let(:recipe) { create(:recipe) }
-  let(:uploader) { described_class.new(recipe, :recipe_image) }
+  let(:image) { create(:image) }
+  let(:uploader) { described_class.new(image, :resource) }
 
   before do
     described_class.enable_processing = true
@@ -35,7 +35,7 @@ describe RecipeImageUploader do
 
   describe 'store_dir' do
     it 'stores files in the correct directory' do
-      expect(uploader.store_dir).to eq("uploads/recipe/recipe_image/#{recipe.id}")
+      expect(uploader.store_dir).to eq("uploads/image/resource/#{image.id}")
     end
   end
 

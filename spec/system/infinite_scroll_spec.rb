@@ -5,7 +5,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
     context 'when not signed in' do
       before do
         users = create_list(:user, 3, :no_image)
-        users.each { |user| create_list(:recipe, 14, :no_image, user: user) }
+        users.each { |user| create_list(:recipe, 14, :with_images, images_count: 1, user: user) }
       end
 
       it 'can infinite scroll', js: true do
@@ -25,10 +25,10 @@ RSpec.describe 'InfiniteScroll', type: :system do
       before do
         users = create_list(:user, 3, :no_image)
         users.each do |user|
-          create_list(:recipe, 15, :no_image, user: user)
+          create_list(:recipe, 15, :with_images, images_count: 1, user: user)
           alice.relationships.create(follow_id: user.id)
         end
-        create_list(:recipe, 16, :no_image, user: alice)
+        create_list(:recipe, 16, :with_images, images_count: 1, user: alice)
       end
 
       it 'can infinite scroll', js: true do
@@ -55,7 +55,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
 
     before do
       users = create_list(:user, 3, :no_image)
-      users.each { |user| create_list(:recipe, 41, :no_image, user: user) }
+      users.each { |user| create_list(:recipe, 41, :with_images, images_count: 1, user: user) }
     end
 
     it 'can infinite scroll', js: true do
@@ -80,7 +80,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
 
     before do
       users = create_list(:user, 3, :no_image)
-      users.each { |user| create_list(:recipe, 41, :no_image, user: user, tag_list: 'かんたん') }
+      users.each { |user| create_list(:recipe, 41, :with_images, images_count: 1, user: user, tag_list: 'かんたん') }
     end
 
     it 'can infinite scroll', js: true do
@@ -126,9 +126,9 @@ RSpec.describe 'InfiniteScroll', type: :system do
   describe 'users#show' do
     let(:alice) { create(:user, :no_image) }
     let(:posted_recipes) { alice.recipes.order(id: :desc) }
-    let(:not_posted_recipe) { create(:recipe, :no_image) }
+    let(:not_posted_recipe) { create(:recipe, :with_images, images_count: 1) }
 
-    before { create_list(:recipe, 121, :no_image, user: alice) }
+    before { create_list(:recipe, 121, :with_images, images_count: 1, user: alice) }
 
     it 'can infinite scroll', js: true do
       visit user_path(alice)
@@ -154,7 +154,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
 
     before do
       users = create_list(:user, 3, :no_image)
-      users.each { |user| create_list(:recipe, 41, :no_image, user: user) }
+      users.each { |user| create_list(:recipe, 41, :with_images, images_count: 1, user: user) }
       random_recipes = Recipe.all.sample(121)
       random_recipes.each { |recipe| create(:comment, user: alice, recipe: recipe) }
     end
@@ -184,7 +184,7 @@ RSpec.describe 'InfiniteScroll', type: :system do
 
     before do
       users = create_list(:user, 3, :no_image)
-      users.each { |user| create_list(:recipe, 41, :no_image, user: user) }
+      users.each { |user| create_list(:recipe, 41, :with_images, images_count: 1, user: user) }
       random_recipes = Recipe.all.sample(121)
       random_recipes.each { |recipe| alice.favorites.create(recipe_id: recipe.id) }
     end

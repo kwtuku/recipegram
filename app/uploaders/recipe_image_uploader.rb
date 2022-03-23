@@ -39,7 +39,7 @@ class RecipeImageUploader < CarrierWave::Uploader::Base
     cloudinary_transformation quality: 'auto', fetch_format: :auto unless Rails.env.test?
   end
   version :preview do
-    cloudinary_transformation crop: :fill, width: 800, height: 800, quality: :auto, fetch_format: :auto
+    cloudinary_transformation crop: :fill, width: 256, height: 256, quality: :auto, fetch_format: :auto
   end
 
   # Add an allowlist of extensions which are allowed to be uploaded.

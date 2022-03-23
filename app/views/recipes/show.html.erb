@@ -5,7 +5,7 @@
 <section class="section p-0-mobile">
   <div class="container">
     <div class="columns is-centered is-multiline m-0-mobile">
-      <div class="column is-1 is-12-mobile">
+      <div class="column is-1 is-12-mobile" style="z-index: 2;">
         <aside class="recipe-navbar">
           <div class="recipe-navbar__item">
             <div class="recipe-navbar__item-button js-favorite-button-<%= @recipe.id %>">
@@ -55,12 +55,39 @@
         </aside>
       </div>
 
-      <div class="column is-10-tablet is-7-desktop p-0-mobile">
+      <div class="column is-10-tablet is-7-desktop p-0-mobile" style="z-index: 1;">
         <div class="card">
           <div class="card-image">
-            <figure class="image is-1by1 is-clickable" id="show-image-modal">
-              <%= image_tag @recipe.recipe_image.main.url %>
-            </figure>
+            <% if @recipe.images.size >= 2 %>
+              <div class="swiper pb-6">
+                <div class="swiper-wrapper">
+                  <% @recipe.images.order(:position).each do |image| %>
+                    <div class="swiper-slide">
+                      <figure class="image is-1by1">
+                        <%= image_tag image.resource_url(:main) %>
+                      </figure>
+                    </div>
+                  <% end %>
+                </div>
+
+                <div class="swiper-pagination"></div>
+
+                <div class="swiper-button-prev">
+                  <span class="icon is-large">
+                    <i class="fas fa-2x fa-chevron-circle-left has-text-grey-lighter"></i>
+                  </span>
+                </div>
+                <div class="swiper-button-next">
+                  <span class="icon is-large">
+                    <i class="fas fa-2x fa-chevron-circle-right has-text-grey-lighter"></i>
+                  </span>
+                </div>
+              </div>
+            <% else %>
+              <figure class="image is-1by1">
+                <%= image_tag @recipe.first_image.url(:main) %>
+              </figure>
+            <% end %>
           </div>
           <div class="card-content">
             <p class="title is-spaced"><%= @recipe.title %></p>
@@ -132,13 +159,3 @@
     </div>
   </div>
 </section>
-
-<div class="modal" id="image-modal">
-  <div class="modal-background"></div>
-  <div class="modal-content">
-    <figure class="image is-1by1">
-      <%= image_tag @recipe.recipe_image.main.url %>
-    </figure>
-  </div>
-  <button class="modal-close is-large" aria-label="close"></button>
-</div>

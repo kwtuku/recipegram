@@ -76,8 +76,9 @@ module ApplicationHelper
     request.query_parameters[:sort] == sort && request.query_parameters[:order] == order
   end
 
-  def recipe_image_required?(action, recipe_image)
-    return false if action == 'edit' || recipe_image.cached?
+  def recipe_images_required?(action, recipe_form)
+    resources = (recipe_form.image_attributes.presence || {}).values.map { |attrs| attrs['resource'] }.compact
+    return false if action == 'edit' || resources.present?
 
     true
   end

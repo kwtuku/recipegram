@@ -39,7 +39,7 @@ RSpec.describe 'Tags', type: :request do
 
   describe 'GET /tags/:name' do
     let(:alice) { create(:user, :no_image) }
-    let!(:tagged_recipe) { create(:recipe, :no_image, tag_list: 'かんたん') }
+    let!(:tagged_recipe) { create(:recipe, :with_images, images_count: 1, tag_list: 'かんたん') }
     let!(:tag_kantan) { Tag.find_or_create_by(name: 'かんたん') }
 
     context 'when not signed in' do

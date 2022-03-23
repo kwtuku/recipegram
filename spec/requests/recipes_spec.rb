@@ -1,11 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe 'Recipes', type: :request do
+  def example_image_path
+    format = %w[jpg jpeg png webp].sample
+    Rails.root.join("spec/fixtures/#{format}_sample.#{format}")
+  end
+
   describe 'GET /recipes' do
     before do
       users = create_list(:user, 5, :no_image)
       users.each do |user|
-        create(:recipe, :no_image, user: user)
+        create(:recipe, :with_images, images_count: 1, user: user)
       end
     end
 
@@ -26,10 +31,10 @@ RSpec.describe 'Recipes', type: :request do
   describe 'GET /recipes/:id' do
     let(:alice) { create(:user, :no_image) }
     let(:bob) { create(:user, :no_image) }
-    let(:bob_recipe) { create(:recipe, :no_image, user: bob) }
+    let(:bob_recipe) { create(:recipe, :with_images, images_count: 1, user: bob) }
 
     context 'when not signed in and other recipes exist' do
-      before { create_list(:recipe, 4, :no_image, user: bob) }
+      before { create_list(:recipe, 4, :with_images, images_count: 1, user: bob) }
 
       it 'returns ok' do
         get recipe_path(bob_recipe)
@@ -51,7 +56,7 @@ RSpec.describe 'Recipes', type: :request do
 
     context 'when signed in and other recipes exist' do
       before do
-        create_list(:recipe, 4, :no_image, user: bob)
+        create_list(:recipe, 4, :with_images, images_count: 1, user: bob)
         sign_in alice
       end
 
@@ -101,43 +106,97 @@ RSpec.describe 'Recipes', type: :request do
 
   describe 'POST /recipes' do
     let(:alice) { create(:user, :no_image) }
-    let(:recipe_params) { attributes_for(:recipe) }
 
     context 'when not signed in' do
+      let(:params) do
+        image_attributes = { Time.now.to_i.to_s => { 'resource' => Rack::Test::UploadedFile.new(example_image_path) } }
+        { recipe: { **attributes_for(:recipe), image_attributes: image_attributes } }
+      end
+
       it 'returns found' do
-        post recipes_path, params: { recipe: recipe_params }
+        post recipes_path, params: params
         expect(response).to have_http_status(:found)
       end
 
       it 'redirects to new_user_session_path' do
-        post recipes_path, params: { recipe: recipe_params }
+        post recipes_path, params: params
         expect(response).to redirect_to new_user_session_path
       end
 
       it 'does not increase Recipe count' do
         expect do
-          post recipes_path, params: { recipe: recipe_params }
+          post recipes_path, params: params
         end.to change(Recipe, :count).by(0)
+      end
+
+      it 'does not increase Image count' do
+        expect do
+          post recipes_path, params: params
+        end.to change(Image, :count).by(0)
       end
     end
 
-    context 'when signed in' do
+    context 'when signed in and params has title, body and 1 resource' do
+      let(:params) do
+        image_attributes = { Time.now.to_i.to_s => { 'resource' => Rack::Test::UploadedFile.new(example_image_path) } }
+        { recipe: { **attributes_for(:recipe), image_attributes: image_attributes } }
+      end
+
       before { sign_in alice }
 
       it 'returns found' do
-        post recipes_path, params: { recipe: recipe_params }
+        post recipes_path, params: params
         expect(response).to have_http_status(:found)
       end
 
       it 'redirects to recipe_path(new_recipe)' do
-        post recipes_path, params: { recipe: recipe_params }
+        post recipes_path, params: params
         expect(response).to redirect_to recipe_path(alice.recipes.last)
       end
 
-      it 'increases Recipe count' do
+      it 'increases Recipe count by 1' do
         expect do
-          post recipes_path, params: { recipe: recipe_params }
+          post recipes_path, params: params
         end.to change(Recipe, :count).by(1)
+      end
+
+      it 'increases Image count by 1' do
+        expect do
+          post recipes_path, params: params
+        end.to change(Image, :count).by(1)
+      end
+    end
+
+    context 'when signed in and params has title, body and 10 resources' do
+      let(:params) do
+        image_attributes = Array.new(10) do
+          [SecureRandom.random_number(1 << 64), { 'resource' => Rack::Test::UploadedFile.new(example_image_path) }]
+        end.to_h
+        { recipe: { **attributes_for(:recipe), image_attributes: image_attributes } }
+      end
+
+      before { sign_in alice }
+
+      it 'returns found' do
+        post recipes_path, params: params
+        expect(response).to have_http_status(:found)
+      end
+
+      it 'redirects to recipe_path(new_recipe)' do
+        post recipes_path, params: params
+        expect(response).to redirect_to recipe_path(alice.recipes.last)
+      end
+
+      it 'increases Recipe count by 1' do
+        expect do
+          post recipes_path, params: params
+        end.to change(Recipe, :count).by(1)
+      end
+
+      it 'increases Image count by 10' do
+        expect do
+          post recipes_path, params: params
+        end.to change(Image, :count).by(10)
       end
     end
   end
@@ -190,75 +249,119 @@ RSpec.describe 'Recipes', type: :request do
   describe 'PATCH /recipes/:id' do
     let(:alice) { create(:user, :no_image) }
     let(:bob) { create(:user, :no_image) }
-    let(:alice_recipe) { create(:recipe, title: 'カレー', user: alice) }
-    let(:recipe_params) do
-      new_recipe_image = Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/recipe_image_sample_after.jpg'))
-      { title: 'ラーメン', recipe_image: new_recipe_image }
-    end
+    let!(:alice_recipe) { create(:recipe, :with_images, images_count: 1, title: 'カレー', user: alice) }
 
     context 'when not signed in' do
+      let(:params) do
+        image_attributes = { Time.now.to_i.to_s => { 'resource' => Rack::Test::UploadedFile.new(example_image_path) } }
+        { recipe: { **attributes_for(:recipe, title: 'ラーメン'), image_attributes: image_attributes } }
+      end
+
       it 'returns found' do
-        patch recipe_path(alice_recipe), params: { recipe: recipe_params }
+        patch recipe_path(alice_recipe), params: params
         expect(response).to have_http_status(:found)
       end
 
       it 'redirects to new_user_session_path' do
-        patch recipe_path(alice_recipe), params: { recipe: recipe_params }
+        patch recipe_path(alice_recipe), params: params
         expect(response).to redirect_to new_user_session_path
       end
 
       it 'does not update a recipe' do
-        patch recipe_path(alice_recipe), params: { recipe: recipe_params }
+        patch recipe_path(alice_recipe), params: params
         expect(alice_recipe.reload.title).to eq 'カレー'
       end
     end
 
     context 'when user is not the author' do
+      let(:params) do
+        image_attributes = { Time.now.to_i.to_s => { 'resource' => Rack::Test::UploadedFile.new(example_image_path) } }
+        { recipe: { **attributes_for(:recipe, title: 'ラーメン'), image_attributes: image_attributes } }
+      end
+
       before { sign_in bob }
 
       it 'returns found' do
-        patch recipe_path(alice_recipe), params: { recipe: recipe_params }
+        patch recipe_path(alice_recipe), params: params
         expect(response).to have_http_status(:found)
       end
 
       it 'redirects to request.referer or root_path' do
-        patch recipe_path(alice_recipe), params: { recipe: recipe_params }
+        patch recipe_path(alice_recipe), params: params
         expect(response).to redirect_to(request.referer || root_path)
       end
 
       it 'has the flash message' do
-        patch recipe_path(alice_recipe), params: { recipe: recipe_params }
+        patch recipe_path(alice_recipe), params: params
         expect(flash[:alert]).to eq '権限がありません。'
       end
 
       it 'does not update a recipe' do
-        patch recipe_path(alice_recipe), params: { recipe: recipe_params }
+        patch recipe_path(alice_recipe), params: params
         expect(alice_recipe.reload.title).to eq 'カレー'
+      end
+
+      it 'does not increase Image count' do
+        expect do
+          patch recipe_path(alice_recipe), params: params
+        end.to change(Image, :count).by(0)
       end
     end
 
-    context 'when user is the author' do
+    context 'when user is the author and params has title, body and new 1 resource' do
+      let(:params) do
+        image_attributes = { Time.now.to_i.to_s => { 'resource' => Rack::Test::UploadedFile.new(example_image_path) } }
+        { recipe: { **attributes_for(:recipe, title: 'ラーメン'), image_attributes: image_attributes } }
+      end
+
       before { sign_in alice }
 
       it 'returns found' do
-        patch recipe_path(alice_recipe), params: { recipe: recipe_params }
+        patch recipe_path(alice_recipe), params: params
         expect(response).to have_http_status(:found)
       end
 
       it 'redirects to recipe_path(alice_recipe)' do
-        patch recipe_path(alice_recipe), params: { recipe: recipe_params }
+        patch recipe_path(alice_recipe), params: params
         expect(response).to redirect_to recipe_path(alice_recipe)
       end
 
       it 'updates a title' do
-        patch recipe_path(alice_recipe), params: { recipe: recipe_params }
+        patch recipe_path(alice_recipe), params: params
         expect(alice_recipe.reload.title).to eq 'ラーメン'
       end
 
-      it 'updates a recipe_image' do
-        old_image_url = alice_recipe.recipe_image_url
-        patch recipe_path(alice_recipe), params: { recipe: recipe_params }
-        expect(alice_recipe.reload.recipe_image_url).not_to eq old_image_url
+      it 'increases Image count by 1' do
+        expect do
+          patch recipe_path(alice_recipe), params: params
+        end.to change(Image, :count).by(1)
+      end
+    end
+
+    context 'when user is the author and params has title, body and new 9 resource' do
+      let(:params) do
+        image_attributes = Array.new(9) do
+          [SecureRandom.random_number(1 << 64), { 'resource' => Rack::Test::UploadedFile.new(example_image_path) }]
+        end.to_h
+        { recipe: { **attributes_for(:recipe), image_attributes: image_attributes } }
+      end
+
+      before { sign_in alice }
+
+      it 'returns found' do
+        patch recipe_path(alice_recipe), params: params
+        expect(response).to have_http_status(:found)
+      end
+
+      it 'redirects to recipe_path(alice_recipe)' do
+        patch recipe_path(alice_recipe), params: params
+        expect(response).to redirect_to recipe_path(alice_recipe)
+      end
+
+      it 'increases Image count by 9' do
+        expect do
+          patch recipe_path(alice_recipe), params: params
+        end.to change(Image, :count).by(9)
       end
     end
   end
@@ -266,7 +369,7 @@ RSpec.describe 'Recipes', type: :request do
   describe 'DELETE /recipes/:id' do
     let(:alice) { create(:user, :no_image) }
     let(:bob) { create(:user, :no_image) }
-    let!(:alice_recipe) { create(:recipe, :no_image, user: alice) }
+    let!(:alice_recipe) { create(:recipe, :with_images, images_count: 1, user: alice) }
 
     context 'when not signed in' do
       it 'returns found' do

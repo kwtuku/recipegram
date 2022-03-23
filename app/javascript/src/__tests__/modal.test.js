@@ -7,8 +7,10 @@ import modal from '../modal';
 function fixture(isActive = false) {
   return `
     <div class="navbar"></div>
-    <figure id="show-image-modal" data-test="trigger"></figure>
-    <div class="modal ${isActive ? 'is-active' : ''}" id="image-modal" data-test="modal">
+
+    <a class="js-show-sign-in-modal" data-test="trigger"></a>
+
+    <div class="modal ${isActive ? 'is-active' : ''}" id="sign-in-modal" data-test="modal">
       <div class="modal-background" data-test="modal-background"></div>
       <div class="modal-content"></div>
       <button class="modal-close" data-test="close-button"></button>
