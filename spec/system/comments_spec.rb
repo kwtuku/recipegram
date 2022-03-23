@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Comments', type: :system do
   let(:alice) { create(:user, :no_image) }
   let(:bob) { create(:user, :no_image) }
-  let(:bob_recipe) { create(:recipe, :no_image, user: bob) }
+  let(:bob_recipe) { create(:recipe, :with_images, images_count: 1, user: bob) }
 
   it 'creates a comment', js: true do
     sign_in alice

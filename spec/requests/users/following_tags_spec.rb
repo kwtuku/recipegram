@@ -7,7 +7,7 @@ RSpec.describe 'Users::FollowingTags', type: :request do
     before do
       tag = create(:tag)
       user = create(:user, :no_image)
-      create_list(:recipe, 5, tag_list: tag.name, user: user)
+      create_list(:recipe, 5, :with_images, images_count: 1, tag_list: tag.name, user: user)
       alice.tag_followings.create!(tag_id: tag.id)
     end
 

@@ -208,8 +208,8 @@ RSpec.describe 'Users', type: :request do
     let(:alice) { create(:user, :no_image) }
     let(:bob) { create(:user, :no_image) }
     let(:carol) { create(:user, :no_image) }
-    let(:bob_recipe) { create(:recipe, :no_image, user: bob) }
-    let(:carol_recipe) { create(:recipe, :no_image, user: carol) }
+    let(:bob_recipe) { create(:recipe, :with_images, images_count: 1, user: bob) }
+    let(:carol_recipe) { create(:recipe, :with_images, images_count: 1, user: carol) }
 
     before do
       create(:comment, user: alice, recipe: bob_recipe)
@@ -247,8 +247,8 @@ RSpec.describe 'Users', type: :request do
     let(:alice) { create(:user, :no_image) }
     let(:bob) { create(:user, :no_image) }
     let(:carol) { create(:user, :no_image) }
-    let(:bob_recipe) { create(:recipe, :no_image, user: bob) }
-    let(:carol_recipe) { create(:recipe, :no_image, user: carol) }
+    let(:bob_recipe) { create(:recipe, :with_images, images_count: 1, user: bob) }
+    let(:carol_recipe) { create(:recipe, :with_images, images_count: 1, user: carol) }
 
     before do
       alice.favorites.create(recipe_id: bob_recipe.id)

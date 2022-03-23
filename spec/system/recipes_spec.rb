@@ -34,7 +34,7 @@ RSpec.describe 'Recipes', type: :system do
   end
 
   it 'destroys the recipe', js: true do
-    alice_recipe = create(:recipe, :no_image, user: alice)
+    alice_recipe = create(:recipe, :with_images, images_count: 1, user: alice)
     expect(alice.recipes.count).to eq 1
     sign_in alice
     visit recipe_path(alice_recipe)

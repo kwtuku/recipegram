@@ -10,7 +10,7 @@ RSpec.describe 'Recipes', type: :request do
     before do
       users = create_list(:user, 5, :no_image)
       users.each do |user|
-        create(:recipe, :no_image, user: user)
+        create(:recipe, :with_images, images_count: 1, user: user)
       end
     end
 
@@ -31,10 +31,10 @@ RSpec.describe 'Recipes', type: :request do
   describe 'GET /recipes/:id' do
     let(:alice) { create(:user, :no_image) }
     let(:bob) { create(:user, :no_image) }
-    let(:bob_recipe) { create(:recipe, :no_image, user: bob) }
+    let(:bob_recipe) { create(:recipe, :with_images, images_count: 1, user: bob) }
 
     context 'when not signed in and other recipes exist' do
-      before { create_list(:recipe, 4, :no_image, user: bob) }
+      before { create_list(:recipe, 4, :with_images, images_count: 1, user: bob) }
 
       it 'returns ok' do
         get recipe_path(bob_recipe)
@@ -56,7 +56,7 @@ RSpec.describe 'Recipes', type: :request do
 
     context 'when signed in and other recipes exist' do
       before do
-        create_list(:recipe, 4, :no_image, user: bob)
+        create_list(:recipe, 4, :with_images, images_count: 1, user: bob)
         sign_in alice
       end
 
@@ -369,7 +369,7 @@ RSpec.describe 'Recipes', type: :request do
   describe 'DELETE /recipes/:id' do
     let(:alice) { create(:user, :no_image) }
     let(:bob) { create(:user, :no_image) }
-    let!(:alice_recipe) { create(:recipe, :no_image, user: alice) }
+    let!(:alice_recipe) { create(:recipe, :with_images, images_count: 1, user: alice) }
 
     context 'when not signed in' do
       it 'returns found' do

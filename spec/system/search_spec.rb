@@ -7,10 +7,18 @@ RSpec.describe 'Search', type: :system do
     create(:user, :no_image, nickname: 'キャロル', profile: '塩らーめんが好き')
     create(:user, :no_image, nickname: 'dave', profile: 'I like tonkotsu ramen')
 
-    create(:recipe, :no_image, title: '味噌ラーメン', body: '味噌らーめんの作り方です。', tag_list: 'ラーメン', user: alice)
-    create(:recipe, :no_image, title: 'しょうゆラーメン', body: 'しょうゆラーメンの作り方です。', tag_list: 'ラーメン', user: alice)
-    create(:recipe, :no_image, title: '塩ラーメン', body: '塩ラーメンの作り方です。', tag_list: 'ラーメン', user: alice)
-    create(:recipe, :no_image, title: 'とんこつらーめん', body: 'とんこつらーめんの作り方です。', tag_list: 'らーめん', user: alice)
+    create(
+      :recipe, :with_images, images_count: 1, title: '味噌ラーメン', body: '味噌らーめんの作り方です。', tag_list: 'ラーメン', user: alice
+    )
+    create(
+      :recipe, :with_images, images_count: 1, title: 'しょうゆラーメン', body: 'しょうゆラーメンの作り方です。', tag_list: 'ラーメン', user: alice
+    )
+    create(
+      :recipe, :with_images, images_count: 1, title: '塩ラーメン', body: '塩ラーメンの作り方です。', tag_list: 'ラーメン', user: alice
+    )
+    create(
+      :recipe, :with_images, images_count: 1, title: 'とんこつらーめん', body: 'とんこつらーめんの作り方です。', tag_list: 'らーめん', user: alice
+    )
   end
 
   context 'when no results' do

@@ -5,7 +5,7 @@ RSpec.describe 'Home', type: :request do
     context 'when not signed in' do
       before do
         users = create_list(:user, 8, :no_image)
-        users.each { |user| create_list(:recipe, 3, :no_image, user: user) }
+        users.each { |user| create_list(:recipe, 3, :with_images, images_count: 1, user: user) }
       end
 
       it 'returns ok' do
@@ -30,13 +30,13 @@ RSpec.describe 'Home', type: :request do
       let(:not_feed) { Recipe.where.not(id: feed.ids).first }
 
       before do
-        create(:recipe, :no_image)
+        create(:recipe, :with_images, images_count: 1)
         random_users = create_list(:user, 9, :no_image).sample(3)
         random_users.each do |user|
           alice.relationships.create(follow_id: user.id)
-          create_list(:recipe, 6, :no_image, user: user)
+          create_list(:recipe, 6, :with_images, images_count: 1, user: user)
         end
-        create_list(:recipe, 3, :no_image, user: alice)
+        create_list(:recipe, 3, :with_images, images_count: 1, user: alice)
         sign_in alice
       end
 
