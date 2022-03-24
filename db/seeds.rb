@@ -32,7 +32,6 @@ def create_long_word_user_recipe_comment
   recipe = user.recipes.create!(
     title: "very_long_w#{'o' * 17}rd",
     body: "very_long_w#{'o' * 1987}rd",
-    recipe_image: File.open("./db/fixtures/recipe/recipe_sample_#{rand(1..30)}.jpg"),
     tag_list: Array.new(5) { "#{SecureRandom.hex(7)}a" }.join(',')
   )
   Rails.logger.debug 'レシピを作成完了'
@@ -89,7 +88,6 @@ def create_recipes(count, user_id = nil)
       user_id: user_ids.sample,
       title: Faker::Lorem.words(number: rand(1..5)).join(' ')[0..29],
       body: generate_paragraphs(2000),
-      recipe_image: File.open("./db/fixtures/recipe/recipe_sample_#{rand(1..30)}.jpg"),
       tag_list: Faker::Lorem.words(number: rand(6)).join(',')
     )
 

@@ -1,6 +1,4 @@
 class Recipe < ApplicationRecord
-  before_destroy :remove_image
-
   acts_as_taggable_on :tags
 
   belongs_to :user
@@ -11,11 +9,8 @@ class Recipe < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :images, dependent: :destroy
 
-  mount_uploader :recipe_image, RecipeImageUploader
-
   validates :title, length: { maximum: 30 }, presence: true
   validates :body, length: { maximum: 2000 }, presence: true
-  validates :recipe_image, presence: true, if: -> { validation_context != :recipe_form_save }
   validate :validate_tag
 
   TAG_MAX_COUNT = 5
@@ -33,14 +28,10 @@ class Recipe < ApplicationRecord
   end
 
   def first_image
-    images.order(:position).first&.resource || recipe_image
+    images.order(:position).first&.resource
   end
 
   private
-
-  def remove_image
-    recipe_image.remove!
-  end
 
   def validate_tag
     if tag_list.size > TAG_MAX_COUNT
