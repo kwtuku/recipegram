@@ -58,7 +58,7 @@
       <div class="column is-10-tablet is-7-desktop p-0-mobile" style="z-index: 1;">
         <div class="card">
           <div class="card-image">
-            <% if @recipe.images.size >= 2 %>
+            <% if @recipe.images_count >= 2 %>
               <div class="swiper pb-6">
                 <div class="swiper-wrapper">
                   <% @recipe.images.order(:position).each do |image| %>
