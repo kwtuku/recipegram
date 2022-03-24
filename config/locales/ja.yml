@@ -15,7 +15,6 @@ ja:
         body: コメント
       recipe:
         body: 作り方
-        recipe_image: レシピ画像
         tag_list: タグ
         title: レシピ名
       user:

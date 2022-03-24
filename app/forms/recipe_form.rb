@@ -2,7 +2,7 @@ class RecipeForm
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  attr_accessor :title, :body, :recipe_image, :tag_list
+  attr_accessor :title, :body, :tag_list
   attr_reader :images
 
   attribute :image_attributes
@@ -27,8 +27,7 @@ class RecipeForm
     return false if invalid?
 
     ActiveRecord::Base.transaction do
-      recipe.attributes = { title: title, body: body, tag_list: tag_list }
-      recipe.save!(context: :recipe_form_save)
+      recipe.update!(title: title, body: body, tag_list: tag_list)
 
       destroying_images = recipe.images.where(id: destroying_image_ids)
       destroying_images.delete_all if destroying_images.present?
