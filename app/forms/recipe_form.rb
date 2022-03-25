@@ -29,17 +29,17 @@ class RecipeForm
     ActiveRecord::Base.transaction do
       recipe.update!(title: title, body: body, tag_list: tag_list)
 
-      destroying_images = recipe.images.where(id: destroying_image_ids)
+      destroying_images = images.where(id: destroying_image_ids)
       destroying_images.delete_all if destroying_images.present?
 
-      updating_images = recipe.images.where(id: updating_image_ids).order(:id)
+      updating_images = images.where(id: updating_image_ids).order(:id)
       updating_images.zip(updating_image_positions) do |image, position|
         image.position = position
         image.save!(context: :recipe_form_save)
       end
 
       new_image_attributes_collection.each do |attrs|
-        recipe.images.new(resource: attrs['resource'], position: attrs['position']).save!(context: :recipe_form_save)
+        images.new(resource: attrs['resource'], position: attrs['position']).save!(context: :recipe_form_save)
       end
     end
 
@@ -58,7 +58,7 @@ class RecipeForm
   attr_reader :recipe
 
   def default_attributes
-    image_attributes = recipe.images.map do |image|
+    image_attributes = images.map do |image|
       [image.id, { **image.attributes.slice('id', 'position'), '_destroy' => 'false' }]
     end.to_h
 
@@ -71,7 +71,7 @@ class RecipeForm
   end
 
   def validate_images_count
-    images_count = recipe.images.size - destroying_image_ids.size + new_image_attributes_collection.size
+    images_count = images.size - destroying_image_ids.size + new_image_attributes_collection.size
 
     if images_count < MIN_IMAGES_COUNT
       errors.add(:image_attributes, :require_images, message: "は#{MIN_IMAGES_COUNT}枚以上必要です")
