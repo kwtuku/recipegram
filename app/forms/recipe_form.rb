@@ -73,10 +73,12 @@ class RecipeForm
   def validate_images_count
     images_count = recipe.images.size - destroying_image_ids.size + new_image_attributes_collection.size
 
-    errors.add(:base, :require_images, message: "画像は#{MIN_IMAGES_COUNT}枚以上必要です") if images_count < MIN_IMAGES_COUNT
+    if images_count < MIN_IMAGES_COUNT
+      errors.add(:image_attributes, :require_images, message: "は#{MIN_IMAGES_COUNT}枚以上必要です")
+    end
     return if images_count <= MAX_IMAGES_COUNT
 
-    errors.add(:base, :too_many_images, message: "画像は#{MAX_IMAGES_COUNT}枚以下にしてください")
+    errors.add(:image_attributes, :too_many_images, message: "は#{MAX_IMAGES_COUNT}枚以下にしてください")
   end
 
   def sanitized_image_attributes_collection

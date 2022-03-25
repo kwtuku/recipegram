@@ -73,7 +73,7 @@ RSpec.describe RecipeForm, type: :model do
 
       it 'has the error of require_images' do
         recipe_form.save
-        expect(recipe_form.errors).to be_of_kind(:base, :require_images)
+        expect(recipe_form.errors).to be_of_kind(:image_attributes, :require_images)
       end
 
       it 'does not increase recipe count' do
@@ -98,7 +98,7 @@ RSpec.describe RecipeForm, type: :model do
       it 'has recipe error and image error' do
         recipe_form.save
         expect(recipe_form.errors).to be_of_kind(:title, :blank)
-        expect(recipe_form.errors).to be_of_kind(:base, :require_images)
+        expect(recipe_form.errors).to be_of_kind(:image_attributes, :require_images)
       end
     end
 
@@ -120,7 +120,7 @@ RSpec.describe RecipeForm, type: :model do
       it 'has recipe error and image error' do
         recipe_form.save
         expect(recipe_form.errors).to be_of_kind(:body, :blank)
-        expect(recipe_form.errors).to be_of_kind(:base, :too_many_images)
+        expect(recipe_form.errors).to be_of_kind(:image_attributes, :too_many_images)
       end
     end
 
@@ -181,7 +181,7 @@ RSpec.describe RecipeForm, type: :model do
 
       it 'has the error of too_many_images' do
         recipe_form.save
-        expect(recipe_form.errors).to be_of_kind(:base, :too_many_images)
+        expect(recipe_form.errors).to be_of_kind(:image_attributes, :too_many_images)
       end
 
       it 'does not increase recipe count' do
@@ -284,7 +284,7 @@ RSpec.describe RecipeForm, type: :model do
 
       it 'has the error of too_many_images' do
         recipe_form.save
-        expect(recipe_form.errors).to be_of_kind(:base, :too_many_images)
+        expect(recipe_form.errors).to be_of_kind(:image_attributes, :too_many_images)
       end
 
       it 'does not increase image count' do
@@ -307,7 +307,7 @@ RSpec.describe RecipeForm, type: :model do
 
       it 'has the error of too_many_images' do
         recipe_form.save
-        expect(recipe_form.errors).to be_of_kind(:base, :too_many_images)
+        expect(recipe_form.errors).to be_of_kind(:image_attributes, :too_many_images)
       end
 
       it 'does not increase image count' do
@@ -330,7 +330,7 @@ RSpec.describe RecipeForm, type: :model do
 
       it 'has the error of require_images' do
         recipe_form.save
-        expect(recipe_form.errors).to be_of_kind(:base, :require_images)
+        expect(recipe_form.errors).to be_of_kind(:image_attributes, :require_images)
       end
 
       it 'does not decrease image count' do
@@ -389,7 +389,7 @@ RSpec.describe RecipeForm, type: :model do
 
       it 'has the error of require_images' do
         recipe_form.save
-        expect(recipe_form.errors).to be_of_kind(:base, :require_images)
+        expect(recipe_form.errors).to be_of_kind(:image_attributes, :require_images)
       end
 
       it 'does not decrease image count' do
@@ -461,7 +461,7 @@ RSpec.describe RecipeForm, type: :model do
 
       it 'has the error of too_many_images' do
         recipe_form.save
-        expect(recipe_form.errors).to be_of_kind(:base, :too_many_images)
+        expect(recipe_form.errors).to be_of_kind(:image_attributes, :too_many_images)
       end
 
       it 'does not increase image count' do
@@ -531,7 +531,7 @@ RSpec.describe RecipeForm, type: :model do
 
       it 'has the error of too_many_images' do
         recipe_form.save
-        expect(recipe_form.errors).to be_of_kind(:base, :too_many_images)
+        expect(recipe_form.errors).to be_of_kind(:image_attributes, :too_many_images)
       end
 
       it 'does not increase image count' do
@@ -603,7 +603,7 @@ RSpec.describe RecipeForm, type: :model do
 
       it 'has the error of too_many_images' do
         recipe_form.save
-        expect(recipe_form.errors).to be_of_kind(:base, :too_many_images)
+        expect(recipe_form.errors).to be_of_kind(:image_attributes, :too_many_images)
       end
 
       it 'does not increase image count' do
