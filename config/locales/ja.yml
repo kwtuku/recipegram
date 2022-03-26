@@ -3,6 +3,7 @@ ja:
     attributes:
       recipe_form:
         body: 作り方
+        image_attributes: 画像
         tag_list: タグ
         title: レシピ名
   activerecord:

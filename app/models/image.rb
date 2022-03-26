@@ -3,6 +3,8 @@ class Image < ApplicationRecord
 
   before_destroy :validate_min_images_count
 
+  counter_culture :recipe
+
   mount_uploader :resource, RecipeImageUploader
 
   validates :resource, presence: true

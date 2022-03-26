@@ -12,9 +12,11 @@ class RecipeForm
   validates :title, presence: true
   validates :body, presence: true
   validate :validate_images_count
+  validate :validate_tag_list
 
   MAX_IMAGES_COUNT = 10
   MIN_IMAGES_COUNT = 1
+  MAX_TAGS_COUNT = 5
 
   def initialize(attributes = nil, recipe: Recipe.new)
     @recipe = recipe
@@ -29,17 +31,17 @@ class RecipeForm
     ActiveRecord::Base.transaction do
       recipe.update!(title: title, body: body, tag_list: tag_list)
 
-      destroying_images = recipe.images.where(id: destroying_image_ids)
+      destroying_images = images.where(id: destroying_image_ids)
       destroying_images.delete_all if destroying_images.present?
 
-      updating_images = recipe.images.where(id: updating_image_ids).order(:id)
+      updating_images = images.where(id: updating_image_ids).order(:id)
       updating_images.zip(updating_image_positions) do |image, position|
         image.position = position
         image.save!(context: :recipe_form_save)
       end
 
       new_image_attributes_collection.each do |attrs|
-        recipe.images.new(resource: attrs['resource'], position: attrs['position']).save!(context: :recipe_form_save)
+        images.new(resource: attrs['resource'], position: attrs['position']).save!(context: :recipe_form_save)
       end
     end
 
@@ -58,7 +60,7 @@ class RecipeForm
   attr_reader :recipe
 
   def default_attributes
-    image_attributes = recipe.images.map do |image|
+    image_attributes = images.map do |image|
       [image.id, { **image.attributes.slice('id', 'position'), '_destroy' => 'false' }]
     end.to_h
 
@@ -71,12 +73,27 @@ class RecipeForm
   end
 
   def validate_images_count
-    images_count = recipe.images.size - destroying_image_ids.size + new_image_attributes_collection.size
+    images_count = images.size - destroying_image_ids.size + new_image_attributes_collection.size
 
-    errors.add(:base, :require_images, message: "画像は#{MIN_IMAGES_COUNT}枚以上必要です") if images_count < MIN_IMAGES_COUNT
+    if images_count < MIN_IMAGES_COUNT
+      errors.add(:image_attributes, :require_images, message: "は#{MIN_IMAGES_COUNT}枚以上必要です")
+    end
     return if images_count <= MAX_IMAGES_COUNT
 
-    errors.add(:base, :too_many_images, message: "画像は#{MAX_IMAGES_COUNT}枚以下にしてください")
+    errors.add(:image_attributes, :too_many_images, message: "は#{MAX_IMAGES_COUNT}枚以下にしてください")
+  end
+
+  def validate_tag_list
+    return if tag_list.nil?
+
+    tags = tag_list.split(',')
+    return errors.add(:tag_list, :too_many_tags, message: "は#{MAX_TAGS_COUNT}つ以下にしてください") if tags.size > MAX_TAGS_COUNT
+
+    tags.each do |tag_name|
+      tag = Tag.new(name: tag_name)
+      tag.validate_name
+      tag.errors.messages[:name].each { |message| errors.add(:tag_list, :invalid_name, message: message) }
+    end
   end
 
   def sanitized_image_attributes_collection
