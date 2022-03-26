@@ -12,9 +12,11 @@ class RecipeForm
   validates :title, presence: true
   validates :body, presence: true
   validate :validate_images_count
+  validate :validate_tag_list
 
   MAX_IMAGES_COUNT = 10
   MIN_IMAGES_COUNT = 1
+  MAX_TAGS_COUNT = 5
 
   def initialize(attributes = nil, recipe: Recipe.new)
     @recipe = recipe
@@ -79,6 +81,19 @@ class RecipeForm
     return if images_count <= MAX_IMAGES_COUNT
 
     errors.add(:image_attributes, :too_many_images, message: "は#{MAX_IMAGES_COUNT}枚以下にしてください")
+  end
+
+  def validate_tag_list
+    return if tag_list.nil?
+
+    tags = tag_list.split(',')
+    return errors.add(:tag_list, :too_many_tags, message: "は#{MAX_TAGS_COUNT}つ以下にしてください") if tags.size > MAX_TAGS_COUNT
+
+    tags.each do |tag_name|
+      tag = Tag.new(name: tag_name)
+      tag.validate_name
+      tag.errors.messages[:name].each { |message| errors.add(:tag_list, :invalid_name, message: message) }
+    end
   end
 
   def sanitized_image_attributes_collection
