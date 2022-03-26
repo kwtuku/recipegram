@@ -61,6 +61,62 @@ RSpec.describe RecipeForm, type: :model do
       end
     end
 
+    context 'when new recipe with 6 tags' do
+      let(:recipe_form) do
+        attributes = attributes_for(:recipe, tag_list: 'a,b,c,d,e,f')
+        described_class.new(attributes, recipe: alice.recipes.new)
+      end
+
+      it 'returns false' do
+        expect(recipe_form.save).to be_falsey
+      end
+
+      it 'has the error of too_many_tags' do
+        recipe_form.save
+        expect(recipe_form.errors).to be_of_kind(:tag_list, :too_many_tags)
+      end
+
+      it 'does not increase recipe count' do
+        expect { recipe_form.save }.to change(Recipe, :count).by(0)
+      end
+
+      it 'does not increase tag count' do
+        expect { recipe_form.save }.to change(Tag, :count).by(0)
+      end
+
+      it 'does not increase image count' do
+        expect { recipe_form.save }.to change(Image, :count).by(0)
+      end
+    end
+
+    context 'when new recipe with invalid tag name' do
+      let(:recipe_form) do
+        attributes = attributes_for(:recipe, tag_list: '-')
+        described_class.new(attributes, recipe: alice.recipes.new)
+      end
+
+      it 'returns false' do
+        expect(recipe_form.save).to be_falsey
+      end
+
+      it 'has the error of invalid_name' do
+        recipe_form.save
+        expect(recipe_form.errors).to be_of_kind(:tag_list, :invalid_name)
+      end
+
+      it 'does not increase recipe count' do
+        expect { recipe_form.save }.to change(Recipe, :count).by(0)
+      end
+
+      it 'does not increase tag count' do
+        expect { recipe_form.save }.to change(Tag, :count).by(0)
+      end
+
+      it 'does not increase image count' do
+        expect { recipe_form.save }.to change(Image, :count).by(0)
+      end
+    end
+
     context 'when new recipe with no images' do
       let(:recipe_form) do
         attributes = { **attributes_for(:recipe), image_attributes: nil }
@@ -109,7 +165,7 @@ RSpec.describe RecipeForm, type: :model do
         10.times do
           image_attributes[random_number] = { 'resource' => Rack::Test::UploadedFile.new(example_image_path) }
         end
-        attributes = { **attributes_for(:recipe, body: nil), image_attributes: image_attributes }
+        attributes = { **attributes_for(:recipe, tag_list: '-'), image_attributes: image_attributes }
         described_class.new(attributes, recipe: existing_recipe)
       end
 
@@ -119,8 +175,32 @@ RSpec.describe RecipeForm, type: :model do
 
       it 'has recipe error and image error' do
         recipe_form.save
-        expect(recipe_form.errors).to be_of_kind(:body, :blank)
+        expect(recipe_form.errors).to be_of_kind(:tag_list, :invalid_name)
         expect(recipe_form.errors).to be_of_kind(:image_attributes, :too_many_images)
+      end
+    end
+
+    context 'when new recipe with 5 tags' do
+      let(:recipe_form) do
+        image_attributes = { Time.now.to_i.to_s => { 'resource' => Rack::Test::UploadedFile.new(example_image_path) } }
+        attributes = { **attributes_for(:recipe, tag_list: 'a,b,c,d,e'), image_attributes: image_attributes }
+        described_class.new(attributes, recipe: alice.recipes.new)
+      end
+
+      it 'returns true' do
+        expect(recipe_form.save).to be_truthy
+      end
+
+      it 'increases recipe count by 1' do
+        expect { recipe_form.save }.to change(Recipe, :count).by(1)
+      end
+
+      it 'increases tag count by 5' do
+        expect { recipe_form.save }.to change(Tag, :count).by(5)
+      end
+
+      it 'increases image count by 1' do
+        expect { recipe_form.save }.to change(Image, :count).by(1)
       end
     end
 
