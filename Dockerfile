@@ -21,8 +21,7 @@ RUN apk update && \
     tzdata \
     yarn \
     git \
-    bash \
-    imagemagick
+    bash
 
 RUN apk add --virtual build-packs --no-cache \
     build-base \
