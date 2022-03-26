@@ -1,7 +1,7 @@
 class UserImageUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
-  include CarrierWave::MiniMagick
+  # include CarrierWave::MiniMagick
   include Cloudinary::CarrierWave
 
   def public_id
@@ -31,15 +31,13 @@ class UserImageUploader < CarrierWave::Uploader::Base
 
   # Create different versions of your uploaded files:
   version :icon do
-    process resize_to_fill: [150, 150, 'Center']
-    cloudinary_transformation quality: 'auto', fetch_format: :auto unless Rails.env.test?
+    cloudinary_transformation crop: :fill, quality: :auto, fetch_format: :auto, width: 150, height: 150
   end
   version :thumb do
-    process resize_to_fill: [320, 320, 'Center']
-    cloudinary_transformation quality: 'auto', fetch_format: :auto unless Rails.env.test?
+    cloudinary_transformation crop: :fill, quality: :auto, fetch_format: :auto, width: 320, height: 320
   end
   version :preview do
-    cloudinary_transformation crop: :fill, width: 400, height: 400, quality: :auto, fetch_format: :auto
+    cloudinary_transformation crop: :fill, quality: :auto, fetch_format: :auto, width: 400, height: 400
   end
 
   # Add an allowlist of extensions which are allowed to be uploaded.

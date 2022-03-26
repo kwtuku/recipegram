@@ -1,7 +1,7 @@
 class RecipeImageUploader < CarrierWave::Uploader::Base
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
-  include CarrierWave::MiniMagick
+  # include CarrierWave::MiniMagick
   include Cloudinary::CarrierWave
 
   def public_id
@@ -31,15 +31,13 @@ class RecipeImageUploader < CarrierWave::Uploader::Base
 
   # Create different versions of your uploaded files:
   version :thumb do
-    process resize_to_fill: [640, 640]
-    cloudinary_transformation quality: 'auto', fetch_format: :auto unless Rails.env.test?
+    cloudinary_transformation crop: :fill, quality: :auto, fetch_format: :auto, width: 640, height: 640
   end
   version :main do
-    process resize_to_fill: [1200, 1200]
-    cloudinary_transformation quality: 'auto', fetch_format: :auto unless Rails.env.test?
+    cloudinary_transformation crop: :fill, quality: :auto, fetch_format: :auto, width: 1200, height: 1200
   end
   version :preview do
-    cloudinary_transformation crop: :fill, width: 256, height: 256, quality: :auto, fetch_format: :auto
+    cloudinary_transformation crop: :fill, quality: :auto, fetch_format: :auto, width: 256, height: 256
   end
 
   # Add an allowlist of extensions which are allowed to be uploaded.
