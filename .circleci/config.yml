@@ -77,9 +77,30 @@ jobs:
       - store_test_results:
           path: /tmp/test-results
       - store_artifacts:
-          path: coverage
-      - store_artifacts:
           path: tmp/screenshots
+      - run:
+          name: 'Copy .resultset.json'
+          command: |
+            mkdir /tmp/coverage
+            cp coverage/.resultset.json "/tmp/coverage/.resultset-${CIRCLE_NODE_INDEX}.json"
+      - persist_to_workspace:
+          root: /tmp/coverage
+          paths:
+            - .resultset-*.json
+
+  coverage_report:
+    docker:
+      - image: cimg/ruby:2.7.3-node
+    steps:
+      - checkout
+      - ruby/install-deps
+      - attach_workspace:
+          at: /tmp/coverage
+      - run:
+          name: Collate all result sets
+          command: bundle exec rails coverage:report
+      - store_artifacts:
+          path: coverage
 
 workflows:
   version: 2
@@ -92,3 +113,6 @@ workflows:
       - test:
           requires:
             - build
+      - coverage_report:
+          requires:
+            - test
