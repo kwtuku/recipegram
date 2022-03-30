@@ -40,6 +40,9 @@ jobs:
           pkg-manager: yarn
       - ruby/rubocop-check
       - run:
+          name: Prettier checks
+          command: yarn prettier --check app/javascript
+      - run:
           name: ESLint checks
           command: yarn eslint app/javascript
 
