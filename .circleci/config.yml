@@ -46,6 +46,17 @@ jobs:
           name: ESLint checks
           command: yarn eslint app/javascript
 
+  jest:
+    docker:
+      - image: cimg/ruby:2.7.3-node
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: yarn
+      - run:
+          name: Jest tests
+          command: yarn jest --ci --runInBand app/javascript/src
+
   test:
     parallelism: 3
     docker:
@@ -111,6 +122,9 @@ workflows:
     jobs:
       - build
       - checking:
+          requires:
+            - build
+      - jest:
           requires:
             - build
       - test:
