@@ -116,7 +116,7 @@
     </div>
 
     <div class="columns is-multiline is-mobile" id="pageables-container">
-      <% if @recipes.exists? %>
+      <% if @recipes.present? %>
         <%= render @recipes %>
       <% else %>
         <div class="column">

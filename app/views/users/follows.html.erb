@@ -16,7 +16,7 @@
     </h1>
     <div class="columns is-centered is-multiline">
       <div class="column is-9" id="pageables-container">
-        <% if @follows.exists? %>
+        <% if @follows.present? %>
           <%= render partial: 'users/follow', collection: @follows, as: 'user' %>
         <% else %>
           <p class="has-text-centered"><%= no_follows_description(@user) %></p>
