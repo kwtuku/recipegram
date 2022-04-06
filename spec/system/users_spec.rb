@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Users', type: :system do
-  let(:ellen) { create(:user) }
-
   describe 'signs up' do
     let(:alice) { build(:user) }
 
@@ -168,6 +166,8 @@ RSpec.describe 'Users', type: :system do
   end
 
   describe 'destroy account' do
+    let(:ellen) { create(:user) }
+
     context 'when current password is correct' do
       it 'destroys account', js: true do
         sign_in ellen
