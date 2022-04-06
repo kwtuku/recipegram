@@ -22,7 +22,7 @@ RSpec.describe Image, type: :model do
 
   describe 'validate_min_images_count' do
     context 'when a recipe has 1 image' do
-      let!(:image) { create(:image) }
+      let!(:image) { create(:existing_image) }
 
       it 'does not decrease image count' do
         expect { image.destroy }.to change(described_class, :count).by(0)
