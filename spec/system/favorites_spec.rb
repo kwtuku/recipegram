@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Favorites', type: :system do
-  let(:alice) { create(:user, :no_image) }
-  let(:bob) { create(:user, :no_image) }
+  let(:alice) { create(:user) }
+  let(:bob) { create(:user) }
   let(:bob_recipe) { create(:recipe, :with_images, images_count: 1, user: bob) }
 
   it 'creates a favorite', js: true do

@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe 'Favorites', type: :request do
   describe 'POST /recipes/:recipe_id/favorites' do
-    let(:alice) { create(:user, :no_image) }
-    let(:bob) { create(:user, :no_image) }
-    let(:bob_recipe) { create(:recipe, :no_image, user: bob) }
+    let(:alice) { create(:user) }
+    let(:bob) { create(:user) }
+    let(:bob_recipe) { create(:recipe, user: bob) }
 
     context 'when not signed in' do
       it 'returns unauthorized' do
@@ -36,9 +36,9 @@ RSpec.describe 'Favorites', type: :request do
   end
 
   describe 'DELETE /recipes/:recipe_id/favorites' do
-    let(:alice) { create(:user, :no_image) }
-    let(:bob) { create(:user, :no_image) }
-    let(:bob_recipe) { create(:recipe, :no_image, user: bob) }
+    let(:alice) { create(:user) }
+    let(:bob) { create(:user) }
+    let(:bob_recipe) { create(:recipe, user: bob) }
 
     before { alice.favorites.create(recipe_id: bob_recipe.id) }
 

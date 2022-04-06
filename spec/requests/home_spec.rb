@@ -4,7 +4,7 @@ RSpec.describe 'Home', type: :request do
   describe 'GET /' do
     context 'when not signed in' do
       before do
-        users = create_list(:user, 8, :no_image)
+        users = create_list(:user, 8)
         users.each { |user| create_list(:recipe, 3, :with_images, images_count: 1, user: user) }
       end
 
@@ -25,13 +25,13 @@ RSpec.describe 'Home', type: :request do
     end
 
     context 'when signed in' do
-      let(:alice) { create(:user, :no_image) }
+      let(:alice) { create(:user) }
       let(:feed) { alice.feed.order(id: :desc) }
       let(:not_feed) { Recipe.where.not(id: feed.ids).first }
 
       before do
         create(:recipe, :with_images, images_count: 1)
-        random_users = create_list(:user, 9, :no_image).sample(3)
+        random_users = create_list(:user, 9).sample(3)
         random_users.each do |user|
           alice.relationships.create(follow_id: user.id)
           create_list(:recipe, 6, :with_images, images_count: 1, user: user)
@@ -61,7 +61,7 @@ RSpec.describe 'Home', type: :request do
   end
 
   describe 'GET /privacy' do
-    let(:alice) { create(:user, :no_image) }
+    let(:alice) { create(:user) }
 
     it 'returns ok when not signed in' do
       get privacy_path

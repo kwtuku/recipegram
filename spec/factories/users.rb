@@ -7,14 +7,13 @@ FactoryBot.define do
     password { faker_password }
     password_confirmation { faker_password }
     profile { Faker::Lorem.paragraphs(number: 3).join(' ') }
-    user_image { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/user_image_sample.jpg')) }
 
     trait :has_5_recipes do
-      after(:create) { |user| create_list(:recipe, 5, :no_image, user: user) }
+      after(:create) { |user| create_list(:recipe, 5, user: user) }
     end
 
-    trait :no_image do
-      user_image { '' }
+    trait :with_user_image do
+      user_image { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/user_image_sample.jpg')) }
     end
   end
 end

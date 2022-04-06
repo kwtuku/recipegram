@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe 'Search', type: :system do
   before do
-    alice = create(:user, :no_image, nickname: 'アリス', profile: '味噌ラーメンが好き')
-    create(:user, :no_image, nickname: 'ボブ', profile: 'しょうゆらーめんが好き')
-    create(:user, :no_image, nickname: 'キャロル', profile: '塩らーめんが好き')
-    create(:user, :no_image, nickname: 'dave', profile: 'I like tonkotsu ramen')
+    alice = create(:user, nickname: 'アリス', profile: '味噌ラーメンが好き')
+    create(:user, nickname: 'ボブ', profile: 'しょうゆらーめんが好き')
+    create(:user, nickname: 'キャロル', profile: '塩らーめんが好き')
+    create(:user, nickname: 'dave', profile: 'I like tonkotsu ramen')
 
     create(
       :recipe, :with_images, images_count: 1, title: '味噌ラーメン', body: '味噌らーめんの作り方です。', tag_list: 'ラーメン', user: alice

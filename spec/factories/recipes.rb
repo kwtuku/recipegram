@@ -4,10 +4,6 @@ FactoryBot.define do
     body { Faker::Lorem.paragraphs(number: 3).join(' ') }
     association :user
 
-    trait :no_image do
-      association :user, :no_image
-    end
-
     trait :with_images do
       transient { images_count { 2 } }
 

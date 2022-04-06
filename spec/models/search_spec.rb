@@ -2,11 +2,11 @@ require 'rails_helper'
 
 RSpec.describe 'Search', type: :model do
   describe 'search title' do
-    let(:alice) { create(:user, :no_image) }
-    let(:miso_ramen) { create(:recipe, :no_image, title: '味噌ラーメン', updated_at: 2.hours.ago, user: alice) }
-    let(:shoyu_ramen) { create(:recipe, :no_image, title: 'しょうゆラーメン', updated_at: 4.weeks.ago, user: alice) }
-    let(:sio_ramen) { create(:recipe, :no_image, title: '塩ラーメン', updated_at: 3.days.ago, user: alice) }
-    let(:tonkotsu_ramen) { create(:recipe, :no_image, title: '豚骨らーめん', updated_at: 2.days.ago, user: alice) }
+    let(:alice) { create(:user) }
+    let(:miso_ramen) { create(:recipe, title: '味噌ラーメン', updated_at: 2.hours.ago, user: alice) }
+    let(:shoyu_ramen) { create(:recipe, title: 'しょうゆラーメン', updated_at: 4.weeks.ago, user: alice) }
+    let(:sio_ramen) { create(:recipe, title: '塩ラーメン', updated_at: 3.days.ago, user: alice) }
+    let(:tonkotsu_ramen) { create(:recipe, title: '豚骨らーめん', updated_at: 2.days.ago, user: alice) }
 
     it 'is in descending order of updated_at' do
       title_query = { title_has_every_term: 'ラーメン', s: { '0' => { name: 'updated_at', dir: 'desc' } } }
@@ -17,7 +17,7 @@ RSpec.describe 'Search', type: :model do
 
     context 'when sort by comments count' do
       before do
-        users = create_list(:user, 3, :no_image)
+        users = create_list(:user, 3)
         create(:comment, recipe: shoyu_ramen, user: users.sample)
         create_list(:comment, 2, recipe: tonkotsu_ramen, user: users.sample)
         create_list(:comment, 4, recipe: miso_ramen, user: users.sample)
@@ -33,7 +33,7 @@ RSpec.describe 'Search', type: :model do
 
     context 'when sort by favorites count' do
       before do
-        users = create_list(:user, 6, :no_image)
+        users = create_list(:user, 6)
         users.sample.favorites.create(recipe_id: shoyu_ramen.id)
         users.sample(3).each { |user| user.favorites.create(recipe_id: tonkotsu_ramen.id) }
         users.sample(4).each { |user| user.favorites.create(recipe_id: sio_ramen.id) }
@@ -50,11 +50,11 @@ RSpec.describe 'Search', type: :model do
   end
 
   describe 'search body' do
-    let(:alice) { create(:user, :no_image) }
-    let(:miso_ramen) { create(:recipe, :no_image, body: '味噌ラーメンの作り方です。', updated_at: 2.hours.ago, user: alice) }
-    let(:shoyu_ramen) { create(:recipe, :no_image, body: 'しょうゆラーメンの作り方です。', updated_at: 4.weeks.ago, user: alice) }
-    let(:sio_ramen) { create(:recipe, :no_image, body: '塩ラーメンの作り方です。', updated_at: 3.days.ago, user: alice) }
-    let(:tonkotsu_ramen) { create(:recipe, :no_image, body: '豚骨らーめんの作り方です。', updated_at: 2.days.ago, user: alice) }
+    let(:alice) { create(:user) }
+    let(:miso_ramen) { create(:recipe, body: '味噌ラーメンの作り方です。', updated_at: 2.hours.ago, user: alice) }
+    let(:shoyu_ramen) { create(:recipe, body: 'しょうゆラーメンの作り方です。', updated_at: 4.weeks.ago, user: alice) }
+    let(:sio_ramen) { create(:recipe, body: '塩ラーメンの作り方です。', updated_at: 3.days.ago, user: alice) }
+    let(:tonkotsu_ramen) { create(:recipe, body: '豚骨らーめんの作り方です。', updated_at: 2.days.ago, user: alice) }
 
     it 'is in descending order of updated_at' do
       body_query = { body_has_every_term: 'ラーメン', s: { '0' => { name: 'updated_at', dir: 'desc' } } }
@@ -65,7 +65,7 @@ RSpec.describe 'Search', type: :model do
 
     context 'when sort by comments count' do
       before do
-        users = create_list(:user, 3, :no_image)
+        users = create_list(:user, 3)
         create(:comment, recipe: tonkotsu_ramen, user: users.sample)
         create_list(:comment, 2, recipe: sio_ramen, user: users.sample)
         create_list(:comment, 5, recipe: shoyu_ramen, user: users.sample)
@@ -82,7 +82,7 @@ RSpec.describe 'Search', type: :model do
 
     context 'when sort by favorites count' do
       before do
-        users = create_list(:user, 6, :no_image)
+        users = create_list(:user, 6)
         users.sample.favorites.create(recipe_id: tonkotsu_ramen.id)
         users.sample(3).each { |user| user.favorites.create(recipe_id: miso_ramen.id) }
         users.sample(4).each { |user| user.favorites.create(recipe_id: shoyu_ramen.id) }
@@ -99,11 +99,11 @@ RSpec.describe 'Search', type: :model do
   end
 
   describe 'search nickname' do
-    let(:alice) { create(:user, :no_image, nickname: 'ユーザー1') }
-    let(:bob) { create(:user, :no_image, nickname: 'ユーザー2') }
-    let(:carol) { create(:user, :no_image, nickname: 'ユーザー3') }
-    let(:dave) { create(:user, :no_image, nickname: 'ユーザー4') }
-    let(:ellen) { create(:user, :no_image, nickname: 'user5') }
+    let(:alice) { create(:user, nickname: 'ユーザー1') }
+    let(:bob) { create(:user, nickname: 'ユーザー2') }
+    let(:carol) { create(:user, nickname: 'ユーザー3') }
+    let(:dave) { create(:user, nickname: 'ユーザー4') }
+    let(:ellen) { create(:user, nickname: 'user5') }
 
     context 'when sort by followers count' do
       before do
@@ -123,10 +123,10 @@ RSpec.describe 'Search', type: :model do
 
     context 'when sort by recipes count' do
       before do
-        create(:recipe, :no_image, user: dave)
-        create_list(:recipe, 2, :no_image, user: bob)
-        create_list(:recipe, 4, :no_image, user: alice)
-        create_list(:recipe, 5, :no_image, user: ellen)
+        create(:recipe, user: dave)
+        create_list(:recipe, 2, user: bob)
+        create_list(:recipe, 4, user: alice)
+        create_list(:recipe, 5, user: ellen)
       end
 
       it 'is in descending order of recipes count' do
@@ -139,11 +139,11 @@ RSpec.describe 'Search', type: :model do
   end
 
   describe 'search profile' do
-    let(:alice) { create(:user, :no_image, profile: 'こんにちは') }
-    let(:bob) { create(:user, :no_image, profile: 'Hi!') }
-    let(:carol) { create(:user, :no_image, profile: 'こんにちは') }
-    let(:dave) { create(:user, :no_image, profile: 'こんにちは') }
-    let(:ellen) { create(:user, :no_image, profile: 'こんにちは') }
+    let(:alice) { create(:user, profile: 'こんにちは') }
+    let(:bob) { create(:user, profile: 'Hi!') }
+    let(:carol) { create(:user, profile: 'こんにちは') }
+    let(:dave) { create(:user, profile: 'こんにちは') }
+    let(:ellen) { create(:user, profile: 'こんにちは') }
 
     context 'when sort by followers count' do
       before do
@@ -162,9 +162,9 @@ RSpec.describe 'Search', type: :model do
 
     context 'when sort by recipes count' do
       before do
-        create(:recipe, :no_image, user: carol)
-        create_list(:recipe, 2, :no_image, user: dave)
-        create_list(:recipe, 4, :no_image, user: ellen)
+        create(:recipe, user: carol)
+        create_list(:recipe, 2, user: dave)
+        create_list(:recipe, 4, user: ellen)
       end
 
       it 'is in descending order of recipes count' do
@@ -183,11 +183,11 @@ RSpec.describe 'Search', type: :model do
     let(:tonkotsu_ramen) { Tag.find_or_create_by(name: '豚骨ラーメン') }
 
     before do
-      user = create(:user, :no_image)
-      create(:recipe, :no_image, user: user, tag_list: '味噌ラーメン, しょうゆラーメン, 塩ラーメン, 豚骨ラーメン')
-      create(:recipe, :no_image, user: user, tag_list: '味噌ラーメン, しょうゆラーメン, 塩ラーメン')
-      create(:recipe, :no_image, user: user, tag_list: '味噌ラーメン, しょうゆラーメン')
-      create(:recipe, :no_image, user: user, tag_list: '味噌ラーメン')
+      user = create(:user)
+      create(:recipe, user: user, tag_list: '味噌ラーメン, しょうゆラーメン, 塩ラーメン, 豚骨ラーメン')
+      create(:recipe, user: user, tag_list: '味噌ラーメン, しょうゆラーメン, 塩ラーメン')
+      create(:recipe, user: user, tag_list: '味噌ラーメン, しょうゆラーメン')
+      create(:recipe, user: user, tag_list: '味噌ラーメン')
       Tag.find_or_create_by(name: '台湾らーめん')
     end
 

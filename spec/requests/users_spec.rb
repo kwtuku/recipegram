@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe 'Users', type: :request do
   describe 'GET /users' do
-    before { create_list(:user, 5, :no_image) }
+    before { create_list(:user, 5) }
 
-    let(:alice) { create(:user, :no_image) }
+    let(:alice) { create(:user) }
 
     it 'returns ok when not signed in' do
       get users_path
@@ -19,7 +19,7 @@ RSpec.describe 'Users', type: :request do
   end
 
   describe 'GET /users/:username' do
-    let(:alice) { create(:user, :no_image) }
+    let(:alice) { create(:user) }
 
     it 'returns ok when not signed in' do
       get user_path(alice)
@@ -34,7 +34,7 @@ RSpec.describe 'Users', type: :request do
   end
 
   describe 'GET /users/edit/profile' do
-    let(:alice) { create(:user, :no_image) }
+    let(:alice) { create(:user) }
 
     context 'when not signed in' do
       it 'returns found' do
@@ -58,8 +58,8 @@ RSpec.describe 'Users', type: :request do
   end
 
   describe 'PATCH /users/:username' do
-    let(:alice) { create(:user, :no_image, nickname: 'アリス', profile: 'アリスです。') }
-    let(:bob) { create(:user, :no_image, nickname: 'ボブ', profile: 'ボブだよ。') }
+    let(:alice) { create(:user, nickname: 'アリス', profile: 'アリスです。') }
+    let(:bob) { create(:user, nickname: 'ボブ', profile: 'ボブだよ。') }
     let(:user_params) do
       new_user_image = Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/user_image_sample_after.jpg'))
       { nickname: 'ありす', profile: 'ありすです。', user_image: new_user_image }
@@ -131,9 +131,9 @@ RSpec.describe 'Users', type: :request do
   end
 
   describe 'GET /users/:user_username/followings' do
-    let(:alice) { create(:user, :no_image) }
-    let(:bob) { create(:user, :no_image) }
-    let(:carol) { create(:user, :no_image) }
+    let(:alice) { create(:user) }
+    let(:bob) { create(:user) }
+    let(:carol) { create(:user) }
 
     before do
       alice.relationships.create(follow_id: bob.id)
@@ -168,9 +168,9 @@ RSpec.describe 'Users', type: :request do
   end
 
   describe 'GET /users/:user_username/followers' do
-    let(:alice) { create(:user, :no_image) }
-    let(:bob) { create(:user, :no_image) }
-    let(:carol) { create(:user, :no_image) }
+    let(:alice) { create(:user) }
+    let(:bob) { create(:user) }
+    let(:carol) { create(:user) }
 
     before do
       bob.relationships.create(follow_id: alice.id)
@@ -205,9 +205,9 @@ RSpec.describe 'Users', type: :request do
   end
 
   describe 'GET /users/:user_username/comments' do
-    let(:alice) { create(:user, :no_image) }
-    let(:bob) { create(:user, :no_image) }
-    let(:carol) { create(:user, :no_image) }
+    let(:alice) { create(:user) }
+    let(:bob) { create(:user) }
+    let(:carol) { create(:user) }
     let(:bob_recipe) { create(:recipe, :with_images, images_count: 1, user: bob) }
     let(:carol_recipe) { create(:recipe, :with_images, images_count: 1, user: carol) }
 
@@ -244,9 +244,9 @@ RSpec.describe 'Users', type: :request do
   end
 
   describe 'GET /users/:user_username/favorites' do
-    let(:alice) { create(:user, :no_image) }
-    let(:bob) { create(:user, :no_image) }
-    let(:carol) { create(:user, :no_image) }
+    let(:alice) { create(:user) }
+    let(:bob) { create(:user) }
+    let(:carol) { create(:user) }
     let(:bob_recipe) { create(:recipe, :with_images, images_count: 1, user: bob) }
     let(:carol_recipe) { create(:recipe, :with_images, images_count: 1, user: carol) }
 

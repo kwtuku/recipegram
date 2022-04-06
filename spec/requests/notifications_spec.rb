@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe 'Notifications', type: :request do
-  let(:alice) { create(:user, :no_image) }
+  let(:alice) { create(:user) }
   let(:alice_recipe) { create(:recipe, :with_images, images_count: 1, user: alice) }
-  let(:bob) { create(:user, :no_image) }
+  let(:bob) { create(:user) }
   let(:comment_params) { attributes_for(:comment) }
 
   describe 'GET /notifications' do
@@ -80,8 +80,8 @@ RSpec.describe 'Notifications', type: :request do
 
     context 'when other user comments on commented recipe' do
       it 'increases recipe user notification count and other comment user notification count' do
-        carol = create(:user, :no_image)
-        bob_recipe = create(:recipe, :no_image, user: bob)
+        carol = create(:user)
+        bob_recipe = create(:recipe, user: bob)
         create(:comment, recipe: bob_recipe, user: alice)
         sign_in carol
         expect do

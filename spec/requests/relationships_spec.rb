@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'Relationships', type: :request do
   describe 'POST /relationships' do
-    let(:alice) { create(:user, :no_image) }
-    let(:bob) { create(:user, :no_image) }
+    let(:alice) { create(:user) }
+    let(:bob) { create(:user) }
 
     context 'when not signed in' do
       it 'returns unauthorized' do
@@ -35,8 +35,8 @@ RSpec.describe 'Relationships', type: :request do
   end
 
   describe 'DELETE /relationships/:id' do
-    let(:alice) { create(:user, :no_image) }
-    let(:bob) { create(:user, :no_image) }
+    let(:alice) { create(:user) }
+    let(:bob) { create(:user) }
     let!(:relationship) { alice.relationships.create(follow_id: bob.id) }
 
     context 'when not signed in' do

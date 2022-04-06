@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe 'Comments', type: :request do
   describe 'POST /recipes/:recipe_id/comments' do
-    let(:alice) { create(:user, :no_image) }
-    let(:bob) { create(:user, :no_image) }
-    let(:bob_recipe) { create(:recipe, :no_image, user: bob) }
+    let(:alice) { create(:user) }
+    let(:bob) { create(:user) }
+    let(:bob_recipe) { create(:recipe, user: bob) }
     let(:comment_params) { attributes_for(:comment) }
 
     context 'when not signed in' do
@@ -47,9 +47,9 @@ RSpec.describe 'Comments', type: :request do
   end
 
   describe 'DELETE /recipes/:recipe_id/comments/:id' do
-    let(:alice) { create(:user, :no_image) }
-    let(:bob) { create(:user, :no_image) }
-    let(:bob_recipe) { create(:recipe, :no_image, user: bob) }
+    let(:alice) { create(:user) }
+    let(:bob) { create(:user) }
+    let(:bob_recipe) { create(:recipe, user: bob) }
     let!(:alice_comment) { create(:comment, user: alice, recipe: bob_recipe) }
 
     context 'when not signed in' do

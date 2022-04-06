@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe RecipePolicy, type: :policy do
-  let(:alice) { create(:user, :no_image) }
-  let(:bob) { create(:user, :no_image) }
-  let(:alice_recipe) { create(:recipe, :no_image, user: alice) }
+  let(:alice) { create(:user) }
+  let(:bob) { create(:user) }
+  let(:alice_recipe) { create(:recipe, user: alice) }
 
   permissions :update?, :edit?, :destroy? do
     context 'when user is the author' do

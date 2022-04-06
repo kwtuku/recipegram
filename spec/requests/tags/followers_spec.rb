@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Tags::Followers', type: :request do
   describe 'POST /tags/:tag_name/followers' do
-    let(:alice) { create(:user, :no_image) }
+    let(:alice) { create(:user) }
     let(:tag) { create(:tag) }
 
     context 'when not signed in' do
@@ -35,7 +35,7 @@ RSpec.describe 'Tags::Followers', type: :request do
   end
 
   describe 'DELETE /tags/:tag_name/followers' do
-    let(:alice) { create(:user, :no_image) }
+    let(:alice) { create(:user) }
     let(:tag) { create(:tag) }
 
     before { alice.tag_followings.create(tag_id: tag.id) }

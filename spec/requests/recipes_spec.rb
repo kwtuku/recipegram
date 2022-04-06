@@ -8,13 +8,13 @@ RSpec.describe 'Recipes', type: :request do
 
   describe 'GET /recipes' do
     before do
-      users = create_list(:user, 5, :no_image)
+      users = create_list(:user, 5)
       users.each do |user|
         create(:recipe, :with_images, images_count: 1, user: user)
       end
     end
 
-    let(:alice) { create(:user, :no_image) }
+    let(:alice) { create(:user) }
 
     it 'returns ok when not signed in' do
       get recipes_path
@@ -29,8 +29,8 @@ RSpec.describe 'Recipes', type: :request do
   end
 
   describe 'GET /recipes/:id' do
-    let(:alice) { create(:user, :no_image) }
-    let(:bob) { create(:user, :no_image) }
+    let(:alice) { create(:user) }
+    let(:bob) { create(:user) }
     let(:bob_recipe) { create(:recipe, :with_images, images_count: 1, user: bob) }
 
     context 'when not signed in and other recipes exist' do
@@ -81,7 +81,7 @@ RSpec.describe 'Recipes', type: :request do
   end
 
   describe 'GET /recipes/new' do
-    let(:alice) { create(:user, :no_image) }
+    let(:alice) { create(:user) }
 
     context 'when not signed in' do
       it 'returns found' do
@@ -105,7 +105,7 @@ RSpec.describe 'Recipes', type: :request do
   end
 
   describe 'POST /recipes' do
-    let(:alice) { create(:user, :no_image) }
+    let(:alice) { create(:user) }
 
     context 'when not signed in' do
       let(:params) do
@@ -202,9 +202,9 @@ RSpec.describe 'Recipes', type: :request do
   end
 
   describe 'GET /recipes/:id/edit' do
-    let(:alice) { create(:user, :no_image) }
-    let(:bob) { create(:user, :no_image) }
-    let(:alice_recipe) { create(:recipe, :no_image, user: alice) }
+    let(:alice) { create(:user) }
+    let(:bob) { create(:user) }
+    let(:alice_recipe) { create(:recipe, user: alice) }
 
     context 'when not signed in' do
       it 'returns found' do
@@ -247,8 +247,8 @@ RSpec.describe 'Recipes', type: :request do
   end
 
   describe 'PATCH /recipes/:id' do
-    let(:alice) { create(:user, :no_image) }
-    let(:bob) { create(:user, :no_image) }
+    let(:alice) { create(:user) }
+    let(:bob) { create(:user) }
     let!(:alice_recipe) { create(:recipe, :with_images, images_count: 1, title: 'カレー', user: alice) }
 
     context 'when not signed in' do
@@ -367,8 +367,8 @@ RSpec.describe 'Recipes', type: :request do
   end
 
   describe 'DELETE /recipes/:id' do
-    let(:alice) { create(:user, :no_image) }
-    let(:bob) { create(:user, :no_image) }
+    let(:alice) { create(:user) }
+    let(:bob) { create(:user) }
     let!(:alice_recipe) { create(:recipe, :with_images, images_count: 1, user: alice) }
 
     context 'when not signed in' do

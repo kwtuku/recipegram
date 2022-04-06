@@ -38,7 +38,7 @@ RSpec.describe User, type: :model do
           #{' alice'}
           #{'alice '}
         ]
-        alice = build(:user, :no_image)
+        alice = build(:user)
         invalid_usernames.each do |invalid_username|
           alice.username = invalid_username
           expect(alice).to be_invalid
@@ -55,7 +55,7 @@ RSpec.describe User, type: :model do
           ___
           aA1-_
         ]
-        alice = build(:user, :no_image)
+        alice = build(:user)
         valid_usernames.each do |valid_username|
           alice.username = valid_username
           expect(alice).to be_valid
@@ -63,22 +63,22 @@ RSpec.describe User, type: :model do
       end
 
       it 'is saved as lower case' do
-        alice = create(:user, :no_image, username: 'ALICE')
+        alice = create(:user, username: 'ALICE')
         expect(alice.username).to eq 'alice'
         alice.update(username: 'I_aM-AliCe')
         expect(alice.username).to eq 'i_am-alice'
       end
 
       it 'is not case sensitive' do
-        create(:user, :no_image, username: 'alice')
-        bob = build_stubbed(:user, :no_image, username: 'ALICE')
+        create(:user, username: 'alice')
+        bob = build_stubbed(:user, username: 'ALICE')
         expect(bob).to be_invalid
         expect(bob.errors).to be_of_kind(:username, :taken)
       end
 
       it 'is invalid when username is already taken' do
-        create(:user, :no_image, username: 'alice')
-        bob = build_stubbed(:user, :no_image, username: 'alice')
+        create(:user, username: 'alice')
+        bob = build_stubbed(:user, username: 'alice')
         expect(bob).to be_invalid
         expect(bob.errors).to be_of_kind(:username, :taken)
       end
@@ -86,9 +86,9 @@ RSpec.describe User, type: :model do
   end
 
   describe 'already_favored?(recipe)' do
-    let(:alice) { create(:user, :no_image) }
-    let(:favored_recipe) { create(:recipe, :no_image) }
-    let!(:not_favored_recipe) { create(:recipe, :no_image) }
+    let(:alice) { create(:user) }
+    let(:favored_recipe) { create(:recipe) }
+    let!(:not_favored_recipe) { create(:recipe) }
 
     before do
       alice.favorites.create!(recipe_id: favored_recipe.id)
@@ -108,8 +108,8 @@ RSpec.describe User, type: :model do
   end
 
   describe 'follow(other_user)' do
-    let(:alice) { create(:user, :no_image) }
-    let(:bob) { create(:user, :no_image) }
+    let(:alice) { create(:user) }
+    let(:bob) { create(:user) }
 
     it 'increases relationship count' do
       expect do
@@ -119,8 +119,8 @@ RSpec.describe User, type: :model do
   end
 
   describe 'unfollow(other_user)' do
-    let(:alice) { create(:user, :no_image) }
-    let(:bob) { create(:user, :no_image) }
+    let(:alice) { create(:user) }
+    let(:bob) { create(:user) }
 
     before { alice.relationships.create!(follow_id: bob.id) }
 
@@ -132,11 +132,11 @@ RSpec.describe User, type: :model do
   end
 
   describe 'followers_you_follow(you)' do
-    let(:alice) { create(:user, :no_image) }
-    let(:bob) { create(:user, :no_image) }
-    let(:carol) { create(:user, :no_image) }
-    let(:dave) { create(:user, :no_image) }
-    let(:ellen) { create(:user, :no_image) }
+    let(:alice) { create(:user) }
+    let(:bob) { create(:user) }
+    let(:carol) { create(:user) }
+    let(:dave) { create(:user) }
+    let(:ellen) { create(:user) }
 
     before do
       alice.relationships.create!(follow_id: carol.id)
@@ -159,16 +159,16 @@ RSpec.describe User, type: :model do
   end
 
   describe 'feed' do
-    let(:alice) { create(:user, :has_5_recipes, :no_image) }
-    let(:bob) { create(:user, :has_5_recipes, :no_image) }
-    let(:carol) { create(:user, :has_5_recipes, :no_image) }
+    let(:alice) { create(:user, :has_5_recipes) }
+    let(:bob) { create(:user, :has_5_recipes) }
+    let(:carol) { create(:user, :has_5_recipes) }
     let(:following_tag) { create(:tag) }
     let(:not_following_tag) { create(:tag) }
 
     before do
       alice.relationships.create!(follow_id: bob.id)
-      create(:recipe, :no_image, tag_list: following_tag.name)
-      create(:recipe, :no_image, tag_list: not_following_tag.name)
+      create(:recipe, tag_list: following_tag.name)
+      create(:recipe, tag_list: not_following_tag.name)
       alice.tag_followings.create!(tag_id: following_tag.id)
       bob.recipes.order('RANDOM()').limit(1).update(tag_list: following_tag.name)
     end
@@ -237,7 +237,7 @@ RSpec.describe User, type: :model do
   end
 
   describe 'self.generate_username' do
-    before { create_list(:user, 10, :no_image) }
+    before { create_list(:user, 10) }
 
     it 'is saved as lower-case' do
       username = described_class.generate_username
@@ -251,7 +251,7 @@ RSpec.describe User, type: :model do
   end
 
   describe 'self.vary_from_usernames!(tmp_username)' do
-    before { create_list(:user, 10, :no_image) }
+    before { create_list(:user, 10) }
 
     it 'is saved as lower-case' do
       tmp_username = described_class.all.sample.username
@@ -270,8 +270,8 @@ RSpec.describe User, type: :model do
   describe 'commented_recipes' do
     context 'when user creates comments on the same recipe more than once' do
       it 'returns uniq recipes' do
-        alice = create(:user, :no_image)
-        recipe = create(:recipe, :no_image)
+        alice = create(:user)
+        recipe = create(:recipe)
         create_list(:comment, 2, recipe: recipe, user: alice)
         create_list(:comment, 2, user: alice)
         expect(alice.commented_recipes.size).to eq 3

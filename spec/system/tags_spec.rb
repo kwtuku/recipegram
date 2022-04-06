@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe 'Tags', type: :system do
-  let(:alice) { create(:user, :no_image) }
+  let(:alice) { create(:user) }
   let(:tag) { create(:tag) }
 
   before { create(:recipe, :with_images, images_count: 1, tag_list: tag.name) }
 
-  it 'follows a tg', js: true do
+  it 'follows a tag', js: true do
     expect(TagFollowing.count).to eq 0
     sign_in alice
     visit tag_path(tag.name)

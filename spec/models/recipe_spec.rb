@@ -9,7 +9,7 @@ RSpec.describe Recipe, type: :model do
   end
 
   describe 'validate_tag' do
-    let(:alice) { create(:user, :no_image) }
+    let(:alice) { create(:user) }
 
     context 'when recipe has no tags' do
       it 'is valid' do
@@ -74,21 +74,21 @@ RSpec.describe Recipe, type: :model do
   end
 
   context 'when tag_list has duplicated words' do
-    let(:alice) { create(:user, :no_image) }
+    let(:alice) { create(:user) }
 
     it 'dose not have duplicated tags' do
-      recipe = create(:recipe, :no_image, tag_list: 'easy, easy, Easy', user: alice)
+      recipe = create(:recipe, tag_list: 'easy, easy, Easy', user: alice)
       expect(recipe.tags.map(&:name)).to eq %w[easy]
     end
   end
 
   describe 'others(count)' do
-    let(:alice) { create(:user, :no_image) }
-    let(:bob) { create(:user, :no_image) }
-    let(:pizza) { create(:recipe, :no_image, user: alice) }
-    let(:salad) { create(:recipe, :no_image, user: bob) }
+    let(:alice) { create(:user) }
+    let(:bob) { create(:user) }
+    let(:pizza) { create(:recipe, user: alice) }
+    let(:salad) { create(:recipe, user: bob) }
 
-    before { create_list(:recipe, 5, :no_image, user: alice) }
+    before { create_list(:recipe, 5, user: alice) }
 
     it 'does not have irrelevant recipe' do
       expect(pizza.others(3)).not_to include salad

@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'Users', type: :system do
-  let(:ellen) { create(:user, :no_image) }
+  let(:ellen) { create(:user) }
 
   describe 'signs up' do
-    let(:alice) { build(:user, :no_image) }
+    let(:alice) { build(:user) }
 
     it 'signs up', js: true do
       visit root_path
@@ -34,7 +34,7 @@ RSpec.describe 'Users', type: :system do
   end
 
   describe 'signs in' do
-    let(:alice) { create(:user, :no_image) }
+    let(:alice) { create(:user) }
 
     it 'signs in', js: true do
       visit root_path
@@ -54,7 +54,7 @@ RSpec.describe 'Users', type: :system do
   end
 
   describe 'updates account' do
-    let(:bob) { create(:user, :no_image, username: 'before', email: 'before@example.com') }
+    let(:bob) { create(:user, username: 'before', email: 'before@example.com') }
 
     it 'updates username', js: true do
       sign_in bob
@@ -82,7 +82,7 @@ RSpec.describe 'Users', type: :system do
     end
 
     describe 'updates password' do
-      let(:bob) { create(:user, :no_image, password: 'old_password', password_confirmation: 'old_password') }
+      let(:bob) { create(:user, password: 'old_password', password_confirmation: 'old_password') }
 
       before do
         sign_in bob
@@ -125,8 +125,8 @@ RSpec.describe 'Users', type: :system do
   end
 
   describe 'updates user' do
-    let(:carol) { create(:user, :no_image, nickname: 'carol', profile: 'I am carol.') }
-    let(:dave) { create(:user) }
+    let(:carol) { create(:user, nickname: 'carol', profile: 'I am carol.') }
+    let(:dave) { create(:user, :with_user_image) }
 
     it 'updates nickname', js: true do
       sign_in carol
