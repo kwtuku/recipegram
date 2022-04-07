@@ -1,4 +1,4 @@
-import Sortable from 'sortablejs/modular/sortable.core.esm';
+import Sortable from 'sortablejs/Sortable.min';
 
 const images = document.querySelector('[data-sortable="images"]');
 

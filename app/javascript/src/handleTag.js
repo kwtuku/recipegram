@@ -1,4 +1,4 @@
-import Tagify from '@yaireo/tagify';
+import Tagify from '@yaireo/tagify/dist/tagify.min';
 
 export default () => {
   const tagInput = document.getElementById('recipe_tag_list');
