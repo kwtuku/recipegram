@@ -85,7 +85,7 @@
 
   <div class="field">
     <%= f.label :tag_list, class: 'label' %>
-    <div class="control" id="tag-input">
+    <div class="control">
       <%= f.text_field :tag_list, value: f.object.tag_list.to_s.gsub(' ', ''), pattern: '^[,a-z0-9一-龠々ぁ-ヶー]+$', class: 'input custom-tagify-look' %>
     </div>
     <%= render 'shared/full_error_messages', model: recipe_form, attribute: :tag_list %>
