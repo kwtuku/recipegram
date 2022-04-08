@@ -5,6 +5,8 @@ export default () => {
 
   if (tagInput === null) return false;
 
+  if (tagInput.dataset.tagified) document.querySelector('.tagify').remove();
+
   const tagify = new Tagify(tagInput, {
     originalInputValueFormat: (valuesArr) => valuesArr.map((item) => item.value).join(','),
     whitelist: [],
@@ -16,6 +18,8 @@ export default () => {
     maxTags: 5,
   });
   let controller;
+
+  tagInput.dataset.tagified = 'true';
 
   function onInput(e) {
     const { value } = e.detail;
