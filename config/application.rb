@@ -37,8 +37,9 @@ module App
 
     config.generators do |g|
       g.assets false
-      g.helper false
+      g.factory_bot dir: 'spec/factories'
       g.factory_bot false
+      g.helper false
       g.test_framework nil
     end
 
