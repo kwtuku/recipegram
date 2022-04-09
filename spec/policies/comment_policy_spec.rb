@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe CommentPolicy, type: :policy do
-  let(:alice) { create(:user, :no_image) }
-  let(:bob) { create(:user, :no_image) }
-  let(:alice_comment) { create(:comment, recipe: create(:recipe, :no_image, user: bob), user: alice) }
+  let(:alice) { create(:user) }
+  let(:bob) { create(:user) }
+  let(:alice_comment) { create(:comment, recipe: create(:recipe, user: bob), user: alice) }
 
   permissions :destroy? do
     context 'when user is the author' do

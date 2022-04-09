@@ -2,7 +2,7 @@
   <div class="container">
     <div class="columns is-centered m-0-mobile is-multiline">
       <div class="column is-10-tablet is-6-desktop p-0-mobile">
-        <% if @feeds.exists? %>
+        <% if @feeds.present? %>
           <div id="pageables-container">
             <%= render partial: 'home/feed', collection: @feeds %>
           </div>

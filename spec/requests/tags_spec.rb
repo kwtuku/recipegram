@@ -15,7 +15,7 @@ RSpec.describe 'Tags', type: :request do
     end
 
     context 'when signed in' do
-      let(:alice) { create(:user, :no_image) }
+      let(:alice) { create(:user) }
 
       before do
         create(:tag, name: '手軽')
@@ -38,7 +38,7 @@ RSpec.describe 'Tags', type: :request do
   end
 
   describe 'GET /tags/:name' do
-    let(:alice) { create(:user, :no_image) }
+    let(:alice) { create(:user) }
     let!(:tagged_recipe) { create(:recipe, :with_images, images_count: 1, tag_list: 'かんたん') }
     let!(:tag_kantan) { Tag.find_or_create_by(name: 'かんたん') }
 

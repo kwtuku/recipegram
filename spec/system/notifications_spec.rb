@@ -1,15 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe 'Notifications', type: :system do
-  let(:alice) { create(:user, :no_image) }
-  let(:bob) { create(:user, :no_image) }
+  let(:alice) { create(:user) }
+  let(:bob) { create(:user) }
   let(:alice_recipe) { create(:recipe, :with_images, images_count: 1, user: alice) }
 
   describe 'comment notification' do
     before { create(:comment, user: bob, recipe: alice_recipe) }
 
     context 'when comment user is not recipe user' do
-      let(:carol) { create(:user, :no_image) }
+      let(:carol) { create(:user) }
 
       before do
         sign_in carol

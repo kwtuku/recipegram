@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe RecipeImageUploader do
-  let(:image) { create(:image) }
+  let(:image) { create(:existing_image) }
   let(:uploader) { described_class.new(image, :resource) }
 
   before do

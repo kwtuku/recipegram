@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Recipes', type: :system do
-  let(:alice) { create(:user, :no_image) }
+  let(:alice) { create(:user) }
 
   describe 'updates the recipe' do
     let(:alice_recipe) { create(:recipe, :with_images, user: alice) }
-    let(:bob) { create(:user, :no_image) }
+    let(:bob) { create(:user) }
 
     context 'when user is not the author' do
       it 'redirects to root_path', js: true do

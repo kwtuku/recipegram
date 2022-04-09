@@ -2,11 +2,11 @@ require 'rails_helper'
 
 RSpec.describe 'Users::FollowingTags', type: :request do
   describe 'GET /users/:user_username/following_tags' do
-    let(:alice) { create(:user, :no_image) }
+    let(:alice) { create(:user) }
 
     before do
       tag = create(:tag)
-      user = create(:user, :no_image)
+      user = create(:user)
       create_list(:recipe, 5, :with_images, images_count: 1, tag_list: tag.name, user: user)
       alice.tag_followings.create!(tag_id: tag.id)
     end

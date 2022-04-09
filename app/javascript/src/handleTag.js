@@ -1,9 +1,11 @@
-import Tagify from '@yaireo/tagify';
+import Tagify from '@yaireo/tagify/dist/tagify.min';
 
 export default () => {
   const tagInput = document.getElementById('recipe_tag_list');
 
   if (tagInput === null) return false;
+
+  if (tagInput.dataset.tagified) document.querySelector('.tagify').remove();
 
   const tagify = new Tagify(tagInput, {
     originalInputValueFormat: (valuesArr) => valuesArr.map((item) => item.value).join(','),
@@ -16,6 +18,8 @@ export default () => {
     maxTags: 5,
   });
   let controller;
+
+  tagInput.dataset.tagified = 'true';
 
   function onInput(e) {
     const { value } = e.detail;

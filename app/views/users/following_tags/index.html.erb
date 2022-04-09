@@ -13,7 +13,7 @@
     </h1>
     <div class="columns is-centered is-multiline">
       <div class="column is-9">
-        <% if @tags.exists? %>
+        <% if @tags.present? %>
           <%= render partial: 'users/following_tags/tag', collection: @tags %>
         <% else %>
           <p class="has-text-centered">フォローしているタグはありません</p>

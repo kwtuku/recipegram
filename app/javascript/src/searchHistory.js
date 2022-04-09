@@ -3,18 +3,21 @@ export default () => {
   const suggestContainer = document.getElementById('suggest-container');
   const input = document.getElementById('q');
 
-  let suggests = '';
-  searchHistories.slice(0, 5).forEach((value) => {
-    suggests += `
-        <a class="panel-block is-flex is-justify-content-space-between is-align-items-center"
-          href="/search?q=${encodeURI(value)}" data-search-history="suggest" data-search-history-value="${value}"
-        >
-          <span>${value}</span>
-          <button class="delete is-small js-delete-suggest"></button>
-        </a>
-      `;
-  });
-  suggestContainer.insertAdjacentHTML('beforeend', suggests);
+  if (suggestContainer.dataset.inserted !== 'true') {
+    let suggests = '';
+    searchHistories.slice(0, 5).forEach((value) => {
+      suggests += `
+          <a class="panel-block is-flex is-justify-content-space-between is-align-items-center"
+            href="/search?q=${encodeURI(value)}" data-search-history="suggest" data-search-history-value="${value}"
+          >
+            <span>${value}</span>
+            <button class="delete is-small js-delete-suggest"></button>
+          </a>
+        `;
+    });
+    suggestContainer.insertAdjacentHTML('beforeend', suggests);
+    suggestContainer.dataset.inserted = 'true';
+  }
 
   input.addEventListener('focus', () => {
     if (JSON.parse(localStorage.getItem('search-histories'))?.length) {
@@ -35,10 +38,9 @@ export default () => {
 
   input.addEventListener('keydown', (e) => {
     if (input.value.trim() && e.key === 'Enter') {
-      if (input.value.trim() !== '' && searchHistories.indexOf(input.value) === -1) {
-        searchHistories.unshift(input.value);
-        searchHistories.splice(20);
-      }
+      searchHistories.unshift(input.value);
+      searchHistories = Array.from(new Set(searchHistories));
+      searchHistories.splice(20);
       localStorage.setItem('search-histories', JSON.stringify(searchHistories));
     }
   });

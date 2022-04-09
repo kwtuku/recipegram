@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Notification, type: :model do
-  let(:alice) { create(:user, :no_image) }
-  let(:bob) { create(:user, :no_image) }
+  let(:alice) { create(:user) }
+  let(:bob) { create(:user) }
 
   describe 'self.create_comment_notification(comment)' do
-    let(:alice_recipe) { create(:recipe, :no_image, user: alice) }
+    let(:alice_recipe) { create(:recipe, user: alice) }
 
     context 'when other user comments' do
       it 'increases recipe user notification count' do
@@ -17,7 +17,7 @@ RSpec.describe Notification, type: :model do
     end
 
     context 'when other user comments on commented recipe' do
-      let(:carol) { create(:user, :no_image) }
+      let(:carol) { create(:user) }
       let(:carol_comment) { create(:comment, user: carol, recipe: alice_recipe) }
 
       before { create(:comment, user: bob, recipe: alice_recipe) }
@@ -56,12 +56,12 @@ RSpec.describe Notification, type: :model do
   end
 
   describe 'self.comment_notification_receiver_ids(comment)' do
-    let(:alice_recipe) { create(:recipe, :no_image, user: alice) }
+    let(:alice_recipe) { create(:recipe, user: alice) }
 
     it 'returns uniq ids including recipe user id' do
       create(:comment, user: alice, recipe: alice_recipe)
       create_list(:comment, 2, user: bob, recipe: alice_recipe)
-      carol = create(:user, :no_image)
+      carol = create(:user)
       carol_comment = create(:comment, user: carol, recipe: alice_recipe)
       receiver_ids = described_class.comment_notification_receiver_ids(carol_comment)
       expect(receiver_ids.size).to eq receiver_ids.uniq.size
@@ -69,7 +69,7 @@ RSpec.describe Notification, type: :model do
 
     it 'returns uniq ids not including recipe user id' do
       create_list(:comment, 2, user: bob, recipe: alice_recipe)
-      carol = create(:user, :no_image)
+      carol = create(:user)
       carol_comment = create(:comment, user: carol, recipe: alice_recipe)
       receiver_ids = described_class.comment_notification_receiver_ids(carol_comment)
       expect(receiver_ids.size).to eq receiver_ids.uniq.size
@@ -88,7 +88,7 @@ RSpec.describe Notification, type: :model do
     end
 
     context 'when other user comments on commented recipe' do
-      let(:carol) { create(:user, :no_image) }
+      let(:carol) { create(:user) }
       let(:carol_comment) { create(:comment, user: carol, recipe: alice_recipe) }
 
       before { create(:comment, user: bob, recipe: alice_recipe) }
@@ -130,7 +130,7 @@ RSpec.describe Notification, type: :model do
   end
 
   describe 'self.create_favorite_notification(favorite)' do
-    let(:alice_recipe) { create(:recipe, :no_image, user: alice) }
+    let(:alice_recipe) { create(:recipe, user: alice) }
 
     context 'when other user makes a favorite' do
       it 'increases recipe user notification count' do
