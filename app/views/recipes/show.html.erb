@@ -85,7 +85,7 @@
               </div>
             <% else %>
               <figure class="image is-1by1">
-                <%= image_tag @recipe.first_image.url(:main) %>
+                <%= image_tag @recipe.first_image.resource_url(:main) %>
               </figure>
             <% end %>
           </div>

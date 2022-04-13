@@ -3,7 +3,7 @@
     <div class="card-image">
       <%= link_to recipe_path(recipe) do %>
         <figure class="image is-1by1 mask-container">
-          <%= image_tag recipe.first_image.url(:thumb) %>
+          <%= image_tag recipe.first_image.resource_url(:thumb) %>
           <% if recipe.images_count >= 2 %>
             <div class="has-text-white has-text-right p-2 is-overlay">
               <span class="icon">

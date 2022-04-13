@@ -28,7 +28,7 @@ class Recipe < ApplicationRecord
   end
 
   def first_image
-    images.order(:position).first&.resource
+    images.order(:position).first
   end
 
   private
