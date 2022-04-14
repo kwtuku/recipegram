@@ -7,7 +7,7 @@ class CommentsController < ApplicationController
       Notification.create_comment_notification(@comment)
     else
       @recipe = Recipe.find(params[:recipe_id])
-      @other_recipes = @recipe.others(3)
+      @other_recipes = @recipe.others(3).preload(:first_image)
       @comments = @recipe.comments.preload(:user).order(:id)
       render 'recipes/show'
     end

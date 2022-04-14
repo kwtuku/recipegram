@@ -7,7 +7,7 @@ class RecipesController < ApplicationController
 
   def show
     @recipe = Recipe.find(params[:id])
-    @other_recipes = @recipe.others(3)
+    @other_recipes = @recipe.others(3).preload(:first_image)
     @comment = Comment.new
     @comments = @recipe.comments.preload(:user).order(:id)
   end
