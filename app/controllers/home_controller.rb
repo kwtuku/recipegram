@@ -3,13 +3,13 @@ class HomeController < ApplicationController
 
   def home
     if user_signed_in?
-      @feeds = current_user.feed.preload(:user).order(id: :desc).page(params[:page]).per(20).without_count
+      @feeds = current_user.feed.order(id: :desc).preload(:first_image, :user).page(params[:page]).per(20).without_count
       @recommended_users =
         Rails.cache.fetch("cache_recommended_users_#{current_user.id}", expires_in: 1.hour) do
           current_user.recommended_users(5)
         end
     else
-      @feeds = Recipe.preload(:user).order('RANDOM()').page(params[:page]).per(20).without_count
+      @feeds = Recipe.order('RANDOM()').preload(:first_image, :user).page(params[:page]).per(20).without_count
       @recommended_users =
         Rails.cache.fetch('cache_recommended_users', expires_in: 1.hour) do
           User.where(id: User.select(:id).order('RANDOM()').limit(7))
@@ -26,8 +26,10 @@ class HomeController < ApplicationController
     sort = { '0' => { name: params[:sort], dir: params[:order] } }
 
     results = {
-      recipe_title: Recipe.ransack({ title_has_every_term: @q_value, s: sort }).result.preload(:tags, :tag_taggings),
-      recipe_body: Recipe.ransack({ body_has_every_term: @q_value, s: sort }).result.preload(:tags, :tag_taggings),
+      recipe_title: Recipe.ransack({ title_has_every_term: @q_value, s: sort }).result
+        .preload(:first_image, :tags, :tag_taggings),
+      recipe_body: Recipe.ransack({ body_has_every_term: @q_value, s: sort })
+        .result.preload(:first_image, :tags, :tag_taggings),
       user_nickname: User.ransack({ nickname_has_every_term: @q_value, s: sort }).result,
       user_profile: User.ransack({ profile_has_every_term: @q_value, s: sort }).result,
       tag_name: Tag.ransack({ name_has_every_term: @q_value, taggings_count_gteq: '1', s: sort }).result
@@ -47,7 +49,7 @@ class HomeController < ApplicationController
 
     @tagged_recipes = {}
     @results.each do |tag|
-      @tagged_recipes.store(tag.name, Recipe.tagged_with(tag.name).limit(6))
+      @tagged_recipes.store(tag.name, Recipe.tagged_with(tag.name).limit(6).preload(:first_image))
     end
   end
 end

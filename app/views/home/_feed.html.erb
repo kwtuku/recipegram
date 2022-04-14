@@ -56,7 +56,7 @@
   <div class="card-image">
     <%= link_to recipe_path(feed) do %>
       <figure class="image is-1by1 mask-container">
-        <%= image_tag feed.first_image.url(:main) %>
+        <%= image_tag feed.first_image.resource_url(:main) %>
         <% if feed.images_count >= 2 %>
           <div class="has-text-white has-text-right p-3 is-overlay">
             <span class="icon">

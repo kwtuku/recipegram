@@ -8,6 +8,7 @@ class Recipe < ApplicationRecord
   has_many :favorites, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :images, dependent: :destroy
+  has_one :first_image, -> { order(:position) }, class_name: :Image, dependent: :destroy, inverse_of: :recipe
 
   validates :title, length: { maximum: 30 }, presence: true
   validates :body, length: { maximum: 2000 }, presence: true
@@ -25,10 +26,6 @@ class Recipe < ApplicationRecord
 
   def self.ransortable_attributes(_auth_object = nil)
     %w[comments_count favorites_count updated_at]
-  end
-
-  def first_image
-    images.order(:position).first&.resource
   end
 
   private
