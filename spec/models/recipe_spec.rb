@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Recipe, type: :model do
+  describe 'has_one :first_image' do
+    it 'returns first image' do
+      recipe = create(:recipe, :with_images, images_count: 3)
+      expect(recipe.first_image.id).to eq recipe.images.order(:position).first.id
+    end
+  end
+
   describe 'validations' do
     it { is_expected.to validate_presence_of(:title) }
     it { is_expected.to validate_length_of(:title).is_at_most(30) }
