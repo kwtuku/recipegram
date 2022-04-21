@@ -16,7 +16,11 @@ $pagination-focus-border-color: hsl(0, 0%, 71%);
 $tabs-link-active-border-bottom-color: hsl(0, 0%, 29%);
 $tabs-link-active-color: hsl(0, 0%, 29%);
 
+$tooltip-background-opacity: 0.7;
+$tooltip-padding: 0.25rem 0.5rem;
+
 @import '~bulma/bulma.sass';
+@import '@creativebulma/bulma-tooltip/src/sass/index.sass';
 @import '~@yaireo/tagify/src/tagify.scss';
 @import 'swiper/swiper-bundle.min.css';
 
