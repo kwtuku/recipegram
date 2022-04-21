@@ -29,7 +29,7 @@
             <%= f.label :current_password, class: 'label' %>
             <div class="control has-icons-right js-handle-password-mask">
               <%= f.password_field :current_password, autocomplete: 'current-password', required: true, maxlength: 128, class: 'input' %>
-              <span class="icon is-small is-right is-clickable form-icon" title="パスワードを表示する">
+              <span class="icon is-small is-right is-clickable form-icon" data-tooltip="パスワードを表示">
                 <i class="far fa-eye-slash"></i>
               </span>
             </div>

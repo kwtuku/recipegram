@@ -14,7 +14,7 @@
             <%= f.label :username, class: 'label' %>
             <div class="control has-icons-right">
               <%= f.text_field :username, autofocus: true, autocomplete: 'username', required: true, maxlength: 15, class: 'input' %>
-              <%= link_to generate_username_path, title: 'ユーザー名を自動生成する', remote: true do %>
+              <%= link_to generate_username_path, data: { tooltip: 'ユーザー名を生成' }, remote: true do %>
                 <span class="icon is-small is-right is-clickable form-icon" data-rspec="generate-username">
                   <i class="fas fa-redo-alt"></i>
                 </span>
@@ -44,7 +44,7 @@
             <%= f.label :password, class: 'label' %>
             <div class="control has-icons-right js-handle-password-mask">
               <%= f.password_field :password, autocomplete: 'new-password', required: true, minlength: @minimum_password_length, maxlength: 128, class: 'input' %>
-              <span class="icon is-small is-right is-clickable form-icon" title="パスワードを表示する">
+              <span class="icon is-small is-right is-clickable form-icon" data-tooltip="パスワードを表示">
                 <i class="far fa-eye-slash"></i>
               </span>
             </div>
@@ -56,7 +56,7 @@
             <%= f.label :password_confirmation, class: 'label' %>
             <div class="control has-icons-right js-handle-password-mask">
               <%= f.password_field :password_confirmation, autocomplete: 'new-password', required: true, minlength: @minimum_password_length, maxlength: 128, class: 'input' %>
-              <span class="icon is-small is-right is-clickable form-icon" title="パスワードを表示する">
+              <span class="icon is-small is-right is-clickable form-icon" data-tooltip="パスワードを表示">
                 <i class="far fa-eye-slash"></i>
               </span>
             </div>
