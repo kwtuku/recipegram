@@ -21,9 +21,11 @@
               <span class="tag is-info is-light">フォローされています</span>
             <% end %>
           </p>
-          <div class="js-follow-button-<%= user.id %>">
-            <%= render 'shared/follow_button', user: user, size: 'is-small' %>
-          </div>
+          <% unless user == current_user %>
+            <div class="js-follow-button-<%= user.id %>">
+              <%= render 'shared/follow_button', user: user, size: 'is-small' %>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
