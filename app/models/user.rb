@@ -4,7 +4,6 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
 
   before_save { self.username = username.downcase }
-  before_destroy :remove_image
 
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
@@ -105,11 +104,5 @@ class User < ApplicationRecord
 
   def commented_recipes
     Recipe.joins(:comments).where(comments: { id: comments.group(:recipe_id).select('MAX(id)') })
-  end
-
-  private
-
-  def remove_image
-    user_image.remove!
   end
 end
