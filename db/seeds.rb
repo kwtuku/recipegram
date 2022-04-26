@@ -82,14 +82,22 @@ end
 def create_recipes(count, user_id = nil)
   Rails.logger.debug user_id ? "#{user_id}のレシピを#{count}回作成" : "レシピを#{count}回作成"
 
-  user_ids = user_id ? [user_id] : User.ids
   count.times do
-    Recipe.create!(
-      user_id: user_ids.sample,
-      title: Faker::Lorem.words(number: rand(1..5)).join(' ')[0..29],
-      body: generate_paragraphs(2000),
-      tag_list: Faker::Lorem.words(number: rand(6)).join(',')
-    )
+    user = user_id ? User.find(user_id) : User.order('RANDOM()').first
+
+    image_attributes = Array.new(rand(1..10)) do |i|
+      [i, { 'position' => i + 1, 'resource' => File.open("./db/fixtures/recipe/recipe_sample_#{rand(1..30)}.jpg") }]
+    end.to_h
+
+    RecipeForm.new(
+      {
+        title: Faker::Lorem.words(number: rand(1..5)).join(' ')[0..29],
+        body: generate_paragraphs(2000),
+        tag_list: Faker::Lorem.words(number: rand(6)).join(','),
+        image_attributes: image_attributes
+      },
+      recipe: user.recipes.new
+    ).save
 
     count -= 1
     Rails.logger.debug "あと#{count}回" unless count.zero?
