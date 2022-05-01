@@ -38,3 +38,4 @@ yarn-debug.log*
 /db/fixtures/*
 /public/uploads
 coverage
+rails_best_practices_output.html
