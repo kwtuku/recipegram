@@ -60,6 +60,7 @@ group :development do
 
   gem 'brakeman', require: false
   gem 'bullet'
+  gem 'erb_lint', require: false
   gem 'rails_best_practices', require: false
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
