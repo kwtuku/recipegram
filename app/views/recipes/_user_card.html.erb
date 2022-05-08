@@ -11,16 +11,18 @@
       <div class="media-content text-break">
         <%= link_to user_path(user) do %>
           <p class="title is-5 text-truncate-container">
-            <span class="has-text-grey-darker hover-underline text-truncate-1" title="<%= user.nickname %>"><%= user.nickname %></span>
+            <span class="has-text-grey-darker hover-underline text-truncate-1"><%= user.nickname %></span>
           </p>
         <% end %>
         <p class="text-truncate-container">
           <span class="has-text-grey-light text-truncate-1">@<%= user.username %></span>
         </p>
       </div>
-      <div class="media-left js-follow-button-<%= user.id %>">
-        <%= render 'shared/follow_button', user: user, size: 'is-small' %>
-      </div>
+      <% unless user == current_user %>
+        <div class="media-left js-follow-button-<%= user.id %>">
+          <%= render 'shared/follow_button', user: user, size: 'is-small' %>
+        </div>
+      <% end %>
     </div>
     <% if user.profile.present? %>
       <div class="content">

@@ -1,19 +1,19 @@
 <% if user_signed_in? %>
   <% if current_user.already_favored?(recipe) %>
-    <%= link_to recipe_favorites_path(recipe), method: :delete, remote: true, title: 'いいねを取り消す' do %>
+    <%= link_to recipe_favorites_path(recipe), method: :delete, remote: true, class: 'has-tooltip-bottom', data: { tooltip: 'いいねを取り消す' } do %>
       <span class="icon <%= icon_size %> has-text-danger rspec_destroy_favorite">
         <i class="fas <%= fa_size %> fa-heart"></i>
       </span>
     <% end %>
   <% else %>
-    <%= link_to recipe_favorites_path(recipe), method: :post, remote: true, title: 'いいねする' do %>
+    <%= link_to recipe_favorites_path(recipe), method: :post, remote: true, class: 'has-tooltip-bottom', data: { tooltip: 'いいね' } do %>
       <span class="icon <%= icon_size %> has-text-danger rspec_create_favorite">
         <i class="far <%= fa_size %> fa-heart"></i>
       </span>
     <% end %>
   <% end %>
 <% else %>
-  <div class="is-clickable js-show-sign-in-modal">
+  <div class="is-clickable js-show-sign-in-modal has-tooltip-bottom" data-tooltip="いいね">
     <span class="icon <%= icon_size %> has-text-danger">
       <i class="far <%= fa_size %> fa-heart"></i>
     </span>

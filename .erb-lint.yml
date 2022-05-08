@@ -1,0 +1,20 @@
+glob: '**/*.{html,js}{+*,}.erb'
+exclude:
+  - '**/node_modules/**/*'
+linters:
+  ErbSafety:
+    enabled: true
+  PartialInstanceVariable:
+    enabled: true
+  Rubocop:
+    enabled: true
+    rubocop_config:
+      require:
+        - rubocop-performance
+        - rubocop-rails
+      Layout/InitialIndentation:
+        Enabled: false
+      Layout/TrailingEmptyLines:
+        Enabled: false
+      Style/FrozenStringLiteralComment:
+        Enabled: false

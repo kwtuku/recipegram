@@ -12,11 +12,11 @@ export default () => {
       if (input.getAttribute('type') === 'password') {
         input.setAttribute('type', 'text');
         icon.setAttribute('class', 'far fa-eye');
-        iconContainer.setAttribute('title', 'パスワードを非表示にする');
+        iconContainer.setAttribute('data-tooltip', 'パスワードを非表示');
       } else {
         input.setAttribute('type', 'password');
         icon.setAttribute('class', 'far fa-eye-slash');
-        iconContainer.setAttribute('title', 'パスワードを表示する');
+        iconContainer.setAttribute('data-tooltip', 'パスワードを表示');
       }
     });
 
@@ -24,7 +24,7 @@ export default () => {
       if (!e.target.closest('.js-handle-password-mask')) {
         input.setAttribute('type', 'password');
         icon.setAttribute('class', 'far fa-eye-slash');
-        iconContainer.setAttribute('title', 'パスワードを表示にする');
+        iconContainer.setAttribute('data-tooltip', 'パスワードを表示');
       }
     });
   });

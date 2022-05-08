@@ -214,4 +214,7 @@
 
 .navbar-dropdown-button {
   height: 48px !important;
+  &:focus {
+    background-color: hsl(0, 0%, 96%) !important;
+  }
 }

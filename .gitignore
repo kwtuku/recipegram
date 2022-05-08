@@ -38,3 +38,5 @@ yarn-debug.log*
 /db/fixtures/*
 /public/uploads
 coverage
+brakeman_results.html
+rails_best_practices_output.html

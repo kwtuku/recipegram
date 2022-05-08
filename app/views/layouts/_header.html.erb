@@ -35,32 +35,32 @@
 
     <div class="navbar-item is-flex-touch is-justify-content-center is-flex-grow-3 p-0" id="navbar-end">
       <% if user_signed_in? %>
-        <%= link_to root_path, class: 'navbar-item', title: 'ホームへ' do %>
+        <%= link_to root_path, class: 'navbar-item has-tooltip-bottom', data: { tooltip: 'ホーム' } do %>
           <span class="icon is-medium">
             <i class="fas fa-lg fa-home"></i>
           </span>
         <% end %>
 
-        <a class="navbar-item is-hidden-tablet" title="検索する" id="expand-search-input">
+        <a class="navbar-item is-hidden-tablet has-tooltip-bottom" data-tooltip="検索" id="expand-search-input">
           <span class="icon is-medium">
             <i class="fas fa-lg fa-search"></i>
           </span>
         </a>
 
-        <%= link_to new_recipe_path, class: 'navbar-item', title: 'レシピを投稿する' do %>
+        <%= link_to new_recipe_path, class: 'navbar-item has-tooltip-bottom', data: { tooltip: 'レシピ投稿' } do %>
           <span class="icon is-medium">
             <i class="fas fa-lg fa-pen"></i>
           </span>
         <% end %>
 
-        <%= link_to notifications_path, class: 'navbar-item', title: '通知一覧へ' do %>
+        <%= link_to notifications_path, class: 'navbar-item has-tooltip-bottom', data: { tooltip: '通知' } do %>
           <span class="icon is-medium <%= 'has-unchecked-notification' if current_user.notifications.where(read: false).exists? %>">
             <i class="fas fa-lg fa-bell"></i>
           </span>
         <% end %>
 
         <div class="navbar-item dropdown is-right p-0">
-          <div class="dropdown-trigger rspec_header_dropdown_trigger">
+          <div class="dropdown-trigger rspec_header_dropdown_trigger has-tooltip-bottom" data-tooltip="アカウント">
             <button class="button is-white is-small navbar-dropdown-button" aria-haspopup="true" aria-controls="dropdown-menu">
               <figure class="image is-24x24">
                 <%= image_tag current_user.user_image.icon.url, class: 'is-rounded' %>

@@ -34,7 +34,7 @@
             <%= f.label :password, class: 'label' %>
             <div class="control has-icons-right js-handle-password-mask">
               <%= f.password_field :password, autocomplete: 'new-password', minlength: @minimum_password_length, maxlength: 128, class: 'input' %>
-              <span class="icon is-small is-right is-clickable form-icon" title="パスワードを表示する">
+              <span class="icon is-small is-right is-clickable form-icon" data-tooltip="パスワードを表示">
                 <i class="far fa-eye-slash"></i>
               </span>
             </div>
@@ -47,7 +47,7 @@
             <%= f.label :password_confirmation, class: 'label' %>
             <div class="control has-icons-right js-handle-password-mask">
               <%= f.password_field :password_confirmation, autocomplete: 'new-password', minlength: @minimum_password_length, maxlength: 128, class: 'input' %>
-              <span class="icon is-small is-right is-clickable form-icon" title="パスワードを表示する">
+              <span class="icon is-small is-right is-clickable form-icon" data-tooltip="パスワードを表示">
                 <i class="far fa-eye-slash"></i>
               </span>
             </div>
@@ -58,7 +58,7 @@
             <%= f.label :current_password, class: 'label' %>
             <div class="control has-icons-right js-handle-password-mask">
               <%= f.password_field :current_password, autocomplete: 'current-password', required: true, minlength: @minimum_password_length, maxlength: 128, class: 'input' %>
-              <span class="icon is-small is-right is-clickable form-icon" title="パスワードを表示する">
+              <span class="icon is-small is-right is-clickable form-icon" data-tooltip="パスワードを表示">
                 <i class="far fa-eye-slash"></i>
               </span>
             </div>

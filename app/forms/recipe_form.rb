@@ -9,8 +9,8 @@ class RecipeForm
 
   delegate :persisted?, to: :recipe
 
-  validates :title, presence: true
-  validates :body, presence: true
+  validates :title, length: { maximum: 30 }, presence: true
+  validates :body, length: { maximum: 2000 }, presence: true
   validate :validate_images_count
   validate :validate_tag_list
 
