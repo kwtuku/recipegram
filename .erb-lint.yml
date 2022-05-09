@@ -6,6 +6,14 @@ linters:
     enabled: true
   PartialInstanceVariable:
     enabled: true
+    exclude:
+      - '**/app/views/devise/mailer/confirmation_instructions.html.erb'
+      - '**/app/views/devise/mailer/email_changed.html.erb'
+      - '**/app/views/devise/mailer/password_change.html.erb'
+      - '**/app/views/devise/mailer/reset_password_instructions.html.erb'
+      - '**/app/views/devise/mailer/unlock_instructions.html.erb'
+      - '**/app/views/users/following_tags/index.html.erb'
+      - '**/app/views/users/generate_username.js.erb'
   Rubocop:
     enabled: true
     rubocop_config:
