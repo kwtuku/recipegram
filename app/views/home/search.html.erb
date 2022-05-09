@@ -188,7 +188,7 @@
                 </div>
               </div>
             </nav>
-            <%= render partial: "#{@source.split('_')[0]}_result", collection: @results, as: "#{@source.split('_')[0]}" %>
+            <%= render partial: "#{@source.split('_')[0]}_result", collection: @results, as: @source.split('_')[0] %>
             <% if @results.total_pages > 1 %>
               <div class="mt-5">
                 <%= paginate @results %>

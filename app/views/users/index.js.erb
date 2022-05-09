@@ -1,8 +1,8 @@
 var container = document.getElementById('pageables-container');
-container.insertAdjacentHTML('beforeend', '<%= j(render @users) %>');
+container.insertAdjacentHTML('beforeend', '<%= j(render(@users)) %>');
 
 var linkContainer = document.getElementById('next-page-link-container');
-linkContainer.innerHTML = "<%= j(render 'shared/next_page_link', pageables: @users) %>";
+linkContainer.innerHTML = "<%= j(render('shared/next_page_link', pageables: @users)) %>";
 
 <% unless @users.next_page %>
   document.getElementById('loading-animation').remove();
