@@ -3,9 +3,9 @@ document.querySelectorAll('.js-favorite-button-<%= @recipe.id %>').forEach(butto
   var buttonFont = button.querySelector('i');
 
   if (buttonIcon.classList.contains('is-large') && buttonFont.classList.contains('fa-lg')) {
-    button.innerHTML = "<%= j(render 'shared/favorite_button', recipe: @recipe, icon_size: 'is-large', fa_size: 'fa-lg') %>";
+    button.innerHTML = "<%= j(render('shared/favorite_button', recipe: @recipe, icon_size: 'is-large', fa_size: 'fa-lg')) %>";
   } else {
-    button.innerHTML = "<%= j(render 'shared/favorite_button', recipe: @recipe, icon_size: '', fa_size: '') %>";
+    button.innerHTML = "<%= j(render('shared/favorite_button', recipe: @recipe, icon_size: '', fa_size: '')) %>";
   }
 });
 

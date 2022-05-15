@@ -24,7 +24,7 @@
         </div>
       <% end %>
     </div>
-    <% if user.profile.present? %>
+    <% if user.profile? %>
       <div class="content">
         <p class="text-break text-truncate-container">
           <span class="<%= text_truncate_depends_on(@other_recipes) %>"><%= user.profile %></span>

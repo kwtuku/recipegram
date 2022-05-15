@@ -16,7 +16,7 @@
       <% (recipe_form.image_attributes.presence || {}).select { |_k, attrs| attrs['resource'] }.each do |k, attrs| %>
         <div class="column is-one-fifth is-flex" data-sortable-key="<%= k %>">
           <figure class="image is-128x128">
-            <%= cl_image_tag attrs['resource'].split(/[\/|.]/)[3], width: 256, height: 256, crop: :fill, quality: :auto, fetch_format: :auto %>
+            <%= cl_image_tag attrs['resource'].split(%r{[/|.]})[3], width: 256, height: 256, crop: :fill, quality: :auto, fetch_format: :auto %>
           </figure>
           <button type="button" class="delete is-medium js-delete-image-button" data-key="<%= k %>" data-cache="true"></button>
         </div>
@@ -86,7 +86,7 @@
   <div class="field">
     <%= f.label :tag_list, class: 'label' %>
     <div class="control">
-      <%= f.text_field :tag_list, value: f.object.tag_list.to_s.gsub(' ', ''), pattern: '^[,a-z0-9一-龠々ぁ-ヶー]+$', class: 'input custom-tagify-look' %>
+      <%= f.text_field :tag_list, value: f.object.tag_list.to_s.delete(' '), pattern: '^[,a-z0-9一-龠々ぁ-ヶー]+$', class: 'input custom-tagify-look' %>
     </div>
     <%= render 'shared/full_error_messages', model: recipe_form, attribute: :tag_list %>
   </div>
