@@ -61,12 +61,12 @@ module ApplicationHelper
   def recommended_description(user)
     return unless user_signed_in?
 
-    followers_you_follow = user.followers_you_follow(current_user)
+    followers_you_follow = user.followers.pluck(:id, :nickname).to_h.slice(*current_user_following_ids)
     followers_you_follows_count = followers_you_follow.size
     if followers_you_follows_count >= 2
-      "#{followers_you_follow.sample.nickname.truncate(10)}さん、他#{followers_you_follows_count - 1}人がフォロー中"
+      "#{followers_you_follow.to_a.sample[1].truncate(10)}さん、他#{followers_you_follows_count - 1}人がフォロー中"
     elsif followers_you_follows_count == 1
-      "#{followers_you_follow.sample.nickname.truncate(15)}さんがフォロー中"
+      "#{followers_you_follow.to_a.sample[1].truncate(15)}さんがフォロー中"
     else
       current_user_follower_ids.include?(user.id) ? 'あなたをフォローしています' : 'おすすめ'
     end
