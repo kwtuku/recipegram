@@ -3,6 +3,7 @@ class Tag < ActsAsTaggableOn::Tag
 
   has_many :tag_followings, dependent: :destroy
   has_many :followers, through: :tag_followings, source: :follower
+  has_many :recipes, through: :taggings, source: :taggable, source_type: :Recipe
 
   validate :validate_name
 

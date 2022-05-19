@@ -30,6 +30,7 @@ class HomeController < ApplicationController
       user_nickname: User.ransack({ nickname_has_every_term: @q_value, s: sort }).result,
       user_profile: User.ransack({ profile_has_every_term: @q_value, s: sort }).result,
       tag_name: Tag.ransack({ name_has_every_term: @q_value, taggings_count_gteq: '1', s: sort }).result
+        .preload(recipes: :first_image)
     }
 
     @results = results[@source.to_sym].page(params[:page]).per(20)
@@ -41,12 +42,5 @@ class HomeController < ApplicationController
       profile: results[:user_profile].size,
       name: results[:tag_name].size
     }
-
-    return unless @source == 'tag_name'
-
-    @tagged_recipes = {}
-    @results.each do |tag|
-      @tagged_recipes.store(tag.name, Recipe.tagged_with(tag.name).limit(6).preload(:first_image))
-    end
   end
 end
