@@ -112,6 +112,13 @@
   }
 }
 
+.mx-auto-touch {
+  @media (max-width: 1023px) {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
 .p-0-mobile {
   @media (max-width: 767px) {
     padding: 0 !important;

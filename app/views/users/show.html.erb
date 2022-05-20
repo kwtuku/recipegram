@@ -6,32 +6,16 @@
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-10">
-        <div class="media is-hidden-tablet is-align-items-center">
-          <div class="media-content">
-            <figure class="image is-96x96">
-              <%= image_tag @user.user_image.thumb.url, class: 'is-rounded' %>
-            </figure>
-          </div>
-          <div class="media-right">
-            <% if @user == current_user %>
-              <%= link_to 'プロフィールを編集', edit_users_path, class: 'button is-rounded' %>
-            <% else %>
-              <div class="js-follow-button-<%= @user.id %>">
-                <%= render 'shared/follow_button', user: @user, size: 'is-normal' %>
-              </div>
-            <% end %>
-          </div>
-        </div>
-        <div class="media border-0 mt-0 pt-0">
-          <div class="media-left is-hidden-mobile">
-            <figure class="image is-128x128">
+        <div class="media is-block-touch">
+          <div class="media-left">
+            <figure class="image is-128x128 mx-auto-touch">
               <%= image_tag @user.user_image.thumb.url, class: 'is-rounded' %>
             </figure>
           </div>
           <div class="media-content">
             <div class="is-flex is-justify-content-space-between is-align-items-center">
               <div class="content">
-                <p class="title is-size-4-mobile mb-0"><%= @user.nickname %></p>
+                <p class="title is-size-5-mobile mb-0"><%= @user.nickname %></p>
                 <p>
                   <span class="has-text-grey-light">@<%= @user.username %></span>
                   <% if user_signed_in? && current_user_follower_ids.include?(@user.id) %>
@@ -39,7 +23,7 @@
                   <% end %>
                 </p>
               </div>
-              <div class="is-hidden-mobile">
+              <div>
                 <% if @user == current_user %>
                   <%= link_to 'プロフィールを編集', edit_users_path, class: 'button is-rounded' %>
                 <% else %>
@@ -51,9 +35,9 @@
             </div>
             <div class="content text-break">
               <p><%= @user.profile %></p>
-              <p class="is-size-7-mobile">
-                <span class="mr-5">投稿<span class="has-text-weight-bold"><%= @user.recipes_count %></span>件</span>
-                <%= link_to user_followers_path(@user), class: "has-text-grey-dark hover-underline #{'js-show-sign-in-modal' unless user_signed_in?}" do %>
+              <p>
+                <span>投稿<span class="has-text-weight-bold"><%= @user.recipes_count %></span>件</span>
+                <%= link_to user_followers_path(@user), class: "has-text-grey-dark hover-underline ml-5 #{'js-show-sign-in-modal' unless user_signed_in?}" do %>
                   フォロワー<span class="has-text-weight-bold" id="recount-followers"><%= @user.followers_count %></span>人
                 <% end %>
                 <%= link_to user_followings_path(@user), class: "has-text-grey-dark hover-underline ml-5 #{'js-show-sign-in-modal' unless user_signed_in?}" do %>
