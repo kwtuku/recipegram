@@ -27,7 +27,7 @@
                 <% if @user == current_user %>
                   <%= link_to 'プロフィールを編集', edit_users_path, class: 'button is-rounded' %>
                 <% else %>
-                  <div class="js-follow-button-<%= @user.id %>">
+                  <div id="follow-button-container-<%= @user.id %>">
                     <%= render 'shared/follow_button', user: @user, size: 'is-normal' %>
                   </div>
                 <% end %>

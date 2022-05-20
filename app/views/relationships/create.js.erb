@@ -1,11 +1,10 @@
-document.querySelectorAll('.js-follow-button-<%= @user.id %>').forEach(buttonContainer => {
-  var button = buttonContainer.querySelector('.button');
-  if (button.classList.contains('is-small')) {
-    buttonContainer.innerHTML = "<%= j(render('shared/follow_button', user: @user, size: 'is-small')) %>";
-  } else {
-    buttonContainer.innerHTML = "<%= j(render('shared/follow_button', user: @user, size: 'is-normal')) %>";
-  }
-});
+var buttonContainer = document.getElementById('follow-button-container-<%= @user.id %>');
+var button = buttonContainer.querySelector('.button');
+if (button.classList.contains('is-small')) {
+  buttonContainer.innerHTML = "<%= j(render('shared/follow_button', user: @user, size: 'is-small')) %>";
+} else {
+  buttonContainer.innerHTML = "<%= j(render('shared/follow_button', user: @user, size: 'is-normal')) %>";
+}
 
 var recountFollowers = document.getElementById('recount-followers');
 if (recountFollowers) {
