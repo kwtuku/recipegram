@@ -16,8 +16,6 @@ Rails.application.routes.draw do
     resource :followers, only: %i[create destroy], controller: 'tags/followers'
   end
 
-  resources :relationships, only: %i[create destroy]
-
   resources :recipes do
     resource :favorites, only: %i[create destroy]
     resources :comments, only: %i[create destroy]
