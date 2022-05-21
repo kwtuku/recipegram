@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe 'Relationships', type: :system do
+RSpec.describe 'Users::Followers', type: :system do
   let(:alice) { create(:user) }
   let(:bob) { create(:user) }
 
-  it 'creates a relationship', js: true do
+  it 'follows a user', js: true do
     expect(Relationship.count).to eq 0
     sign_in alice
     visit user_path(bob)
@@ -15,7 +15,7 @@ RSpec.describe 'Relationships', type: :system do
     expect(Relationship.count).to eq 1
   end
 
-  it 'destroys a relationship', js: true do
+  it 'unfollows a user', js: true do
     alice.relationships.create!(follow_id: bob.id)
     expect(Relationship.count).to eq 1
     sign_in alice
