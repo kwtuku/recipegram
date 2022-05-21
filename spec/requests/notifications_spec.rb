@@ -8,11 +8,12 @@ RSpec.describe 'Notifications', type: :request do
 
   describe 'GET /notifications' do
     before do
-      sign_in bob
-      post recipe_comments_path(alice_recipe), params: { comment: comment_params }
-      post relationships_path, params: { follow_id: alice.id }, xhr: true
-      post recipe_favorites_path(alice_recipe), xhr: true
-      sign_out bob
+      bob_comment = create(:comment, recipe: alice_recipe, user: bob)
+      Notification.create_comment_notification(bob_comment)
+      relationship = bob.relationships.create!(follow_id: alice.id)
+      Notification.create_relationship_notification(relationship)
+      favorite = bob.favorites.create!(recipe_id: alice_recipe.id)
+      Notification.create_favorite_notification(favorite)
     end
 
     context 'when not signed in' do
@@ -130,11 +131,11 @@ RSpec.describe 'Notifications', type: :request do
     end
   end
 
-  describe 'POST /relationships' do
+  describe 'POST /users/:user_username/followers' do
     it 'increases followed user notification count' do
       sign_in bob
       expect do
-        post relationships_path, params: { follow_id: alice.id }, xhr: true
+        post user_followers_path(alice), xhr: true
       end.to change(alice.notifications, :count).by(1)
     end
   end
