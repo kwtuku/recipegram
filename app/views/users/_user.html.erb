@@ -22,7 +22,7 @@
             <% end %>
           </p>
           <% unless user == current_user %>
-            <div class="js-follow-button-<%= user.id %>">
+            <div id="follow-button-container-<%= user.id %>">
               <%= render 'shared/follow_button', user: user, size: 'is-small' %>
             </div>
           <% end %>

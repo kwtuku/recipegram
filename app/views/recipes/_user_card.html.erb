@@ -19,7 +19,7 @@
         </p>
       </div>
       <% unless user == current_user %>
-        <div class="media-left js-follow-button-<%= user.id %>">
+        <div class="media-left" id="follow-button-container-<%= user.id %>">
           <%= render 'shared/follow_button', user: user, size: 'is-small' %>
         </div>
       <% end %>

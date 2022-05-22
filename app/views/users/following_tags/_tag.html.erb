@@ -7,7 +7,7 @@
       <% end %>
     </div>
     <div class="columns is-multiline is-mobile is-variable is-1">
-      <% @tagged_recipes_collection[tag.name].each do |recipe| %>
+      <% tag.recipes.first(6).each do |recipe| %>
         <div class="column is-2">
           <div class="card">
             <div class="card-image">

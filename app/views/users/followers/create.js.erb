@@ -1,0 +1,12 @@
+var buttonContainer = document.getElementById('follow-button-container-<%= @user.id %>');
+var button = buttonContainer.querySelector('.button');
+if (button.classList.contains('is-small')) {
+  buttonContainer.innerHTML = "<%= j(render('shared/follow_button', user: @user, size: 'is-small')) %>";
+} else {
+  buttonContainer.innerHTML = "<%= j(render('shared/follow_button', user: @user, size: 'is-normal')) %>";
+}
+
+var recountFollowers = document.getElementById('recount-followers');
+if (recountFollowers) {
+  recountFollowers.textContent = "<%= @user.followers.size %>";
+}

@@ -16,8 +16,6 @@ Rails.application.routes.draw do
     resource :followers, only: %i[create destroy], controller: 'tags/followers'
   end
 
-  resources :relationships, only: %i[create destroy]
-
   resources :recipes do
     resource :favorites, only: %i[create destroy]
     resources :comments, only: %i[create destroy]
@@ -26,6 +24,7 @@ Rails.application.routes.draw do
   resources :users, param: :username, only: %i[index show update] do
     get :followings, :followers, :comments, :favorites
     resources :following_tags, only: %i[index], controller: 'users/following_tags'
+    resource :followers, only: %i[create destroy], controller: 'users/followers'
   end
   resource :users, only: %i[edit], path_names: { edit: 'edit/profile' }
   get '/generate_username', to: 'users#generate_username'
