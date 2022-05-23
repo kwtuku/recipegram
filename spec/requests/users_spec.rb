@@ -18,7 +18,7 @@ RSpec.describe 'Users', type: :request do
     end
   end
 
-  describe 'GET /users/:username' do
+  describe 'GET /users/:user_username' do
     let(:alice) { create(:user) }
 
     it 'returns ok when not signed in' do
@@ -57,7 +57,7 @@ RSpec.describe 'Users', type: :request do
     end
   end
 
-  describe 'PATCH /users/:username' do
+  describe 'PATCH /users/:user_username' do
     let(:alice) { create(:user, nickname: 'アリス', profile: 'アリスです。') }
     let(:bob) { create(:user, nickname: 'ボブ', profile: 'ボブだよ。') }
     let(:user_params) do
