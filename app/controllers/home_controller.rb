@@ -17,7 +17,7 @@ class HomeController < ApplicationController
   def privacy; end
 
   def search
-    @source = params[:source].to_s.presence || 'recipe_title'
+    @source = params[:source] || 'recipe_title'
     @q_value = params[:q]
 
     sort = { '0' => { name: params[:sort], dir: params[:order] } }

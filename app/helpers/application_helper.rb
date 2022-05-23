@@ -77,7 +77,7 @@ module ApplicationHelper
   end
 
   def recipe_images_required?(action, recipe_form)
-    resources = (recipe_form.image_attributes.presence || {}).values.map { |attrs| attrs['resource'] }.compact
+    resources = (recipe_form.image_attributes || {}).values.map { |attrs| attrs['resource'] }.compact
     return false if action == 'edit' || resources.present?
 
     true
