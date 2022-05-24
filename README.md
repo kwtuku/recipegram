@@ -1,11 +1,9 @@
 # [Recipegram](https://recipegram-kwtuku.herokuapp.com/)
 
-<p>
-  <img alt="ruby version" src="https://img.shields.io/badge/Ruby-v2.7.3-701516">
-  <img alt="rails version" src="https://img.shields.io/badge/Rails-v6.1.3.1-cc0000">
-  <img alt="GitHub deployments" src="https://img.shields.io/github/deployments/kwtuku/recipegram/recipegram-kwtuku">
-  <img alt="CircleCI" src="https://circleci.com/gh/kwtuku/recipegram/tree/master.svg?style=svg">
-</p>
+![Ruby version](https://img.shields.io/badge/Ruby-v2.7.3-701516)
+![Rails version](https://img.shields.io/badge/Rails-v6.1.3.1-cc0000)
+[![GitHub deployments](https://img.shields.io/github/deployments/kwtuku/recipegram/recipegram-kwtuku)](https://github.com/kwtuku/recipegram/deployments/activity_log?environment=recipegram-kwtuku)
+[![CircleCI](https://circleci.com/gh/kwtuku/recipegram/tree/master.svg?style=svg)](https://circleci.com/gh/kwtuku/recipegram/tree/master)
 
 ## 概要
 
@@ -169,6 +167,8 @@ Googleアナリティクスを導入しています。
   - ESLint
   - Jest
   - Prettier
+  - Sortable
+  - Swiper
   - Tagify
 
 ### バックエンド
@@ -177,12 +177,15 @@ Googleアナリティクスを導入しています。
 - Ruby on Rails 6.1.3.1
 - 主要Gem
   - ActsAsTaggableOn
+  - Brakeman
   - Bullet
   - CarrierWave
   - counter_culture
   - Devise
+  - ERB Lint
   - Kaminari
   - Pundit
+  - rails_best_practices
   - Ransack
   - RSpec
   - RuboCop
