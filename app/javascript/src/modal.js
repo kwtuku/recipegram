@@ -16,6 +16,16 @@ export default () => {
   document.body.removeChild(scrollbarMeasure);
   const scrollbarWidth = viewportWidth - percentWidth;
 
+  if (signInModal.classList.contains('is-active')) {
+    html.classList.add('is-clipped');
+    body.style.paddingRight = `${scrollbarWidth}px`;
+    navbar.style.paddingRight = `${scrollbarWidth}px`;
+  } else {
+    html.classList.remove('is-clipped');
+    body.style.paddingRight = 'unset';
+    navbar.style.paddingRight = 'unset';
+  }
+
   function showModal(modal) {
     modal.classList.add('is-active');
     html.classList.add('is-clipped');
