@@ -29,7 +29,7 @@
                   <% if Rails.env.test? %>
                     <%= f.file_field :user_image, html: { class: 'file-input', accept: 'image/jpg, image/jpeg, image/png, image/webp' } %>
                   <% else %>
-                    <%= f.cl_image_upload :user_image, html: { class: 'file-input', accept: 'image/jpg, image/jpeg, image/png, image/webp' } %>
+                    <%= f.cl_image_upload :user_image, folder: UserImageUploader::FOLDER, html: { class: 'file-input', accept: 'image/jpg, image/jpeg, image/png, image/webp' } %>
                   <% end %>
                   <span class="file-cta">
                     <span class="file-label">
