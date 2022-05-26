@@ -14,22 +14,8 @@ describe UserImageUploader do
   end
 
   describe 'public_id' do
-    context 'when Rails.env is development' do
-      it 'has correct public_id' do
-        allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new('development'))
-        public_id = uploader.public_id
-        expect(public_id.split('/')[0]).to eq 'development'
-        expect(public_id.split('/')[1]).to eq 'user'
-      end
-    end
-
-    context 'when Rails.env is production' do
-      it 'has correct public_id' do
-        allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new('production'))
-        public_id = uploader.public_id
-        expect(public_id.split('/')[0]).to eq 'production'
-        expect(public_id.split('/')[1]).to eq 'user'
-      end
+    it 'starts with Rails.env/user' do
+      expect(uploader.public_id).to be_start_with("#{Rails.env}/user")
     end
   end
 
