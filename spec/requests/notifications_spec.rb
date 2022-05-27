@@ -7,11 +7,19 @@ RSpec.describe 'Notifications', type: :request do
   let(:comment_params) { attributes_for(:comment) }
 
   describe 'GET /notifications' do
+    let(:bob_recipe) { create(:recipe, :with_images, images_count: 1, user: bob) }
+
     before do
       bob_comment = create(:comment, recipe: alice_recipe, user: bob)
       Notification.create_comment_notification(bob_comment)
+
+      create(:comment, recipe: bob_recipe, user: alice)
+      bob_another_comment = create(:comment, recipe: bob_recipe, user: bob)
+      Notification.create_comment_notification(bob_another_comment)
+
       relationship = bob.relationships.create!(follow_id: alice.id)
       Notification.create_relationship_notification(relationship)
+
       favorite = bob.favorites.create!(recipe_id: alice_recipe.id)
       Notification.create_favorite_notification(favorite)
     end
@@ -46,6 +54,7 @@ RSpec.describe 'Notifications', type: :request do
         get notifications_path
         expect(response.body).to include bob.nickname
         expect(response.body).to include "あなたの投稿「#{alice_recipe.title}」"
+        expect(response.body).to include "あなたがコメントした投稿「#{bob_recipe.title}」"
         expect(response.body).to include 'にコメントしました。'
         expect(response.body).to include 'にいいねしました。'
         expect(response.body).to include 'あなたをフォローしました。'
