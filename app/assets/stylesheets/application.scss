@@ -225,3 +225,7 @@
     background-color: hsl(0, 0%, 96%) !important;
   }
 }
+
+.icon.has-shadow {
+  text-shadow: 0 0 1px hsl(0, 0%, 29%);
+}

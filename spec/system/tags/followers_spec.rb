@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Tags', type: :system do
+RSpec.describe 'Tags::followers', type: :system do
   let(:alice) { create(:user) }
   let(:tag) { create(:tag) }
 

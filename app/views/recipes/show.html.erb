@@ -73,12 +73,12 @@
                 <div class="swiper-pagination"></div>
 
                 <div class="swiper-button-prev">
-                  <span class="icon is-large">
+                  <span class="icon is-large has-shadow">
                     <i class="fas fa-2x fa-chevron-circle-left has-text-grey-lighter"></i>
                   </span>
                 </div>
                 <div class="swiper-button-next">
-                  <span class="icon is-large">
+                  <span class="icon is-large has-shadow">
                     <i class="fas fa-2x fa-chevron-circle-right has-text-grey-lighter"></i>
                   </span>
                 </div>
@@ -131,7 +131,7 @@
                   <%= f.text_area :body, placeholder: 'コメントする', required: true, class: 'textarea has-fixed-size resize-textarea js-resize-textarea js-show-sign-in-modal' %>
                 </div>
                 <p class="help has-text-right">
-                  <span class="<%= 'has-text-danger' if @comment.errors[:body].any? %>" id="count-comment-body-characters"><%= @comment.body&.size.presence || 0 %></span>/500字
+                  <span class="<%= 'has-text-danger' if @comment.errors[:body].any? %>" id="count-comment-body-characters"><%= @comment.body&.size || 0 %></span>/500字
                 </p>
                 <%= render 'shared/full_error_messages', model: @comment, attribute: :body %>
               </div>

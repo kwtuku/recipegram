@@ -1,6 +1,12 @@
 class UserImageUploader < BaseUploader
+  FOLDER = "#{Rails.env}/user".freeze
+
+  def auto_rename_preloaded?
+    !file.filename.start_with?(FOLDER)
+  end
+
   def public_id
-    "#{Rails.env}/user/#{Cloudinary::Utils.random_public_id}"
+    "#{FOLDER}/#{Cloudinary::Utils.random_public_id}"
   end
 
   def default_url(*_args)

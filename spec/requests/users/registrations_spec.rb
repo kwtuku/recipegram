@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Registrations', type: :request do
+RSpec.describe 'Users::Registrations', type: :request do
   describe 'GET /users/confirm_destroy' do
     let(:alice) { create(:user) }
 
