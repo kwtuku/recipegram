@@ -1,6 +1,50 @@
 require 'rails_helper'
 
 RSpec.describe 'Search', type: :model do
+  describe '*_has_every_term' do
+    before do
+      create(:user, profile: 'ラーメン チャーハン ハンバーグ')
+      create(:user, profile: 'ラーメン チャーハン')
+      create(:user, profile: 'ラーメン ハンバーグ')
+      create(:user, profile: 'ラーメン')
+    end
+
+    it 'escapes wildcards' do
+      value = '_'
+      expect(User.ransack(profile_has_every_term: value).result.size).to eq 0
+      value = '%'
+      expect(User.ransack(profile_has_every_term: value).result.size).to eq 0
+    end
+
+    context 'when value does not contain space' do
+      it 'has correct result' do
+        value = 'ラーメン'
+        expect(User.ransack(profile_has_every_term: value).result.size).to eq 4
+      end
+    end
+
+    context 'when value contains space' do
+      it 'has correct result' do
+        value = 'ラーメン ハンバーグ'
+        expect(User.ransack(profile_has_every_term: value).result.size).to eq 2
+      end
+    end
+
+    context 'when value contains full-width space' do
+      it 'has correct result' do
+        value = 'ラーメン　ハンバーグ'
+        expect(User.ransack(profile_has_every_term: value).result.size).to eq 2
+      end
+    end
+
+    context 'when value contains space and full-width space' do
+      it 'has correct result' do
+        value = 'ラーメン  チャーハン　ハンバーグ'
+        expect(User.ransack(profile_has_every_term: value).result.size).to eq 1
+      end
+    end
+  end
+
   describe 'search title' do
     let(:alice) { create(:user) }
     let(:miso_ramen) { create(:recipe, title: '味噌ラーメン', updated_at: 2.hours.ago, user: alice) }
