@@ -74,4 +74,52 @@ RSpec.describe 'Home', type: :request do
       expect(response).to have_http_status(:ok)
     end
   end
+
+  describe 'GET /search' do
+    before do
+      alice = create(:user, nickname: 'アリス', profile: '味噌ラーメンが好き')
+      create(:user, nickname: 'ボブ', profile: 'しょうゆらーめんが好き')
+      create(:user, nickname: 'キャロル', profile: '塩らーめんが好き')
+      create(:user, nickname: 'dave', profile: 'I like tonkotsu ramen')
+
+      create(:recipe, :with_images, images_count: 1, title: '味噌ラーメン', body: '味噌ラーメンの作り方', tag_list: 'ラーメン', user: alice)
+      create(:recipe, :with_images, images_count: 1, title: 'しょうゆラーメン', body: 'しょうゆラーメンの作り方', user: alice)
+      create(:recipe, :with_images, images_count: 1, title: '塩ラーメン', body: '塩ラーメンの作り方', tag_list: '塩ラーメン', user: alice)
+      create(:recipe, :with_images, images_count: 1, title: 'とんこつらーめん', body: '豚骨ラーメンの作り方', user: alice)
+    end
+
+    context 'when no result' do
+      it 'returns ok' do
+        get search_path(q: 'ごはん')
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'renders correct result counts' do
+        get search_path(q: 'ごはん')
+        expect(response.body).to include '「ごはん」は見つかりませんでした。'
+        expect(response.body).to include 'data-rspec="recipe_title_result_count_0"'
+        expect(response.body).to include 'data-rspec="recipe_body_result_count_0"'
+        expect(response.body).to include 'data-rspec="user_nickname_result_count_0"'
+        expect(response.body).to include 'data-rspec="user_profile_result_count_0"'
+        expect(response.body).to include 'data-rspec="tag_name_result_count_0"'
+      end
+    end
+
+    context 'when result exists' do
+      it 'returns ok' do
+        get search_path(q: 'ラーメン')
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'renders correct result counts' do
+        get search_path(q: 'ラーメン')
+        expect(response.body).to include '「ラーメン」の検索結果'
+        expect(response.body).to include 'data-rspec="recipe_title_result_count_3"'
+        expect(response.body).to include 'data-rspec="recipe_body_result_count_4"'
+        expect(response.body).to include 'data-rspec="user_nickname_result_count_0"'
+        expect(response.body).to include 'data-rspec="user_profile_result_count_1"'
+        expect(response.body).to include 'data-rspec="tag_name_result_count_2"'
+      end
+    end
+  end
 end

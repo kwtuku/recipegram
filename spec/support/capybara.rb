@@ -2,7 +2,7 @@ Capybara.default_max_wait_time = 5
 
 Capybara.register_driver :remote_chrome do |app|
   url = ENV['SELENIUM_DRIVER_URL']
-  caps = ::Selenium::WebDriver::Remote::Capabilities.chrome(
+  capabilities = ::Selenium::WebDriver::Remote::Capabilities.chrome(
     'goog:chromeOptions' => {
       'args' => [
         'no-sandbox',
@@ -12,7 +12,7 @@ Capybara.register_driver :remote_chrome do |app|
       ]
     }
   )
-  Capybara::Selenium::Driver.new(app, browser: :remote, url: url, desired_capabilities: caps)
+  Capybara::Selenium::Driver.new(app, browser: :remote, url: url, capabilities: capabilities)
 end
 
 RSpec.configure do |config|
