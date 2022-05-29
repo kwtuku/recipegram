@@ -41,6 +41,8 @@ Style/FrozenStringLiteralComment:
 
 RSpec/ExampleLength:
   Max: 15
+  Exclude:
+    - spec/system/infinite_scroll_spec.rb
 
 RSpec/MultipleExpectations:
   Max: 8

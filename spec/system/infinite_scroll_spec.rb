@@ -3,12 +3,9 @@ require 'rails_helper'
 RSpec.describe 'InfiniteScroll', type: :system do
   describe 'home#home' do
     context 'when not signed in' do
-      before do
-        users = create_list(:user, 3)
-        users.each { |user| create_list(:recipe, 14, :with_images, images_count: 1, user: user) }
-      end
+      it 'works', js: true do
+        create_list(:user, 3).each { |user| create_list(:recipe, 14, :with_images, images_count: 1, user: user) }
 
-      it 'can infinite scroll', js: true do
         visit root_path
         expect(all('[data-rspec^=recipe-]').size).to eq 20
 
@@ -19,19 +16,15 @@ RSpec.describe 'InfiniteScroll', type: :system do
     end
 
     context 'when signed in' do
-      let(:alice) { create(:user) }
-      let(:feed) { alice.feed.order(id: :desc) }
-
-      before do
-        users = create_list(:user, 3)
-        users.each do |user|
+      it 'works', js: true do
+        alice = create(:user)
+        create_list(:user, 3).each do |user|
           create_list(:recipe, 15, :with_images, images_count: 1, user: user)
           alice.relationships.create(follow_id: user.id)
         end
         create_list(:recipe, 16, :with_images, images_count: 1, user: alice)
-      end
+        feed = alice.feed.order(id: :desc)
 
-      it 'can infinite scroll', js: true do
         sign_in alice
         visit root_path
         expect(page).to have_css "[data-rspec=recipe-#{feed[19].id}]"
@@ -51,14 +44,10 @@ RSpec.describe 'InfiniteScroll', type: :system do
   end
 
   describe 'recipes#index' do
-    let(:recipes) { Recipe.order(id: :desc) }
+    it 'works', js: true do
+      create_list(:user, 3).each { |user| create_list(:recipe, 41, :with_images, images_count: 1, user: user) }
+      recipes = Recipe.order(id: :desc)
 
-    before do
-      users = create_list(:user, 3)
-      users.each { |user| create_list(:recipe, 41, :with_images, images_count: 1, user: user) }
-    end
-
-    it 'can infinite scroll', js: true do
       visit recipes_path
       expect(page).to have_css "[data-rspec=recipe-#{recipes[39].id}]"
       expect(page).not_to have_css "[data-rspec=recipe-#{recipes[40].id}]"
@@ -76,16 +65,12 @@ RSpec.describe 'InfiniteScroll', type: :system do
   end
 
   describe 'tags#show' do
-    let(:tagged_recipes) { Recipe.tagged_with('かんたん').order(id: :desc) }
-
-    before do
+    it 'works', js: true do
       users = create_list(:user, 3)
       users.each { |user| create_list(:recipe, 41, :with_images, images_count: 1, user: user, tag_list: 'かんたん') }
-    end
+      tagged_recipes = Recipe.tagged_with('かんたん').order(id: :desc)
 
-    it 'can infinite scroll', js: true do
-      tag = Tag.find_by(name: 'かんたん')
-      visit tag_path(tag.name)
+      visit tag_path('かんたん')
       expect(page).to have_css "[data-rspec=recipe-#{tagged_recipes[39].id}]"
       expect(page).not_to have_css "[data-rspec=recipe-#{tagged_recipes[40].id}]"
 
@@ -102,11 +87,10 @@ RSpec.describe 'InfiniteScroll', type: :system do
   end
 
   describe 'users#index' do
-    let(:users) { User.order(id: :desc) }
+    it 'works', js: true do
+      create_list(:user, 121)
+      users = User.order(id: :desc)
 
-    before { create_list(:user, 121) }
-
-    it 'can infinite scroll', js: true do
       visit users_path
       expect(page).to have_css "[data-rspec=user-#{users[39].id}]"
       expect(page).not_to have_css "[data-rspec=user-#{users[40].id}]"
@@ -124,13 +108,11 @@ RSpec.describe 'InfiniteScroll', type: :system do
   end
 
   describe 'users#show' do
-    let(:alice) { create(:user) }
-    let(:posted_recipes) { alice.recipes.order(id: :desc) }
-    let(:not_posted_recipe) { create(:recipe, :with_images, images_count: 1) }
+    it 'works', js: true do
+      alice = create(:user)
+      create_list(:recipe, 121, :with_images, images_count: 1, user: alice)
+      posted_recipes = alice.recipes.order(id: :desc)
 
-    before { create_list(:recipe, 121, :with_images, images_count: 1, user: alice) }
-
-    it 'can infinite scroll', js: true do
       visit user_path(alice)
       expect(page).to have_css "[data-rspec=recipe-#{posted_recipes[39].id}]"
       expect(page).not_to have_css "[data-rspec=recipe-#{posted_recipes[40].id}]"
@@ -148,18 +130,12 @@ RSpec.describe 'InfiniteScroll', type: :system do
   end
 
   describe 'users#comments' do
-    let(:alice) { create(:user) }
-    let(:commented_recipes) { alice.commented_recipes.order('comments.id desc') }
-    let(:not_commented_recipe) { (Recipe.all - commented_recipes).first }
+    it 'works', js: true do
+      alice = create(:user)
+      create_list(:user, 3).each { |user| create_list(:recipe, 41, :with_images, images_count: 1, user: user) }
+      Recipe.all.sample(121).each { |recipe| create(:comment, user: alice, recipe: recipe) }
+      commented_recipes = alice.commented_recipes.order('comments.id desc')
 
-    before do
-      users = create_list(:user, 3)
-      users.each { |user| create_list(:recipe, 41, :with_images, images_count: 1, user: user) }
-      random_recipes = Recipe.all.sample(121)
-      random_recipes.each { |recipe| create(:comment, user: alice, recipe: recipe) }
-    end
-
-    it 'can infinite scroll', js: true do
       sign_in alice
       visit user_comments_path(alice)
       expect(page).to have_css "[data-rspec=recipe-#{commented_recipes[39].id}]"
@@ -178,18 +154,12 @@ RSpec.describe 'InfiniteScroll', type: :system do
   end
 
   describe 'users#favorites' do
-    let(:alice) { create(:user) }
-    let(:favored_recipes) { alice.favored_recipes.order('favorites.id desc') }
-    let(:not_favored_recipe) { (Recipe.all - favored_recipes).first }
+    it 'works', js: true do
+      alice = create(:user)
+      create_list(:user, 3).each { |user| create_list(:recipe, 41, :with_images, images_count: 1, user: user) }
+      Recipe.all.sample(121).each { |recipe| alice.favorites.create(recipe_id: recipe.id) }
+      favored_recipes = alice.favored_recipes.order('favorites.id desc')
 
-    before do
-      users = create_list(:user, 3)
-      users.each { |user| create_list(:recipe, 41, :with_images, images_count: 1, user: user) }
-      random_recipes = Recipe.all.sample(121)
-      random_recipes.each { |recipe| alice.favorites.create(recipe_id: recipe.id) }
-    end
-
-    it 'can infinite scroll', js: true do
       sign_in alice
       visit user_favorites_path(alice)
       expect(page).to have_css "[data-rspec=recipe-#{favored_recipes[39].id}]"
@@ -208,17 +178,12 @@ RSpec.describe 'InfiniteScroll', type: :system do
   end
 
   describe 'users#followers' do
-    let(:alice) { create(:user) }
-    let(:followers) { alice.followers.order('relationships.id desc') }
-    let(:not_follower) { (User.all - [alice] - followers).first }
-
-    before do
+    it 'works', js: true do
+      alice = create(:user)
       create_list(:user, 122)
-      random_users = User.all.sample(121)
-      random_users.each { |user| user.relationships.create(follow_id: alice.id) }
-    end
+      User.all.sample(121).each { |user| user.relationships.create(follow_id: alice.id) }
+      followers = alice.followers.order('relationships.id desc')
 
-    it 'can infinite scroll', js: true do
       sign_in alice
       visit user_followers_path(alice)
       expect(page).to have_css "[data-rspec=user-#{followers[39].id}]"
@@ -237,17 +202,12 @@ RSpec.describe 'InfiniteScroll', type: :system do
   end
 
   describe 'users#followings' do
-    let(:alice) { create(:user, username: 'alice') }
-    let(:followings) { alice.followings.order('relationships.id desc') }
-    let(:not_following) { (User.all - [alice] - followings).first }
-
-    before do
+    it 'works', js: true do
+      alice = create(:user)
       create_list(:user, 122)
-      random_users = User.all.sample(121)
-      random_users.each { |user| alice.relationships.create(follow_id: user.id) }
-    end
+      User.all.sample(121).each { |user| alice.relationships.create(follow_id: user.id) }
+      followings = alice.followings.order('relationships.id desc')
 
-    it 'can infinite scroll', js: true do
       sign_in alice
       visit user_followings_path(alice)
       expect(page).to have_css "[data-rspec=user-#{followings[39].id}]"
