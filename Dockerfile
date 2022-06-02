@@ -1,44 +1,59 @@
-FROM ruby:2.7.3-alpine
+ARG RUBY_VERSION
+ARG DISTRO_NAME=buster
+
+FROM ruby:$RUBY_VERSION-slim-$DISTRO_NAME
+
+ARG DISTRO_NAME
+
+RUN apt-get update -qq \
+  && DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
+    build-essential \
+    gnupg2 \
+    curl \
+    less \
+    git \
+  && apt-get clean \
+  && rm -rf /var/cache/apt/archives/* \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+  && truncate -s 0 /var/log/*log
+
+ARG PG_MAJOR
+RUN curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /usr/share/keyrings/postgres-archive-keyring.gpg \
+  && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/postgres-archive-keyring.gpg] https://apt.postgresql.org/pub/repos/apt/" \
+    $DISTRO_NAME-pgdg main $PG_MAJOR | tee /etc/apt/sources.list.d/postgres.list > /dev/null
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrade && \
+  DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
+    libpq-dev \
+    postgresql-client-$PG_MAJOR \
+    && apt-get clean \
+    && rm -rf /var/cache/apt/archives/* \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && truncate -s 0 /var/log/*log
+
+ARG NODE_MAJOR
+RUN curl -sL https://deb.nodesource.com/setup_$NODE_MAJOR.x | bash -
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrade && \
+  DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
+    nodejs \
+    && apt-get clean \
+    && rm -rf /var/cache/apt/archives/* \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && truncate -s 0 /var/log/*log
+
+ARG YARN_VERSION
+RUN npm install -g yarn@$YARN_VERSION
 
 ENV LANG=C.UTF-8 \
-    TZ=Asia/Tokyo \
-    ROOT=/myapp
+  BUNDLE_JOBS=4 \
+  BUNDLE_RETRY=3
 
-WORKDIR $ROOT
+ENV BUNDLE_APP_CONFIG=.bundle
 
-RUN apk update && \
-    apk upgrade && \
-    apk add --no-cache \
-    gcc \
-    g++ \
-    libc-dev \
-    libxml2-dev \
-    linux-headers \
-    make \
-    nodejs \
-    postgresql \
-    postgresql-dev \
-    tzdata \
-    yarn \
-    git \
-    bash
+RUN gem update --system && \
+    gem install bundler
 
-RUN apk add --virtual build-packs --no-cache \
-    build-base \
-    curl-dev
+RUN mkdir -p /myapp
+WORKDIR /myapp
 
-COPY Gemfile* $ROOT/
-
-RUN bundle install -j4
-
-RUN rm -rf /usr/local/bundle/cache/* /usr/local/share/.cache/* /var/cache/* /tmp/* && \
-    apk del build-packs
-
-COPY . $ROOT
-
-COPY entrypoint.sh /usr/bin/
-RUN chmod +x /usr/bin/entrypoint.sh
-ENTRYPOINT ["sh", "/usr/bin/entrypoint.sh"]
 EXPOSE 3000
-
-CMD ["rails", "server", "-b", "0.0.0.0"]
+CMD ["/usr/bin/bash"]
