@@ -18,6 +18,8 @@ end
 
 def create_long_word_user_recipe_comment
   user = User.find_by(email: 'long@example.com')
+  joined_extension = UserImageUploader.new.extension_allowlist.join(',')
+  user_image_paths = Dir.glob("db/fixtures/files/users/*.{#{joined_extension}}")
   user ||= User.create!(
     username: "very_long_w#{'o' * 2}rd",
     nickname: "very_long_w#{'o' * 17}rd",
@@ -25,7 +27,7 @@ def create_long_word_user_recipe_comment
     password: password = Rails.env.production? ? Rails.application.credentials.seed[:user_password] : 'fffffr',
     password_confirmation: password,
     profile: "very_long_w#{'o' * 487}rd",
-    user_image: File.open("./db/fixtures/user/user_sample_#{rand(1..30)}.jpg")
+    user_image: File.open(user_image_paths.sample)
   )
   Rails.logger.debug 'ユーザーを作成完了'
 
@@ -46,6 +48,9 @@ end
 def create_users(count)
   Rails.logger.debug "ユーザーを#{count}回作成"
 
+  joined_extension = UserImageUploader.new.extension_allowlist.join(',')
+  user_image_paths = Dir.glob("db/fixtures/files/users/*.{#{joined_extension}}")
+
   count.times do
     User.create!(
       username: SecureRandom.urlsafe_base64(rand(7..11)).downcase,
@@ -54,7 +59,7 @@ def create_users(count)
       password: password = Rails.env.production? ? Rails.application.credentials.seed[:user_password] : 'fffffr',
       password_confirmation: password,
       profile: rand > 0.3 ? generate_paragraphs(500) : nil,
-      user_image: rand > 0.3 ? File.open("./db/fixtures/user/user_sample_#{rand(1..30)}.jpg") : nil
+      user_image: rand > 0.3 ? File.open(user_image_paths.sample) : nil
     )
 
     count -= 1
@@ -82,11 +87,14 @@ end
 def create_recipes(count, user_id = nil)
   Rails.logger.debug user_id ? "#{user_id}のレシピを#{count}回作成" : "レシピを#{count}回作成"
 
+  joined_extension = RecipeImageUploader.new.extension_allowlist.join(',')
+  recipe_image_paths = Dir.glob("db/fixtures/files/recipes/*.{#{joined_extension}}")
+
   count.times do
     user = user_id ? User.find(user_id) : User.order('RANDOM()').first
 
     image_attributes = Array.new(rand(1..10)) do |i|
-      [i, { 'position' => i + 1, 'resource' => File.open("./db/fixtures/recipe/recipe_sample_#{rand(1..30)}.jpg") }]
+      [i, { 'position' => i + 1, 'resource' => File.open(recipe_image_paths.sample) }]
     end.to_h
 
     RecipeForm.new(

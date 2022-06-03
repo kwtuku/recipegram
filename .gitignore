@@ -31,7 +31,9 @@
 yarn-debug.log*
 .yarn-integrity
 
-/db/fixtures/*
+/db/fixtures/files/*
+!/db/fixtures/files/recipes/example.jpg
+!/db/fixtures/files/users/example.jpg
 /public/uploads
 coverage
 brakeman_results.html
