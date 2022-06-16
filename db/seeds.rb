@@ -24,8 +24,7 @@ def create_long_word_user_recipe_comment
     username: "very_long_w#{'o' * 2}rd",
     nickname: "very_long_w#{'o' * 17}rd",
     email: 'long@example.com',
-    password: password = Rails.env.production? ? Rails.application.credentials.seed[:user_password] : 'fffffr',
-    password_confirmation: password,
+    password: Rails.env.production? ? Rails.application.credentials.seed[:user_password] : 'fffffr',
     profile: "very_long_w#{'o' * 487}rd",
     user_image: File.open(user_image_paths.sample)
   )
@@ -56,8 +55,7 @@ def create_users(count)
       username: SecureRandom.urlsafe_base64(rand(7..11)).downcase,
       nickname: Faker::Lorem.words(number: rand(1..5)).join(' ')[0..29],
       email: "#{SecureRandom.urlsafe_base64}@example.com",
-      password: password = Rails.env.production? ? Rails.application.credentials.seed[:user_password] : 'fffffr',
-      password_confirmation: password,
+      password: Rails.env.production? ? Rails.application.credentials.seed[:user_password] : 'fffffr',
       profile: rand > 0.3 ? generate_paragraphs(500) : nil,
       user_image: rand > 0.3 ? File.open(user_image_paths.sample) : nil
     )

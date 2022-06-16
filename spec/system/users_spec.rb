@@ -12,7 +12,7 @@ RSpec.describe 'Users', type: :system do
       fill_in 'user[nickname]', with: alice.nickname
       fill_in 'user[email]', with: alice.email
       fill_in 'user[password]', with: alice.password
-      fill_in 'user[password_confirmation]', with: alice.password_confirmation
+      fill_in 'user[password_confirmation]', with: alice.password
       expect { click_button 'signup' }.to change(User, :count).by(1)
       expect(page).to have_content 'アカウント登録が完了しました。'
     end
@@ -80,7 +80,7 @@ RSpec.describe 'Users', type: :system do
     end
 
     describe 'updates password' do
-      let(:bob) { create(:user, password: 'old_password', password_confirmation: 'old_password') }
+      let(:bob) { create(:user, password: 'old_password') }
 
       before do
         sign_in bob

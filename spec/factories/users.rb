@@ -3,9 +3,7 @@ FactoryBot.define do
     username { SecureRandom.urlsafe_base64(11) }
     nickname { Faker::Name.name }
     sequence(:email) { |n| "#{n}#{Faker::Internet.email(domain: 'example.com')}" }
-    faker_password = Faker::Internet.password(min_length: 6)
-    password { faker_password }
-    password_confirmation { faker_password }
+    password { Faker::Internet.password(min_length: 6) }
     profile { Faker::Lorem.paragraphs(number: 3).join(' ') }
 
     trait :has_5_recipes do
